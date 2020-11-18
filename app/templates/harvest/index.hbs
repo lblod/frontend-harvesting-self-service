@@ -4,7 +4,7 @@
       <h1 class="au-u-h1 au-u-margin-bottom">Overview</h1>
     </div>
     <div class="au-o-grid__item au-u-1-2@medium au-u-text-right">
-      <LinkTo @route="forms.new" class="au-c-button" type="button">Maak nieuw formulier aan</LinkTo>
+      <LinkTo @route="index" class="au-c-button" type="button">Create a new task</LinkTo>
     </div>
   </div>
 
@@ -19,50 +19,32 @@
   >
     <t.content as |c|>
       <c.header>
-        <ThSortable @field="formData.passedBy.isTijdsspecialisatieVan.naam" @currentSorting={{this.sort}}
-                    @label="Orgaan"/>
-        <th>Type dossier</th>
-        <ThSortable @class="au-u-visible-small-up" @field="formData.sessionStartedAtTime" @currentSorting={{this.sort}}
-                    @label="Datum zitting/besluit"/>
-        <th class="au-u-visible-medium-up">Aangemaakt door</th>
-        <th class="au-u-visible-small-up">Laatst gewijzigd door</th>
-        <ThSortable @class="au-u-visible-large-up" @field="sentDate" @currentSorting={{this.sort}}
-                    @label="Datum verstuurd"/>
-        <ThSortable @field="status.label" @currentSorting={{this.sort}} @label="Status"/>
-        <th></th>
+
+        <th class="au-u-visible-medium-up">URL</th>
+        <th class="au-u-visible-medium-up">Created</th>
+        <th class="au-u-visible-medium-up">Modified</th>
+        <th class="au-u-visible-small-up">Creator</th>
+        <th class="au-u-visible-small-up">Status</th>
+        <th class="au-u-visible-small-up">Action</th>
       </c.header>
       <c.body as |row|>
         <td>
-          {{row.formData.passedBy.isTijdsspecialisatieVan.naam}}
+          {{row.url}}
         </td>
         <td>
-          <Toezicht::SubmissionType @formData={{row.formData}} />
+          {{row.created}}
         </td>
         <td class="au-u-visible-small-up">
-          {{moment-format row.formData.sessionStartedAtTime "DD/MM/YYYY"}}
+            {{row.modified}}
         </td>
         <td class="au-u-visible-medium-up">
-          {{#if row.task.created }}
-            <AuHelpText>Automatisch bij publicatie</AuHelpText>
-          {{else}}
-            <AuHelpText>{{row.creator.fullName}}</AuHelpText>
-          {{/if}}
+            {{row.creator}}
         </td>
         <td class="au-u-visible-small-up">
-          {{#if row.lastModifier.fullName}}
-            <AuHelpText>{{row.lastModifier.fullName}}</AuHelpText>
-          {{else if row.task.created}}
-            <AuHelpText>Automatisch aangemaakt bij publicatie</AuHelpText>
-          {{/if}}
+            {{row.status}}
         </td>
         <td class="au-u-visible-large-up">
-          {{moment-format row.sentDate "DD/MM/YYYY"}}
-        </td>
-        <td>
-          <AuPill @skin={{if row.status.isSent "success" "warning"}}>{{row.status.label}}</AuPill>
-        </td>
-        <td>
-          <LinkTo @route="forms.edit" @model={{row.id}}>Bekijk</LinkTo>
+          <button>Action</button>
         </td>
       </c.body>
     </t.content>

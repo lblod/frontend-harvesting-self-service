@@ -1,4 +1,6 @@
-import Route from '@ember/routing/route';
+import Ember from 'ember';
+import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
-export default class HarvestIndexRoute extends Route {
-}
+export default Ember.Route.extend(DataTableRouteMixin, {
+  modelName: 'harvesting-task'
+});
