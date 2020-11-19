@@ -7,14 +7,14 @@ export default class HarvestCreateTaskController extends Controller {
   @tracked status = "http://lblod.data.gift/harvesting-statuses/ready-for-collecting";
 
   get currentTime() {
-    let timeStamp = new Date;
-    return timeStamp
+    let timestamp = new Date();
+    return timestamp
   };
 
   @action createTask(){
     let task = this.store.createRecord('harvesting-task', {
-      createRecord: this.currentTime,
-      modifier: this.currentTime,
+      created: this.currentTime,
+      modified: this.currentTime,
       status: this.status,
       creator: this.creator,
     });
