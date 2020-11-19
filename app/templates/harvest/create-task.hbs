@@ -5,15 +5,28 @@
     </div>
     
   </div>
-  <div class="au-o-grid__item">
-      <form action="">
-        <label for="task-url"></label>
-        <input type="text" id="task-url">
-        <label for="task-creator"></label>
-        <input type="text" id="task-creator">
-        <label for="task-status"></label>
-        <input type="text" id="task-status">
-        <input type="submit" value="Create">
-      </form>
+  <div class="au-o-grid__item au-o-layout--small">
+    <div class="au-c-form">
+        <p>
+          <AuLabel for="task-url" >
+            Url
+          </AuLabel>
+          <AuInput  id="task-url" @width="block"/ />
+        </p>
+        <p>
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput  id="task-creator" @width="block"/ @value={{this.creator}}/>
+        </p>
+        <p>
+          <AuLabel for="task-status">
+            Status
+          </AuLabel>
+          <AuInput  id="task-status" @width="block"/ @value={{this.status}}/>
+        </p>
+      </div>
+
+        <AuButton {{on 'click' this.createTask}}>Create Task</AuButton>
     </div>
 </div>
