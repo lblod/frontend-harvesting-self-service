@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 export default class HarvestCreateTaskController extends Controller {
   @tracked creator = "http://lblod.data.gift/services/harvesting-self-service";
   @tracked status = "http://lblod.data.gift/harvesting-statuses/ready-for-collecting";
+  @tracked success = false
 
   get currentTime() {
     let timestamp = new Date();
@@ -19,6 +20,8 @@ export default class HarvestCreateTaskController extends Controller {
       creator: this.creator,
     });
 
-    task.save()
+    task.save().then( ()=> {
+      this.success = true
+    })
   }
 }
