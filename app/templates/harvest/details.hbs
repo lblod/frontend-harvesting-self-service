@@ -4,5 +4,66 @@
       <h1 class="au-u-h1 au-u-margin-bottom">Details</h1>
     </div>
   </div>
+  <div class="au-o-grid__item au-o-layout--small">
+    <div class="au-c-form ">
+        <AuHeading >
+          Harvesting task
+        </AuHeading>
+        <p>
+          <AuLabel for="task-url" >
+            Task ID
+          </AuLabel>
+          <AuInput  id="task-url" @width="block" @value={{this.model.id}} />
+        </p>
+        <p class="au-u-padding-top-small">
+          <AuLabel for="task-creator">
+            Task Creator
+          </AuLabel>
+          <AuInput  id="task-creator" @width="block"/ @value={{this.model.creator}} disabled="true" />
+        </p>
+        <p class="au-u-padding-top-small">
+          <AuLabel for="task-creator">
+            Task Created
+          </AuLabel>
+          <AuInput  id="task-creator" @width="block"/ @value={{this.model.modified}} disabled="true" />
+        </p>
+        <p class="au-u-padding-top-small">
+          <AuLabel for="task-creator">
+            Created
+          </AuLabel>
+          <AuInput  id="task-creator" @width="block"/ @value={{this.model.created}} disabled="true" />
+        </p>
+        <p class="au-u-padding-top-small">
+          <AuLabel for="task-status">
+            Task Status
+          </AuLabel>
+          <AuInput  id="task-status" @width="block"/ @value={{this.model.status}}/>
+        </p>
+        <p class="au-u-padding-top-large">
+        <AuHeading >
+          Havesting collection
+        </AuHeading>
+        <p class="au-u-padding-top-small">
+          <AuLabel for="collection-id">
+            Collection ID
+          </AuLabel>
+           <AuInput  id="task-status" @width="block"/ @value={{this.model.harvestingCollection.id}}/>
+        </p>
+        <p class="au-u-padding-top-small">
+          <AuLabel for="collection-id">
+            Collection Status
+          </AuLabel>
+           <AuInput  id="task-status" @width="block"/ @value={{this.model.harvestingCollection.status}}/>
+        </p>
+         
+        </p>
+      </div>
+      
+    </div>
+    <LinkTo @route="harvest.index" class="au-u-margin-top-large">
+      <AuButton class="au-u-padding-left au-u-padding-right">
+        Back
+      </AuButton>
+    </LinkTo>
 
 </div>

@@ -9,6 +9,6 @@ export default class Router extends EmberRouter {
 Router.map(function() {
   this.route('harvest', function() {
     this.route('create-task');
-    this.route('details');
+    this.route('details', { path: '/:id'});
   });
 });
