@@ -11,25 +11,29 @@
           <AuLabel for="task-url" >
             Url
           </AuLabel>
-          <AuInput  id="task-url" @width="block"/ />
+          <AuInput  id="task-url" @width="block" @value={{this.url}} />
         </p>
         <p>
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
-          <AuInput  id="task-creator" @width="block"/ @value={{this.creator}}/>
+          <AuInput  id="task-creator" @width="block" @value={{this.creator}} disabled="true" />
         </p>
         <p>
           <AuLabel for="task-status">
             Status
           </AuLabel>
-          <AuInput  id="task-status" @width="block"/ @value={{this.status}}/>
+          <AuInput  id="task-status" @width="block" @value={{this.status}}/>
         </p>
       </div>
       
       <AuButton class="au-u-margin-top-large" {{on 'click' this.createTask}}>Create Task</AuButton>
         {{#if this.success}}
           <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Task succesfully created" @alertskin={{"success"}}>
+          </AuAlert>
+        {{else if this.fail}}
+          <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong" @alertskin={{"error"}}>
+            {{this.errorMessage}}
           </AuAlert>
         {{/if}}
     </div>

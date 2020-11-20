@@ -3,25 +3,49 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 export default class HarvestCreateTaskController extends Controller {
-  @tracked creator = "http://lblod.data.gift/services/harvesting-self-service";
-  @tracked status = "http://lblod.data.gift/harvesting-statuses/ready-for-collecting";
+  @tracked creator = 'http://lblod.data.gift/services/harvesting-self-service';
+  @tracked status = 'http://lblod.data.gift/harvesting-statuses/ready-for-collecting';
+  @tracked url;
   @tracked success = false
+  @tracked error = false;
+  @tracked errorMessage;
 
   get currentTime() {
     let timestamp = new Date();
     return timestamp
   };
 
-  @action createTask(){
-    let task = this.store.createRecord('harvesting-task', {
-      created: this.currentTime,
-      modified: this.currentTime,
-      status: this.status,
-      creator: this.creator,
+  @action async createTask(){
+
+    let remoteDataObject = this.store.createRecord('remote-data-object', {
+      source: this.url,
+      status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached'
     });
 
-    task.save().then( ()=> {
-      this.success = true
-    })
+    let collection = this.store.createRecord('harvesting-collection', {
+      status: 'http://lblod.data.gift/collecting-statuses/not-started',
+      remoteDataObject: remoteDataObject
+    });
+
+    let task = this.store.createRecord('harvesting-task', {
+      creator: this.creator,
+      status: this.status,
+      created: this.currentTime,
+      modified: this.currentTime,
+      harvestingCollection: collection
+    });
+
+    try{
+      await remoteDataObject.save()
+      await collection.save()
+      await task.save()
+      this.error = false
+      this.success = true;
+
+    }catch(err){
+      this.errorMessage = err;
+      this.success = false;
+      this.error = true
+    }
   }
 }
