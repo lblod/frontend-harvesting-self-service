@@ -8,28 +8,20 @@
     </div>
   </div>
 
-  <DataTable
-          @content={{this.model}}
-          @isLoading={{this.isLoadingModel}}
-          @filter={{this.filter}}
-          @sort={{this.sort}}
-          @page={{this.page}}
-          @size={{this.size}}
-          as |t|
-  >
+  <AuDataTable @content={{this.model}} @fields="title description" @noDataMessage="No harvesting tasks found" @sort={{this.sort}} as |t|>
     <t.content as |c|>
       <c.header>
+      <AuDataTableThSortable @field="URL" @currentSorting={{this.sort}} @label="id" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status" @class="data-table__header-title" />
 
-        <th class="au-u-visible-medium-up">URL</th>
-        <th class="au-u-visible-medium-up">Created</th>
-        <th class="au-u-visible-medium-up">Modified</th>
-        <th class="au-u-visible-small-up">Creator</th>
-        <th class="au-u-visible-small-up">Status</th>
         <th class="au-u-visible-small-up">Action</th>
       </c.header>
       <c.body as |row|>
         <td>
-          {{row.url}}
+          {{row.id}}
         </td>
         <td>
           {{row.created}}
@@ -44,9 +36,14 @@
             {{row.status}}
         </td>
         <td class="au-u-visible-large-up">
-          <button>Action</button>
+          <LinkTo @route="harvest.details" @model={{row}} >
+            <AuButton @skin="secondary">
+              view
+            </AuButton>
+          </LinkTo>
+
         </td>
       </c.body>
     </t.content>
-  </DataTable>
+  </AuDataTable>
 </div>
