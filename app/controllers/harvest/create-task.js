@@ -13,13 +13,17 @@ export default class HarvestCreateTaskController extends Controller {
   get currentTime() {
     let timestamp = new Date();
     return timestamp
-  };
+  }
 
   @action async createTask(){
 
     let remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
-      status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached'
+      status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
+      created: this.currentTime,
+      modified: this.currentTime,
+      creator: this.creator
     });
 
     let collection = this.store.createRecord('harvesting-collection', {
