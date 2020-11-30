@@ -1,4 +1,4 @@
-import Model, { attr }  from '@ember-data/model';
+import Model, { attr, belongsTo }  from '@ember-data/model';
 
 export default class RemoteDataObjectModel extends Model {
   @attr('string') source;
@@ -7,4 +7,6 @@ export default class RemoteDataObjectModel extends Model {
   @attr('string') status;
   @attr('string') requestHeader;
   @attr('string') creator;
+  @belongsTo('download-event') downloadEvent;
+  @belongsTo('file') file;
 }
