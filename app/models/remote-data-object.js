@@ -9,4 +9,8 @@ export default class RemoteDataObjectModel extends Model {
   @attr('string') creator;
   @belongsTo('download-event') downloadEvent;
   @belongsTo('file') file;
+
+  get downloadLink() {
+    return `/files/${this.id}/download`;
+  }
 }

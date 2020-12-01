@@ -1,6 +1,5 @@
 <div class=" au-u-padding-top-large au-u-padding-left au-u-padding-right">
   <h1 class="au-u-h1 au-u-margin-bottom">Details</h1>
-      {{this.model.harvestingCollection.remoteDataObject.downloadEvent}}
   <div class="au-o-grid au-o-grid--large">
     <div class="au-o-grid__item au-u-1-4">
       <AuHeading @level="2" @skin="4">
@@ -144,7 +143,10 @@
         <p> {{this.model.harvestingCollection.remoteDataObject.file.name}}</p>
       </c.content>
       <c.footer>
-        <AuButton {{on 'click' this.downloadFile }}>File</AuButton>
+        <a class="au-c-link" href="{{this.model.harvestingCollection.remoteDataObject.downloadLink}}" download="{{this.model.harvestingCollection.remoteDataObject.file.name}}">
+          <AuIcon @icon="download" @alignment="left" />
+          Download bestand
+        </a>
       </c.footer>
     </AuCard>
   </div>
