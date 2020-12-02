@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@appuniversum/appuniversum": "0.0.14",
-    "@appuniversum/ember-appuniversum": "0.0.36",
+    "@appuniversum/ember-appuniversum": "0.1.1",
     "@ember/optional-features": "^1.3.0",
     "@glimmer/component": "^1.0.1",
     "@glimmer/tracking": "^1.0.0",
@@ -48,6 +48,7 @@
     "ember-resolver": "^8.0.0",
     "ember-source": "~3.20.2",
     "ember-template-lint": "^2.9.1",
+    "ember-truth-helpers": "^3.0.0",
     "eslint": "^7.5.0",
     "eslint-plugin-ember": "^8.9.1",
     "eslint-plugin-node": "^11.1.0",
