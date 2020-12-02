@@ -27,6 +27,7 @@ export default class HarvestCreateTaskController extends Controller {
     });
 
     let collection = this.store.createRecord('harvesting-collection', {
+      creator: this.creator,
       hasPart: remoteDataObject
     });
 
