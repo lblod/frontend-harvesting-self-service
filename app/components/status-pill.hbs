@@ -8,7 +8,7 @@
     {{@status}}
   </AuPill>
 
-{{else if (or (eq @status "ongoing") (eq @status "ready-for-collecting")) }}
+{{else if (or (eq @status "ongoing") (eq @status "ready-for-collecting") (eq @status "ready-to-be-cached")) }}
   <AuPill @skin="action">
     {{@status}}
   </AuPill>
