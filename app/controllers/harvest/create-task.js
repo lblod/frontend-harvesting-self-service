@@ -27,7 +27,6 @@ export default class HarvestCreateTaskController extends Controller {
     });
 
     let collection = this.store.createRecord('harvesting-collection', {
-      status: 'http://lblod.data.gift/collecting-statuses/not-started',
       remoteDataObject: remoteDataObject
     });
 
@@ -36,7 +35,7 @@ export default class HarvestCreateTaskController extends Controller {
       status: this.status,
       created: this.currentTime,
       modified: this.currentTime,
-      harvestingCollection: collection
+      generated: collection
     });
 
     try{
