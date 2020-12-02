@@ -5,20 +5,13 @@
     </div>
     <div class="au-o-flow">
 
-      <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
-        <c.header>
+      <AuCard @flex="true" as |c|>
+        <c.header @badgeSkin="border" @badgeIcon="documents">
           <AuHeading @level="2" @skin="4">
             Harvesting collection
           </AuHeading>
+          {{this.model.generated.id}}
         </c.header>
-        <c.content>
-          <p class="au-u-padding-top-small">
-            <AuLabel for="collection-id">
-              Collection ID
-            </AuLabel>
-            <AuInput id="task-status" @width="block" @value={{this.model.generated.id}} disabled="true" />
-          </p>
-        </c.content>
       </AuCard>
 
       <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
@@ -151,7 +144,7 @@
           Back
         </AuButton>
       </LinkTo>
-      
+
     </div>
   </div>
 </div>
