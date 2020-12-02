@@ -5,7 +5,7 @@ export default class HarvestingTaskModel extends Model {
     @attr('date') created;
     @attr('date') modified;
     @attr('string') creator;
-    @belongsTo('harvesting-collection') harvestingCollection;
+    @belongsTo('harvesting-collection') generated;
 
     get shortStatus(){
       const split = this.status.split('/')
