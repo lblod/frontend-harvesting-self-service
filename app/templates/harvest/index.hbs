@@ -33,7 +33,7 @@
             {{row.creator}}
         </td>
         <td class="au-u-visible-small-up">
-            {{row.status}}
+            <StatusPill @status={{row.shortStatus}}></StatusPill>
         </td>
         <td class="au-u-visible-large-up">
           <LinkTo @route="harvest.details" @model={{row}} >
