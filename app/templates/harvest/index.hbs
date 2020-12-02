@@ -11,11 +11,11 @@
   <AuDataTable @content={{this.model}} @fields="title description" @noDataMessage="No harvesting tasks found" @sort={{this.sort}} as |t|>
     <t.content as |c|>
       <c.header>
-      <AuDataTableThSortable @field="URL" @currentSorting={{this.sort}} @label="id" @class="data-table__header-title" />
-      <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created" @class="data-table__header-title" />
-      <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified" @class="data-table__header-title" />
-      <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator" @class="data-table__header-title" />
-      <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status" @class="data-table__header-title" />
+        <AuDataTableThSortable @field="URL" @currentSorting={{this.sort}} @label="id" @class="data-table__header-title" />
+        <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created" @class="data-table__header-title" />
+        <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified" @class="data-table__header-title" />
+        <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator" @class="data-table__header-title" />
+        <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status" @class="data-table__header-title" />
 
         <th class="au-u-visible-small-up">Action</th>
       </c.header>

@@ -1,164 +1,169 @@
-<div class=" au-u-padding-top-large au-u-padding-left au-u-padding-right">
-  <h1 class="au-u-h1 au-u-margin-bottom">Details</h1>
-  <div class="au-o-grid au-o-grid--large">
-    <div class="au-o-grid__item au-u-1-4">
-      <AuHeading @level="2" @skin="4">
-        Harvesting task
-      </AuHeading>
-      <p>
-        <AuLabel for="task-url">
-          Task ID
-        </AuLabel>
-        <AuInput id="task-url" @width="block" @value={{this.model.id}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="task-creator">
-          Task Creator
-        </AuLabel>
-        <AuInput id="task-creator" @width="block" @value={{this.model.creator}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="task-creator">
-          Task Created
-        </AuLabel>
-        <AuInput id="task-creator" @width="block" @value={{this.model.modified}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="task-creator">
-          Created
-        </AuLabel>
-        <AuInput id="task-creator" @width="block" @value={{this.model.created}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="task-status">
-          Task Status
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.status}} disabled="true" />
-      </p>
+<div class="au-o-box">
+  <div class="au-o-layout au-o-region-large">
+    <div class=" au-u-padding-top-larg au-u-padding-right">
+      <h1 class="au-u-h1 au-u-margin-bottom">Details</h1>
     </div>
-    <div class="au-o-grid__item au-u-1-4">
-      <AuHeading @level="2" @skin="4">
-        Harvesting collection
-      </AuHeading>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Collection ID
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.id}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Collection Status
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.status}} disabled="true" />
-      </p>
-    </div>
-    <div class="au-o-grid__item au-u-1-4">
-      <AuHeading @level="2" @skin="4">
-        Remote data object
-      </AuHeading>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          ID
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.id}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Source
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.source}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Created
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.created}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Modified
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.modified}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Status
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.status}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Collection Status
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.status}} disabled="true" />
-      </p>
-    </div>
-        <div class="au-o-grid__item au-u-1-4">
-      <AuHeading @level="2" @skin="4">
-        Download-event
-      </AuHeading>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          ID
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.downloadEvent.id}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Created
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.downloadEvent.created}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Modified
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.modified}} disabled="true" />
-      </p>
-      <p class="au-u-padding-top-small">
-        <AuLabel for="collection-id">
-          Status
-        </AuLabel>
-        <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.downloadEvent.status}} disabled="true" />
-      </p>
-    </div>
+    <div class="au-o-flow">
+      <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
+        <c.header>
+          <AuHeading @level="2" @skin="4">
+            Harvesting task <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+          </AuHeading>
+        </c.header>
+        <c.content>
+          <p>
+            <AuLabel for="task-url">
+              Task ID
+            </AuLabel>
+            <AuInput id="task-url" @width="block" @value={{this.model.id}} disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="task-creator">
+              Task Creator
+            </AuLabel>
+            <AuInput id="task-creator" @width="block" @value={{this.model.creator}} disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="task-creator">
+              Task Created
+            </AuLabel>
+            <AuInput id="task-creator" @width="block" @value={{this.model.modified}} disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="task-creator">
+              Created
+            </AuLabel>
+            <AuInput id="task-creator" @width="block" @value={{this.model.created}} disabled="true" />
+          </p>
+        </c.content>
+      </AuCard>
+
+      <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
+        <c.header>
+          <AuHeading @level="2" @skin="4">
+            Harvesting collection <StatusPill @status={{this.model.harvestingCollection.shortStatus}}></StatusPill>
+          </AuHeading>
+        </c.header>
+        <c.content>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Collection ID
+            </AuLabel>
+            <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.id}} disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Collection Status
+            </AuLabel>
+            <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.status}}
+              disabled="true" />
+          </p>
+        </c.content>
+      </AuCard>
 
 
+      <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
+        <c.header>
+          <AuHeading @level="2" @skin="4">
+            Remote data object <StatusPill @status={{this.model.harvestingCollection.remoteDataObject.shortStatus}}>
+            </StatusPill>
+          </AuHeading>
+        </c.header>
+        <c.content>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              ID
+            </AuLabel>
+            <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.id}}
+              disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Source
+            </AuLabel>
+            <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.source}}
+              disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Created
+            </AuLabel>
+            <AuInput id="task-status" @width="block" @value={{this.model.harvestingCollection.remoteDataObject.created}}
+              disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Modified
+            </AuLabel>
+            <AuInput id="task-status" @width="block"
+              @value={{this.model.harvestingCollection.remoteDataObject.modified}} disabled="true" />
+          </p>
+        </c.content>
+      </AuCard>
 
-  </div>
-<div class="au-o-grid">
-  <div class="au-o-grid__item au-u-1-4">
+      <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
+        <c.header>
+          <AuHeading @level="2" @skin="4">
+            Download event <StatusPill
+              @status={{this.model.harvestingCollection.remoteDataObject.downloadEvent.shortStatus}}></StatusPill>
+          </AuHeading>
+        </c.header>
+        <c.content>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              ID
+            </AuLabel>
+            <AuInput id="task-status" @width="block"
+              @value={{this.model.harvestingCollection.remoteDataObject.downloadEvent.id}} disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Created
+            </AuLabel>
+            <AuInput id="task-status" @width="block"
+              @value={{this.model.harvestingCollection.remoteDataObject.downloadEvent.created}} disabled="true" />
+          </p>
+          <p class="au-u-padding-top-small">
+            <AuLabel for="collection-id">
+              Modified
+            </AuLabel>
+            <AuInput id="task-status" @width="block"
+              @value={{this.model.harvestingCollection.remoteDataObject.modified}} disabled="true" />
+          </p>
+        </c.content>
+      </AuCard>
+
+
       <AuCard @flex={{true}} as |c|>
-      <c.header @badgeSkin="brand" @badgeIcon="users">
-        <AuHeading @level="2" @skin="4">
-          Download harvested file
-        </AuHeading>
-        <p>
-           Html file downloaded by harvesting-service
-         
-        </p>
-      </c.header>
-      <c.content>
-        <p> {{this.model.harvestingCollection.remoteDataObject.file.name}}</p>
-      </c.content>
-      <c.footer>
-        <a class="au-c-link" href="{{this.model.harvestingCollection.remoteDataObject.downloadLink}}" download="{{this.model.harvestingCollection.remoteDataObject.file.name}}">
-          <AuIcon @icon="download" @alignment="left" />
-          Download bestand
-        </a>
-      </c.footer>
-    </AuCard>
+        <c.header @badgeSkin="brand" @badgeIcon="users">
+          <AuHeading @level="2" @skin="4">
+            Download harvested file
+          </AuHeading>
+          <p>
+            Html file downloaded by harvesting-service
+
+          </p>
+        </c.header>
+        <c.content>
+          <p> {{this.model.harvestingCollection.remoteDataObject.file.name}}</p>
+        </c.content>
+        <c.footer>
+          <a class="au-c-link" href="{{this.model.harvestingCollection.remoteDataObject.downloadLink}}"
+            download="{{this.model.harvestingCollection.remoteDataObject.file.name}}">
+            <AuIcon @icon="download" @alignment="left" />
+            Download bestand
+          </a>
+        </c.footer>
+      </AuCard>
+
+    <LinkTo @route="harvest.index">
+      <AuButton class="au-u-padding-left au-u-padding-right au-u-margin-top-large">
+        Back
+      </AuButton>
+    </LinkTo>
+    </div>
+
+
+
   </div>
-</div>
-
-
-
-
-<LinkTo @route="harvest.index" class="au-u-margin-top-large">
-  <AuButton class="au-u-padding-left au-u-padding-right">
-    Back
-  </AuButton>
-</LinkTo>
-
 </div>
