@@ -133,37 +133,36 @@
         </c.content>
       </AuCard>
 
+      <div class="au-o-grid au-u-margin-top-large">
+        <div class="au-o-grid__item au-u-1-2">
+          <AuCard @flex={{true}} as |c|>
+            <c.header @badgeSkin="brand" @badgeIcon="download">
+              <AuHeading @level="2" @skin="4">
+                Download harvested file
+              </AuHeading>
+              <p>
+                Html file downloaded by harvesting-service
 
-      <AuCard @flex={{true}} as |c|>
-        <c.header @badgeSkin="brand" @badgeIcon="users">
-          <AuHeading @level="2" @skin="4">
-            Download harvested file
-          </AuHeading>
-          <p>
-            Html file downloaded by harvesting-service
-
-          </p>
-        </c.header>
-        <c.content>
-          <p> {{this.model.harvestingCollection.remoteDataObject.file.name}}</p>
-        </c.content>
-        <c.footer>
-          <a class="au-c-link" href="{{this.model.harvestingCollection.remoteDataObject.downloadLink}}"
-            download="{{this.model.harvestingCollection.remoteDataObject.file.name}}">
-            <AuIcon @icon="download" @alignment="left" />
-            Download bestand
-          </a>
-        </c.footer>
-      </AuCard>
-
-    <LinkTo @route="harvest.index">
-      <AuButton class="au-u-padding-left au-u-padding-right au-u-margin-top-large">
-        Back
-      </AuButton>
-    </LinkTo>
+              </p>
+            </c.header>
+            <c.content>
+              <p> {{this.model.harvestingCollection.remoteDataObject.file.name}}</p>
+            </c.content>
+            <c.footer>
+              <a class="au-c-link" href="{{this.model.harvestingCollection.remoteDataObject.downloadLink}}"
+                download="{{this.model.harvestingCollection.remoteDataObject.file.name}}">
+                <AuIcon @icon="download" @alignment="left" />
+                Download bestand
+              </a>
+            </c.footer>
+          </AuCard>
+        </div>
+      </div>
+      <LinkTo @route="harvest.index">
+        <AuButton class="au-u-padding-left au-u-padding-right au-u-margin-top-large">
+          Back
+        </AuButton>
+      </LinkTo>
     </div>
-
-
-
   </div>
 </div>
