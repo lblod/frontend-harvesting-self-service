@@ -13,4 +13,9 @@ export default class RemoteDataObjectModel extends Model {
   get downloadLink() {
     return `/files/${this.id}/download`;
   }
+
+  get shortStatus(){
+    const split = this.status.split('/')
+    return split[split.length-1]
+  }
 }

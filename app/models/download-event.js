@@ -6,4 +6,9 @@ export default class DownloadEventModel extends Model {
   @attr('date') modified;
   @belongsTo('remote-data-object') remoteDataObject;
   @hasMany('files') files;
+
+  get shortStatus(){
+    const split = this.status.split('/')
+    return split[split.length-1]
+  }
 }
