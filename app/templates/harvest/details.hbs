@@ -58,7 +58,7 @@
       <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
         <c.header>
           <AuHeading @level="2" @skin="4">
-            Remote data object <StatusPill @status={{this.model.generated.remoteDataObject.shortStatus}}>
+            Remote data object <StatusPill @status={{this.model.generated.hasPart.shortStatus}}>
             </StatusPill>
           </AuHeading>
         </c.header>
@@ -67,21 +67,21 @@
             <AuLabel for="collection-id">
               ID
             </AuLabel>
-            <AuInput id="task-status" @width="block" @value={{this.model.generated.remoteDataObject.id}}
+            <AuInput id="task-status" @width="block" @value={{this.model.generated.hasPart.id}}
               disabled="true" />
           </p>
           <p class="au-u-padding-top-small">
             <AuLabel for="collection-id">
               Source
             </AuLabel>
-            <AuInput id="task-status" @width="block" @value={{this.model.generated.remoteDataObject.source}}
+            <AuInput id="task-status" @width="block" @value={{this.model.generated.hasPart.source}}
               disabled="true" />
           </p>
           <p class="au-u-padding-top-small">
             <AuLabel for="collection-id">
               Created
             </AuLabel>
-            <AuInput id="task-status" @width="block" @value={{this.model.generated.remoteDataObject.created}}
+            <AuInput id="task-status" @width="block" @value={{this.model.generated.hasPart.created}}
               disabled="true" />
           </p>
           <p class="au-u-padding-top-small">
@@ -89,7 +89,7 @@
               Modified
             </AuLabel>
             <AuInput id="task-status" @width="block"
-              @value={{this.model.generated.remoteDataObject.modified}} disabled="true" />
+              @value={{this.model.generated.hasPart.modified}} disabled="true" />
           </p>
         </c.content>
       </AuCard>
@@ -98,7 +98,7 @@
         <c.header>
           <AuHeading @level="2" @skin="4">
             Download event <StatusPill
-              @status={{this.model.generated.remoteDataObject.downloadEvent.shortStatus}}></StatusPill>
+              @status={{this.model.generated.hasPart.downloadEvent.shortStatus}}></StatusPill>
           </AuHeading>
         </c.header>
         <c.content>
@@ -107,21 +107,21 @@
               ID
             </AuLabel>
             <AuInput id="task-status" @width="block"
-              @value={{this.model.generated.remoteDataObject.downloadEvent.id}} disabled="true" />
+              @value={{this.model.generated.hasPart.downloadEvent.id}} disabled="true" />
           </p>
           <p class="au-u-padding-top-small">
             <AuLabel for="collection-id">
               Created
             </AuLabel>
             <AuInput id="task-status" @width="block"
-              @value={{this.model.generated.remoteDataObject.downloadEvent.created}} disabled="true" />
+              @value={{this.model.generated.hasPart.downloadEvent.created}} disabled="true" />
           </p>
           <p class="au-u-padding-top-small">
             <AuLabel for="collection-id">
               Modified
             </AuLabel>
             <AuInput id="task-status" @width="block"
-              @value={{this.model.generated.remoteDataObject.modified}} disabled="true" />
+              @value={{this.model.generated.hasPart.modified}} disabled="true" />
           </p>
         </c.content>
       </AuCard>
@@ -139,11 +139,11 @@
               </p>
             </c.header>
             <c.content>
-              <p> {{this.model.generated.remoteDataObject.file.name}}</p>
+              <p> {{this.model.generated.hasPart.file.name}}</p>
             </c.content>
             <c.footer>
-              <a class="au-c-link" href="{{this.model.generated.remoteDataObject.downloadLink}}"
-                download="{{this.model.generated.remoteDataObject.file.name}}">
+              <a class="au-c-link" href="{{this.model.generated.hasPart.downloadLink}}"
+                download="{{this.model.generated.hasPart.file.name}}">
                 <AuIcon @icon="download" @alignment="left" />
                 Download bestand
               </a>
