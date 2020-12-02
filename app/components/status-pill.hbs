@@ -1,0 +1,28 @@
+{{#if (or (eq @status "succes") (eq @status "success"))}}
+  <AuPill @skin="success">
+    {{@status}}
+  </AuPill>
+
+{{else if (eq @status "failure") }}
+  <AuPill @skin="error">
+    {{@status}}
+  </AuPill>
+
+{{else if (or (eq @status "ongoing") (eq @status "ready-for-collecting")) }}
+  <AuPill @skin="action">
+    {{@status}}
+  </AuPill>
+
+{{else if (eq @status "not-started") }}
+  <AuPill>
+    {{@status}}
+  </AuPill>
+
+{{else if (eq @status "ongoing") }}
+  <AuPill @skin="warning">
+    {{@status}}
+</AuPill>
+
+{{else}}
+  {{@status}}
+{{/if}}
