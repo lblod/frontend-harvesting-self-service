@@ -28,7 +28,7 @@ export default class HarvestCreateTaskController extends Controller {
 
     let collection = this.store.createRecord('harvesting-collection', {
       creator: this.creator,
-      hasPart: remoteDataObject
+      remoteDataObjects: [remoteDataObject]
     });
 
     let task = this.store.createRecord('harvesting-task', {
@@ -36,7 +36,7 @@ export default class HarvestCreateTaskController extends Controller {
       status: this.status,
       created: this.currentTime,
       modified: this.currentTime,
-      generated: collection,
+      harvestingCollection: collection,
       graph: 'http://mu.semte.ch/graphs/harvesting'
     });
 
@@ -48,6 +48,7 @@ export default class HarvestCreateTaskController extends Controller {
       this.success = true;
 
     }catch(err){
+      console.log(err)
       this.errorMessage = err;
       this.success = false;
       this.error = true
