@@ -1,0 +1,43 @@
+    <AuDataTable 
+      @content={{this.model}} 
+      @fields="title description"
+      @noDataMessage="No files found"
+      @sort={{this.sort}}
+      @size={{this.size}} 
+      @page={{this.page}} as |t|>
+      <t.content as |c|>
+        <c.header>
+          <th class="au-u-visible-small-up">ID</th>
+          <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
+            @class="data-table__header-title" />
+          <AuDataTableThSortable @field="source" @currentSorting={{this.sort}} @label="Source"
+            @class="data-table__header-title" />
+          <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status"
+            @class="data-table__header-title" />
+
+          <th class="au-u-visible-small-up">Action</th>
+        </c.header>
+        <c.body as |row|>
+          <td>
+            {{row.id}}
+          </td>
+          <td>
+            {{format-datetime row.created}}
+          </td>
+          <td class="au-u-visible-small-up">
+            {{row.source}}
+          </td>
+          <td class="au-u-visible-small-up">
+            {{row.name}}
+            <StatusPill @status={{row.shortStatus}}></StatusPill>
+          </td>
+          <td class="au-u-visible-small-up">
+            <a class="au-c-link" href="{{row.downloadLink}}" download="{{row.file.name}}">
+              <AuButton @skin="secondary">
+                Download HTML file
+              </AuButton>
+            </a>
+          </td>
+        </c.body>
+      </t.content>
+    </AuDataTable>
