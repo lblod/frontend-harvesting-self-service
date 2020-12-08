@@ -1,6 +1,6 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class HarvestingCollectionModel extends Model {
   @attr('string') creator
-  @belongsTo('remote-data-object') hasPart;
+  @hasMany('remote-data-object') hasPart;
 }
