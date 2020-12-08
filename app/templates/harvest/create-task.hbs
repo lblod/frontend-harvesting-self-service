@@ -1,11 +1,7 @@
 <div class="au-o-box">
   <div class="au-o-layout au-o-region-large">
     <div class="au-u-padding-top-large au-u-padding-right">
-  
-
           <h1 class="au-u-h1 au-u-margin-bottom">Create Task</h1>
-
-
       </div>
         <div class="au-c-form ">
           <p>
@@ -33,7 +29,7 @@
         <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Task succesfully created"
           @alertskin={{"success"}}>
         </AuAlert>
-        {{else if this.fail}}
+        {{else if this.error}}
         <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong"
           @alertskin={{"error"}}>
           {{this.errorMessage}}
