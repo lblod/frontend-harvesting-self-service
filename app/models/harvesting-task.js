@@ -5,6 +5,7 @@ export default class HarvestingTaskModel extends Model {
     @attr('date') created;
     @attr('date') modified;
     @attr('string') creator;
+    @attr('string') graph;
     @belongsTo('harvesting-collection') generated;
 
     get shortStatus(){

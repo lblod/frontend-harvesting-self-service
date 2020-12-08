@@ -36,7 +36,8 @@ export default class HarvestCreateTaskController extends Controller {
       status: this.status,
       created: this.currentTime,
       modified: this.currentTime,
-      generated: collection
+      generated: collection,
+      graph: 'http://mu.semte.ch/graphs/harvesting'
     });
 
     try{
