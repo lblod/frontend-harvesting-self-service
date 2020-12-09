@@ -1,53 +1,53 @@
-<div class="au-u-padding-top-large au-u-padding-left au-u-padding-right">
-  <div class="au-o-grid">
-    <div class="au-o-grid__item au-u-1-2@medium">
-      <h1 class="au-u-h1 au-u-margin-bottom">Overview</h1>
-    </div>
-    <div class="au-o-grid__item au-u-1-2@medium au-u-text-right">
+<AuToolbar @border="bottom" @size="large" @nowrap="{{true}}">
+  <AuToolbarGroup>
+    <AuHeading @skin="2">Harvesting Tasks Overview</AuHeading>
+  </AuToolbarGroup>
+  <AuToolbarGroup>
+    <div class="au-u-text-right">
       <LinkTo @route="harvest.create-task" class="au-c-button" type="button">Create a new task</LinkTo>
     </div>
-  </div>
+  </AuToolbarGroup>
+</AuToolbar>
 
-  <AuDataTable 
-    @content={{this.model}} 
-    @fields="title description" 
-    @noDataMessage="No harvesting tasks found"
-    @sort={{this.sort}}
-    @size={{this.size}} 
-    @page={{this.page}} as |t|>
-    <t.content as |c|>
-      <c.header>
-        <th class="au-u-visible-small-up">ID</th>
-        <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created" @class="data-table__header-title" />
-        <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified" @class="data-table__header-title" />
-        <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator" @class="data-table__header-title" />
-        <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status" @class="data-table__header-title" />
-        <th class="au-u-visible-small-up">Action</th>
-      </c.header>
-      <c.body as |row|>
-        <td>
-          {{row.id}}
-        </td>
-        <td>
-          {{format-datetime row.created}}
-        </td>
-        <td class="au-u-visible-small-up">
-            {{format-datetime row.modified}}
-        </td>
-        <td class="au-u-visible-medium-up">
-            {{row.shortCreator}}
-        </td>
-        <td class="au-u-visible-small-up">
-            <StatusPill @status={{row.shortStatus}}></StatusPill>
-        </td>
-        <td class="au-u-visible-large-up">
-          <LinkTo @route="harvest.details" @model={{row}} >
-            <AuButton @skin="secondary">
-              view
-            </AuButton>
-          </LinkTo>
-        </td>
-      </c.body>
-    </t.content>
-  </AuDataTable>
-</div>
+<AuDataTable 
+  @content={{this.model}} 
+  @fields="title description" 
+  @noDataMessage="No harvesting tasks found"
+  @sort={{this.sort}}
+  @size={{this.size}} 
+  @page={{this.page}} as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th class="au-u-visible-small-up">ID</th>
+      <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator" @class="data-table__header-title" />
+      <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status" @class="data-table__header-title" />
+      <th class="au-u-visible-small-up">Action</th>
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.id}}
+      </td>
+      <td>
+        {{format-datetime row.created}}
+      </td>
+      <td class="au-u-visible-small-up">
+          {{format-datetime row.modified}}
+      </td>
+      <td class="au-u-visible-medium-up">
+          {{row.shortCreator}}
+      </td>
+      <td class="au-u-visible-small-up">
+          <StatusPill @status={{row.shortStatus}}></StatusPill>
+      </td>
+      <td class="au-u-visible-large-up">
+        <LinkTo @route="harvest.details" @model={{row}} >
+          <AuButton @skin="secondary">
+            view
+          </AuButton>
+        </LinkTo>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

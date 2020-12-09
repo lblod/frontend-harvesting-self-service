@@ -1,39 +1,42 @@
-<div class="au-o-box">
-  <div class="au-o-layout au-o-region-large">
-    <div class="au-u-padding-top-large au-u-padding-right">
-          <h1 class="au-u-h1 au-u-margin-bottom">Create Task</h1>
-      </div>
-        <div class="au-c-form ">
-          <p>
-            <AuLabel for="task-url">
-              Url
-            </AuLabel>
-            <AuInput id="task-url" @width="block" @value={{this.url}} />
-          </p>
-          <p>
-            <AuLabel for="task-creator">
-              Creator
-            </AuLabel>
-            <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled="true" />
-          </p>
-          <p>
-            <AuLabel for="task-status">
-              Status
-            </AuLabel>
-            <AuInput id="task-status" @width="block" @value={{this.status}} />
-          </p>
-        </div>
+<AuToolbar @border="bottom" @size="large" @nowrap="{{true}}">
+  <AuToolbarGroup>
+    <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Create a Harvesting Task</AuHeading>
+  </AuToolbarGroup>
+</AuToolbar>
 
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.createTask}}>Create Task</AuButton>
-        {{#if this.success}}
-        <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Task succesfully created"
-          @alertskin={{"success"}}>
-        </AuAlert>
-        {{else if this.error}}
-        <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong"
-          @alertskin={{"error"}}>
-          {{this.errorMessage}}
-        </AuAlert>
-        {{/if}}
-      </div>
+<div class="au-o-box">
+  <div class="au-u-2-3@medium au-u-1-1">
+    <div class="au-c-form ">
+      <p>
+        <AuLabel for="task-url">
+          Url
+        </AuLabel>
+        <AuInput id="task-url" @width="block" @value={{this.url}} />
+      </p>
+      <p>
+        <AuLabel for="task-creator">
+          Creator
+        </AuLabel>
+        <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled="true" />
+      </p>
+      <p>
+        <AuLabel for="task-status">
+          Status
+        </AuLabel>
+        <AuInput id="task-status" @width="block" @value={{this.status}} />
+      </p>
+    </div>
+
+    <AuButton class="au-u-margin-top-large" {{on 'click' this.createTask}}>Create Task</AuButton>
+    {{#if this.success}}
+    <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Task succesfully created"
+      @alertskin={{"success"}}>
+    </AuAlert>
+    {{else if this.error}}
+    <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong"
+      @alertskin={{"error"}}>
+      {{this.errorMessage}}
+    </AuAlert>
+    {{/if}}
+  </div>
 </div>

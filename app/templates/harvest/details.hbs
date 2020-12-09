@@ -1,57 +1,31 @@
-<div class="au-u-padding-top-large au-u-padding-left au-u-padding-right">
-  <div class="au-o-grid">
-    <div class="au-o-grid__item au-u-1-2@medium">
-      <h1 class="au-u-h1 au-u-margin-bottom">Details</h1>
-    </div>
-    <div class="au-o-grid__item au-u-1-2@medium au-u-text-right">
-      <LinkTo @route="harvest.index" class="au-c-button" type="button">Back</LinkTo>
-    </div>
-  </div>
-
-  <div class="au-o-flow">
-    <AuCard @flex="true" as |c|>
-      <c.header @badgeSkin="border" @badgeIcon="documents">
-        <AuHeading @level="2" @skin="4">
-          Harvesting collection
-        </AuHeading>
-        {{this.model.harvestingCollection.id}}
-      </c.header>
-    </AuCard>
-    <AuCard @expandable="true" @flex="true" @divided="true" as |c|>
-      <c.header>
-        <AuHeading @level="2" @skin="4">
-          Harvesting task <StatusPill @status={{this.model.shortStatus}}></StatusPill>
-        </AuHeading>
-      </c.header>
-      <c.content>
-        <p>
-          <AuLabel for="task-url">
-            Task ID
-          </AuLabel>
-          <AuInput id="task-url" @width="block" @value={{this.model.id}} disabled="true" />
-        </p>
-        <p class="au-u-padding-top-small">
-          <AuLabel for="task-creator">
-            Task Creator
-          </AuLabel>
-          <AuInput id="task-creator" @width="block" @value={{this.model.creator}} disabled="true" />
-        </p>
-        <p class="au-u-padding-top-small">
-          <AuLabel for="task-creator">
-            Task Created
-          </AuLabel>
-          <AuInput id="task-creator" @width="block" @value={{this.model.modified}} disabled="true" />
-        </p>
-        <p class="au-u-padding-top-small">
-          <AuLabel for="task-creator">
-            Created
-          </AuLabel>
-          <AuInput id="task-creator" @width="block" @value={{this.model.created}} disabled="true" />
-        </p>
-      </c.content>
-    </AuCard>
-
-    {{outlet}}
+<AuToolbar  @border="bottom" @size="large">
+  <AuToolbarGroup class="au-c-toolbar__group--row">
+    <AuHeading @skin="2">Harvesting Tasks Details</AuHeading>
+  </AuToolbarGroup>
+  <AuToolbarGroup class="au-c-toolbar__group--row">
+    <ul class="au-o-grid">
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>ID</AuLabel>
+        <p>{{this.model.id}}</p>
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Task Creator</AuLabel>
+        <p>{{this.model.creator}}</p>
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Task Created</AuLabel>
+        {{format-datetime this.model.created}}
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Task Modified</AuLabel>
+        {{format-datetime this.model.modified}}
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Status</AuLabel>
+       <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+      </li>
+    </ul>
+  </AuToolbarGroup>
+</AuToolbar>
     
-  </div>
-</div>
+    {{outlet}}
