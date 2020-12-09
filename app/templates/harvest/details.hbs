@@ -1,6 +1,11 @@
 <AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup class="au-c-toolbar__group--row">
+  <AuToolbarGroup class="au-c-toolbar__group--row au-c-toolbar_space-between">
     <AuHeading @skin="2">Harvesting Tasks Details</AuHeading>
+    <LinkTo @route="harvest.index">
+      <AuButton  @skin="secondary">
+        Back to overview
+      </AuButton>
+    </LinkTo>
   </AuToolbarGroup>
   <AuToolbarGroup class="au-c-toolbar__group--row">
     <ul class="au-o-grid">

@@ -27,6 +27,12 @@
       </p>
     </div>
 
+    <LinkTo @route="harvest.index">
+      <AuButton  @skin="secondary">
+        Back to overview
+      </AuButton>
+    </LinkTo>
+    
     <AuButton class="au-u-margin-top-large" {{on 'click' this.createTask}}>Create Task</AuButton>
     {{#if this.success}}
     <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Task succesfully created"
