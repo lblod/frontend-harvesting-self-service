@@ -1,4 +1,4 @@
-<AuToolbar  @border="bottom" @size="large">
+<AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup class="au-c-toolbar__group--row">
     <AuHeading @skin="2">Harvesting Tasks Details</AuHeading>
   </AuToolbarGroup>
@@ -22,10 +22,10 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Status</AuLabel>
-       <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+        <StatusPill @status={{this.model.shortStatus}}></StatusPill>
       </li>
     </ul>
   </AuToolbarGroup>
 </AuToolbar>
-    
-    {{outlet}}
+
+{{outlet}}
