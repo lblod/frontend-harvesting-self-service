@@ -32,7 +32,7 @@
         <StatusPill @status={{row.shortStatus}}></StatusPill>
       </td>
       <td class="au-u-visible-small-up">
-        <a class="au-c-link" href="{{row.downloadLink}}" download="{{row.file.name}}"  {{on 'click' this.stopPropegation }}>
+        <a class="au-c-link" href="{{row.downloadLink}}" download="{{row.file.name}}"  {{on 'click' this.overrideClick }}>
           <AuButton @skin="secondary">
             Download HTML file
           </AuButton>
