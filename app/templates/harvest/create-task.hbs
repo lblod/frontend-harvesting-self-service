@@ -1,4 +1,4 @@
-<AuToolbar @border="bottom" @size="large" @nowrap="{{true}}">
+<AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup>
     <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Create a Harvesting Task</AuHeading>
   </AuToolbarGroup>
@@ -33,8 +33,7 @@
       @alertskin={{"success"}}>
     </AuAlert>
     {{else if this.error}}
-    <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong"
-      @alertskin={{"error"}}>
+    <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong" @alertskin={{"error"}}>
       {{this.errorMessage}}
     </AuAlert>
     {{/if}}
