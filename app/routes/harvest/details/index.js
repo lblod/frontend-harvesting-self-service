@@ -6,7 +6,8 @@ export default Ember.Route.extend(DataTableRouteMixin, {
 
   mergeQueryOptions() {
     return {
-     'filter[harvesting-collection][:id:]': this.modelFor('harvest/details').harvestingCollection.get("id")
+      include: 'harvesting-collection',
+      'filter[harvesting-collection][:id:]': this.modelFor('harvest/details').harvestingCollection.get('id')
     };
   },
 
