@@ -13,6 +13,7 @@ export default class HarvestingTaskModel extends Model {
   statusesMap = {
     'http://lblod.data.gift/harvesting-statuses/ready-for-importing': 'ready-for-importing',
     'http://lblod.data.gift/harvesting-statuses/failed': 'failure',
+    'http://lblod.data.gift/harvesting-statuses/failure': 'failure', //TODO: clean up these statuses
     'http://lblod.data.gift/harvesting-statuses/ready-for-collecting': 'ready-for-collecting',
     'http://lblod.data.gift/harvesting-statuses/importing': 'ongoing',
     'http://lblod.data.gift/harvesting-statuses/ready-for-sameas': 'ready-for-sameas', //TODO: rethink the setting in of status in backends
