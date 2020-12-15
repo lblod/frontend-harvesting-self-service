@@ -1,11 +1,5 @@
 <div class="container">
-  <AuMainHeader @appTitle="Harvesting self service" @brandLink="https://www.vlaanderen.be/nl" @homeRoute="index">
-    {{#if session.isAuthenticated}}
-    <MockLogout @tagName={{"button"}} class="au-c-dropdown__item">
-      <AuIcon @icon="logout" @alignment="left" />Afmelden
-    </MockLogout>
-    {{/if}}
-  </AuMainHeader>
+  <AuMainHeader @appTitle="Harvesting self service" @brandLink="https://www.vlaanderen.be/nl" @homeRoute="index"/>
   <main id="main" class="au-c-main-container">
     <div id="content" class="au-c-body-container">
       {{outlet}}
