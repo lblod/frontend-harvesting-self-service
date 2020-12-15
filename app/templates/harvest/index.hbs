@@ -18,7 +18,7 @@
   @page={{this.page}} as |t|>
   <t.content as |c|>
     <c.header>
-      <th class="au-u-visible-small-up">ID</th>
+      <th class="au-u-visible-small-up">uri</th>
       <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created" @class="data-table__header-title" />
       <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified" @class="data-table__header-title" />
       <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator" @class="data-table__header-title" />
@@ -27,7 +27,7 @@
     </c.header>
     <c.body as |row|>
       <td>
-        {{row.id}}
+        {{row.uri}}
       </td>
       <td>
         {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
@@ -39,7 +39,7 @@
           {{row.creator}}
       </td>
       <td class="au-u-visible-small-up">
-          <StatusPill @status={{row.status}}></StatusPill>
+          <StatusPill @status={{row.shortStatus}}></StatusPill>
       </td>
       <td class="au-u-visible-large-up">
         <LinkTo @route="harvest.details" @model={{row}} >

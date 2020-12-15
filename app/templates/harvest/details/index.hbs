@@ -7,7 +7,7 @@
   @page={{this.page}} as |t|>
   <t.content as |c|>
     <c.header>
-      <th class="au-u-visible-small-up">ID</th>
+      <th class="au-u-visible-small-up">uri</th>
       <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
         @class="data-table__header-title" />
       <AuDataTableThSortable @field="source" @currentSorting={{this.sort}} @label="Source"
@@ -19,7 +19,7 @@
     </c.header>
     <c.body as |row|>
       <td>
-        {{row.id}}
+        {{row.uri}}
       </td>
       <td>
         {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
