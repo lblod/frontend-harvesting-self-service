@@ -7,5 +7,4 @@ export default class FileModel extends Model {
   @attr('string') extension;
   @attr('date') created;
   @belongsTo('remote-data-object', { inverse: true }) remoteDataObject;
-
 }

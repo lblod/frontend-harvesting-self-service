@@ -9,6 +9,5 @@ export default Ember.Route.extend(DataTableRouteMixin, {
       include: 'harvesting-collection',
       'filter[harvesting-collection][:id:]': this.modelFor('harvest/details').harvestingCollection.get('id')
     };
-  },
-
-})
+  }
+});
