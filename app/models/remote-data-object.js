@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo }  from '@ember-data/model';
 
 export default class RemoteDataObjectModel extends Model {
+  @attr('string') uri;
   @attr('string') source;
   @attr('date') created;
   @attr('date') modified;

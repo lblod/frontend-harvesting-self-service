@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo }  from '@ember-data/model';
 
 export default class HarvestingTaskModel extends Model {
+  @attr('string') uri;
   @attr('string') status;
   @attr('date') created;
   @attr('date') modified;
