@@ -8,13 +8,21 @@ export default class HarvestingTaskModel extends Model {
   @attr('string') graph;
   @belongsTo('harvesting-collection') harvestingCollection;
 
+  //TODO: move this later to a propery modeled skos:Conceptscheme
+  statusesMap = {
+    'http://lblod.data.gift/harvesting-statuses/ready-for-importing': 'ready-for-importing',
+    'http://lblod.data.gift/harvesting-statuses/failed': 'failure',
+    'http://lblod.data.gift/harvesting-statuses/ready-for-collecting': 'ready-for-collecting',
+    'http://lblod.data.gift/harvesting-statuses/importing': 'ongoing',
+    'http://lblod.data.gift/harvesting-statuses/ready-for-sameas': 'ready-for-sameas', //TODO: rethink the setting in of status in backends
+    'http://lblod.data.gift/harvesting-statuses/succes': 'success', //TODO: find typo in backed
+    'http://lblod.data.gift/harvesting-statuses/success': 'success',
+    'http://lblod.data.gift/harvesting-statuses/collected': 'collected',
+    'http://lblod.data.gift/harvesting-statuses/importing-with-sameas': 'ongoing'
+  };
+
   get shortStatus(){
-    const split = this.status.split('/')
-    return split[split.length-1]
+    return this.statusesMap[this.status];
   }
 
-  get shortCreator(){
-    const split = this.creator.split('/')
-    return split[split.length-1]
-  }
-} 
+}
