@@ -6,7 +6,7 @@ export default class HarvestingTaskModel extends Model {
   @attr('date') created;
   @attr('date') modified;
   @attr('string') creator;
-  @attr('string') graph;
+  @attr('string') graph; //TODO: this might need rethinking in the backend...
   @belongsTo('harvesting-collection') harvestingCollection;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme
