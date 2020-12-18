@@ -1,11 +1,21 @@
 <AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup class="au-c-toolbar__group--row au-c-toolbar_space-between">
     <AuHeading @skin="2">Harvesting Tasks Details</AuHeading>
+
+    <AuButtonGroup>
+    {{#unless this.deleteHarvestingTask.isRunning}}
+      <AuButton @skin="primary" {{on "click" (perform this.deleteHarvestingTask this.model)}}>
+          delete
+      </AuButton>
+     {{else}}
+      <AuLoader @size="small" />
+    {{/unless}}
     <LinkTo @route="harvest.index">
       <AuButton  @skin="secondary">
         Back to overview
       </AuButton>
     </LinkTo>
+    </AuButtonGroup>
   </AuToolbarGroup>
   <AuToolbarGroup class="au-c-toolbar__group--row">
     <ul class="au-o-grid">

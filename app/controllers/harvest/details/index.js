@@ -10,4 +10,5 @@ export default class HarvestDetailsIndexController extends Controller {
   overrideClick(e){
     e.stopPropagation();
   }
+
 };

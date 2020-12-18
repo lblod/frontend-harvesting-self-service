@@ -47,13 +47,6 @@
             view
           </AuButton>
         </LinkTo>
-        {{#unless this.deleteHarvestingTask.isRunning}}
-          <AuButton @skin="secondary" {{on "click" (perform this.deleteHarvestingTask row)}}>
-              delete
-          </AuButton>
-         {{else}}
-          <AuLoader @size="small" />
-        {{/unless}}
       </td>
     </c.body>
   </t.content>
