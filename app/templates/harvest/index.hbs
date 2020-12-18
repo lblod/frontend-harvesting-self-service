@@ -9,12 +9,12 @@
   </AuToolbarGroup>
 </AuToolbar>
 
-<AuDataTable 
-  @content={{this.model}} 
-  @fields="title description" 
+<AuDataTable
+  @content={{this.model}}
+  @fields="title description"
   @noDataMessage="No harvesting tasks found"
   @sort={{this.sort}}
-  @size={{this.size}} 
+  @size={{this.size}}
   @page={{this.page}} as |t|>
   <t.content as |c|>
     <c.header>
@@ -43,10 +43,13 @@
       </td>
       <td class="au-u-visible-large-up">
         <LinkTo @route="harvest.details" @model={{row}} >
-          <AuButton @skin="secondary">
+          <AuButton @skin="primary">
             view
           </AuButton>
         </LinkTo>
+        <AuButton @skin="secondary" {{on "click" (fn this.deleteTask row)}}>
+            delete
+        </AuButton>
       </td>
     </c.body>
   </t.content>
