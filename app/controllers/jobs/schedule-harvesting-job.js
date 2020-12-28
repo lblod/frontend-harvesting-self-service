@@ -23,7 +23,7 @@ export default class JobsScheduleHarvestingJobController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
-      jobType: this.harvestJobType
+      operation: this.harvestJobType
     });
 
     const remoteDataObject = this.store.createRecord('remote-data-object', {
@@ -44,7 +44,7 @@ export default class JobsScheduleHarvestingJobController extends Controller {
       status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
       created: this.currentTime,
       modified: this.currentTime,
-      taskType: this.harvesTaskType,
+      operation: this.harvesTaskType,
       index: '0',
       inputContainers: [ collection ],
       job: scheduledJob
