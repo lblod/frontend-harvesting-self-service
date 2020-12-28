@@ -2,9 +2,10 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class HarvestCreateTaskController extends Controller {
-  @tracked creator = 'http://lblod.data.gift/services/harvesting-self-service';
-  @tracked status = 'http://lblod.data.gift/harvesting-statuses/ready-for-collecting';
+export default class JobsScheduleHarvestingJobController extends Controller {
+  creator = 'http://lblod.data.gift/services/harvesting-self-service';
+  harvesTaskType = 'http://lblod.data.gift/id/lblodJob/concept/TaskType/collecting';
+  harvestJobType = 'http://lblod.data.gift/id/lblodJob/concept/JobType/lblodHarvesting';
   @tracked url;
   @tracked success = false;
   @tracked error = false;
@@ -15,8 +16,16 @@ export default class HarvestCreateTaskController extends Controller {
     return timestamp;
   }
 
-  @action 
-  async createTask(){
+  @action
+  async scheduleJob(){
+    const scheduledJob = this.store.createRecord('job', {
+      status: 'http://lblod.data.gift/id/lblodJob/concept/JobStatus/busy',
+      created: this.currentTime,
+      modified: this.currentTime,
+      creator: this.creator,
+      jobType: this.harvestJobType
+    });
+
     const remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
       status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
@@ -28,19 +37,20 @@ export default class HarvestCreateTaskController extends Controller {
 
     const collection = this.store.createRecord('harvesting-collection', {
       creator: this.creator,
-      remoteDataObjects: [remoteDataObject]
+      remoteDataObjects: [ remoteDataObject ]
     });
 
-    const task = this.store.createRecord('harvesting-task', {
-      creator: this.creator,
-      status: this.status,
+    const task = this.store.createRecord('task', {
+      status: 'http://lblod.data.gift/id/lblodJob/concept/JobStatus/scheduled',
       created: this.currentTime,
       modified: this.currentTime,
-      harvestingCollection: collection,
-      graph: 'http://mu.semte.ch/graphs/harvesting'
+      taskType: this.harvesTaskType,
+      index: '0',
+      inputContainers: [ collection ],
+      job: scheduledJob
     });
-
     try{
+      await scheduledJob.save();
       await remoteDataObject.save();
       await collection.save();
       await task.save();

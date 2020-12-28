@@ -4,7 +4,7 @@
   </AuToolbarGroup>
   <AuToolbarGroup>
     <div class="au-u-text-right">
-      <LinkTo @route="harvest.create-task" class="au-c-button" type="button">Schedule new job</LinkTo>
+      <LinkTo @route="jobs.schedule-harvesting-job" class="au-c-button" type="button">Schedule new harvesting job</LinkTo>
     </div>
   </AuToolbarGroup>
 </AuToolbar>
@@ -12,7 +12,7 @@
 <AuDataTable
   @content={{this.model}}
   @fields="title description"
-  @noDataMessage="No harvesting tasks found"
+  @noDataMessage="No jobs found"
   @sort={{this.sort}}
   @size={{this.size}}
   @page={{this.page}} as |t|>
@@ -42,7 +42,7 @@
           <StatusPill @status={{row.shortStatus}}></StatusPill>
       </td>
       <td class="au-u-visible-large-up">
-        <LinkTo @route="harvest.details" @model={{row}} >
+        <LinkTo @route="jobs.details" @model={{row}} >
           <AuButton @skin="primary">
             view
           </AuButton>

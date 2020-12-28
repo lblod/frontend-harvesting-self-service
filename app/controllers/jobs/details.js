@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 
-export default class HarvestDetailsController extends Controller {
+export default class JobsDetailsController extends Controller {
   @tracked page = 0;
   @tracked sort = 'created';
   @tracked size = 15;
