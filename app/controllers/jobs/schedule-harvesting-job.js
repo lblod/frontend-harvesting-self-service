@@ -4,8 +4,8 @@ import { action } from '@ember/object';
 
 export default class JobsScheduleHarvestingJobController extends Controller {
   creator = 'http://lblod.data.gift/services/harvesting-self-service';
-  harvesTaskType = 'http://lblod.data.gift/id/lblodJob/concept/TaskType/collecting';
-  harvestJobType = 'http://lblod.data.gift/id/lblodJob/concept/JobType/lblodHarvesting';
+  harvesTaskType = 'http://lblod.data.gift/id/jobs/concept/TaskType/collecting';
+  harvestJobType = 'http://lblod.data.gift/id/jobs/concept/JobType/lblodHarvesting';
   @tracked url;
   @tracked success = false;
   @tracked error = false;
