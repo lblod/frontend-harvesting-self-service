@@ -10,7 +10,7 @@
       <th class="au-u-visible-small-up">uri</th>
       <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
         @class="data-table__header-title" />
-      <AuDataTableThSortable @field="source" @currentSorting={{this.sort}} @label="Source"
+      <AuDataTableThSortable @field="type" @currentSorting={{this.sort}} @label="Type"
         @class="data-table__header-title" />
       <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status"
         @class="data-table__header-title" />
@@ -25,7 +25,7 @@
         {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
       </td>
       <td class="au-u-visible-small-up">
-        {{row.source}}
+        {{row.taskType}}
       </td>
       <td class="au-u-visible-small-up">
         {{row.name}}
