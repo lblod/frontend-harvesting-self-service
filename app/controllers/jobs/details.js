@@ -8,19 +8,31 @@ export default class JobsDetailsController extends Controller {
   @tracked size = 15;
 
   @task
-  *deleteHarvestingTask(task){
-    const collection = yield task.harvestingCollection;
-    if(collection && collection.id){
-      const remoteDataObjects = yield collection.remoteDataObjects;
+  *deleteHarvestingJob(job){
+    //Delete top level down the tree, less confusing if something fails.
+    const tasks = yield job.tasks
+    yield job.destroyRecord()
 
-      //Delete top level down the tree, less confusing if something fails.
-      yield task.destroyRecord();
-      yield collection.destroyRecord();
-      for(const rObj of remoteDataObjects.toArray()){
-        yield rObj.destroyRecord();
+    for(let task of tasks.toArray()) {
+      const input = yield task.inputContainers
+      const results = yield task.resultsContainers
+      yield task.destroyRecord()
+
+      for(let file of results.toArray()){
+        yield file.destroyRecord()
       }
+
+      for(let collection of input.toArray()){
+        const rObjs = yield collection.remoteDataObjects
+        yield collection.destroyRecord()
+
+        for(let rObj of rObjs.toArray()){
+          yield rObj.destroyRecord()
+        }
+      }
+        this.transitionToRoute('jobs.index');
+
     }
-   this.transitionToRoute('jobs.index');
   }
 
 }
