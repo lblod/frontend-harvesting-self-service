@@ -1,6 +1,6 @@
 <AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup class="au-c-toolbar__group--row au-c-toolbar_space-between">
-    <AuHeading @skin="2">Harvesting Tasks Details</AuHeading>
+    <AuHeading @skin="2">Harvesting job Details</AuHeading>
 
     <AuButtonGroup>
     {{#unless this.deleteHarvestingTask.isRunning}}
@@ -10,7 +10,7 @@
      {{else}}
       <AuLoader @size="small" />
     {{/unless}}
-    <LinkTo @route="harvest.index">
+    <LinkTo @route="jobs.index">
       <AuButton  @skin="secondary">
         Back to overview
       </AuButton>

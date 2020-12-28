@@ -20,7 +20,7 @@ export default class JobsDetailsController extends Controller {
         yield rObj.destroyRecord();
       }
     }
-   this.transitionToRoute('harvest.index');
+   this.transitionToRoute('jobs.index');
   }
 
 }
