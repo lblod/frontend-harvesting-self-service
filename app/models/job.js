@@ -6,7 +6,7 @@ export default class JobModel extends Model {
   @attr('date') created;
   @attr('date') modified;
   @attr('string') creator;
-  @attr('string') jobType;
+  @attr('string') operation;
 
   @belongsTo('job-error') error;
   @hasMany('task') tasks
@@ -14,10 +14,10 @@ export default class JobModel extends Model {
 
   //TODO: move this later to a propery modeled skos:Conceptscheme from backend
   statusesMap = {
-    'http://lblod.data.gift/id/lblodJob/concept/JobStatus/busy': 'busy',
-    'http://lblod.data.gift/id/lblodJob/concept/JobStatus/scheduled': 'scheduled',
-    'http://lblod.data.gift/id/lblodJob/concept/JobStatus/success': 'success',
-    'http://lblod.data.gift/id/lblodJob/concept/JobStatus/failed': 'failed'
+    'http://redpencil.data.gift/id/concept/JobStatus/busy': 'busy',
+    'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
+    'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
+    'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed'
   };
 
   get shortStatus(){

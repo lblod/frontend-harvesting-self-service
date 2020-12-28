@@ -19,7 +19,7 @@ export default class JobsScheduleHarvestingJobController extends Controller {
   @action
   async scheduleJob(){
     const scheduledJob = this.store.createRecord('job', {
-      status: 'http://lblod.data.gift/id/lblodJob/concept/JobStatus/busy',
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
@@ -41,7 +41,7 @@ export default class JobsScheduleHarvestingJobController extends Controller {
     });
 
     const task = this.store.createRecord('task', {
-      status: 'http://lblod.data.gift/id/lblodJob/concept/JobStatus/scheduled',
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
       created: this.currentTime,
       modified: this.currentTime,
       taskType: this.harvesTaskType,
