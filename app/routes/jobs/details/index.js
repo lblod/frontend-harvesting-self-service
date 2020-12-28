@@ -2,16 +2,16 @@ import Ember from 'ember';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
 export default Ember.Route.extend(DataTableRouteMixin, {
-  modelName: 'remote-data-object',
+  modelName: 'task',
 
   async beforeModel(){
-    this.harvestinCollection = await this.modelFor('harvest.details').harvestingCollection;
+    this.job = await this.modelFor('jobs.details').id;
   },
 
   mergeQueryOptions() {
     return {
-      include: 'harvesting-collection',
-      'filter[harvesting-collection][:id:]': this.harvestinCollection.id,
+      include: 'job',
+      'filter[job][:id:]': this.job,
       sort: '-created'
     };
   }
