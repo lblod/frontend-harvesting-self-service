@@ -1,1 +1,39 @@
+<AuToolbar @border="bottom" @size="large">
+  <AuToolbarGroup class="au-c-toolbar__group--row au-c-toolbar_space-between">
+    <AuHeading @skin="2">Harvesting task Details</AuHeading>
+
+    <AuButtonGroup>
+    <LinkTo @route="jobs.index">
+      <AuButton  @skin="secondary">
+        Back to overview
+      </AuButton>
+    </LinkTo>
+    </AuButtonGroup>
+  </AuToolbarGroup>
+  <AuToolbarGroup class="au-c-toolbar__group--row">
+    <ul class="au-o-grid">
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>uri</AuLabel>
+        <p>{{this.model.uri}}</p>
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Task Creator</AuLabel>
+        <p>{{this.model.creator}}</p>
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Task Created</AuLabel>
+         {{moment-format this.model.created 'DD/MM/YYYY HH:mm:ss'}}
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Task Modified</AuLabel>
+        {{moment-format this.model.modified 'DD/MM/YYYY HH:mm:ss'}}
+      </li>
+      <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
+        <AuLabel>Status</AuLabel>
+        <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+      </li>
+    </ul>
+  </AuToolbarGroup>
+</AuToolbar>
+
 {{outlet}}
