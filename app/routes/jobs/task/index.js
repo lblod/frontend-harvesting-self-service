@@ -8,11 +8,11 @@ export default class JobsTaskIndexRoute extends Route.extend(DataTableRouteMixin
 
   async beforeModel(){
     let container = await this.modelFor('jobs.task').inputContainers;
-    let firstContainer = await container.firstObject
-    let collection = await firstContainer.harvestingCollections
-    let firstCollection = await collection.firstObject
-    this.collectionId = firstCollection.id
-  };
+    let firstContainer = await container.firstObject;
+    let collection = await firstContainer.harvestingCollections;
+    let firstCollection = await collection.firstObject;
+    this.collectionId = firstCollection.id;
+  }
 
   mergeQueryOptions() {
     return {

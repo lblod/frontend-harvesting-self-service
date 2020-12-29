@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class JobsTaskIndexController extends Controller {
   sort = "created";
-  page = 0;
+  page = 0
   size = 15;
 
   @action
