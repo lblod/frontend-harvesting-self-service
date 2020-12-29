@@ -5,14 +5,17 @@ export default class JobsTaskIndexRoute extends Route.extend(DataTableRouteMixin
   modelName = 'remote-data-object';
 
   async beforeModel(){
-    const container = await this.modelFor('jobs.task').inputContainers;
-    this.collection = container.firstObject.harvestingCollections
+    let container = await this.modelFor('jobs.task').inputContainers;
+    let firstContainer = await container.firstObject
+    let collection = await firstContainer.harvestingCollections
+    let firstCollection = await collection.firstObject
+    this.collectionId = firstCollection.id
   };
 
   mergeQueryOptions() {
     return {
       include: 'harvesting-collection',
-      'filter[harvesting-collection][:id:]': this.collection.id,
+      'filter[harvesting-collection][:id:]': this.collectionId,
       sort: '-created'
     };
   }
