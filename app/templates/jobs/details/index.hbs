@@ -17,7 +17,7 @@
       <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status"
         @class="data-table__header-title" />
 
-      <th class="au-u-visible-small-up">Action</th>
+      <th class="au-u-visible-small-up">Info</th>
     </c.header>
     <c.body as |row|>
       <td>
@@ -34,11 +34,11 @@
         <StatusPill @status={{row.shortStatus}}></StatusPill>
       </td>
       <td class="au-u-visible-small-up">
-        <a class="au-c-link" href="{{row.downloadLink}}" download="{{row.file.name}}"  {{on 'click' this.overrideClick }}>
-          <AuButton @skin="secondary">
-            Download HTML file
+        <LinkTo @route="jobs.task" @model={{row.id}} >
+          <AuButton @skin="primary">
+            View
           </AuButton>
-        </a>
+        </LinkTo>
       </td>
     </c.body>
   </t.content>
