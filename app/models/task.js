@@ -14,8 +14,8 @@ export default class TaskModel extends Model {
   @hasMany('task') parentTasks;
 
   //Due to lack of inheritance in mu-cl-resource, we directly link to file and collection, stuff we need here.
-  @hasMany('file') resultsContainers;
-  @hasMany('harvesting-collection') inputContainers;
+  @hasMany('data-container') resultsContainers;
+  @hasMany('data-container') inputContainers;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme from backend
   statusesMap = {

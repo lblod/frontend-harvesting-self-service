@@ -40,19 +40,24 @@ export default class JobsScheduleHarvestingJobController extends Controller {
       remoteDataObjects: [ remoteDataObject ]
     });
 
+    const dataContainer = this.store.createRecord('data-container', {
+      harvestingCollections: [ collection ]
+    });
+
     const task = this.store.createRecord('task', {
       status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
       created: this.currentTime,
       modified: this.currentTime,
       operation: this.harvesTaskType,
       index: '0',
-      inputContainers: [ collection ],
+      inputContainers: [ dataContainer ],
       job: scheduledJob
     });
     try{
       await scheduledJob.save();
       await remoteDataObject.save();
       await collection.save();
+      await dataContainer.save();
       await task.save();
       this.error = false;
       this.success = true;
