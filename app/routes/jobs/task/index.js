@@ -4,6 +4,8 @@ import DataTableRouteMixin from 'ember-data-table/mixins/route';
 export default class JobsTaskIndexRoute extends Route.extend(DataTableRouteMixin) {
   modelName = 'remote-data-object';
 
+  // NOTE: this should be changed later when model is definite. Now just take the first containers & first harvestingCollection
+
   async beforeModel(){
     let container = await this.modelFor('jobs.task').inputContainers;
     let firstContainer = await container.firstObject
