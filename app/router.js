@@ -8,9 +8,11 @@ export default class Router extends EmberRouter {
 
 Router.map(function() {
   this.route('jobs', function() {
+    this.route('task', { path: '/:id' });
     this.route('schedule-harvesting-job');
     this.route('details', { path: '/:id' }, function(){
       this.route('index');
     });
+
   });
 });
