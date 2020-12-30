@@ -1,6 +1,6 @@
 <AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup>
-    <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Schedule harvesting job</AuHeading>
+    <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Schedule job</AuHeading>
   </AuToolbarGroup>
 </AuToolbar>
 
@@ -27,9 +27,9 @@
       </AuButton>
     </LinkTo>
 
-    <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleJob}}>Create Task</AuButton>
+    <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleJob}}>Create</AuButton>
     {{#if this.success}}
-    <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Task succesfully created"
+    <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Job succesfully scheduled"
       @alertskin={{"success"}}>
     </AuAlert>
     {{else if this.error}}
