@@ -3,7 +3,7 @@
     {{@status}}
   </AuPill>
 
-{{else if (eq @status "failure") }}
+{{else if (or (eq @status "failure") (eq @status "failed") )}}
   <AuPill @skin="error">
     {{@status}}
   </AuPill>
