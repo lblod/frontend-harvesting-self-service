@@ -56,7 +56,7 @@
       </td>
 
       <td class="au-u-visible-small-up">
-        <a class="au-c-link" href="{{row.downloadLink}}" download="{{row.name}}"  {{on 'click' this.overrideClick }}>
+        <a class="au-c-link" href="{{row.downloadLink}}" download {{on 'click' this.overrideClick }}>
           <AuButton @skin="primary">
             Download file
           </AuButton>
