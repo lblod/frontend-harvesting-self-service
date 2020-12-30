@@ -15,6 +15,8 @@ Router.map(function() {
     this.route('task', { path: '/task/:id' }, function(){
       this.route('input-containers-files');
       this.route('results-containers-files');
+      this.route('input-containers-graph');
+      this.route('results-containers-graph');
     });
 
   });

@@ -1,14 +1,24 @@
 <AuButtonGroup class="au-o-box" @inline={{true}}>
-  <LinkTo @route="jobs.task.input">
+  <LinkTo @route="jobs.task.input-containers-files">
     <AuButton @skin="secondary" class="is-active">
-      Input list
+      List with input files
     </AuButton>
   </LinkTo>
-    <LinkTo @route="jobs.task.result">
-      <AuButton >
-        Results list 
-      </AuButton>
-    </LinkTo>
+  <LinkTo @route="jobs.task.results-containers-files">
+    <AuButton >
+     List with results files
+    </AuButton>
+  </LinkTo>
+  <LinkTo @route="jobs.task.input-containers-graph">
+    <AuButton >
+     List with input graphs
+    </AuButton>
+  </LinkTo>
+  <LinkTo @route="jobs.task.results-containers-graph">
+    <AuButton >
+     List with results graphs
+    </AuButton>
+  </LinkTo>
 </AuButtonGroup>
 
 <AuHeading @skin="3" class="au-o-box">Files input list</AuHeading>

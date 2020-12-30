@@ -12,7 +12,6 @@ export default class JobsTaskInputRoute extends Route.extend(DataTableRouteMixin
 
   mergeQueryOptions() {
     return {
-      include: 'data-container',
       'filter[data-container][input-from-tasks][:id:]': this.taskId,
       sort: '-created'
     };
