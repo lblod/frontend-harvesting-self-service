@@ -2,8 +2,8 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class JobsScheduleHarvestingJobController extends Controller {
-  creator = 'http://lblod.data.gift/services/harvesting-self-service';
+export default class JobsScheduleJobController extends Controller {
+  creator = 'http://lblod.data.gift/services/job-self-service';
   harvesTaskType = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
   harvestJobType = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
   @tracked url;
