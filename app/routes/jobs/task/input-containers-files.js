@@ -10,10 +10,10 @@ export default class JobsTaskInputRoute extends Route.extend(DataTableRouteMixin
     this.taskId = await this.modelFor('jobs.task').id;
   }
 
-  mergeQueryOptions() {
+  mergeQueryOptions(param) {
     return {
       'filter[data-container][input-from-tasks][:id:]': this.taskId,
-      sort: '-created'
+      sort: param.sort
     };
   }
 }

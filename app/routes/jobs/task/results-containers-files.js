@@ -8,10 +8,10 @@ export default class JobsTaskResultRoute extends Route.extend(DataTableRouteMixi
     this.taskId = await this.modelFor('jobs.task').id;
   }
 
-  mergeQueryOptions() {
+  mergeQueryOptions(param) {
     return {
       'filter[data-container][result-from-tasks][:id:]': this.taskId,
-      sort: '-created'
+      sort: param.sort
     };
   }
 }

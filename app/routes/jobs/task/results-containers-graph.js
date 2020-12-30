@@ -8,13 +8,14 @@ export default class JobsTaskResultsContainersGraphRoute extends Route.extend(Da
     this.taskId = await this.modelFor('jobs.task').id;
   }
 
-  mergeQueryOptions() {
+  mergeQueryOptions(param) {
     return {
       'filter[result-from-tasks][:id:]': this.taskId,
       //this is a little hack
       // we can't use :has: filter oon property in mu-resource
       // Eventually this will be cleaned up if we have inheritance in mu-resource
-      'filter[has-graph]': 'http://'
+      'filter[has-graph]': 'http://',
+      sort: param.sort
     };
   }
 }
