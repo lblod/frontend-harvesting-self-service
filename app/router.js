@@ -17,6 +17,7 @@ Router.map(function() {
       this.route('results-containers-files');
       this.route('input-containers-graph');
       this.route('results-containers-graph');
+      this.route('input-containers-harvesting-collections');
     });
 
   });

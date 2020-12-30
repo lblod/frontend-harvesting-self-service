@@ -14,34 +14,36 @@
      List with input graphs
     </AuButton>
   </LinkTo>
-  <LinkTo @route="jobs.task.results-containers-graph" class="is-active">
-    <AuButton @skin="secondary">
+  <LinkTo @route="jobs.task.results-containers-graph">
+    <AuButton>
      List with results graphs
     </AuButton>
   </LinkTo>
-  <LinkTo @route="jobs.task.input-containers-harvesting-collections">
-    <AuButton>
+  <LinkTo @route="jobs.task.input-containers-harvesting-collections" class="is-active">
+    <AuButton @skin="secondary">
      List with input remote data objects
     </AuButton>
   </LinkTo>
 </AuButtonGroup>
 
-<AuHeading @skin="3" class="au-o-box">Graphs results list</AuHeading>
+<AuHeading @skin="3" class="au-o-box">List with remote data objects</AuHeading>
 
 <AuDataTable
   @content={{this.model}}
-  @noDataMessage="No graphs found"
+  @noDataMessage="No remote-data-objects found"
   as |t|>
   <t.content as |c|>
     <c.header>
       <th class="au-u-visible-small-up">uri</th>
+      <th class="au-u-visible-small-up">source (URL)</th>
     </c.header>
     <c.body as |row|>
       <td class="au-u-visible-small-up">
-        {{row.hasGraph}}
+        {{row.uri}}
+      </td>
+      <td class="au-u-visible-small-up">
+        {{row.source}}
       </td>
     </c.body>
   </t.content>
 </AuDataTable>
-
-{{outlet}}
