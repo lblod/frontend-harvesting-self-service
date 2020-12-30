@@ -42,9 +42,15 @@
         {{#if (eq this.singleSelected "import centrale-vindplaats")}}
         <p>
           <AuLabel for="task-url">
-            Url
+            Job Operation
           </AuLabel>
-          <AuInput id="task-url" @width="block" @value={{this.url}} />
+          <AuInput id="task-url" @width="block" @value={{this.harvestJobType}} disabled={{true}}/>
+        </p>
+        <p>
+          <AuLabel for="task-url">
+            Task Operation
+          </AuLabel>
+          <AuInput id="task-url" @width="block" @value={{this.harvesTaskType}} disabled={{true}}/>
         </p>
         <p>
           <AuLabel for="graph-name">
