@@ -10,14 +10,23 @@ export default class JobsScheduleJobController extends Controller {
   creator = 'http://lblod.data.gift/services/job-self-service';
   harvesTaskType = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
   harvestJobType = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
+
+  options = ['harvest', 'import centrale-vindplaats']
+
   @tracked url;
+  @tracked graphName;
   @tracked success = false;
   @tracked error = false;
   @tracked errorMessage;
+  @tracked singleSelected;
 
   get currentTime() {
     const timestamp = new Date();
     return timestamp;
+  }
+
+  @action debug(selected){
+    this.singleSelected = selected;
   }
 
   @action
@@ -71,5 +80,10 @@ export default class JobsScheduleJobController extends Controller {
       this.success = false;
       this.error = true;
     }
+  }
+
+  @action
+  async importHarvest() {
+    console.log("do something");
   }
 }
