@@ -2,40 +2,75 @@
   <AuToolbarGroup>
     <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Schedule job</AuHeading>
   </AuToolbarGroup>
-</AuToolbar>
-
-<div class="au-o-box">
-  <div class="au-u-2-3@medium au-u-1-1">
-    <div class="au-c-form ">
-      <p>
-        <AuLabel for="task-url">
-          Url
-        </AuLabel>
-        <AuInput id="task-url" @width="block" @value={{this.url}} />
-      </p>
-      <p>
-        <AuLabel for="task-creator">
-          Creator
-        </AuLabel>
-        <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled=true />
-      </p>
-    </div>
-
-    <LinkTo @route="jobs.index">
-      <AuButton  @skin="secondary">
+      <LinkTo @route="jobs.index">
+      <AuButton @skin="secondary">
         Back to overview
       </AuButton>
     </LinkTo>
+</AuToolbar>
 
-    <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleJob}}>Create</AuButton>
-    {{#if this.success}}
+
+
+<div class="au-c-body-container au-c-body-container--scroll">
+  <div class="au-o-box">
+    <div class="au-o-grid">
+      <div class="au-o-grid__item au-u-1-2@medium au-u-1-1">
+        <p>
+          Choose action
+          <PowerSelect @allowClear={{true}} @options={{this.options}} @selected={{this.singleSelected}}
+            @onChange={{this.debug}} as |option|>
+            {{option}}
+          </PowerSelect>
+        </p>
+
+        {{#if (eq this.singleSelected "harvest")}}
+        <p>
+          <AuLabel for="task-url">
+            Url
+          </AuLabel>
+          <AuInput id="task-url" @width="block" @value={{this.url}} />
+        </p>
+        <p>
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+        </p>
+
+        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleJob}}>Create</AuButton>
+        {{/if}}
+        {{#if (eq this.singleSelected "import centrale-vindplaats")}}
+        <p>
+          <AuLabel for="task-url">
+            Url
+          </AuLabel>
+          <AuInput id="task-url" @width="block" @value={{this.url}} />
+        </p>
+        <p>
+          <AuLabel for="graph-name">
+            Graph name
+          </AuLabel>
+          <AuInput id="graph-name" @width="block" @value={{this.graphName}} />
+        </p>
+        <AuButton class="au-u-margin-top-large" {{on 'click' this.importHarvest}}>Import</AuButton>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<AuToolbar @border="top" @size="large">
+  {{#if this.success}}
+  <AuToolbarGroup class="au-c-toolbar__group--row">
     <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Job succesfully scheduled"
       @alertskin={{"success"}}>
     </AuAlert>
-    {{else if this.error}}
+  </AuToolbarGroup>
+  {{else if this.error}}
+  <AuToolbarGroup class="au-c-toolbar__group--row">
     <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong" @alertskin={{"error"}}>
       {{this.errorMessage}}
     </AuAlert>
-    {{/if}}
-  </div>
-</div>
+  </AuToolbarGroup>
+  {{/if}}
+</AuToolbar>
