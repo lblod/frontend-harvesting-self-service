@@ -17,13 +17,13 @@
       <div class="au-o-grid__item au-u-1-2@medium au-u-1-1">
         <p>
           Choose action
-          <PowerSelect @allowClear={{true}} @options={{this.options}} @selected={{this.singleSelected}}
-            @onChange={{this.debug}} as |option|>
-            {{option}}
+          <PowerSelect @allowClear={{true}} @options={{this.jobOperations}} @selected={{this.selectedJobOperation}}
+            @onChange={{this.setJobOperation}} as |option|>
+            {{option.label}}
           </PowerSelect>
         </p>
 
-        {{#if (eq this.singleSelected "harvest")}}
+        {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
         <p>
           <AuLabel for="task-url">
             Url
@@ -37,28 +37,22 @@
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
         </p>
 
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleJob}}>Create</AuButton>
+        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
-        {{#if (eq this.singleSelected "import centrale-vindplaats")}}
-        <p>
-          <AuLabel for="task-url">
-            Job Operation
-          </AuLabel>
-          <AuInput id="task-url" @width="block" @value={{this.harvestJobType}} disabled={{true}}/>
-        </p>
-        <p>
-          <AuLabel for="task-url">
-            Task Operation
-          </AuLabel>
-          <AuInput id="task-url" @width="block" @value={{this.harvesTaskType}} disabled={{true}}/>
-        </p>
+        {{#if (eq this.selectedJobOperation.uri this.jobHarvest )}}
         <p>
           <AuLabel for="graph-name">
             Graph name
           </AuLabel>
           <AuInput id="graph-name" @width="block" @value={{this.graphName}} />
         </p>
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.importHarvest}}>Import</AuButton>
+        <p>
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+        </p>
+        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleImportJob}}>Schedule</AuButton>
         {{/if}}
       </div>
     </div>
