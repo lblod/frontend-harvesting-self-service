@@ -1,7 +1,7 @@
 <AuButtonGroup class="au-o-box" @inline={{true}}>
   <LinkTo @route="jobs.task.input">
     <AuButton @skin="secondary" class="is-active">
-      Input list - active
+      Input list
     </AuButton>
   </LinkTo>
     <LinkTo @route="jobs.task.result">
@@ -25,6 +25,7 @@
       <th class="au-u-visible-small-up">id</th>
       <AuDataTableThSortable @field="name" @currentSorting={{this.sort}} @label="Name"
         @class="data-table__header-title" />
+      <th class="data-table__header-title"> Size </th>
       <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
         @class="data-table__header-title" />
 
@@ -32,17 +33,20 @@
     </c.header>
     <c.body as |row|>
       <td class="au-u-visible-small-up">
-        {{row.id}}
+        {{row.uri}}
       </td>
       <td>
         {{row.name}}
+      </td>
+      <td>
+        {{row.humanReadableSize}}
       </td>
       <td>
         {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
       </td>
 
       <td class="au-u-visible-small-up">
-        <a class="au-c-link" href="{{row.remoteDataObject.downloadLink}}" download="{{row.name}}"  {{on 'click' this.overrideClick }}>
+        <a class="au-c-link" href="{{row.downloadLink}}" download="{{row.name}}"  {{on 'click' this.overrideClick }}>
           <AuButton @skin="primary">
             Download file
           </AuButton>
