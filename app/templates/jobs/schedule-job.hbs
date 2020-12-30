@@ -23,7 +23,7 @@
           </PowerSelect>
         </p>
 
-        {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
+        {{#if (eq this.selectedJobOperation.uri this.jobHarvest)}}
         <p>
           <AuLabel for="task-url">
             URL
@@ -39,10 +39,10 @@
 
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
-        {{#if (eq this.selectedJobOperation.uri this.jobHarvest )}}
+        {{#if (eq this.selectedJobOperation.uri this.jobImport )}}
         <p>
           <AuLabel for="graph-name">
-            Graph name
+            Graph URI
           </AuLabel>
           <AuInput id="graph-name" @width="block" @value={{this.graphName}} />
         </p>
