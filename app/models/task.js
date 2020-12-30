@@ -27,5 +27,5 @@ export default class TaskModel extends Model {
 
   get shortStatus(){
     return this.statusesMap[this.status];
-  };
+  }
 }
