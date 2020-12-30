@@ -4,7 +4,7 @@
 
     <AuButtonGroup>
     {{#unless this.deleteJob.isRunning}}
-      <AuButton @skin="primary" {{on "click" (perform this.deleteJob this.model)}}>
+      <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
           delete
       </AuButton>
      {{else}}
