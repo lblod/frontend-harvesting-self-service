@@ -4,9 +4,9 @@ import DataTableRouteMixin from 'ember-data-table/mixins/route';
 export default Ember.Route.extend(DataTableRouteMixin, {
   modelName: 'job',
 
-  mergeQueryOptions() {
+  mergeQueryOptions(param) {
     return {
-      sort: '-created'
+      sort: param.sort
     };
   }
 });
