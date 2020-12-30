@@ -3,8 +3,8 @@
     <AuHeading @skin="2">Job Details</AuHeading>
 
     <AuButtonGroup>
-    {{#unless this.deleteHarvestingJob.isRunning}}
-      <AuButton @skin="primary" {{on "click" (perform this.deleteHarvestingJob this.model)}}>
+    {{#unless this.deleteJob.isRunning}}
+      <AuButton @skin="primary" {{on "click" (perform this.deleteJob this.model)}}>
           delete
       </AuButton>
      {{else}}

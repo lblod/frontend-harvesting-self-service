@@ -6,5 +6,6 @@ export default class FileModel extends Model {
   @attr('number') size;
   @attr('string') extension;
   @attr('date') created;
-  @belongsTo('remote-data-object', { inverse: true }) remoteDataObject;
+  @belongsTo('remote-data-object') remoteDataObject;
+  @belongsTo('data-container') dataContainer;
 }

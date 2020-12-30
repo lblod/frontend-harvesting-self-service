@@ -1,0 +1,53 @@
+<AuButtonGroup class="au-o-box" @inline={{true}}>
+  <LinkTo @route="jobs.task.input">
+    <AuButton >
+      Input list
+    </AuButton>
+  </LinkTo>
+    <LinkTo @route="jobs.task.result">
+      <AuButton @skin="secondary" class="is-active">
+        Results list - active
+      </AuButton>
+    </LinkTo>
+</AuButtonGroup>
+
+<AuHeading @skin="3" class="au-o-box">Files result list</AuHeading>
+
+<AuDataTable
+  @content={{this.model}}
+  @fields="title description"
+  @noDataMessage="No files found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}} as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th class="au-u-visible-small-up">id</th>
+      <AuDataTableThSortable @field="name" @currentSorting={{this.sort}} @label="Name"
+        @class="data-table__header-title" />
+      <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
+        @class="data-table__header-title" />
+
+      <th class="au-u-visible-small-up">Action</th>
+    </c.header>
+    <c.body as |row|>
+      <td class="au-u-visible-small-up">
+        {{row.id}}
+      </td>
+      <td>
+        {{row.name}}
+      </td>
+      <td>
+        {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
+      </td>
+
+      <td class="au-u-visible-small-up">
+        <a class="au-c-link" href="{{row.remoteDataObject.downloadLink}}" download="{{row.name}}"  {{on 'click' this.overrideClick }}>
+          <AuButton @skin="primary">
+            Download file
+          </AuButton>
+        </a>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

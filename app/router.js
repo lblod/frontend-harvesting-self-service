@@ -12,8 +12,9 @@ Router.map(function() {
     this.route('details', { path: '/:id' }, function(){
       this.route('index');
     });
-    this.route('task', { path: '/task/:id' }, function() {
-      this.route('index');
+    this.route('task', { path: '/task/:id' }, function(){
+      this.route('input');
+      this.route('result');
     });
 
   });

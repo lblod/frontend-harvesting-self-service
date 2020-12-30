@@ -1,6 +1,6 @@
 <AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup class="au-c-toolbar__group--row au-c-toolbar_space-between">
-    <AuHeading @skin="2">Harvesting task Details</AuHeading>
+    <AuHeading @skin="2">Task Details</AuHeading>
 
     <AuButtonGroup>
     <LinkTo @route="jobs.index">
@@ -17,8 +17,8 @@
         <p>{{this.model.uri}}</p>
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
-        <AuLabel>Task Creator</AuLabel>
-        <p>{{this.model.creator}}</p>
+        <AuLabel>Operation</AuLabel>
+        <p>{{this.model.operation}}</p>
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Task Created</AuLabel>
