@@ -15,43 +15,43 @@
   <div class="au-o-box">
     <div class="au-o-grid">
       <div class="au-o-grid__item au-u-1-2@medium au-u-1-1">
-        <p>
+        <div class="au-u-margin-bottom">
           Choose job
           <PowerSelect @allowClear={{true}} @options={{this.jobOperations}} @selected={{this.selectedJobOperation}}
             @onChange={{this.setJobOperation}} as |option|>
             {{option.label}}
           </PowerSelect>
-        </p>
+        </div>
 
         {{#if (eq this.selectedJobOperation.uri this.jobHarvest)}}
-        <p>
+        <div class="au-u-margin-bottom">
           <AuLabel for="task-url">
             URL
           </AuLabel>
           <AuInput id="task-url" @width="block" @value={{this.url}} />
-        </p>
-        <p>
+        </div>
+        <div>
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
-        </p>
+        </div>
 
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
         {{#if (eq this.selectedJobOperation.uri this.jobImport )}}
-        <p>
+        <div class="au-u-margin-bottom">
           <AuLabel for="graph-name">
             Graph URI
           </AuLabel>
           <AuInput id="graph-name" @width="block" @value={{this.graphName}} />
-        </p>
-        <p>
+        </div>
+        <div>
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
-        </p>
+        </div>
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleImportJob}}>Schedule</AuButton>
         {{/if}}
       </div>
