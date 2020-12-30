@@ -8,11 +8,11 @@ export default Ember.Route.extend(DataTableRouteMixin, {
     this.job = await this.modelFor('jobs.details').id;
   },
 
-  mergeQueryOptions() {
+  mergeQueryOptions(param) {
     return {
       include: 'job',
       'filter[job][:id:]': this.job,
-      sort: '-created'
+      sort: param.sort
     };
   }
 });
