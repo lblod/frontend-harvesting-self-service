@@ -13,8 +13,8 @@ Router.map(function() {
       this.route('index');
     });
     this.route('task', { path: '/task/:id' }, function(){
-      this.route('input');
-      this.route('result');
+      this.route('input-containers-files');
+      this.route('results-containers-files');
     });
 
   });
