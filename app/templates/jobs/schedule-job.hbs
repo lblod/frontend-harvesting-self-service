@@ -16,7 +16,7 @@
     <div class="au-o-grid">
       <div class="au-o-grid__item au-u-1-2@medium au-u-1-1">
         <p>
-          Choose action
+          Choose job
           <PowerSelect @allowClear={{true}} @options={{this.jobOperations}} @selected={{this.selectedJobOperation}}
             @onChange={{this.setJobOperation}} as |option|>
             {{option.label}}
@@ -26,7 +26,7 @@
         {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
         <p>
           <AuLabel for="task-url">
-            Url
+            URL
           </AuLabel>
           <AuInput id="task-url" @width="block" @value={{this.url}} />
         </p>
