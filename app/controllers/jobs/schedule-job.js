@@ -84,6 +84,39 @@ export default class JobsScheduleJobController extends Controller {
 
   @action
   async importHarvest() {
-    console.log("do something");
+     const scheduledJob = this.store.createRecord('job', {
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
+      created: this.currentTime,
+      modified: this.currentTime,
+      creator: this.creator,
+      operation: this.harvestJobType
+    });
+
+    const dataContainer = this.store.createRecord('data-container', {
+      hasGraph: this.graphName
+    });
+
+    const task = this.store.createRecord('task', {
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
+      created: this.currentTime,
+      modified: this.currentTime,
+      operation: this.harvesTaskType,
+      index: '0',
+      inputContainers: [ dataContainer ],
+      job: scheduledJob
+    });
+    
+    try{
+      await scheduledJob.save();
+      await dataContainer.save();
+      await task.save();
+      this.error = false;
+      this.success = true;
+
+    }catch(err){
+      this.errorMessage = err;
+      this.success = false;
+      this.error = true;
+    }
   }
 }
