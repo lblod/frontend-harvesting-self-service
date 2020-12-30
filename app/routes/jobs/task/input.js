@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
-export default class JobsTaskIndexRoute extends Route.extend(DataTableRouteMixin) {
+export default class JobsTaskInputRoute extends Route.extend(DataTableRouteMixin) {
   modelName = 'file';
 
   // NOTE: this should be changed later when model is definite. Now just take the first containers & first harvestingCollection
@@ -13,7 +13,7 @@ export default class JobsTaskIndexRoute extends Route.extend(DataTableRouteMixin
   mergeQueryOptions() {
     return {
       include: 'data-container',
-      'filter[data-container][result-from-tasks][:id:]': this.taskId,
+      'filter[data-container][input-from-tasks][:id:]': this.taskId,
       sort: '-created'
     };
   }
