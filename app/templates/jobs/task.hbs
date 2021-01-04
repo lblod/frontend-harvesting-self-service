@@ -14,11 +14,11 @@
     <ul class="au-o-grid">
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>uri</AuLabel>
-        <p>{{this.model.uri}}</p>
+        <p class="au-word-wrap">{{this.model.uri}}</p>
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Operation</AuLabel>
-        <p>{{this.model.operation}}</p>
+        <p class="au-word-wrap">{{this.model.operation}}</p>
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Task Created</AuLabel>
@@ -35,7 +35,7 @@
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}
         <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
-          <p> {{this.model.error.message}} </p>
+          <p class="au-word-wrap"> {{this.model.error.message}} </p>
         </AuAlert>
         {{/if}}
       </li>
