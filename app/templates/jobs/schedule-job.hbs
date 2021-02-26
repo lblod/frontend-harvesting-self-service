@@ -21,6 +21,23 @@
           </PowerSelect>
         </div>
 
+        {{#if (eq this.selectedJobOperation.uri this.jobHarvestAndImport)}}
+        <div class="au-u-margin-bottom">
+          <AuLabel for="task-url">
+            URL
+          </AuLabel>
+          <AuInput id="task-url" @width="block" @value={{this.url}} />
+        </div>
+        <div>
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+        </div>
+
+        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
+        {{/if}}
+
         {{#if (eq this.selectedJobOperation.uri this.jobHarvest)}}
         <div class="au-u-margin-bottom">
           <AuLabel for="task-url">
