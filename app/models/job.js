@@ -17,7 +17,8 @@ export default class JobModel extends Model {
     'http://redpencil.data.gift/id/concept/JobStatus/busy': 'busy',
     'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
     'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
-    'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed'
+    'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
+    'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled'
   };
 
   get shortStatus(){
