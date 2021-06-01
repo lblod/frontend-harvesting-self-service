@@ -4,8 +4,8 @@ import { action } from '@ember/object';
 
 export default class JobsScheduleJobController extends Controller {
   jobHarvest = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
-  jobImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodImportCentraleVindplaats';
-  jobHarvestAndImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndImportCentraleVindplaats';
+  jobImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/publishHarvestedTriples';
+  jobHarvestAndImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
 
   jobOperations = [
     { label: 'Harvest URL', uri: this.jobHarvest }
@@ -14,7 +14,7 @@ export default class JobsScheduleJobController extends Controller {
   creator = 'http://lblod.data.gift/services/job-self-service';
 
   harvesTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
-  importTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/importCentraleVindplaats'
+  importTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples'
 
   @tracked url;
   @tracked graphName;
