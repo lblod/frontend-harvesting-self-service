@@ -8,7 +8,9 @@ export default class JobsScheduleJobController extends Controller {
   jobHarvestAndImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
 
   jobOperations = [
-    { label: 'Harvest URL', uri: this.jobHarvest }
+    { label: 'Harvest URL', uri: this.jobHarvest },
+    { label: 'Publish', uri: this.jobImport },
+    { label: 'Harvest & Publish', uri: this.jobHarvestAndImport }
   ];
 
   creator = 'http://lblod.data.gift/services/job-self-service';
