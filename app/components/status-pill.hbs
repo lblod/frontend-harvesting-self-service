@@ -23,6 +23,11 @@
     {{@status}}
 </AuPill>
 
+{{else if (eq @status "scheduled") }}
+  <AuPill @skin="border">
+    {{@status}}
+</AuPill>
+
 {{else}}
   {{@status}}
 {{/if}}
