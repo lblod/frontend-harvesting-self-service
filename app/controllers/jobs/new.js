@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class JobsScheduleJobController extends Controller {
+export default class JobsNewController extends Controller {
   jobHarvest = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
   jobImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/publishHarvestedTriples';
   jobHarvestAndImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';

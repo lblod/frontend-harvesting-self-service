@@ -8,7 +8,6 @@ export default class Router extends EmberRouter {
 
 Router.map(function() {
   this.route('jobs', function() {
-    this.route('schedule-job');
     this.route('details', { path: '/:id' }, function(){
       this.route('index');
     });
@@ -20,6 +19,7 @@ Router.map(function() {
       this.route('input-containers-harvesting-collections');
     });
 
+    this.route('new');
   });
   this.route('scheduled-jobs', function() {});
 });
