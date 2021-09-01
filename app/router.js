@@ -21,4 +21,5 @@ Router.map(function() {
     });
 
   });
+  this.route('scheduled-jobs', function() {});
 });
