@@ -21,5 +21,7 @@ Router.map(function() {
 
     this.route('new');
   });
-  this.route('scheduled-jobs', function() {});
+  this.route('scheduled-jobs', function() {
+    this.route('new');
+  });
 });

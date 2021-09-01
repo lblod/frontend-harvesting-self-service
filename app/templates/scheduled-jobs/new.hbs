@@ -1,0 +1,69 @@
+<AuToolbar @border="bottom" @size="large">
+  <AuToolbarGroup>
+    <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Schedule job</AuHeading>
+  </AuToolbarGroup>
+      <LinkTo @route="scheduled-jobs.index">
+      <AuButton @skin="secondary">
+        Back to overview
+      </AuButton>
+    </LinkTo>
+</AuToolbar>
+
+<div class="au-c-body-container au-c-body-container--scroll">
+  <div class="au-o-box">
+    <div class="au-o-grid">
+      <div class="au-o-grid__item au-u-1-2@medium au-u-1-1">
+        <div class="au-u-margin-bottom">
+          Choose job
+          <PowerSelect @allowClear={{true}} @options={{this.jobOperations}} @selected={{this.selectedJobOperation}}
+            @onChange={{this.setJobOperation}} as |option|>
+            {{option.label}}
+          </PowerSelect>
+        </div>
+
+        {{#if this.selectedJobOperation.uri}}
+        <div class="au-u-margin-bottom">
+          <AuLabel for="task-url">
+            URL
+          </AuLabel>
+          <AuInput id="task-url" @width="block" @value={{this.url}} />
+        </div>
+
+        <div class="au-u-margin-bottom">
+          <AuLabel for="cron-pattern">
+            Cron pattern
+          </AuLabel>
+          <AuInput id="cron-pattern" @width="block" @value={{this.cronPattern}} />
+          <AuHelpText>{{this.cronDescription}}</AuHelpText>
+        </div>
+
+        <div>
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+
+        </div>
+
+        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<AuToolbar @border="top" @size="large">
+  {{#if this.success}}
+  <AuToolbarGroup class="au-c-toolbar__group--row">
+    <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Job succesfully scheduled"
+      @alertskin={{"success"}}>
+    </AuAlert>
+  </AuToolbarGroup>
+  {{else if this.error}}
+  <AuToolbarGroup class="au-c-toolbar__group--row">
+    <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong" @alertskin={{"error"}}>
+      {{this.errorMessage}}
+    </AuAlert>
+  </AuToolbarGroup>
+  {{/if}}
+</AuToolbar>
