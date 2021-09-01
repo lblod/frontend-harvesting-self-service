@@ -1,1 +1,10 @@
-{{outlet}}
+<AuToolbar @border="bottom" @size="large">
+  <AuToolbarGroup>
+    <AuHeading @skin="2">Scheduled jobs overview</AuHeading>
+  </AuToolbarGroup>
+  <AuToolbarGroup>
+    <div class="au-u-text-right">
+      <LinkTo @route="scheduled-jobs.new" class="au-c-button" type="button">Create new scheduled job</LinkTo>
+    </div>
+  </AuToolbarGroup>
+</AuToolbar>
