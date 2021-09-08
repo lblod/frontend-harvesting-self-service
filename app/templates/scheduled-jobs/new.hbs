@@ -23,6 +23,12 @@
 
         {{#if this.selectedJobOperation.uri}}
         <div class="au-u-margin-bottom">
+          <AuLabel for="task-title">
+            Title
+          </AuLabel>
+          <AuInput id="task-title" @width="block" @value={{this.title}} />
+        </div>
+        <div class="au-u-margin-bottom">
           <AuLabel for="task-url">
             URL
           </AuLabel>
@@ -45,7 +51,7 @@
 
         </div>
 
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
+        <AuButton class="au-u-margin-top-large" @disabled={{not this.isValidCron}} {{on 'click' this.createScheduledJob}}>Schedule</AuButton>
         {{/if}}
       </div>
     </div>

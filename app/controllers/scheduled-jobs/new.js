@@ -18,6 +18,7 @@ export default class ScheduledJobsNewController extends Controller {
 
   creator = 'http://lblod.data.gift/services/job-self-service';
 
+  @tracked title;
   @tracked url;
   @tracked graphName;
   @tracked success = false;
@@ -32,8 +33,12 @@ export default class ScheduledJobsNewController extends Controller {
     if (isValidCronExpression) {
       return cronstrue.toString(this.cronPattern, { use24HourTimeFormat: true });
     } else {
-      return "This is not a valid cron pattern"
+      return "This is not a valid cron pattern";
     }
+  }
+
+  get isValidCron() {
+    return isValidCron(this.cronPattern);
   }
 
   get currentTime() {
@@ -44,5 +49,66 @@ export default class ScheduledJobsNewController extends Controller {
   @action
   setJobOperation(selected){
     this.selectedJobOperation = selected;
+  }
+
+  @action
+  async createScheduledJob() {
+    const cronSchedule = this.store.createRecord('cron-schedule', {
+      repeatFrequency: this.cronPattern
+    });
+
+    const scheduledJob = this.store.createRecord('scheduled-job', {
+      creator: this.creator,
+      created: this.currentTime,
+      modified: this.currentTime,
+      operation: this.selectedJobOperation.uri,
+      title: this.title,
+      schedule: cronSchedule,
+
+    });
+
+    const remoteDataObject = this.store.createRecord('remote-data-object', {
+      source: this.url,
+      status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
+      created: this.currentTime,
+      modified: this.currentTime,
+      creator: this.creator
+    });
+
+    const collection = this.store.createRecord('harvesting-collection', {
+      creator: this.creator,
+      remoteDataObjects: [ remoteDataObject ]
+    });
+
+    const dataContainer = this.store.createRecord('data-container', {
+      harvestingCollections: [ collection ]
+    });
+
+    const scheduledTasks = this.store.createRecord('scheduled-task', {
+      created: this.currentTime,
+      modified: this.currentTime,
+      operation: this.harvesTaskOperation,
+      index: '0',
+      inputContainers: [ dataContainer ],
+      scheduledJob: scheduledJob
+    });
+
+    try{
+      await cronSchedule.save();
+      await scheduledJob.save();
+      await remoteDataObject.save();
+      await collection.save();
+      await dataContainer.save();
+      await scheduledTasks.save();
+      this.error = false;
+      this.success = true;
+
+    }
+    catch(err){
+      this.errorMessage = err;
+      this.success = false;
+      this.error = true;
+    }
   }
 }

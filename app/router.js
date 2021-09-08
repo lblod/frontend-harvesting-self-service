@@ -22,6 +22,15 @@ Router.map(function() {
     this.route('new');
   });
   this.route('scheduled-jobs', function() {
+    this.route('details', { path: '/:id' }, function() {
+      this.route('index');
+    });
+    this.route('scheduled-task',{ path: '/scheduled-task/:id' }, function() {
+      this.route('input-containers-files');
+      this.route('input-containers-graph');
+      this.route('input-containers-harvesting-collections');
+    });
+
     this.route('new');
   });
 });
