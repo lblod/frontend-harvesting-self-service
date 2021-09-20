@@ -3,7 +3,7 @@
     <AuHeading @skin="2">Scheduled Job details</AuHeading>
 
     <AuButtonGroup>
-      <AuButton {{on "click" (fn (mut this.popup) true)}}>Edit</AuButton>
+    <!-- Temporarily disabled <AuButton {{on "click" (fn (mut this.popup) true)}}>Edit</AuButton> -->
     {{#unless this.deleteJob.isRunning}}
       <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
           delete
