@@ -40,9 +40,29 @@
             Cron pattern
           </AuLabel>
           <AuInput id="cron-pattern" @width="block" @value={{this.cronPattern}} />
-          <AuHelpText>{{this.cronDescription}}</AuHelpText>
+          <AuHelpText>
+            The job will be started: {{this.cronDescription}}
+          </AuHelpText>
         </div>
-
+        <div class="au-u-margin-bottom">
+          <AuLabel for="cron-pattern">
+            Some examples
+          </AuLabel>
+          <AuHelpText>
+            Every monday, at 04:05: "5 4 * * 1" <br>
+            At 14:13, only on Monday, only in April: "13 14 * 4 1" <br>
+            At 10:38, on day 5 of the month: "38 10 5 * *"
+          </AuHelpText>
+        </div>
+        <div class="au-u-margin-bottom">
+          <AuLabel for="cron-pattern">
+            Warning
+          </AuLabel>
+          <AuHelpText>
+            With great power there must also come great responsibility <br>
+            Try to think about spreading the load on the server, by spreading the jobs in time.
+          </AuHelpText>
+        </div>
         <div>
           <AuLabel for="task-creator">
             Creator
