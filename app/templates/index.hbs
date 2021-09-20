@@ -1,3 +1,27 @@
-<LinkTo @route="jobs.index">
-  Overview
-</LinkTo>
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <nav>
+          <ul class="au-c-list-navigation">
+            <li class="au-c-list-navigation__item">
+              <AuNavigationLink @linkRoute="jobs">
+                <AuIcon @icon="documents" @alignment="left" />
+                Harvesting jobs
+              </AuNavigationLink>
+            </li>
+            <li class="au-c-list-navigation__item">
+              <AuNavigationLink @linkRoute="scheduled-jobs">
+                <AuIcon @icon="calendar" @alignment="left" />
+                Scheduled jobs
+              </AuNavigationLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+
+  </m.content>
+</AuMainContainer>

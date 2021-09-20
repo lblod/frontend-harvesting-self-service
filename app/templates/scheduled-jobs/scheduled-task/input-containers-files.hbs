@@ -1,0 +1,62 @@
+<AuButtonGroup class="au-o-box" @inline={{true}}>
+  <LinkTo @route="scheduled-jobs.scheduled-task.input-containers-files">
+    <AuButton @skin="secondary" class="is-active">
+      List with input files
+    </AuButton>
+  </LinkTo>
+  <LinkTo @route="scheduled-jobs.scheduled-task.input-containers-graph">
+    <AuButton >
+     List with input graphs
+    </AuButton>
+  </LinkTo>
+  <LinkTo @route="scheduled-jobs.scheduled-task.input-containers-harvesting-collections">
+    <AuButton>
+     List with input remote data objects
+    </AuButton>
+  </LinkTo>
+</AuButtonGroup>
+
+<AuHeading @skin="3" class="au-o-box">Files input list</AuHeading>
+
+<AuDataTable
+  @content={{this.model}}
+  @fields="title description"
+  @noDataMessage="No files found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}} as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th class="au-u-visible-small-up">id</th>
+      <AuDataTableThSortable @field="name" @currentSorting={{this.sort}} @label="Name"
+        @class="data-table__header-title" />
+      <th class="data-table__header-title"> Size </th>
+      <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
+        @class="data-table__header-title" />
+
+      <th class="au-u-visible-small-up">Action</th>
+    </c.header>
+    <c.body as |row|>
+      <td class="au-u-visible-small-up">
+        {{row.uri}}
+      </td>
+      <td>
+        {{row.name}}
+      </td>
+      <td>
+        {{row.humanReadableSize}}
+      </td>
+      <td>
+        {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
+      </td>
+
+      <td class="au-u-visible-small-up">
+        <a class="au-c-link" href="{{row.downloadLink}}" download {{on 'click' this.overrideClick }}>
+          <AuButton @skin="primary">
+            Download file
+          </AuButton>
+        </a>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

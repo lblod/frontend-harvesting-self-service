@@ -1,11 +1,11 @@
 
 <AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup>
-    <AuHeading @skin="2">Jobs Overview</AuHeading>
+    <AuHeading @skin="2">Scheduled jobs overview</AuHeading>
   </AuToolbarGroup>
   <AuToolbarGroup>
     <div class="au-u-text-right">
-      <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
+      <LinkTo @route="scheduled-jobs.new" class="au-c-button" type="button">Create new scheduled job</LinkTo>
     </div>
   </AuToolbarGroup>
 </AuToolbar>
@@ -34,7 +34,6 @@
     </div>
   </m.sidebar>
   <m.content @scroll={{false}}>
-
     <AuDataTable @content={{this.model}} @fields="title description" @noDataMessage="No jobs found" @sort={{this.sort}}
       @size={{this.size}} @page={{this.page}} as |t|>
       <t.content as |c|>
@@ -44,11 +43,11 @@
             @class="data-table__header-title" />
           <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified"
             @class="data-table__header-title" />
-          <AuDataTableThSortable @field="creator" @currentSorting={{this.sort}} @label="Creator"
-            @class="data-table__header-title" />
           <AuDataTableThSortable @field="operation" @currentSorting={{this.sort}} @label="Operation"
             @class="data-table__header-title" />
-          <AuDataTableThSortable @field="status" @currentSorting={{this.sort}} @label="Status"
+          <AuDataTableThSortable @field="schedule" @currentSorting={{this.sort}} @label="Schedule"
+            @class="data-table__header-title" />
+          <AuDataTableThSortable @field="title" @currentSorting={{this.sort}} @label="Title"
             @class="data-table__header-title" />
           <th class="au-u-visible-small-up">Action</th>
         </c.header>
@@ -62,17 +61,17 @@
           <td class="au-u-visible-small-up">
             {{moment-format row.modified 'DD/MM/YYYY HH:mm:ss'}}
           </td>
-          <td class="au-u-visible-medium-up">
-            {{row.creator}}
-          </td>
           <td class="au-u-visible-small-up au-word-wrap">
             {{row.operation}}
           </td>
           <td class="au-u-visible-small-up">
-            <StatusPill @status={{row.shortStatus}}></StatusPill>
+            {{row.schedule.repeatFrequency}}
+          </td>
+          <td class="au-u-visible-medium-up">
+            {{row.title}}
           </td>
           <td class="au-u-visible-large-up">
-            <LinkTo @route="jobs.details" @model={{row}}>
+            <LinkTo @route="scheduled-jobs.details" @model={{row}}>
               <AuButton @skin="primary">
                 view
               </AuButton>

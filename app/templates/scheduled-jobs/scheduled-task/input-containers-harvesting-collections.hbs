@@ -1,0 +1,39 @@
+<AuButtonGroup class="au-o-box" @inline={{true}}>
+  <LinkTo @route="scheduled-jobs.scheduled-task.input-containers-files">
+    <AuButton>
+      List with input files
+    </AuButton>
+  </LinkTo>
+  <LinkTo @route="scheduled-jobs.scheduled-task.input-containers-graph">
+    <AuButton >
+     List with input graphs
+    </AuButton>
+  </LinkTo>
+  <LinkTo @route="scheduled-jobs.scheduled-task.input-containers-harvesting-collections" class="is-active">
+    <AuButton @skin="secondary">
+     List with input remote data objects
+    </AuButton>
+  </LinkTo>
+</AuButtonGroup>
+
+<AuHeading @skin="3" class="au-o-box">List with remote data objects</AuHeading>
+
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No remote-data-objects found"
+  as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th class="au-u-visible-small-up">uri</th>
+      <th class="au-u-visible-small-up">source (URL)</th>
+    </c.header>
+    <c.body as |row|>
+      <td class="au-u-visible-small-up">
+        {{row.uri}}
+      </td>
+      <td class="au-u-visible-small-up">
+        {{row.source}}
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>
