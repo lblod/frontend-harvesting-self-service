@@ -1,3 +1,9 @@
+<AuToolbar @border="bottom" @size="large">
+  <AuToolbarGroup>
+    <AuHeading @skin="2">SPARQL endpoint</AuHeading>
+  </AuToolbarGroup>
+</AuToolbar>
+
 <AuMainContainer as |m|>
   <m.sidebar>
     <div class="au-c-sidebar">
@@ -28,6 +34,6 @@
     </div>
   </m.sidebar>
   <m.content @scroll={{true}}>
-
+    <div {{yasgui}}></div>
   </m.content>
 </AuMainContainer>
