@@ -3,19 +3,19 @@
     <AuHeading @skin="2">Scheduled Job details</AuHeading>
 
     <AuButtonGroup>
-    <!-- Temporarily disabled <AuButton {{on "click" (fn (mut this.popup) true)}}>Edit</AuButton> -->
-    {{#unless this.deleteJob.isRunning}}
-      <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
+      <AuButton {{on "click" (fn (mut this.editing) true)}}>Edit</AuButton>
+      {{#unless this.deleteJob.isRunning}}
+        <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
           delete
-      </AuButton>
-     {{else}}
-      <AuLoader @size="small" />
-    {{/unless}}
-    <LinkTo @route="scheduled-jobs.index">
-      <AuButton  @skin="secondary">
-        Back to overview
-      </AuButton>
-    </LinkTo>
+        </AuButton>
+      {{else}}
+        <AuLoader @size="small"/>
+      {{/unless}}
+      <LinkTo @route="scheduled-jobs.index">
+        <AuButton @skin="secondary">
+          Back to overview
+        </AuButton>
+      </LinkTo>
     </AuButtonGroup>
   </AuToolbarGroup>
   <AuToolbarGroup class="au-c-toolbar__group--row">
@@ -26,7 +26,7 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Created</AuLabel>
-          {{moment-format this.model.created 'DD/MM/YYYY HH:mm:ss'}}
+        {{moment-format this.model.created 'DD/MM/YYYY HH:mm:ss'}}
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Modified</AuLabel>
@@ -38,9 +38,9 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}
-        <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
-          <p class="au-word-wrap"> {{this.model.error.message}} </p>
-        </AuAlert>
+          <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
+            <p class="au-word-wrap"> {{this.model.error.message}} </p>
+          </AuAlert>
         {{/if}}
       </li>
     </ul>
@@ -49,21 +49,45 @@
 
 
 <AuModal
-  @modalTitle="Edit Scheduled Job Details"
-  @modalOpen={{this.popup}}
-  @closeModal={{fn (mut this.popup) false}} as |Modal| >
-    <Modal.Body>
-      <div class="au-u-margin-bottom">
+  @modalTitle="Edit Scheduled Job"
+  @modalOpen={{this.editing}}
+  @closeModal={{this.closeEdit}} as |Modal|>
+  <Modal.Body>
+    <div class="au-o-grid au-o-grid--tiny">
+      {{#if this.editError}}
+        <div class="au-o-grid__item au-u-1-1">
+          <AuAlert class="au-u-margin-bottom-none"
+                   @alertTitle="Something went wrong"
+                   @alertskin="error"
+                   @alertsize="small"
+                   @alertIcon="cross"/>
+        </div>
+      {{/if}}
+      <div class="au-o-grid__item au-u-1-1 au-u-3-5@small">
+        <AuLabel for="task-title">
+          Title
+        </AuLabel>
+        <AuInput id="task-title"
+                 @width="block"
+                 @value={{this.newTitle}}/>
+      </div>
+      <div class="au-o-grid__item au-u-1-1 au-u-2-5@small">
         <AuLabel for="cron-pattern">
           Cron pattern
         </AuLabel>
-        <AuInput id="cron-pattern" @width="block" @value={{this.newCronPattern}} />
+        <AuInput id="cron-pattern"
+                 @width="block"
+                 @value={{this.newCronPattern}}/>
         <AuHelpText>{{this.newCronDescription}}</AuHelpText>
       </div>
-    </Modal.Body>
-    <Modal.Footer>
-      <AuButton @disabled={{not this.isValidCron}} {{on 'click' (perform this.saveNewCronPattern this.model)}}>Save</AuButton>
-    </Modal.Footer>
-  </AuModal>
+    </div>
+  </Modal.Body>
+  <Modal.Footer>
+    <AuButton @disabled={{not this.isValidEdit}}
+      {{on 'click' (perform this.update this.model)}}>
+      Update
+    </AuButton>
+  </Modal.Footer>
+</AuModal>
 
 {{outlet}}
