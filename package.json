@@ -19,6 +19,9 @@
     "test": "npm-run-all lint:* test:*",
     "test:ember": "ember test"
   },
+  "overrides": {
+    "@embroider/macros": "0.50.0"
+  },
   "devDependencies": {
     "@appuniversum/appuniversum": "^0.1.5",
     "@appuniversum/ember-appuniversum": "^0.5.4",
