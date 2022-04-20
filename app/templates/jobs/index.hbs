@@ -19,7 +19,7 @@
       @size={{this.size}} @page={{this.page}} as |t|>
       <t.content as |c|>
         <c.header>
-          <th class="au-u-visible-small-up">uri</th>
+          <th>Target URL</th>
           <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
             @class="data-table__header-title" />
           <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified"
@@ -34,7 +34,7 @@
         </c.header>
         <c.body as |row|>
           <td>
-            {{row.uri}}
+            <JobTargetUrl @job={{row}} />
           </td>
           <td>
             {{format-date row.created}}
