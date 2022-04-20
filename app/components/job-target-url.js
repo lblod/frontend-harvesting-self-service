@@ -23,6 +23,7 @@ export default class JobTargetUrlComponent extends Component {
         const remoteDataObject = yield this.store.query('remoteDataObject', {
           'filter[harvesting-collection][data-container][input-from-tasks][:id:]':
             firstTask.id,
+          sort: 'created',
         });
         this.url = remoteDataObject.firstObject.source;
       }
