@@ -23,5 +23,5 @@ export default class JobModel extends Model {
 
   get shortStatus(){
     return this.statusesMap[this.status];
-  };
+  }
 }

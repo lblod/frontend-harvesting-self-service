@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 
 export default class ScheduledJobsNewRoute extends Route {
-  setupController( controller, model ) {
+  setupController( controller/*, model */ ) {
     super.setupController(...arguments);
     controller.set('selectedJobOperation', null);
     controller.set('success', false);

@@ -15,7 +15,7 @@ export default class JobsNewController extends Controller {
 
   creator = 'http://lblod.data.gift/services/job-self-service';
 
-  harvesTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
+  harvestTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
   importTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples'
 
   @tracked url;
@@ -67,7 +67,7 @@ export default class JobsNewController extends Controller {
       status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
       created: this.currentTime,
       modified: this.currentTime,
-      operation: this.harvesTaskOperation,
+      operation: this.harvestTaskOperation,
       index: '0',
       inputContainers: [ dataContainer ],
       job: scheduledJob
