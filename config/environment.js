@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'frontend-harvesting-self-service',
     environment,
@@ -8,8 +8,8 @@ module.exports = function(environment) {
     locationType: 'auto',
     yasgui: {
       // NOTE: look at app/modifiers/yasgui.js when changing this variable
-      defaultQuery: "EMBER_YASGUI_DEFAULT_QUERY",
-      extraPrefixes: "EMBER_YASGUI_EXTRA_PREFIXES"
+      defaultQuery: 'EMBER_YASGUI_DEFAULT_QUERY',
+      extraPrefixes: 'EMBER_YASGUI_EXTRA_PREFIXES',
     },
     EmberENV: {
       FEATURES: {
@@ -18,14 +18,14 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
   };
 
   if (environment === 'development') {

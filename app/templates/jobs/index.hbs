@@ -11,32 +11,7 @@
 
 <AuMainContainer as |m|>
   <m.sidebar>
-    <div class="au-c-sidebar">
-      <div class="au-c-sidebar__content">
-        <nav>
-          <ul class="au-c-list-navigation">
-            <li class="au-c-list-navigation__item">
-              <AuNavigationLink @linkRoute="jobs">
-                <AuIcon @icon="documents" @alignment="left" />
-                Harvesting jobs
-              </AuNavigationLink>
-            </li>
-            <li class="au-c-list-navigation__item">
-              <AuNavigationLink @linkRoute="scheduled-jobs">
-                <AuIcon @icon="calendar" @alignment="left" />
-                Scheduled jobs
-              </AuNavigationLink>
-            </li>
-            <li class="au-c-list-navigation__item">
-              <AuNavigationLink @linkRoute="sparql">
-                <AuIcon @icon="search" @alignment="left" />
-                Sparql
-              </AuNavigationLink>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+    <SidebarMenu />
   </m.sidebar>
   <m.content @scroll={{false}}>
 
@@ -44,7 +19,7 @@
       @size={{this.size}} @page={{this.page}} as |t|>
       <t.content as |c|>
         <c.header>
-          <th class="au-u-visible-small-up">uri</th>
+          <th>Target URL</th>
           <AuDataTableThSortable @field="created" @currentSorting={{this.sort}} @label="Created"
             @class="data-table__header-title" />
           <AuDataTableThSortable @field="modified" @currentSorting={{this.sort}} @label="Modified"
@@ -59,19 +34,19 @@
         </c.header>
         <c.body as |row|>
           <td>
-            {{row.uri}}
+            <JobTargetUrl @job={{row}} />
           </td>
           <td>
-            {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
+            {{format-date row.created}}
           </td>
           <td class="au-u-visible-small-up">
-            {{moment-format row.modified 'DD/MM/YYYY HH:mm:ss'}}
+            {{format-date row.modified}}
           </td>
           <td class="au-u-visible-medium-up">
             {{row.creator}}
           </td>
           <td class="au-u-visible-small-up au-word-wrap">
-            {{row.operation}}
+            {{operation-name row.operation}}
           </td>
           <td class="au-u-visible-small-up">
             <StatusPill @status={{row.shortStatus}}></StatusPill>

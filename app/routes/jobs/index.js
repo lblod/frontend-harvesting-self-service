@@ -6,7 +6,8 @@ export default class JobsIndexRoute extends Route.extend(DataTableRouteMixin) {
 
   mergeQueryOptions(param) {
     return {
-      sort: param.sort
+      sort: param.sort,
+      include: 'tasks',
     };
   }
 }
