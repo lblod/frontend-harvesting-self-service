@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { isValidCron } from 'cron-validator'
+import { isValidCron } from 'cron-validator';
 import cronstrue from 'cronstrue';
 
 export default class ScheduledJobsNewController extends Controller {

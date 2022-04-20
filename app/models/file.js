@@ -21,5 +21,5 @@ export default class FileModel extends Model {
 
   get downloadLink(){
     return `/files/${this.id}/download?name=${this.name}`;
-  };
+  }
 }
