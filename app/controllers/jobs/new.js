@@ -1,19 +1,16 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { JOB_OP_TYPES, JOB_OP_TYPE_HARVEST, JOB_OP_TYPE_HARVEST_AND_IMPORT, JOB_OP_TYPE_IMPORT, JOB_CREATOR_SELF_SERVICE } from '../../utils/constants';
 
 export default class JobsNewController extends Controller {
-  jobHarvest = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
-  jobImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/publishHarvestedTriples';
-  jobHarvestAndImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
+  jobHarvest = JOB_OP_TYPE_HARVEST;
+  jobImport = JOB_OP_TYPE_IMPORT;
+  jobHarvestAndImport = JOB_OP_TYPE_HARVEST_AND_IMPORT;
 
-  jobOperations = [
-    { label: 'Harvest URL', uri: this.jobHarvest },
-    { label: 'Publish', uri: this.jobImport },
-    { label: 'Harvest & Publish', uri: this.jobHarvestAndImport }
-  ];
+  jobOperations = Array.from(JOB_OP_TYPES).map(([key, value]) => { return {label: value, uri: key}; }) ;
 
-  creator = 'http://lblod.data.gift/services/job-self-service';
+  creator = JOB_CREATOR_SELF_SERVICE;
 
   harvestTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
   importTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples'
