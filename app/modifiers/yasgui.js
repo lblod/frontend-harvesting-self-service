@@ -14,11 +14,12 @@ SELECT DISTINCT ?type WHERE {
 } LIMIT 10
 `;
 
-export default modifier(function yasgui(element/*, params, hash*/) {
+export default modifier(element => {
   const yasgui = new Yasgui(element, {
     requestConfig: { endpoint: '/sparql' },
     autofocus: true
   });
+
   yasgui.config.yasqe.value = defaultQuery;
   if( env.yasgui.extraPrefixes !== "EMBER_YASGUI_EXTRA_PREFIXES" )
     yasgui.config.yasqe.addPrefixes( JSON.parse(env.yasgui.extraPrefixes) );

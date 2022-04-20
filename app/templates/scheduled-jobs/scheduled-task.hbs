@@ -22,11 +22,11 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Task Created</AuLabel>
-         {{moment-format this.model.created 'DD/MM/YYYY HH:mm:ss'}}
+         {{format-date this.model.created}}
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Task Modified</AuLabel>
-        {{moment-format this.model.modified 'DD/MM/YYYY HH:mm:ss'}}
+        {{format-date this.model.modified}}
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}

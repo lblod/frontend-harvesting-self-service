@@ -36,10 +36,10 @@
             {{row.uri}}
           </td>
           <td>
-            {{moment-format row.created 'DD/MM/YYYY HH:mm:ss'}}
+            {{format-date row.created}}
           </td>
           <td class="au-u-visible-small-up">
-            {{moment-format row.modified 'DD/MM/YYYY HH:mm:ss'}}
+            {{format-date row.modified}}
           </td>
           <td class="au-u-visible-small-up au-word-wrap">
             {{operation-name row.operation}}
