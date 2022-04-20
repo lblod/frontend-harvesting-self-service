@@ -3,7 +3,11 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { isValidCron } from 'cron-validator';
 import cronstrue from 'cronstrue';
-import { JOB_OP_TYPE_HARVEST, JOB_OP_TYPE_HARVEST_AND_IMPORT, JOB_CREATOR_SELF_SERVICE } from '../../utils/constants';
+import {
+  JOB_OP_TYPE_HARVEST,
+  JOB_OP_TYPE_HARVEST_AND_IMPORT,
+  JOB_CREATOR_SELF_SERVICE,
+} from '../../utils/constants';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -11,11 +15,13 @@ export default class ScheduledJobsNewController extends Controller {
 
   jobOperations = [
     { label: 'Harvest URL', uri: this.jobHarvest },
-    { label: 'Harvest & Publish', uri: this.jobHarvestAndImport }
+    { label: 'Harvest & Publish', uri: this.jobHarvestAndImport },
   ];
 
-  harvesTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
-  importTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
+  harvesTaskOperation =
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
+  importTaskOperation =
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
 
   creator = JOB_CREATOR_SELF_SERVICE;
 
@@ -26,15 +32,17 @@ export default class ScheduledJobsNewController extends Controller {
   @tracked error = false;
   @tracked errorMessage;
   @tracked selectedJobOperation;
-  @tracked cronPattern = "*/5 * * * *";
+  @tracked cronPattern = '*/5 * * * *';
 
   get cronDescription() {
     const isValidCronExpression = isValidCron(this.cronPattern);
 
     if (isValidCronExpression) {
-      return cronstrue.toString(this.cronPattern, { use24HourTimeFormat: true });
+      return cronstrue.toString(this.cronPattern, {
+        use24HourTimeFormat: true,
+      });
     } else {
-      return "This is not a valid cron pattern";
+      return 'This is not a valid cron pattern';
     }
   }
 
@@ -48,14 +56,14 @@ export default class ScheduledJobsNewController extends Controller {
   }
 
   @action
-  setJobOperation(selected){
+  setJobOperation(selected) {
     this.selectedJobOperation = selected;
   }
 
   @action
   async createScheduledJob() {
     const cronSchedule = this.store.createRecord('cron-schedule', {
-      repeatFrequency: this.cronPattern
+      repeatFrequency: this.cronPattern,
     });
 
     const scheduledJob = this.store.createRecord('scheduled-job', {
@@ -65,25 +73,25 @@ export default class ScheduledJobsNewController extends Controller {
       operation: this.selectedJobOperation.uri,
       title: this.title,
       schedule: cronSchedule,
-
     });
 
     const remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
-      status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      status:
+        'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
       requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
       created: this.currentTime,
       modified: this.currentTime,
-      creator: this.creator
+      creator: this.creator,
     });
 
     const collection = this.store.createRecord('harvesting-collection', {
       creator: this.creator,
-      remoteDataObjects: [ remoteDataObject ]
+      remoteDataObjects: [remoteDataObject],
     });
 
     const dataContainer = this.store.createRecord('data-container', {
-      harvestingCollections: [ collection ]
+      harvestingCollections: [collection],
     });
 
     const scheduledTasks = this.store.createRecord('scheduled-task', {
@@ -91,11 +99,11 @@ export default class ScheduledJobsNewController extends Controller {
       modified: this.currentTime,
       operation: this.harvesTaskOperation,
       index: '0',
-      inputContainers: [ dataContainer ],
-      scheduledJob: scheduledJob
+      inputContainers: [dataContainer],
+      scheduledJob: scheduledJob,
     });
 
-    try{
+    try {
       await cronSchedule.save();
       await scheduledJob.save();
       await remoteDataObject.save();
@@ -104,9 +112,7 @@ export default class ScheduledJobsNewController extends Controller {
       await scheduledTasks.save();
       this.error = false;
       this.success = true;
-
-    }
-    catch(err){
+    } catch (err) {
       this.errorMessage = err;
       this.success = false;
       this.error = true;

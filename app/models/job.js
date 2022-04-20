@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany }  from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class JobModel extends Model {
   @attr('string') uri;
@@ -9,8 +9,7 @@ export default class JobModel extends Model {
   @attr('string') operation;
 
   @belongsTo('job-error') error;
-  @hasMany('task') tasks
-
+  @hasMany('task') tasks;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme from backend
   statusesMap = {
@@ -18,10 +17,10 @@ export default class JobModel extends Model {
     'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
     'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
     'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
-    'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled'
+    'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled',
   };
 
-  get shortStatus(){
+  get shortStatus() {
     return this.statusesMap[this.status];
   }
 }
