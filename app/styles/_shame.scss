@@ -23,6 +23,7 @@
 table.dataTable tbody td,
 table.dataTable tbody th {
   min-width: 2rem;
+  word-break: break-all;
 }
 
 .yasgui .controlbar {
