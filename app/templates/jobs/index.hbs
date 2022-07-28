@@ -46,7 +46,7 @@
             {{row.creator}}
           </td>
           <td class="au-u-visible-small-up au-word-wrap">
-            <JobOperation @job={{row}} />
+            {{operation-name row.operation}}
           </td>
           <td class="au-u-visible-small-up">
             <StatusPill @status={{row.shortStatus}}></StatusPill>
