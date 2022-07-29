@@ -22,7 +22,7 @@ export default class JobOperationComponent extends Component {
         const job = yield this.args.job;
         if (firstTask) {
 
-          console.log('operation: ', job.operation)
+          //TODO - create a variable to return operation names, instead of all URIs
             
           if (job.operation === 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish') {
             this.operation = 'Harvest & Publish'
