@@ -10,12 +10,12 @@ export default class JobOperationComponent extends Component {
     constructor() {
       super(...arguments);
       if (this.args.job) {
-        this.fetchTargetUrl.perform();
+        this.fetchOperation.perform();
       }
     }
   
     @task
-    *fetchTargetUrl() {
+    *fetchOperation() {
       try {
         const tasks = yield this.args.job.tasks;
         const firstTask = tasks.find((task) => task.get('index') === '0');
