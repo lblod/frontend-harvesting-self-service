@@ -25,7 +25,7 @@ export default class JobTargetUrlComponent extends Component {
             firstTask.id,
           sort: 'created',
         });
-       
+
         if (
           remoteDataObject.firstObject === undefined ||
           remoteDataObject.firstObject === null
@@ -34,6 +34,7 @@ export default class JobTargetUrlComponent extends Component {
         } else {
           this.url = remoteDataObject.firstObject.source;
         }
+
       }
     } catch (e) {
       console.error(e);
