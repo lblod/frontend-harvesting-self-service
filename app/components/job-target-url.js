@@ -26,14 +26,7 @@ export default class JobTargetUrlComponent extends Component {
           sort: 'created',
         });
 
-        if (
-          remoteDataObject.firstObject === undefined ||
-          remoteDataObject.firstObject === null
-        ) {
-          this.url = firstTask.uri;
-        } else {
-          this.url = remoteDataObject.firstObject.source;
-        }
+        this.url = !remoteDataObject.firstObject ? 'N/A' : remoteDataObject.firstObject.source
 
       }
     } catch (e) {

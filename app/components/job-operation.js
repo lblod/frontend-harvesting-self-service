@@ -22,19 +22,13 @@ export default class JobOperationComponent extends Component {
         const job = yield this.args.job;
         if (firstTask) {
 
-          //TODO - create a variable to return operation names, instead of all URIs
-            
-          if (job.operation === 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish') {
-            this.operation = 'Harvest & Publish'
-          } else if (job.operation === 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting') {
-            this.operation = 'Harvest'
-          } else if (job.operation === 'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/healingOperation/besluiten') {
-            this.operation = 'Harvested'
-          } else if (job.operation === 'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/deltaDumpFileCreation/besluiten') {  
-            this.operation = 'Dumped File'
-          } else {
-            this.operation = 'Publish'
-          }
+          let operation = job.operation
+
+          if      (operation.includes('lblodHarvestAndPublish')){ this.operation = 'Harvest & Publish' } 
+          else if (operation.includes('lblodHarvesting'))       { this.operation = 'Harvest' } 
+          else if (operation.includes('healingOperation'))      { this.operation = 'Healing' } 
+          else if (operation.includes('deltaDumpFileCreation')) { this.operation = 'Dumped File' } 
+          else    { this.operation = 'Publish' }
         }
       } catch (e) {
         console.error(e);
