@@ -34,3 +34,13 @@ table.dataTable tbody th {
 .yasgui .autocompleteWrapper {
   display: none !important;
 }
+
+.au-c-data-table__table td:first-child {
+  word-break: break-word;
+}
+
+// Fix min-height to show prev/next buttons on all screens
+
+.au-c-main-container {
+  min-height: calc(100vh - 15rem);
+}
