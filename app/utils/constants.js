@@ -2,11 +2,11 @@ export const JOB_OP_TYPE_HARVEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
 export const JOB_OP_TYPE_PUBLISH =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/publishHarvestedTriples';
-  export const JOB_OP_TYPE_IMPORT =
+export const JOB_OP_TYPE_IMPORT =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodImportCentraleVindplaats';
 export const JOB_OP_TYPE_HARVEST_AND_PUBLISH =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
-  export const JOB_OP_TYPE_HARVEST_AND_IMPORT =
+export const JOB_OP_TYPE_HARVEST_AND_IMPORT =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndImportCentraleVindplaats';
 export const JOB_OP_TYPE_HEALING =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/healingOperation/besluiten';

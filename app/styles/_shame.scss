@@ -44,3 +44,36 @@ table.dataTable tbody th {
 .au-c-main-container {
   min-height: calc(100vh - 15rem);
 }
+
+/* Styles for status-filter */
+.status-filter {
+  @extend .au-c-main-header__title--link;
+  @extend .au-c-main-header__title;
+  max-width: initial;
+  margin-left: 0;
+  padding-left: 2.4rem;
+  overflow: visible;
+  * {
+    cursor: pointer;
+  }
+  .au-c-dropdown-toggle {
+    text-decoration-color: var(--au-gray-300);
+    text-underline-offset: 0.3ex;
+  }
+  .au-c-dropdown__toggle {
+    cursor: pointer;
+    color: var(--au-gray-900);
+    &:hover, &:focus, &:focus-within {
+      color: inherit;
+    }
+  }
+  .au-c-dropdown__menu {
+    &.is-visible {
+      flex-wrap: wrap;
+      flex-direction: row;
+      width: 40vw;
+      justify-content: space-between;
+      top: 5rem;
+    }
+  }
+}

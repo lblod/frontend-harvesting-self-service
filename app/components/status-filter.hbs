@@ -1,0 +1,7 @@
+<AuDropdown @title="Status filter" @buttonLabel="Status Filter" @alignment="right" class="status-filter" role="menu">
+    {{#each this.statusRoutes as |filter|}}
+        <AuLink @skin="tertiary" role="menuitem" @route={{filter.route}}>
+            {{filter.label}}
+        </AuLink>
+    {{/each}}
+</AuDropdown>
