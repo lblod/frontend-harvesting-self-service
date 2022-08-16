@@ -9,12 +9,12 @@
 }
 
 .au-c-toolbar_space-between{
-  display: flex;
-  justify-content: space-between;
+  @extend .au-u-flex;
+  @extend .au-u-flex--between;
 }
 
 .au-word-wrap {
-  word-wrap: break-word;
+  @extend .au-u-word-break;
 }
 
 
@@ -32,11 +32,11 @@ table.dataTable tbody th {
 }
 
 .yasgui .autocompleteWrapper {
-  display: none !important;
+  @extend .au-u-hidden;
 }
 
 .au-c-data-table__table td:first-child {
-  word-break: break-word;
+  @extend .au-u-word-break;
 }
 
 // Fix min-height to show prev/next buttons on all screens
@@ -69,10 +69,10 @@ table.dataTable tbody th {
   }
   .au-c-dropdown__menu {
     &.is-visible {
-      flex-wrap: wrap;
-      flex-direction: row;
-      width: 40vw;
-      justify-content: space-between;
+      @extend .au-u-flex--row;
+      @extend .au-u-flex--wrap;
+      @extend .au-u-flex--between;
+      min-width: 40vw;
       top: 5rem;
     }
   }
