@@ -21,13 +21,11 @@ Router.map(function () {
 
     this.route('new');
 
-    this.route('status', function () {
-      this.route('success');
-      this.route('busy');
-      this.route('scheduled');
-      this.route('failed');
-      this.route('canceled');
+    this.route('state', function () {
+      this.route('filter');
     });
+
+    this.route('filter', function () {});
   });
   this.route('scheduled-jobs', function () {
     this.route('details', { path: '/:id' }, function () {

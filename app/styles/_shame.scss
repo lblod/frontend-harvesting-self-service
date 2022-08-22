@@ -45,6 +45,10 @@ table.dataTable tbody th {
   min-height: calc(100vh - 15rem);
 }
 
+.capitalized {
+  text-transform: capitalize;
+}
+
 /* Styles for status-filter */
 .status-filter {
   @extend .au-c-main-header__title--link;

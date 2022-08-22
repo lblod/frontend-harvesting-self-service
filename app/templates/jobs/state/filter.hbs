@@ -1,6 +1,6 @@
 <AuToolbar @border="bottom" @size="large">
   <AuToolbarGroup>
-    <AuHeading @skin="2">Successful Jobs</AuHeading>
+    <AuHeading @skin="2" class="capitalized">{{this.status}} Jobs</AuHeading>
   </AuToolbarGroup>
     <AuToolbarGroup>
     <div class="au-u-text-right">
@@ -15,7 +15,12 @@
   </m.sidebar>
   <m.content @scroll={{false}}>
 
-    <AuDataTable @content={{this.model}} @fields="title description" @noDataMessage="No jobs found" @sort={{this.sort}}
+    <AuDataTable 
+      @content={{this.model}} 
+      @fields="title description" 
+      @noDataMessage="No jobs found" 
+      @size='15'
+      @sort={{this.sort}} 
       @page={{this.page}} as |t|>
       
       <t.content as |c|>
