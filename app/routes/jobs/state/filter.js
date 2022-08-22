@@ -9,6 +9,7 @@ export default class JobsStateFilterRoute extends Route.extend(
 
   queryParams = {
     page: { refreshModel: true },
+    size: { refreshModel: true },
     sort: { refreshModel: true },
     status: { status: this.shortStatus },
   };
@@ -17,6 +18,7 @@ export default class JobsStateFilterRoute extends Route.extend(
     return {
       'filter[status]': param.status,
       sort: param.sort,
+      page: { numer: param.number, size: param.size }
     };
   }
 }

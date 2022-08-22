@@ -24,8 +24,6 @@ Router.map(function () {
     this.route('state', function () {
       this.route('filter');
     });
-
-    this.route('filter', function () {});
   });
   this.route('scheduled-jobs', function () {
     this.route('details', { path: '/:id' }, function () {
