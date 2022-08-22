@@ -1,7 +1,13 @@
-<AuDropdown @title="Status filter" @buttonLabel="Status Filter" @alignment="right" class="status-filter" role="menu">
-    {{#each this.statusRoutes as |filter|}}
-        <AuLink @skin="tertiary" role="menuitem" @route={{filter.route}}>
-            {{filter.label}}
+
+    <PowerSelect
+      @renderInPlace={{this.renderInPlace}}
+      @searchEnabled={{false}}
+      @options={{this.options}}
+      @selected="Status Filter"
+      @onChange={{fn (mut this.selected)}}
+      as |singleselect|
+    >
+        <AuLink role="menuitem" @route="jobs.filter">
+            {{singleselect}}
         </AuLink>
-    {{/each}}
-</AuDropdown>
+    </PowerSelect>
