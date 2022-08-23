@@ -7,10 +7,10 @@
       <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
     </div>
   </AuToolbarGroup>
-    <AuButtonGroup>
-      <StatusFilter 
-      @status={{this.status}} 
-      @onChange={{fn (mut this.status)}}  
+  <AuButtonGroup>
+    <StatusFilter
+      @status={{this.status}}
+      @onChange={{fn (mut this.status)}}
     />
   </AuButtonGroup>
 </AuToolbar>
