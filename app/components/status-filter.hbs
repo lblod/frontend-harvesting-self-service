@@ -2,9 +2,9 @@
     <PowerSelect
       @renderInPlace={{this.renderInPlace}}
       @searchEnabled={{false}}
-      @options={{this.status}}
-      @selected="Status Filter"
-      @onChange={{fn (mut this.selected)}}
+      @options={{this.statusOptions}}
+      @selected={{this.status}}
+      @onChange={{fn (mut this.status)}} 
       as |singleselect|
     >
         <AuLink role="menuitem" @query={{hash status=singleselect}} @route="jobs.filter">
