@@ -4,7 +4,7 @@ export default class JobsIndexRoute extends Route.extend(DataTableRouteMixin) {
   modelName = 'job';
 
   queryParams = {
-    page: { refreshModel: true },
+    page: { refreshModel: true, replace: true },
     size: { refreshModel: true },
     sort: { refreshModel: true },
     status: { status: this.shortStatus, refreshModel: true },
