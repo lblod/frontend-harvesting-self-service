@@ -8,13 +8,15 @@
     </div>
   </AuToolbarGroup>
 
-  <AuButtonGroup class="filter-select">
-    <StatusFilter 
-      @status={{this.status}} 
-      @onChange={{fn (mut this.status)}}
-      @query={{hash page='0'}}
-    />
-  </AuButtonGroup>
+  <AuToolbarGroup class="filter-select">
+    <AuButtonGroup>
+      <StatusFilter 
+        @status={{this.status}} 
+        @onChange={{fn (mut this.status)}}
+        @query={{hash page='0'}}
+      />
+    </AuButtonGroup>
+  </AuToolbarGroup>
 </AuToolbar>
 
 <AuMainContainer as |m|>
