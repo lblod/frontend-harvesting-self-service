@@ -30,6 +30,7 @@ export default class JobsNewController extends Controller {
   @tracked success = false;
   @tracked error = false;
   @tracked errorMessage;
+  @tracked comment;
   @tracked selectedJobOperation;
 
   get currentTime() {
@@ -49,6 +50,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+      comment: this.comment,
       operation: this.selectedJobOperation.uri,
     });
 
@@ -76,6 +78,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       operation: this.harvestTaskOperation,
+      comment: this.comment,
       index: '0',
       inputContainers: [dataContainer],
       job: scheduledJob,
@@ -103,6 +106,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+      comment: this.comment,
       operation: this.selectedJobOperation.uri,
     });
 
@@ -115,6 +119,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       operation: this.importTaskOperation,
+      comment: this.comment,
       index: '0',
       inputContainers: [dataContainer],
       job: scheduledJob,

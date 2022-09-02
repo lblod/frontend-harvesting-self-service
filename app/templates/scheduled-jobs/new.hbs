@@ -55,6 +55,12 @@
           </AuHelpText>
         </div>
         <div class="au-u-margin-bottom">
+          <AuLabel for="task-comment">
+            Comments:
+          </AuLabel>
+          <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
+        </div>
+        <div class="au-u-margin-bottom">
           <AuLabel for="cron-pattern">
             Warning
           </AuLabel>

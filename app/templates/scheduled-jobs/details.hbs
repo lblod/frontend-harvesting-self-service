@@ -45,6 +45,14 @@
       </li>
     </ul>
   </AuToolbarGroup>
+  <AuToolbarGroup class="au-c-toolbar__group--row comments-row">
+    <AuHeading class="au-c-heading--3">Comments:</AuHeading>
+    <ul class="au-o-grid">
+      <li class="au-o-grid__item au-u-1-2">
+        <p class="au-word-wrap">{{this.model.comment}}</p>
+      </li>
+    </ul>
+  </AuToolbarGroup> 
 </AuToolbar>
 
 
@@ -79,6 +87,16 @@
                  @width="block"
                  @value={{this.newCronPattern}}/>
         <AuHelpText>{{this.newCronDescription}}</AuHelpText>
+      </div>
+    </div>
+    <div class="au-o-grid au-o-grid--tiny">
+      <div class="au-o-grid__item au-u-1-1">
+        <AuLabel for="task-comment">
+          Comments
+        </AuLabel>
+        <AuInput id="task-comment"
+                 @width="block"
+                 @value={{this.newComment}}/>
       </div>
     </div>
   </Modal.Body>

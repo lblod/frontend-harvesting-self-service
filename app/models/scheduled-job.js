@@ -6,6 +6,7 @@ export default class ScheduledJobModel extends Model {
   // @attr('string') status;
   @attr('date') created;
   @attr('date') modified;
+  @attr('string') comment;
   @attr('string') creator;
   @attr('string') operation;
 

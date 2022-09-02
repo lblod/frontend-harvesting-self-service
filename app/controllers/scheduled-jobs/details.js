@@ -13,10 +13,15 @@ export default class ScheduledJobsDetailsController extends Controller {
 
   // Edit Popup fields
   @tracked newTitle;
+  @tracked newComment;
   @tracked newCronPattern;
 
   get title() {
     return this.model.title;
+  }
+
+  get comment() {
+    return this.model.comment;
   }
 
   get frequency() {
@@ -45,7 +50,7 @@ export default class ScheduledJobsDetailsController extends Controller {
 
   get editContainsUnsavedChanges() {
     return (
-      this.title !== this.newTitle || this.frequency !== this.newCronPattern
+      this.title !== this.newTitle || this.frequency !== this.newCronPattern || this.comment !== this.newComment
     );
   }
 
@@ -53,6 +58,7 @@ export default class ScheduledJobsDetailsController extends Controller {
     return (
       this.editContainsUnsavedChanges &&
       this.newTitle &&
+      this.newComment &&
       isValidCron(this.newCronPattern)
     );
   }
@@ -66,6 +72,7 @@ export default class ScheduledJobsDetailsController extends Controller {
       this.editError = false;
       this.newTitle = this.title || '';
       this.newCronPattern = this.frequency || '*/5 * * * *';
+      this.newComment = this.comment || '';
       this.editing = false;
     }
   }
@@ -114,6 +121,7 @@ export default class ScheduledJobsDetailsController extends Controller {
 
     const shouldUpdateTitle = this.title !== this.newTitle;
     const shouldUpdateFrequency = this.frequency !== this.newCronPattern;
+    const shouldUpdateComment = this.comment !== this.newComment;
 
     const saveScheduledJob = async () => {
       await scheduledJob.set('modified', modified);
@@ -131,6 +139,10 @@ export default class ScheduledJobsDetailsController extends Controller {
 
     if (shouldUpdateTitle) {
       yield scheduledJob.set('title', this.newTitle);
+    }
+
+    if (shouldUpdateComment) {
+      yield scheduledJob.set('comment', this.newComment);
     }
 
     if (shouldUpdateFrequency) {

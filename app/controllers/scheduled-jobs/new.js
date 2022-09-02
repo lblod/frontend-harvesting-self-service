@@ -27,6 +27,7 @@ export default class ScheduledJobsNewController extends Controller {
 
   @tracked title;
   @tracked url;
+  @tracked comment;
   @tracked graphName;
   @tracked success = false;
   @tracked error = false;
@@ -71,6 +72,7 @@ export default class ScheduledJobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       operation: this.selectedJobOperation.uri,
+      comment: this.comment,
       title: this.title,
       schedule: cronSchedule,
     });
