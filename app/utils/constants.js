@@ -4,9 +4,9 @@ export const JOB_OP_TYPE_PUBLISH =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/publishHarvestedTriples';
 export const JOB_OP_TYPE_IMPORT =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodImportCentraleVindplaats';
-export const JOB_OP_TYPE_HARVEST_AND_PUBLISH =
-  'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
 export const JOB_OP_TYPE_HARVEST_AND_IMPORT =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
+export const JOB_OP_TYPE_HARVEST_IMPORT_CP =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndImportCentraleVindplaats';
 export const JOB_OP_TYPE_HEALING =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/healingOperation/besluiten';
@@ -16,8 +16,8 @@ export const JOB_OP_TYPES = new Map();
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
 JOB_OP_TYPES.set(JOB_OP_TYPE_PUBLISH, 'Publish');
 JOB_OP_TYPES.set(JOB_OP_TYPE_IMPORT, 'Import');
-JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_AND_PUBLISH, 'Harvest & Publish');
-JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Import');
+JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
+JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_IMPORT_CP, 'Harvest & Import');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HEALING, 'Healing');
 JOB_OP_TYPES.set(JOB_OP_TYPE_DUMPED, 'Dumped File');
 export const JOB_CREATOR_SELF_SERVICE =
