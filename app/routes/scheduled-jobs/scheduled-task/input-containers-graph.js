@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
-export default class ScheduledJobsScheduledTaskInputContainersGraphRoute extends Route.extend(DataTableRouteMixin) {
+export default class ScheduledJobsScheduledTaskInputContainersGraphRoute extends Route.extend(
+  DataTableRouteMixin
+) {
   modelName = 'data-container';
 
-  async beforeModel(){
+  async beforeModel() {
     this.taskId = await this.modelFor('scheduled-jobs.scheduled-task').id;
   }
 
@@ -15,7 +17,7 @@ export default class ScheduledJobsScheduledTaskInputContainersGraphRoute extends
       // we can't use :has: filter oon property in mu-resource
       // Eventually this will be cleaned up if we have inheritance in mu-resource
       'filter[has-graph]': 'http://',
-      sort: param.sort
+      sort: param.sort,
     };
   }
 }

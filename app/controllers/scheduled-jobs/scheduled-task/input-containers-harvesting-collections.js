@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class ScheduledJobsScheduledTaskInputContainersHarvestingCollectionsController extends Controller {
   @action
-  overrideClick(e){
+  overrideClick(e) {
     e.stopPropagation();
   }
 }

@@ -3,18 +3,18 @@
     <AuHeading @skin="2">Job Details</AuHeading>
 
     <AuButtonGroup>
-    {{#unless this.deleteJob.isRunning}}
-      <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
+      {{#if this.deleteJob.isRunning}}
+        <AuLoader @size="small" />
+      {{else}}
+        <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
           delete
-      </AuButton>
-     {{else}}
-      <AuLoader @size="small" />
-    {{/unless}}
-    <LinkTo @route="jobs.index">
-      <AuButton  @skin="secondary">
-        Back to overview
-      </AuButton>
-    </LinkTo>
+        </AuButton>
+      {{/if}}
+      <LinkTo @route="jobs.index">
+        <AuButton  @skin="secondary">
+          Back to overview
+        </AuButton>
+      </LinkTo>
     </AuButtonGroup>
   </AuToolbarGroup>
   <AuToolbarGroup class="au-c-toolbar__group--row">
@@ -29,11 +29,11 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Created</AuLabel>
-         {{moment-format this.model.created 'DD/MM/YYYY HH:mm:ss'}}
+        {{format-date this.model.created}}
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Modified</AuLabel>
-        {{moment-format this.model.modified 'DD/MM/YYYY HH:mm:ss'}}
+        {{format-date this.model.modified}}
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Status</AuLabel>
@@ -41,9 +41,9 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}
-        <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
-          <p class="au-word-wrap"> {{this.model.error.message}} </p>
-        </AuAlert>
+          <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
+            <p class="au-word-wrap"> {{this.model.error.message}} </p>
+          </AuAlert>
         {{/if}}
       </li>
     </ul>

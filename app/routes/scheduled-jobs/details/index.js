@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
-export default class ScheduledJobsDetailsIndexRoute extends Route.extend(DataTableRouteMixin) {
+export default class ScheduledJobsDetailsIndexRoute extends Route.extend(
+  DataTableRouteMixin
+) {
   modelName = 'scheduled-task';
 
-  async beforeModel(){
+  async beforeModel() {
     this.job = await this.modelFor('scheduled-jobs.details').id;
   }
 
@@ -12,7 +14,7 @@ export default class ScheduledJobsDetailsIndexRoute extends Route.extend(DataTab
     return {
       include: 'scheduled-job',
       'filter[scheduled-job][:id:]': this.job,
-      sort: param.sort
+      sort: param.sort,
     };
   }
 }

@@ -1,22 +1,29 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import {
+  JOB_OP_TYPES,
+  JOB_OP_TYPE_HARVEST,
+  JOB_OP_TYPE_HARVEST_AND_IMPORT,
+  JOB_OP_TYPE_IMPORT,
+  JOB_CREATOR_SELF_SERVICE,
+} from '../../utils/constants';
 
 export default class JobsNewController extends Controller {
-  jobHarvest = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
-  jobImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/publishHarvestedTriples';
-  jobHarvestAndImport = 'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvestAndPublish';
+  jobHarvest = JOB_OP_TYPE_HARVEST;
+  jobImport = JOB_OP_TYPE_IMPORT;
+  jobHarvestAndImport = JOB_OP_TYPE_HARVEST_AND_IMPORT;
 
-  jobOperations = [
-    { label: 'Harvest URL', uri: this.jobHarvest },
-    { label: 'Publish', uri: this.jobImport },
-    { label: 'Harvest & Publish', uri: this.jobHarvestAndImport }
-  ];
+  jobOperations = Array.from(JOB_OP_TYPES).map(([key, value]) => {
+    return { label: value, uri: key };
+  });
 
-  creator = 'http://lblod.data.gift/services/job-self-service';
+  creator = JOB_CREATOR_SELF_SERVICE;
 
-  harvestTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
-  importTaskOperation = 'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples'
+  harvestTaskOperation =
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
+  importTaskOperation =
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
 
   @tracked url;
   @tracked graphName;
@@ -31,7 +38,7 @@ export default class JobsNewController extends Controller {
   }
 
   @action
-  setJobOperation(selected){
+  setJobOperation(selected) {
     this.selectedJobOperation = selected;
   }
 
@@ -42,25 +49,26 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
-      operation: this.selectedJobOperation.uri
+      operation: this.selectedJobOperation.uri,
     });
 
     const remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
-      status: 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      status:
+        'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
       requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
       created: this.currentTime,
       modified: this.currentTime,
-      creator: this.creator
+      creator: this.creator,
     });
 
     const collection = this.store.createRecord('harvesting-collection', {
       creator: this.creator,
-      remoteDataObjects: [ remoteDataObject ]
+      remoteDataObjects: [remoteDataObject],
     });
 
     const dataContainer = this.store.createRecord('data-container', {
-      harvestingCollections: [ collection ]
+      harvestingCollections: [collection],
     });
 
     const task = this.store.createRecord('task', {
@@ -69,12 +77,11 @@ export default class JobsNewController extends Controller {
       modified: this.currentTime,
       operation: this.harvestTaskOperation,
       index: '0',
-      inputContainers: [ dataContainer ],
-      job: scheduledJob
+      inputContainers: [dataContainer],
+      job: scheduledJob,
     });
 
-    try{
-
+    try {
       await scheduledJob.save();
       await remoteDataObject.save();
       await collection.save();
@@ -82,9 +89,7 @@ export default class JobsNewController extends Controller {
       await task.save();
       this.error = false;
       this.success = true;
-
-    }
-    catch(err){
+    } catch (err) {
       this.errorMessage = err;
       this.success = false;
       this.error = true;
@@ -93,16 +98,16 @@ export default class JobsNewController extends Controller {
 
   @action
   async scheduleImportJob() {
-     const scheduledJob = this.store.createRecord('job', {
+    const scheduledJob = this.store.createRecord('job', {
       status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
-      operation: this.selectedJobOperation.uri
+      operation: this.selectedJobOperation.uri,
     });
 
     const dataContainer = this.store.createRecord('data-container', {
-      hasGraph: this.graphName
+      hasGraph: this.graphName,
     });
 
     const task = this.store.createRecord('task', {
@@ -111,19 +116,17 @@ export default class JobsNewController extends Controller {
       modified: this.currentTime,
       operation: this.importTaskOperation,
       index: '0',
-      inputContainers: [ dataContainer ],
-      job: scheduledJob
+      inputContainers: [dataContainer],
+      job: scheduledJob,
     });
 
-    try{
+    try {
       await scheduledJob.save();
       await dataContainer.save();
       await task.save();
       this.error = false;
       this.success = true;
-
-    }
-    catch(err){
+    } catch (err) {
       this.errorMessage = err;
       this.success = false;
       this.error = true;

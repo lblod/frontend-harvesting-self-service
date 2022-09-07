@@ -7,8 +7,7 @@ export default class JobsDetailsIndexController extends Controller {
   size = 15;
 
   @action
-  overrideClick(e){
+  overrideClick(e) {
     e.stopPropagation();
   }
-
 }

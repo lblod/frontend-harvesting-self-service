@@ -1,12 +1,11 @@
 import Controller from '@ember/controller';
-import {action} from '@ember/object';
-import {tracked} from '@glimmer/tracking';
-import {task} from 'ember-concurrency-decorators';
-import {isValidCron} from 'cron-validator';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency-decorators';
+import { isValidCron } from 'cron-validator';
 import cronstrue from 'cronstrue';
 
 export default class ScheduledJobsDetailsController extends Controller {
-
   queryParams = ['editing'];
 
   @tracked editing = false;
@@ -36,21 +35,26 @@ export default class ScheduledJobsDetailsController extends Controller {
     const isValidCronExpression = isValidCron(this.newCronPattern);
 
     if (isValidCronExpression) {
-      return cronstrue.toString(this.newCronPattern,
-        {use24HourTimeFormat: true});
+      return cronstrue.toString(this.newCronPattern, {
+        use24HourTimeFormat: true,
+      });
     } else {
       return 'This is not a valid cron pattern';
     }
   }
 
   get editContainsUnsavedChanges() {
-    return (this.title !== this.newTitle) ||
-      (this.frequency !== this.newCronPattern);
+    return (
+      this.title !== this.newTitle || this.frequency !== this.newCronPattern
+    );
   }
 
   get isValidEdit() {
-    return this.editContainsUnsavedChanges && this.newTitle &&
-      isValidCron(this.newCronPattern);
+    return (
+      this.editContainsUnsavedChanges &&
+      this.newTitle &&
+      isValidCron(this.newCronPattern)
+    );
   }
 
   @action
@@ -58,7 +62,7 @@ export default class ScheduledJobsDetailsController extends Controller {
     const askForUserConfirmation = () =>
       this.editContainsUnsavedChanges &&
       confirm('Unsaved changes,\nare you sure to cancel this action?');
-    if (!this.editContainsUnsavedChanges || (askForUserConfirmation())) {
+    if (!this.editContainsUnsavedChanges || askForUserConfirmation()) {
       this.editError = false;
       this.newTitle = this.title || '';
       this.newCronPattern = this.frequency || '*/5 * * * *';
@@ -67,7 +71,7 @@ export default class ScheduledJobsDetailsController extends Controller {
   }
 
   @task
-  * deleteJob(scheduledJob) {
+  *deleteJob(scheduledJob) {
     //Delete top level down the tree, less confusing if something fails.
 
     //NOTE: Even though inputContainers & resultsContainers have the same nested structure, I duplicated the code since I know you like the seperation more then a wrapping |for| loop
@@ -102,9 +106,8 @@ export default class ScheduledJobsDetailsController extends Controller {
   }
 
   @task
-  * update(scheduledJob) {
-    if (!this.editContainsUnsavedChanges)
-      return this.editing = false;
+  *update(scheduledJob) {
+    if (!this.editContainsUnsavedChanges) return (this.editing = false);
 
     const modified = new Date();
     const currentSchedule = yield scheduledJob.schedule;
@@ -114,14 +117,15 @@ export default class ScheduledJobsDetailsController extends Controller {
 
     const saveScheduledJob = async () => {
       await scheduledJob.set('modified', modified);
-      await scheduledJob.save().then(() => {
+      await scheduledJob.save().then(
+        () => {
           this.editing = false;
           this.editError = false;
         },
         (e) => {
           scheduledJob.rollbackAttributes();
           this.editError = e;
-        },
+        }
       );
     };
 
@@ -131,15 +135,17 @@ export default class ScheduledJobsDetailsController extends Controller {
 
     if (shouldUpdateFrequency) {
       yield currentSchedule.set('repeatFrequency', this.newCronPattern);
-      yield currentSchedule.save().then(async () => {
-        await saveScheduledJob();
-      }, (e) => {
-        currentSchedule.rollbackAttributes();
-        this.editError = e;
-      });
+      yield currentSchedule.save().then(
+        async () => {
+          await saveScheduledJob();
+        },
+        (e) => {
+          currentSchedule.rollbackAttributes();
+          this.editError = e;
+        }
+      );
     } else {
       yield saveScheduledJob();
     }
   }
-
 }

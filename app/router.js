@@ -6,12 +6,12 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL;
 }
 
-Router.map(function() {
-  this.route('jobs', function() {
-    this.route('details', { path: '/:id' }, function(){
+Router.map(function () {
+  this.route('jobs', function () {
+    this.route('details', { path: '/:id' }, function () {
       this.route('index');
     });
-    this.route('task', { path: '/task/:id' }, function(){
+    this.route('task', { path: '/task/:id' }, function () {
       this.route('input-containers-files');
       this.route('results-containers-files');
       this.route('input-containers-graph');
@@ -21,11 +21,11 @@ Router.map(function() {
 
     this.route('new');
   });
-  this.route('scheduled-jobs', function() {
-    this.route('details', { path: '/:id' }, function() {
+  this.route('scheduled-jobs', function () {
+    this.route('details', { path: '/:id' }, function () {
       this.route('index');
     });
-    this.route('scheduled-task',{ path: '/scheduled-task/:id' }, function() {
+    this.route('scheduled-task', { path: '/scheduled-task/:id' }, function () {
       this.route('input-containers-files');
       this.route('input-containers-graph');
       this.route('input-containers-harvesting-collections');
