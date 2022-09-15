@@ -15,7 +15,9 @@ export default class JobsNewController extends Controller {
   jobHarvestAndImport = JOB_OP_TYPE_HARVEST_AND_IMPORT;
 
   jobOperations = Array.from(JOB_OP_TYPES).map(([key, value]) => {
-    return { label: value, uri: key };
+    if (this.jobHarvest  || this.jobImport || this.jobHarvesAndImport) {
+      return { label: value, uri: key };
+    }
   });
 
   creator = JOB_CREATOR_SELF_SERVICE;
