@@ -3,7 +3,7 @@
     <nav>
       <ul class="au-c-list-navigation">
         <li class="au-c-list-navigation__item">
-          <AuNavigationLink @route="jobs">
+          <AuNavigationLink @route="jobs" @query={{hash status='status' page='0'}}>
             <AuIcon @icon="documents" @alignment="left" />
             Harvesting jobs
           </AuNavigationLink>

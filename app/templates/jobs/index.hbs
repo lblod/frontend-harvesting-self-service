@@ -7,6 +7,16 @@
       <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
     </div>
   </AuToolbarGroup>
+
+  <AuToolbarGroup class="filter-select">
+    <AuButtonGroup>
+      <StatusFilter 
+        @status={{this.status}} 
+        @onChange={{fn (mut this.status)}}
+        @query={{hash page='0'}}
+      />
+    </AuButtonGroup>
+  </AuToolbarGroup>
 </AuToolbar>
 
 <AuMainContainer as |m|>

@@ -18,12 +18,12 @@
 }
 
 .au-c-toolbar_space-between{
-  display: flex;
-  justify-content: space-between;
+  @extend .au-u-flex;
+  @extend .au-u-flex--between;
 }
 
 .au-word-wrap {
-  word-wrap: break-word;
+  @extend .au-u-word-break;
 }
 
 
@@ -32,6 +32,7 @@
 table.dataTable tbody td,
 table.dataTable tbody th {
   min-width: 2rem;
+  word-break: break-all;
 }
 
 .yasgui .controlbar {
@@ -40,5 +41,24 @@ table.dataTable tbody th {
 }
 
 .yasgui .autocompleteWrapper {
-  display: none !important;
+  @extend .au-u-hidden;
+}
+
+.au-c-data-table__table td:first-child {
+  @extend .au-u-word-break;
+}
+
+// Fix min-height to show prev/next buttons on all screens
+
+.au-c-main-container {
+  min-height: calc(100vh - 15rem);
+}
+
+/* Styles for status-filter */
+
+.filter-select {
+  min-width: 18rem;
+  .ember-power-select-trigger {
+    min-width: 13rem;
+  }
 }
