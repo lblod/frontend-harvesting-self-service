@@ -20,5 +20,9 @@ JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_IMPORT_CP, 'Harvest & Import');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HEALING, 'Healing');
 JOB_OP_TYPES.set(JOB_OP_TYPE_DUMPED, 'Dumped File');
+export const JOB_OP_TYPE_CREATE = new Map();
+JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
+JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_IMPORT, 'Import');
+JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';

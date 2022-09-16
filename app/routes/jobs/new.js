@@ -7,6 +7,7 @@ export default class JobsNewRoute extends Route {
     controller.set('success', false);
     controller.set('error', false);
     controller.set('url', null);
+    controller.set('comment', null);
     controller.set('graphName', null);
   }
 }

@@ -8,6 +8,15 @@
   }
 }
 
+.au-c-toolbar__group--row.comments-row {
+  > ul {
+    margin-left: 0;
+    > .au-o-grid__item {
+      padding-left: 0;
+    }
+  }
+}
+
 .au-c-toolbar_space-between{
   @extend .au-u-flex;
   @extend .au-u-flex--between;

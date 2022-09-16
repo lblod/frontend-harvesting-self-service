@@ -68,9 +68,7 @@
             Creator
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
-
         </div>
-
         <AuButton class="au-u-margin-top-large" @disabled={{not this.isValidCron}} {{on 'click' this.createScheduledJob}}>Schedule</AuButton>
         {{/if}}
       </div>

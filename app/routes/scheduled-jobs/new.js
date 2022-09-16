@@ -8,6 +8,7 @@ export default class ScheduledJobsNewRoute extends Route {
     controller.set('error', false);
     controller.set('url', null);
     controller.set('title', '');
+    controller.set('comment', '');
     controller.set('cronPattern', '*/5 * * * *');
   }
 }
