@@ -19,7 +19,7 @@ export default class ScheduledJobsDetailsController extends Controller {
   get title() {
     return this.model.title;
   }
-  
+
   get frequency() {
     return this.model.schedule.get('repeatFrequency');
   }

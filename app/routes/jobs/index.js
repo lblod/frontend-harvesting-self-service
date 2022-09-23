@@ -11,11 +11,17 @@ export default class JobsIndexRoute extends Route.extend(DataTableRouteMixin) {
   };
 
   mergeQueryOptions(param) {
-    return {
-      'filter[status]': param.status,
+    const options = {
       sort: param.sort,
       page: { numer: param.number, size: param.size },
       include: 'tasks',
     };
+
+    if (param.status) {
+      options['filter[status]'] = param.status;
+    }
+
+    return options;
+
   }
 }

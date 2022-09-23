@@ -7,15 +7,14 @@
       <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
     </div>
   </AuToolbarGroup>
-
   <AuToolbarGroup class="filter-select">
-    <AuButtonGroup>
-      <StatusFilter 
-        @status={{this.status}} 
-        @onChange={{fn (mut this.status)}}
-        @query={{hash page='0'}}
-      />
-    </AuButtonGroup>
+    <AuLabel for="statuses">Status</AuLabel>
+    <StatusFilter
+      @status={{this.status}}
+      @onChange={{fn (mut this.status)}}
+      @allowClear={{true}}
+      @id="statuses"
+    />
   </AuToolbarGroup>
 </AuToolbar>
 
@@ -24,7 +23,6 @@
     <SidebarMenu />
   </m.sidebar>
   <m.content @scroll={{false}}>
-
     <AuDataTable @content={{this.model}} @fields="title description" @noDataMessage="No jobs found" @sort={{this.sort}}
       @size={{this.size}} @page={{this.page}} as |t|>
       <t.content as |c|>
@@ -71,6 +69,5 @@
         </c.body>
       </t.content>
     </AuDataTable>
-
   </m.content>
 </AuMainContainer>

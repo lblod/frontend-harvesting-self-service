@@ -54,10 +54,23 @@ table.dataTable tbody th {
   min-height: calc(100vh - 15rem);
 }
 
+// Fix select displacement when clicked
+
+.au-c-toolbar__group > * + * {
+  margin-left: 0;
+}
+
 /* Styles for status-filter */
 
 .filter-select {
   min-width: 18rem;
+  height: 2rem;
+  align-items: center;
+  .au-c-label {
+    height: 3rem;
+    margin-right: 1.2rem;
+    align-items: flex-start;
+  }
   .ember-power-select-trigger {
     min-width: 13rem;
   }
