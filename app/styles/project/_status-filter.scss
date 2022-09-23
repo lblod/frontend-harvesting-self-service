@@ -1,0 +1,19 @@
+// Styles for status-filter
+
+.filter-select {
+  min-width: 18rem;
+  height: 2rem;
+  align-items: center;
+  /* Fix select displacement when clicked */
+  &.au-c-toolbar__group > * + * {
+    margin-left: 0;
+  }
+  .au-c-label {
+    height: 3rem;
+    margin-right: 1.2rem;
+    align-items: flex-end;
+  }
+  .ember-power-select-trigger {
+    min-width: 15rem;
+  }
+}

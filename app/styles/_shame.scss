@@ -8,25 +8,6 @@
   }
 }
 
-.au-c-toolbar__group--row.comments-row {
-  > ul {
-    margin-left: 0;
-    > .au-o-grid__item {
-      padding-left: 0;
-    }
-  }
-}
-
-.au-c-toolbar_space-between{
-  @extend .au-u-flex;
-  @extend .au-u-flex--between;
-}
-
-.au-word-wrap {
-  @extend .au-u-word-break;
-}
-
-
 /* fix the table for the sparql querier */
 
 table.dataTable tbody td,
@@ -44,34 +25,8 @@ table.dataTable tbody th {
   @extend .au-u-hidden;
 }
 
-.au-c-data-table__table td:first-child {
-  @extend .au-u-word-break;
-}
-
 // Fix min-height to show prev/next buttons on all screens
 
 .au-c-main-container {
   min-height: calc(100vh - 15rem);
-}
-
-// Fix select displacement when clicked
-
-.au-c-toolbar__group > * + * {
-  margin-left: 0;
-}
-
-/* Styles for status-filter */
-
-.filter-select {
-  min-width: 18rem;
-  height: 2rem;
-  align-items: center;
-  .au-c-label {
-    height: 3rem;
-    margin-right: 1.2rem;
-    align-items: flex-start;
-  }
-  .ember-power-select-trigger {
-    min-width: 13rem;
-  }
 }

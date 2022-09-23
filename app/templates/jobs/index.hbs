@@ -41,7 +41,7 @@
           <th class="au-u-visible-small-up">Action</th>
         </c.header>
         <c.body as |row|>
-          <td>
+          <td class="au-u-word-break">
             <JobTargetUrl @job={{row}} />
           </td>
           <td>
@@ -53,7 +53,7 @@
           <td class="au-u-visible-medium-up">
             {{row.creator}}
           </td>
-          <td class="au-u-visible-small-up au-word-wrap">
+          <td class="au-u-visible-small-up au-u-word-break">
             {{operation-name row.operation}}
           </td>
           <td class="au-u-visible-small-up">
