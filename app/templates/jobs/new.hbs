@@ -33,7 +33,7 @@
             Comments
           </AuLabel>
           <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
-        </div>      
+        </div>
         <div>
           <AuLabel for="task-creator">
             Creator
@@ -49,19 +49,19 @@
           <AuLabel for="task-url">
             URL
           </AuLabel>
-          <AuInput id="task-url" @width="block" @value={{this.url}} />
+          <AuInput id="task-url" @width="block" @value={{this.url}} {{! template-lint-disable no-duplicate-id }} />
         </div>
         <div class="au-u-margin-bottom">
           <AuLabel for="task-comment">
             Comments
           </AuLabel>
-          <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
-        </div> 
+          <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" {{! template-lint-disable no-duplicate-id }} />
+        </div>
         <div>
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
-          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} {{! template-lint-disable no-duplicate-id }} />
         </div>
 
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
@@ -77,13 +77,13 @@
           <AuLabel for="task-comment">
             Comments
           </AuLabel>
-          <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if appropriate!" />
-        </div> 
+          <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if appropriate!" {{! template-lint-disable no-duplicate-id }} />
+        </div>
         <div>
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
-          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+          <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} {{! template-lint-disable no-duplicate-id }} />
         </div>
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleImportJob}}>Schedule</AuButton>
         {{/if}}
