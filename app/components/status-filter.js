@@ -1,13 +1,6 @@
 import Component from '@glimmer/component';
+import { JOB_OP_STATUS } from 'frontend-harvesting-self-service/utils/constants';
 
 export default class StatusFilterComponent extends Component {
-  
-  statusOptions = [
-    'http://redpencil.data.gift/id/concept/JobStatus/success', 
-    'http://redpencil.data.gift/id/concept/JobStatus/busy', 
-    'http://redpencil.data.gift/id/concept/JobStatus/scheduled', 
-    'http://redpencil.data.gift/id/concept/JobStatus/failed', 
-    'http://redpencil.data.gift/id/concept/JobStatus/canceled'
-  ];
-  
+  statusOptions = [...JOB_OP_STATUS.keys()];
 }
