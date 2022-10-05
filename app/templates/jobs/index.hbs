@@ -10,7 +10,8 @@
   <AuToolbarGroup class="filter-select">
     <AuLabel for="statuses">Status</AuLabel>
     <StatusFilter
-      @status={{this.status}}
+      @options={{status-name this.statusOptions}}
+      @status={{status-name this.status}}
       @onChange={{fn (mut this.status)}}
       @allowClear={{true}}
       @id="statuses"
