@@ -8,21 +8,12 @@
   }
 }
 
-.au-c-toolbar_space-between{
-  display: flex;
-  justify-content: space-between;
-}
-
-.au-word-wrap {
-  word-wrap: break-word;
-}
-
-
 /* fix the table for the sparql querier */
 
 table.dataTable tbody td,
 table.dataTable tbody th {
   min-width: 2rem;
+  word-break: break-all;
 }
 
 .yasgui .controlbar {
@@ -31,5 +22,11 @@ table.dataTable tbody th {
 }
 
 .yasgui .autocompleteWrapper {
-  display: none !important;
+  @extend .au-u-hidden;
+}
+
+// Fix min-height to show prev/next buttons on all screens
+
+.au-c-main-container {
+  min-height: calc(100vh - 15rem);
 }

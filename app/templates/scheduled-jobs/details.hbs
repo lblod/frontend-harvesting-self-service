@@ -1,16 +1,16 @@
 <AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup class="au-c-toolbar__group--row au-c-toolbar_space-between">
+  <AuToolbarGroup class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
     <AuHeading @skin="2">Scheduled Job details</AuHeading>
 
     <AuButtonGroup>
       <AuButton {{on "click" (fn (mut this.editing) true)}}>Edit</AuButton>
-      {{#unless this.deleteJob.isRunning}}
+      {{#if this.deleteJob.isRunning}}
+        <AuLoader @size="small"/>
+      {{else}}
         <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
           delete
         </AuButton>
-      {{else}}
-        <AuLoader @size="small"/>
-      {{/unless}}
+      {{/if}}
       <LinkTo @route="scheduled-jobs.index">
         <AuButton @skin="secondary">
           Back to overview
@@ -22,7 +22,7 @@
     <ul class="au-o-grid">
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>uri</AuLabel>
-        <p class="au-word-wrap">{{this.model.uri}}</p>
+        <p class="au-u-word-break">{{this.model.uri}}</p>
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>Created</AuLabel>
@@ -39,7 +39,7 @@
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}
           <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
-            <p class="au-word-wrap"> {{this.model.error.message}} </p>
+            <p class="au-u-word-break"> {{this.model.error.message}} </p>
           </AuAlert>
         {{/if}}
       </li>

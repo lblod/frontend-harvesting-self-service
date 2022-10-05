@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {
-  JOB_OP_TYPES,
+  JOB_OP_TYPE_CREATE,
   JOB_OP_TYPE_HARVEST,
   JOB_OP_TYPE_HARVEST_AND_IMPORT,
   JOB_OP_TYPE_IMPORT,
@@ -14,7 +14,7 @@ export default class JobsNewController extends Controller {
   jobImport = JOB_OP_TYPE_IMPORT;
   jobHarvestAndImport = JOB_OP_TYPE_HARVEST_AND_IMPORT;
 
-  jobOperations = Array.from(JOB_OP_TYPES).map(([key, value]) => {
+  jobOperations = Array.from(JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
   });
 
@@ -30,6 +30,7 @@ export default class JobsNewController extends Controller {
   @tracked success = false;
   @tracked error = false;
   @tracked errorMessage;
+  @tracked comment;
   @tracked selectedJobOperation;
 
   get currentTime() {
@@ -49,6 +50,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+      comment: this.comment,
       operation: this.selectedJobOperation.uri,
     });
 
@@ -76,6 +78,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       operation: this.harvestTaskOperation,
+      comment: this.comment,
       index: '0',
       inputContainers: [dataContainer],
       job: scheduledJob,
@@ -103,6 +106,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+      comment: this.comment,
       operation: this.selectedJobOperation.uri,
     });
 
@@ -115,6 +119,7 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       operation: this.importTaskOperation,
+      comment: this.comment,
       index: '0',
       inputContainers: [dataContainer],
       job: scheduledJob,

@@ -1,0 +1,12 @@
+<PowerSelect
+  @allowClear={{@allowClear}}
+  @searchEnabled={{false}}
+  @options={{this.statusOptions}}
+  @selected={{@status}}
+  @onChange={{@onChange}}
+  class="status-filter"
+  ...attributes
+  as |status|
+>
+  {{status-name status}}
+</PowerSelect>

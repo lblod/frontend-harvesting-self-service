@@ -10,6 +10,7 @@ export default class ScheduledJobsDetailsRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
     controller.set('newTitle', model.title);
+    controller.set('newComment', model.comment);
     controller.set('newCronPattern', model.schedule.get('repeatFrequency'));
   }
 }

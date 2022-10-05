@@ -13,6 +13,7 @@ export default class ScheduledJobsDetailsController extends Controller {
 
   // Edit Popup fields
   @tracked newTitle;
+  @tracked newComment;
   @tracked newCronPattern;
 
   get title() {
