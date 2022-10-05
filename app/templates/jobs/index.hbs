@@ -2,19 +2,17 @@
   <AuToolbarGroup>
     <AuHeading @skin="2">Jobs Overview</AuHeading>
   </AuToolbarGroup>
-  <AuToolbarGroup>
-    <div class="au-u-text-right">
-      <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
+  <AuToolbarGroup class="au-u-flex--vertical-center">
+    <AuLabel @inline={{true}} for="statuses">Status</AuLabel>
+    <div>
+      <StatusFilter
+        @status={{this.status}}
+        @onChange={{fn (mut this.status)}}
+        @allowClear={{true}}
+        id="statuses"
+      />
     </div>
-  </AuToolbarGroup>
-  <AuToolbarGroup class="filter-select">
-    <AuLabel for="statuses">Status</AuLabel>
-    <StatusFilter
-      @status={{this.status}}
-      @onChange={{fn (mut this.status)}}
-      @allowClear={{true}}
-      @id="statuses"
-    />
+    <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
   </AuToolbarGroup>
 </AuToolbar>
 
