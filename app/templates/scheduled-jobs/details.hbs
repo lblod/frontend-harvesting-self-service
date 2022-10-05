@@ -4,13 +4,13 @@
 
     <AuButtonGroup>
       <AuButton {{on "click" (fn (mut this.editing) true)}}>Edit</AuButton>
-      {{#unless this.deleteJob.isRunning}}
+      {{#if this.deleteJob.isRunning}}
+        <AuLoader @size="small"/>
+      {{else}}
         <AuButton @alert={{true}} {{on "click" (perform this.deleteJob this.model)}} >
           delete
         </AuButton>
-      {{else}}
-        <AuLoader @size="small"/>
-      {{/unless}}
+      {{/if}}
       <LinkTo @route="scheduled-jobs.index">
         <AuButton @skin="secondary">
           Back to overview
