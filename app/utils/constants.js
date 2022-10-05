@@ -25,15 +25,15 @@ JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
 JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_IMPORT, 'Import');
 JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
 
-export const JOB_OP_STATUS_SUCCESS = 
+export const JOB_OP_STATUS_SUCCESS =
   'http://redpencil.data.gift/id/concept/JobStatus/success';
-export const JOB_OP_STATUS_SCHEDULED = 
+export const JOB_OP_STATUS_SCHEDULED =
   'http://redpencil.data.gift/id/concept/JobStatus/scheduled';
-export const JOB_OP_STATUS_BUSY = 
+export const JOB_OP_STATUS_BUSY =
   'http://redpencil.data.gift/id/concept/JobStatus/busy';
-export const JOB_OP_STATUS_FAILED = 
+export const JOB_OP_STATUS_FAILED =
   'http://redpencil.data.gift/id/concept/JobStatus/failed';
-export const JOB_OP_STATUS_CANCELED = 
+export const JOB_OP_STATUS_CANCELED =
   'http://redpencil.data.gift/id/concept/JobStatus/canceled';
 export const JOB_OP_STATUS = new Map();
 JOB_OP_STATUS.set(JOB_OP_STATUS_SUCCESS, 'Success');

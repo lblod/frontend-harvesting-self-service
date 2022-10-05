@@ -7,5 +7,4 @@ export default class JobsIndexController extends Controller {
   size = 15;
 
   queryParams = ['page', 'size', 'status', 'sort'];
-
 }

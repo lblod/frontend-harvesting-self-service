@@ -22,6 +22,5 @@ export default class JobsIndexRoute extends Route.extend(DataTableRouteMixin) {
     }
 
     return options;
-
   }
 }
