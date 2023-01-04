@@ -7,12 +7,16 @@ import {
   JOB_OP_TYPE_HARVEST_AND_IMPORT,
   JOB_OP_TYPE_IMPORT,
   JOB_CREATOR_SELF_SERVICE,
+  JOB_OP_TYPE_HARVEST_WORSHIP,
+  JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
 } from '../../utils/constants';
 
 export default class JobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
   jobImport = JOB_OP_TYPE_IMPORT;
   jobHarvestAndImport = JOB_OP_TYPE_HARVEST_AND_IMPORT;
+  jobHarvestWorship = JOB_OP_TYPE_HARVEST_WORSHIP;
+  jobHarvestWorshipAndImport = JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
 
   jobOperations = Array.from(JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };

@@ -7,15 +7,24 @@ import {
   JOB_OP_TYPE_HARVEST,
   JOB_OP_TYPE_HARVEST_AND_IMPORT,
   JOB_CREATOR_SELF_SERVICE,
+  JOB_OP_TYPE_HARVEST_WORSHIP,
+  JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
 } from '../../utils/constants';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
   jobHarvestAndImport = JOB_OP_TYPE_HARVEST_AND_IMPORT;
+  jobHarvestWorship = JOB_OP_TYPE_HARVEST_WORSHIP;
+  jobHarvestWorshipAndImport = JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
 
   jobOperations = [
     { label: 'Harvest URL', uri: this.jobHarvest },
     { label: 'Harvest & Publish', uri: this.jobHarvestAndImport },
+    { label: 'Harvest Worship', uri: this.jobHarvestWorship },
+    {
+      label: 'Harvest Worship & Publish',
+      uri: this.jobHarvestWorshipAndImport,
+    },
   ];
 
   harvesTaskOperation =
