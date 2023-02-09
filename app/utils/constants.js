@@ -21,6 +21,15 @@ export const JOB_OP_TYPE_HEALING_WORSHIP =
 export const JOB_OP_TYPE_DUMPED_WORSHIP =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/deltaDumpFileCreation/worship';
 
+// Auth Type
+export const BASIC_AUTH = {
+  label: 'Basic',
+  uri: 'https://www.w3.org/2019/wot/security#BasicSecurityScheme',
+};
+export const OAUTH2 = {
+  label: 'Oauth2',
+  uri: 'https://www.w3.org/2019/wot/security#OAuth2SecurityScheme',
+};
 
 export const JOB_OP_TYPES = new Map();
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
