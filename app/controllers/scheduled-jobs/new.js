@@ -9,7 +9,10 @@ import {
   JOB_CREATOR_SELF_SERVICE,
   JOB_OP_TYPE_HARVEST_WORSHIP,
   JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+  BASIC_AUTH,
+  OAUTH2,
 } from '../../utils/constants';
+import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -34,6 +37,8 @@ export default class ScheduledJobsNewController extends Controller {
 
   creator = JOB_CREATOR_SELF_SERVICE;
 
+  securitySchemesOptions = [BASIC_AUTH, OAUTH2];
+
   @tracked title;
   @tracked url;
   @tracked graphName;
@@ -42,6 +47,9 @@ export default class ScheduledJobsNewController extends Controller {
   @tracked errorMessage;
   @tracked selectedJobOperation;
   @tracked cronPattern = '*/5 * * * *';
+  @tracked selectedSecurityScheme;
+  @tracked securityScheme = {};
+  @tracked credentials = {};
 
   get cronDescription() {
     const isValidCronExpression = isValidCron(this.cronPattern);
@@ -62,6 +70,20 @@ export default class ScheduledJobsNewController extends Controller {
   get currentTime() {
     const timestamp = new Date();
     return timestamp;
+  }
+
+  @action
+  updateCredentials(attributeName, credentials) {
+    this.credentials[attributeName] = credentials;
+  }
+  @action
+  updateSecurityScheme(attributeName, securityScheme) {
+    this.securityScheme[attributeName] = securityScheme;
+  }
+
+  @action
+  setSecurityScheme(selected) {
+    this.selectedSecurityScheme = selected;
   }
 
   @action
@@ -92,6 +114,14 @@ export default class ScheduledJobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+      authenticationConfiguration: this.selectedSecurityScheme
+        ? await createAuthenticationConfiguration(
+            this.selectedSecurityScheme,
+            this.securityScheme,
+            this.credentials,
+            this.store
+          )
+        : null, // authenticationConfiguration is optional
     });
 
     const collection = this.store.createRecord('harvesting-collection', {
