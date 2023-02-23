@@ -34,12 +34,21 @@
           </AuLabel>
           <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
         </div>
-        <div>
+        <div class="au-u-margin-bottom">
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
         </div>
+        <AuthenticationConfiguration
+          @options={{this.securitySchemesOptions}}
+          @selected={{this.selectedSecurityScheme}}
+          @onChange={{this.setSecurityScheme}}
+          @credentials={{this.credentials}}
+          @securityScheme={{this.securityScheme}}
+          @onCredentialsChange={{this.updateCredentials}}
+          @onSecuritySchemeChange={{this.updateSecurityScheme}}
+        />
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
 
@@ -56,12 +65,21 @@
           </AuLabel>
           <AuTextarea id="task-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" {{! template-lint-disable no-duplicate-id }} />
         </div>
-        <div>
+        <div class='au-u-margin-bottom'>
           <AuLabel for="task-creator">
             Creator
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} {{! template-lint-disable no-duplicate-id }} />
         </div>
+        <AuthenticationConfiguration
+          @options={{this.securitySchemesOptions}}
+          @selected={{this.selectedSecurityScheme}}
+          @onChange={{this.setSecurityScheme}}
+          @credentials={{this.credentials}}
+          @securityScheme={{this.securityScheme}}
+          @onCredentialsChange={{this.updateCredentials}}
+          @onSecuritySchemeChange={{this.updateSecurityScheme}}
+        />
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
 
@@ -101,12 +119,21 @@
           </AuLabel>
           <AuTextarea id="task-hw-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
         </div>
-        <div>
+        <div class="au-u-margin-bottom">
           <AuLabel for="task-hw-creator">
             Creator
           </AuLabel>
           <AuInput id="task-hw-creator" @width="block" @value={{this.creator}} disabled={{true}} />
         </div>
+        <AuthenticationConfiguration
+          @options={{this.securitySchemesOptions}}
+          @selected={{this.selectedSecurityScheme}}
+          @onChange={{this.setSecurityScheme}}
+          @credentials={{this.credentials}}
+          @securityScheme={{this.securityScheme}}
+          @onCredentialsChange={{this.updateCredentials}}
+          @onSecuritySchemeChange={{this.updateSecurityScheme}}
+        />
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
       </div>

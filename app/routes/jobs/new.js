@@ -9,5 +9,8 @@ export default class JobsNewRoute extends Route {
     controller.set('url', null);
     controller.set('comment', null);
     controller.set('graphName', null);
+    controller.set('selectedSecurityScheme', null);
+    controller.set('credentials', {});
+    controller.set('securityScheme', {});
   }
 }

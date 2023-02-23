@@ -1,0 +1,91 @@
+<div class='au-u-margin-bottom'>
+  <AuLabel for='task-authentication-configuration'>
+    Authentication Configuration
+    <AuPill>Optional</AuPill>
+  </AuLabel>
+  <PowerSelect
+    @allowClear={{true}}
+    @options={{@options}}
+    @selected={{@selected}}
+    @onChange={{@onChange}}
+    as |option|
+  >
+    {{option.label}}
+  </PowerSelect>
+  <AuHelpText>
+    When you provide an
+    <strong>URL</strong>
+    that is public you wont need to select an authentication configuration.
+    <br />
+  </AuHelpText>
+</div>
+{{#if (eq @selected.label 'Basic')}}
+  <div class='au-u-margin-bottom'>
+    <AuLabel for='task-authentication-configuration-username'>
+      Username
+    </AuLabel>
+    <AuInput
+      id='task-authentication-configuration-username'
+      @width='block'
+      @value={{@credentials.username}}
+      {{on 'change' (fn this.handleCredentialsChange 'username' @credentials.username)}}
+    />
+  </div>
+  <div>
+    <AuLabel for='task-authentication-configuration-password'>
+      Password
+    </AuLabel>
+    <AuInput
+      id='task-authentication-configuration-password'
+      @width='block'
+      @value={{@credentials.password}}
+      {{on 'change' (fn this.handleCredentialsChange 'password' @credentials.password)}}
+    />
+  </div>
+{{/if}}
+{{#if (eq @selected.label 'Oauth2')}}
+  <div class='au-u-margin-bottom'>
+    <AuLabel for='task-authentication-configuration-flow'>
+      Flow
+    </AuLabel>
+    <AuInput
+      id='task-authentication-configuration-flow'
+      @width='block'
+      @value={{@securityScheme.flow}}
+      {{on 'change' (fn this.handleSecuritySchemeChange 'flow' @securityScheme.flow)}}
+    />
+  </div>
+  <div class='au-u-margin-bottom'>
+    <AuLabel for='task-authentication-configuration-token'>
+      Token URI
+    </AuLabel>
+    <AuInput
+      id='task-authentication-configuration-token'
+      @width='block'
+      @value={{@securityScheme.token}}
+      {{on 'change' (fn this.handleSecuritySchemeChange 'token' @securityScheme.token)}}
+    />
+  </div>
+  <div class='au-u-margin-bottom'>
+    <AuLabel for='task-authentication-configuration-clientId'>
+      ClientId
+    </AuLabel>
+    <AuInput
+      id='task-authentication-configuration-clientId'
+      @width='block'
+      @value={{@credentials.clientId}}
+      {{on 'change' (fn this.handleCredentialsChange 'clientId' @credentials.clientId)}}
+    />
+  </div>
+  <div>
+    <AuLabel for='task-authentication-configuration-clientSecret'>
+      Client Secret
+    </AuLabel>
+    <AuInput
+      id='task-authentication-configuration-clientSecret'
+      @width='block'
+      @value={{@credentials.clientSecret}}
+      {{on 'change' (fn this.handleCredentialsChange 'clientSecret' @credentials.clientSecret)}}
+    />
+  </div>
+{{/if}}

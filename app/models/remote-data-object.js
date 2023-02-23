@@ -9,6 +9,8 @@ export default class RemoteDataObjectModel extends Model {
   @attr('string') requestHeader;
   @attr('string') creator;
   @belongsTo('file') file;
+  @belongsTo('harvesting-collection') harvestingCollection;
+  @belongsTo('authentication-configuration') authenticationConfiguration;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme
   statusesMap = {
