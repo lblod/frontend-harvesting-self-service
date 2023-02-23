@@ -10,5 +10,8 @@ export default class ScheduledJobsNewRoute extends Route {
     controller.set('title', '');
     controller.set('comment', '');
     controller.set('cronPattern', '*/5 * * * *');
+    controller.set('selectedSecurityScheme', null);
+    controller.set('credentials', {});
+    controller.set('securityScheme', {});
   }
 }
