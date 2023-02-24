@@ -114,6 +114,9 @@ export default class ScheduledJobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+      //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
+      // - Shallow copy of authtentication configuration (see DL-4896)
+      // - See timing issue comments, in controllers/jobs/new.js
       authenticationConfiguration: this.selectedSecurityScheme
         ? await createAuthenticationConfiguration(
             this.selectedSecurityScheme,
