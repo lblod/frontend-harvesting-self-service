@@ -82,8 +82,7 @@ export default class JobsNewController extends Controller {
 
     const remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
-      status:
-        'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      status: null, // this is deliberate, cf. infra when saving everything
       requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
       created: this.currentTime,
       modified: this.currentTime,
@@ -123,6 +122,12 @@ export default class JobsNewController extends Controller {
       await collection.save();
       await dataContainer.save();
       await task.save();
+      // This a huge abstraction leak we need to tackle one day
+      // Basically we are coordinating deltas when the download should start, after all the rest of the data
+      // is created. Else we have a timing issue, i.e. the downlad ready, before all other meta-data was created.
+      remoteDataObject.status = 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached';
+      await remoteDataObject.save();
+
       this.error = false;
       this.success = true;
     } catch (err) {
