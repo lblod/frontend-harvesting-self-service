@@ -125,7 +125,8 @@ export default class JobsNewController extends Controller {
       // This a huge abstraction leak we need to tackle one day
       // Basically we are coordinating deltas when the download should start, after all the rest of the data
       // is created. Else we have a timing issue, i.e. the downlad ready, before all other meta-data was created.
-      remoteDataObject.status = 'http://lblod.data.gift/file-download-statuses/ready-to-be-cached';
+      remoteDataObject.status =
+        'http://lblod.data.gift/file-download-statuses/ready-to-be-cached';
       await remoteDataObject.save();
 
       this.error = false;
