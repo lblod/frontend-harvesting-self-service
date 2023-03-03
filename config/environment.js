@@ -11,6 +11,9 @@ module.exports = function (environment) {
       defaultQuery: 'EMBER_YASGUI_DEFAULT_QUERY',
       extraPrefixes: 'EMBER_YASGUI_EXTRA_PREFIXES',
     },
+    harvester: {
+      AUTHENTICATION_ENABLED: true,
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
