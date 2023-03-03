@@ -1,0 +1,34 @@
+{{#if this.errorMessage}}
+    <AuAlert @size="tiny" @skin="error">
+      <p>{{this.errorMessage}}</p>
+    </AuAlert>
+{{/if}}
+<form  {{on "submit" this.login}}>
+  <div>
+    <AuLabel for="nickname">
+      Gebruikersnaam
+    </AuLabel>
+    <AuInput
+      type="text"
+      id="nickname"
+      @value={{this.nickname}}
+    />
+  </div>
+  <div>
+    <AuLabel for="password">
+      Wachtwoord
+    </AuLabel>
+    <AuInput
+      @type="password"
+      id="password"
+      @value={{this.password}}
+    />
+  </div>
+  <br>
+  <div>
+    <AuButton
+      type="submit">
+      Aanmelden
+    </AuButton>
+  </div>
+</form>
