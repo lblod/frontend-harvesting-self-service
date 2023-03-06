@@ -1,6 +1,11 @@
 {{page-title "Harvesting self service"}}
 <AuApp>
   <AuMainHeader @appTitle="Job Dashboard" @brandLink="https://www.vlaanderen.be/nl" @homeRoute="index">
+    {{#if this.authenticationEnabled}}
+      {{#if this.session.isAuthenticated}}
+        <MuLogout />
+      {{/if}}
+    {{/if}}
   </AuMainHeader>
   {{outlet}}
 </AuApp>
