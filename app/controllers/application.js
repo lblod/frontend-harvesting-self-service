@@ -6,6 +6,6 @@ export default class ApplicationController extends Controller {
   @service session;
   
   authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-    config.harvester.AUTHENTICATION_ENABLED
+    config.harvester.authEnabled
   );
 }

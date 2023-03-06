@@ -7,7 +7,7 @@ export default class Router extends EmberRouter {
 }
 
 const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-  config.harvester.AUTHENTICATION_ENABLED
+  config.harvester.authEnabled
 );
 
 Router.map(function () {
