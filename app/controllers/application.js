@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class ApplicationController extends Controller {
   @service session;
-  
+
   authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
     config.harvester.authEnabled
   );
