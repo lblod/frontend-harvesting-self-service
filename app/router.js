@@ -6,6 +6,10 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL;
 }
 
+const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
+  config.harvester.AUTHENTICATION_ENABLED
+);
+
 Router.map(function () {
   this.route('jobs', function () {
     this.route('details', { path: '/:id' }, function () {
@@ -34,4 +38,8 @@ Router.map(function () {
     this.route('new');
   });
   this.route('sparql');
+
+  if (authenticationEnabled) {
+    this.route('login');
+  }
 });
