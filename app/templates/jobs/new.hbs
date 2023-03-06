@@ -40,15 +40,17 @@
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
         </div>
-        <AuthenticationConfiguration
-          @options={{this.securitySchemesOptions}}
-          @selected={{this.selectedSecurityScheme}}
-          @onChange={{this.setSecurityScheme}}
-          @credentials={{this.credentials}}
-          @securityScheme={{this.securityScheme}}
-          @onCredentialsChange={{this.updateCredentials}}
-          @onSecuritySchemeChange={{this.updateSecurityScheme}}
-        />
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
 
@@ -71,15 +73,17 @@
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} {{! template-lint-disable no-duplicate-id }} />
         </div>
-        <AuthenticationConfiguration
-          @options={{this.securitySchemesOptions}}
-          @selected={{this.selectedSecurityScheme}}
-          @onChange={{this.setSecurityScheme}}
-          @credentials={{this.credentials}}
-          @securityScheme={{this.securityScheme}}
-          @onCredentialsChange={{this.updateCredentials}}
-          @onSecuritySchemeChange={{this.updateSecurityScheme}}
-        />
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
 
@@ -125,15 +129,17 @@
           </AuLabel>
           <AuInput id="task-hw-creator" @width="block" @value={{this.creator}} disabled={{true}} />
         </div>
-        <AuthenticationConfiguration
-          @options={{this.securitySchemesOptions}}
-          @selected={{this.selectedSecurityScheme}}
-          @onChange={{this.setSecurityScheme}}
-          @credentials={{this.credentials}}
-          @securityScheme={{this.securityScheme}}
-          @onCredentialsChange={{this.updateCredentials}}
-          @onSecuritySchemeChange={{this.updateSecurityScheme}}
-        />
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
         <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
         {{/if}}
       </div>

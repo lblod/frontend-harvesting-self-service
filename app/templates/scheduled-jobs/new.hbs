@@ -69,15 +69,18 @@
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} />
         </div>
-        <AuthenticationConfiguration
-          @options={{this.securitySchemesOptions}}
-          @selected={{this.selectedSecurityScheme}}
-          @onChange={{this.setSecurityScheme}}
-          @credentials={{this.credentials}}
-          @securityScheme={{this.securityScheme}}
-          @onCredentialsChange={{this.updateCredentials}}
-          @onSecuritySchemeChange={{this.updateSecurityScheme}}
-        />
+
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
         <AuButton class="au-u-margin-top-large" @disabled={{not this.isValidCron}} {{on 'click' this.createScheduledJob}}>Schedule</AuButton>
         {{/if}}
       </div>
