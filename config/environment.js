@@ -12,7 +12,7 @@ module.exports = function (environment) {
       extraPrefixes: 'EMBER_YASGUI_EXTRA_PREFIXES',
     },
     harvester: {
-      AUTHENTICATION_ENABLED: true,
+      authEnabled: '{{AUTHENTICATION_ENABLED}}',
     },
     EmberENV: {
       FEATURES: {
