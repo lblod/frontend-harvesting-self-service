@@ -13,6 +13,7 @@ import {
   OAUTH2,
 } from '../../utils/constants';
 import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
+import config from 'frontend-harvesting-self-service/config/environment';
 
 export default class JobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -33,6 +34,10 @@ export default class JobsNewController extends Controller {
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
 
   securitySchemesOptions = [BASIC_AUTH, OAUTH2];
+
+  authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
+    config.harvester.authEnabled
+  );
 
   @tracked url;
   @tracked graphName;
