@@ -13,6 +13,7 @@ import {
   OAUTH2,
 } from '../../utils/constants';
 import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
+import config from 'frontend-harvesting-self-service/config/environment';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -38,6 +39,10 @@ export default class ScheduledJobsNewController extends Controller {
   creator = JOB_CREATOR_SELF_SERVICE;
 
   securitySchemesOptions = [BASIC_AUTH, OAUTH2];
+
+  authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
+    config.harvester.authEnabled
+  );
 
   @tracked title;
   @tracked url;
