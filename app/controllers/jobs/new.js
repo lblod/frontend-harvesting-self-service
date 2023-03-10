@@ -87,6 +87,10 @@ export default class JobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+    });
+
+    const collection = this.store.createRecord('harvesting-collection', {
+      creator: this.creator,
       authenticationConfiguration: this.selectedSecurityScheme
         ? await createAuthenticationConfiguration(
             this.selectedSecurityScheme,
@@ -95,10 +99,6 @@ export default class JobsNewController extends Controller {
             this.store
           )
         : null, // authenticationConfiguration is optional
-    });
-
-    const collection = this.store.createRecord('harvesting-collection', {
-      creator: this.creator,
       remoteDataObjects: [remoteDataObject],
     });
 

@@ -114,6 +114,10 @@ export default class ScheduledJobsNewController extends Controller {
       created: this.currentTime,
       modified: this.currentTime,
       creator: this.creator,
+    });
+
+    const collection = this.store.createRecord('harvesting-collection', {
+      creator: this.creator,
       //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
       // - Shallow copy of authtentication configuration (see DL-4896)
       // - See timing issue comments, in controllers/jobs/new.js
@@ -125,10 +129,6 @@ export default class ScheduledJobsNewController extends Controller {
             this.store
           )
         : null, // authenticationConfiguration is optional
-    });
-
-    const collection = this.store.createRecord('harvesting-collection', {
-      creator: this.creator,
       remoteDataObjects: [remoteDataObject],
     });
 
