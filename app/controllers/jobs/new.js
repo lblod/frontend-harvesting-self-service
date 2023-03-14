@@ -14,6 +14,7 @@ import {
 } from '../../utils/constants';
 import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
+import { inject as service } from '@ember/service';
 
 export default class JobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -41,14 +42,15 @@ export default class JobsNewController extends Controller {
 
   @tracked url;
   @tracked graphName;
-  @tracked success = false;
-  @tracked error = false;
-  @tracked errorMessage;
   @tracked comment;
   @tracked selectedJobOperation;
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
+  @tracked scheduling = false;
+
+  @service toaster;
+  @service router;
 
   get currentTime() {
     const timestamp = new Date();
@@ -72,10 +74,13 @@ export default class JobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
+    this.scheduling = false;
   }
 
   @action
   async scheduleHarvestJob() {
+    this.scheduling = true;
+
     const scheduledJob = this.store.createRecord('job', {
       status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
       created: this.currentTime,
@@ -134,17 +139,28 @@ export default class JobsNewController extends Controller {
         'http://lblod.data.gift/file-download-statuses/ready-to-be-cached';
       await remoteDataObject.save();
 
-      this.error = false;
-      this.success = true;
+      this.toaster.success(
+        'New job succesfully scheduled.',
+        'Scheduling success',
+        { icon: 'check', timeOut: 10000, closable: true }
+      );
+      this.router.transitionTo('jobs');
+      //Don't do this, because the button will become active again before the route has finished loading.
+      //this.scheduling = false;
     } catch (err) {
-      this.errorMessage = err;
-      this.success = false;
-      this.error = true;
+      this.toaster.error(
+        `Error while scheduling new job: (${err})`,
+        'Scheduling failed',
+        { icon: 'cross', timeOut: 10000, closable: true }
+      );
+      this.scheduling = false;
     }
   }
 
   @action
   async scheduleImportJob() {
+    this.scheduling = true;
+
     const scheduledJob = this.store.createRecord('job', {
       status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
       created: this.currentTime,
@@ -173,12 +189,21 @@ export default class JobsNewController extends Controller {
       await scheduledJob.save();
       await dataContainer.save();
       await task.save();
-      this.error = false;
-      this.success = true;
+      this.toaster.success(
+        'New job succesfully scheduled.',
+        'Scheduling success',
+        { icon: 'check', timeOut: 10000, closable: true }
+      );
+      this.router.transitionTo('jobs');
+      //Don't do this, because the button will become active again before the route has finished loading.
+      //this.scheduling = false;
     } catch (err) {
-      this.errorMessage = err;
-      this.success = false;
-      this.error = true;
+      this.toaster.error(
+        `Error while scheduling new job: (${err})`,
+        'Scheduling failed',
+        { icon: 'cross', timeOut: 10000, closable: true }
+      );
+      this.scheduling = false;
     }
   }
 }
