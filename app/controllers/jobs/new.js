@@ -74,7 +74,6 @@ export default class JobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
-    this.scheduling = false;
   }
 
   @action
