@@ -84,7 +84,7 @@
         <AuButton
           class="au-u-margin-top-large"
           {{on 'click' this.createScheduledJob}}
-          @disabled={{(or this.scheduling (not this.isValidCron))}}
+          @disabled={{or this.scheduling (not this.isValidCron)}}
           @loading={{this.scheduling}}
           @loadingMessage="Scheduling">
           Schedule
