@@ -81,25 +81,16 @@
             @onSecuritySchemeChange={{this.updateSecurityScheme}}
           />
         {{/if}}
-        <AuButton class="au-u-margin-top-large" @disabled={{not this.isValidCron}} {{on 'click' this.createScheduledJob}}>Schedule</AuButton>
+        <AuButton
+          class="au-u-margin-top-large"
+          {{on 'click' this.createScheduledJob}}
+          @disabled={{(or this.scheduling (not this.isValidCron))}}
+          @loading={{this.scheduling}}
+          @loadingMessage="Scheduling">
+          Schedule
+        </AuButton>
         {{/if}}
       </div>
     </div>
   </div>
 </div>
-
-<AuToolbar @border="top" @size="large">
-  {{#if this.success}}
-  <AuToolbarGroup class="au-c-toolbar__group--row">
-    <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Job succesfully scheduled"
-      @alertskin={{"success"}}>
-    </AuAlert>
-  </AuToolbarGroup>
-  {{else if this.error}}
-  <AuToolbarGroup class="au-c-toolbar__group--row">
-    <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong" @alertskin={{"error"}}>
-      {{this.errorMessage}}
-    </AuAlert>
-  </AuToolbarGroup>
-  {{/if}}
-</AuToolbar>

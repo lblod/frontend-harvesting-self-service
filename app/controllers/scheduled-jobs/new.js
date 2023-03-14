@@ -14,6 +14,7 @@ import {
 } from '../../utils/constants';
 import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
+import { inject as service } from '@ember/service';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -47,14 +48,15 @@ export default class ScheduledJobsNewController extends Controller {
   @tracked title;
   @tracked url;
   @tracked graphName;
-  @tracked success = false;
-  @tracked error = false;
-  @tracked errorMessage;
   @tracked selectedJobOperation;
   @tracked cronPattern = '*/5 * * * *';
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
+  @tracked scheduling = false;
+
+  @service toaster;
+  @service router;
 
   get cronDescription() {
     const isValidCronExpression = isValidCron(this.cronPattern);
@@ -98,6 +100,8 @@ export default class ScheduledJobsNewController extends Controller {
 
   @action
   async createScheduledJob() {
+    this.scheduling = true;
+
     const cronSchedule = this.store.createRecord('cron-schedule', {
       repeatFrequency: this.cronPattern,
     });
@@ -157,12 +161,21 @@ export default class ScheduledJobsNewController extends Controller {
       await collection.save();
       await dataContainer.save();
       await scheduledTasks.save();
-      this.error = false;
-      this.success = true;
+      this.toaster.success(
+        'New job succesfully scheduled.',
+        'Scheduling success',
+        { icon: 'check', timeOut: 10000, closable: true }
+      );
+      this.router.transitionTo('scheduled-jobs');
+      //Don't do this, because the button will become active again before the route has finished loading.
+      //this.scheduling = false;
     } catch (err) {
-      this.errorMessage = err;
-      this.success = false;
-      this.error = true;
+      this.toaster.error(
+        `Error while scheduling new job: (${err})`,
+        'Scheduling failed',
+        { icon: 'cross', timeOut: 10000, closable: true }
+      );
+      this.scheduling = false;
     }
   }
 }
