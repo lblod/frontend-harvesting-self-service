@@ -51,7 +51,14 @@
             @onSecuritySchemeChange={{this.updateSecurityScheme}}
           />
         {{/if}}
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
+        <AuButton
+          class="au-u-margin-top-large"
+          {{on 'click' this.scheduleHarvestJob}}
+          @disabled={{this.scheduling}}
+          @loading={{this.scheduling}}
+          @loadingMessage="Scheduling">
+          Schedule
+        </AuButton>
         {{/if}}
 
         {{#if (eq this.selectedJobOperation.uri this.jobHarvest)}}
@@ -84,7 +91,14 @@
             @onSecuritySchemeChange={{this.updateSecurityScheme}}
           />
         {{/if}}
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
+        <AuButton
+          class="au-u-margin-top-large"
+          {{on 'click' this.scheduleHarvestJob}}
+          @disabled={{this.scheduling}}
+          @loading={{this.scheduling}}
+          @loadingMessage="Scheduling">
+          Schedule
+        </AuButton>
         {{/if}}
 
         {{#if (eq this.selectedJobOperation.uri this.jobImport )}}
@@ -106,59 +120,57 @@
           </AuLabel>
           <AuInput id="task-creator" @width="block" @value={{this.creator}} disabled={{true}} {{! template-lint-disable no-duplicate-id }} />
         </div>
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleImportJob}}>Schedule</AuButton>
+        <AuButton
+          class="au-u-margin-top-large"
+          {{on 'click' this.scheduleImportJob}}
+          @disabled={{this.scheduling}}
+          @loading={{this.scheduling}}
+          @loadingMessage="Scheduling">
+          Schedule
+        </AuButton>
         {{/if}}
 
         {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport)
                   (eq this.selectedJobOperation.uri this.jobHarvestWorship))}}
-        <div class="au-u-margin-bottom">
-          <AuLabel for="task-hw-url">
-            URL
-          </AuLabel>
-          <AuInput id="task-hw-url" @width="block" @value={{this.url}} />
-        </div>
-        <div class="au-u-margin-bottom">
-          <AuLabel for="task-hw-comment">
-            Comments
-          </AuLabel>
-          <AuTextarea id="task-hw-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
-        </div>
-        <div class="au-u-margin-bottom">
-          <AuLabel for="task-hw-creator">
-            Creator
-          </AuLabel>
-          <AuInput id="task-hw-creator" @width="block" @value={{this.creator}} disabled={{true}} />
-        </div>
-        {{#if this.authenticationEnabled}}
-          <AuthenticationConfiguration
-            @options={{this.securitySchemesOptions}}
-            @selected={{this.selectedSecurityScheme}}
-            @onChange={{this.setSecurityScheme}}
-            @credentials={{this.credentials}}
-            @securityScheme={{this.securityScheme}}
-            @onCredentialsChange={{this.updateCredentials}}
-            @onSecuritySchemeChange={{this.updateSecurityScheme}}
-          />
-        {{/if}}
-        <AuButton class="au-u-margin-top-large" {{on 'click' this.scheduleHarvestJob}}>Schedule</AuButton>
+          <div class="au-u-margin-bottom">
+            <AuLabel for="task-hw-url">
+              URL
+            </AuLabel>
+            <AuInput id="task-hw-url" @width="block" @value={{this.url}} />
+          </div>
+          <div class="au-u-margin-bottom">
+            <AuLabel for="task-hw-comment">
+              Comments
+            </AuLabel>
+            <AuTextarea id="task-hw-comment" @width="block" @value={{this.comment}} placeholder="Some details, if required!" />
+          </div>
+          <div class="au-u-margin-bottom">
+            <AuLabel for="task-hw-creator">
+              Creator
+            </AuLabel>
+            <AuInput id="task-hw-creator" @width="block" @value={{this.creator}} disabled={{true}} />
+          </div>
+          {{#if this.authenticationEnabled}}
+            <AuthenticationConfiguration
+              @options={{this.securitySchemesOptions}}
+              @selected={{this.selectedSecurityScheme}}
+              @onChange={{this.setSecurityScheme}}
+              @credentials={{this.credentials}}
+              @securityScheme={{this.securityScheme}}
+              @onCredentialsChange={{this.updateCredentials}}
+              @onSecuritySchemeChange={{this.updateSecurityScheme}}
+            />
+          {{/if}}
+          <AuButton
+            class="au-u-margin-top-large"
+            {{on 'click' this.scheduleHarvestJob}}
+            @disabled={{this.scheduling}}
+            @loading={{this.scheduling}}
+            @loadingMessage="Scheduling">
+            Schedule
+          </AuButton>
         {{/if}}
       </div>
     </div>
   </div>
 </div>
-
-<AuToolbar @border="top" @size="large">
-  {{#if this.success}}
-  <AuToolbarGroup class="au-c-toolbar__group--row">
-    <AuAlert class="au-u-margin-top-large" @alertIcon="check" @alertTitle="Job succesfully scheduled"
-      @alertskin={{"success"}}>
-    </AuAlert>
-  </AuToolbarGroup>
-  {{else if this.error}}
-  <AuToolbarGroup class="au-c-toolbar__group--row">
-    <AuAlert class="au-u-margin-top-large" @alertIcon="cross" @alertTitle="Something went wrong" @alertskin={{"error"}}>
-      {{this.errorMessage}}
-    </AuAlert>
-  </AuToolbarGroup>
-  {{/if}}
-</AuToolbar>
