@@ -113,8 +113,7 @@ export default class ScheduledJobsNewController extends Controller {
 
     const remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
-      status:
-        'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      status: undefined,
       requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
       created: this.currentTime,
       modified: this.currentTime,
