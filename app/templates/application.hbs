@@ -1,7 +1,10 @@
 {{page-title "Harvesting self service"}}
 <AuToaster @position="top"/>
 <AuApp>
-  <AuMainHeader @appTitle="Job Dashboard" @brandLink="https://www.vlaanderen.be/nl" @homeRoute="index">
+  <AuMainHeader
+    @appTitle="Job Dashboard"
+    @brandLink="https://www.vlaanderen.be/nl"
+    @homeRoute="index">
     {{#if this.authenticationEnabled}}
       {{#if this.session.isAuthenticated}}
         <MuLogout />

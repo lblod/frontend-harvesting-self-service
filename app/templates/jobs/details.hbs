@@ -1,5 +1,8 @@
-<AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
+<AuToolbar
+  @border="bottom"
+  @size="large"
+  as |Group|>
+  <Group class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
     <AuHeading @skin="2">Job Details</AuHeading>
 
     <AuButtonGroup>
@@ -16,8 +19,8 @@
         </AuButton>
       </LinkTo>
     </AuButtonGroup>
-  </AuToolbarGroup>
-  <AuToolbarGroup class="au-c-toolbar__group--row">
+  </Group>
+  <Group class="au-c-toolbar__group--row">
     <ul class="au-o-grid">
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>uri</AuLabel>
@@ -47,16 +50,16 @@
         {{/if}}
       </li>
     </ul>
-  </AuToolbarGroup>
+  </Group>
   {{#if this.model.comment}}
-    <AuToolbarGroup class="au-c-toolbar__group--row comments-row">
+    <Group class="au-c-toolbar__group--row comments-row">
       <AuHeading class="au-c-heading--3">Comments</AuHeading>
       <ul class="au-o-grid au-u-margin-left-none">
         <li class="au-o-grid__item au-u-1-2 au-u-padding-left-none">
           <p class="au-u-word-break">{{this.model.comment}}</p>
         </li>
       </ul>
-    </AuToolbarGroup>  
+    </Group>  
   {{/if}} 
 </AuToolbar>
 

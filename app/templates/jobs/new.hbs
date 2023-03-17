@@ -1,7 +1,10 @@
-<AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup>
+<AuToolbar
+  @border="bottom"
+  @size="large"
+  as |Group|>
+  <Group>
     <AuHeading @skin="2" data-test-loket="subsidiebeheer-page-title">Schedule job</AuHeading>
-  </AuToolbarGroup>
+  </Group>
       <LinkTo @route="jobs.index">
       <AuButton @skin="secondary">
         Back to overview

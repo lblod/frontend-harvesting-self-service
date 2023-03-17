@@ -1,5 +1,8 @@
-<AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
+<AuToolbar
+  @border="bottom"
+  @size="large"
+  as |Group|>
+  <Group class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
     <AuHeading @skin="2">Scheduled Job details</AuHeading>
 
     <AuButtonGroup>
@@ -17,8 +20,8 @@
         </AuButton>
       </LinkTo>
     </AuButtonGroup>
-  </AuToolbarGroup>
-  <AuToolbarGroup class="au-c-toolbar__group--row">
+  </Group>
+  <Group class="au-c-toolbar__group--row">
     <ul class="au-o-grid">
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>uri</AuLabel>
@@ -44,7 +47,7 @@
         {{/if}}
       </li>
     </ul>
-  </AuToolbarGroup>
+  </Group>
 </AuToolbar>
 
 

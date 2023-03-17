@@ -1,8 +1,11 @@
-<AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup>
+<AuToolbar
+  @border="bottom"
+  @size="large"
+  as |Group|>
+  <Group>
     <AuHeading @skin="2">Jobs Overview</AuHeading>
-  </AuToolbarGroup>
-  <AuToolbarGroup class="au-u-flex--vertical-center">
+  </Group>
+  <Group class="au-u-flex--vertical-center">
     <AuLabel @inline={{true}} for="statuses">Status</AuLabel>
     <div>
       <StatusFilter
@@ -13,7 +16,7 @@
       />
     </div>
     <LinkTo @route="jobs.new" class="au-c-button" type="button">Create new job</LinkTo>
-  </AuToolbarGroup>
+  </Group>
 </AuToolbar>
 
 <AuMainContainer as |m|>
