@@ -4,8 +4,10 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import { isValidCron } from 'cron-validator';
 import cronstrue from 'cronstrue';
+import { service } from "@ember/service";
 
 export default class ScheduledJobsDetailsController extends Controller {
+  @service router;
   queryParams = ['editing'];
 
   @tracked editing = false;

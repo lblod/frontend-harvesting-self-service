@@ -1,6 +1,9 @@
 import Route from '@ember/routing/route';
+import { service } from "@ember/service";
 
 export default class ScheduledJobsDetailsRoute extends Route {
+  @service store;
+
   model(param) {
     return this.store.findRecord('scheduled-job', param.id, {
       include: 'schedule',

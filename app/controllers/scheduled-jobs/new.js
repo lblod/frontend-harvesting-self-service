@@ -57,6 +57,7 @@ export default class ScheduledJobsNewController extends Controller {
 
   @service toaster;
   @service router;
+  @service store;
 
   get cronDescription() {
     const isValidCronExpression = isValidCron(this.cronPattern);
