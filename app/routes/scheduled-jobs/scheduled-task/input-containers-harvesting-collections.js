@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
-import { service } from "@ember/service";
+import { service } from '@ember/service';
 
 export default class ScheduledJobsScheduledTaskInputContainersHarvestingCollectionsRoute extends Route.extend(
   DataTableRouteMixin
