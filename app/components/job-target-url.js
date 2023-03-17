@@ -26,9 +26,7 @@ export default class JobTargetUrlComponent extends Component {
           sort: 'created',
         });
 
-        this.url = !remoteDataObject.firstObject
-          ? 'N/A'
-          : remoteDataObject.firstObject.source;
+        this.url = !remoteDataObject[0] ? 'N/A' : remoteDataObject[0].source;
       }
     } catch (e) {
       console.error(e);
