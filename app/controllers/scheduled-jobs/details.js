@@ -104,8 +104,8 @@ export default class ScheduledJobsDetailsController extends Controller {
           }
         }
       }
-      this.transitionToRoute('scheduled-jobs.index');
     }
+    this.router.transitionTo('scheduled-jobs.index');
   }
 
   @task

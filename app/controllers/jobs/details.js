@@ -63,7 +63,7 @@ export default class JobsDetailsController extends Controller {
           }
         }
       }
-      this.transitionToRoute('jobs.index');
     }
+    this.router.transitionTo('jobs.index');
   }
 }
