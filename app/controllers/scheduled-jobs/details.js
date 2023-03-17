@@ -23,7 +23,7 @@ export default class ScheduledJobsDetailsController extends Controller {
   }
 
   get frequency() {
-    return this.model.schedule.get('repeatFrequency');
+    return this.model.schedule?.get('repeatFrequency');
   }
 
   get currentCronDescription() {
