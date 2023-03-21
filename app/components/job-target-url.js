@@ -28,6 +28,8 @@ export default class JobTargetUrlComponent extends Component {
           'page[number]': 0,
         });
         this.url = !remoteDataObject[0] ? 'N/A' : remoteDataObject[0].source;
+      } else {
+        this.url = 'N/A';
       }
     } catch (e) {
       console.error(e);
