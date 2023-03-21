@@ -44,7 +44,7 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}
-          <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
+          <AuAlert @icon="cross" @title="Error" @skin={{"error"}}>
             <p class="au-u-word-break"> {{this.model.error.message}} </p>
           </AuAlert>
         {{/if}}
