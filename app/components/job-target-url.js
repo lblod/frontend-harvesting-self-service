@@ -17,15 +17,16 @@ export default class JobTargetUrlComponent extends Component {
   @task
   *fetchTargetUrl() {
     try {
-      const tasks = yield this.args.job.tasks;
-      const firstTask = tasks.find((task) => task.get('index') === '0');
+      const tasks = yield this.args.job.get('tasks');
+      const firstTask = yield tasks.find((task) => task.get('index') === '0');
       if (firstTask) {
         const remoteDataObject = yield this.store.query('remoteDataObject', {
           'filter[harvesting-collection][data-container][input-from-tasks][:id:]':
             firstTask.id,
           sort: 'created',
+          'page[size]': 1,
+          'page[number]': 0,
         });
-
         this.url = !remoteDataObject[0] ? 'N/A' : remoteDataObject[0].source;
       }
     } catch (e) {
