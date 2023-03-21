@@ -1,17 +1,16 @@
 import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 export default class JobTargetUrlComponent extends Component {
   @service store;
   @tracked url;
 
-  constructor() {
-    super(...arguments);
-    if (this.args.job) {
-      this.fetchTargetUrl.perform();
-    }
+  @action
+  load() {
+    if (this.args.job) this.fetchTargetUrl.perform();
   }
 
   @task
