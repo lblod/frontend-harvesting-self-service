@@ -1,8 +1,9 @@
 {{page-title "Harvesting self service"}}
 <AuToaster @position="top"/>
+<AuModalContainer />
 <AuApp>
   <AuMainHeader
-    @appTitle="Job Dashboard"
+    @appTitle="Harvesting self service"
     @brandLink="https://www.vlaanderen.be/nl"
     @homeRoute="index">
     {{#if this.authenticationEnabled}}
@@ -11,6 +12,5 @@
       {{/if}}
     {{/if}}
   </AuMainHeader>
-  <AuModalContainer />
   {{outlet}}
 </AuApp>
