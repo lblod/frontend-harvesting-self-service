@@ -2,12 +2,226 @@
 <AuModal
   @modalOpen={{true}}
   @closeModal={{this.closeModal}}
+  @overflow={{if this.selectedJobOperation.uri false true}}
   @size="default">
   <:title>Create new job</:title>
   <:body>
-    <p>Modal content</p>
+    <form class="au-c-form">
+      <AuFormRow
+        class="au-u-margin-bottom"
+        @alignment="default">
+        <AuLabel
+          for="job-type-select"
+          @inline={{false}}>
+          Choose type
+        </AuLabel>
+        <PowerSelect
+          id="job-type-select"
+          @renderInPlace={{true}}
+          @allowClear={{true}}
+          @options={{this.jobOperations}}
+          @selected={{this.selectedJobOperation}}
+          @onChange={{this.setJobOperation}} as |option|>
+            {{option.label}}
+        </PowerSelect>
+      </AuFormRow>
+
+      {{!-- HarvestAndImport --}}
+
+      {{#if (eq this.selectedJobOperation.uri this.jobHarvestAndImport)}}
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-url">
+            URL
+          </AuLabel>
+          <AuInput
+            id="task-url"
+            @width="block"
+            @value={{this.url}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-comment">
+            Comments
+          </AuLabel>
+          <AuTextarea
+            id="task-comment"
+            @width="block"
+            @value={{this.comment}}
+            placeholder="Some details, if required!"/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput
+            id="task-creator"
+            @width="block"
+            @value={{this.creator}}
+            @disabled={{true}}/>
+        </AuFormRow>
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
+      {{/if}}
+
+      {{!-- Harvest --}}
+
+      {{#if (eq this.selectedJobOperation.uri this.jobHarvest)}}
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-url">
+            URL
+          </AuLabel>
+          <AuInput
+            id="task-url"
+            @width="block"
+            @value={{this.url}}
+            {{! template-lint-disable no-duplicate-id}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-comment">
+            Comments
+          </AuLabel>
+          <AuTextarea
+            id="task-comment"
+            @width="block"
+            @value={{this.comment}}
+            placeholder="Some details, if required!"
+            {{! template-lint-disable no-duplicate-id}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput
+            id="task-creator"
+            @width="block"
+            @value={{this.creator}}
+            @disabled={{true}}
+            {{! template-lint-disable no-duplicate-id}}/>
+        </AuFormRow>
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
+      {{/if}}
+
+      {{!-- Import --}}
+
+      {{#if (eq this.selectedJobOperation.uri this.jobImport )}}
+        <AuFormRow @alignment="default">
+          <AuLabel for="graph-name">
+            Graph URI
+          </AuLabel>
+          <AuInput
+            id="graph-name"
+            @width="block"
+            @value={{this.graphName}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-comment">
+            Comments
+          </AuLabel>
+          <AuTextarea
+            id="task-comment"
+            @width="block"
+            @value={{this.comment}}
+            placeholder="Some details, if appropriate!"
+            {{! template-lint-disable no-duplicate-id}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-creator">
+            Creator
+          </AuLabel>
+          <AuInput
+            id="task-creator"
+            @width="block"
+            @value={{this.creator}}
+            @disabled={{true}}
+            {{! template-lint-disable no-duplicate-id}}/>
+        </AuFormRow>
+      {{/if}}
+
+      {{!-- HarvestWorshipAndImport, HarvestWorship --}}
+
+      {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport)
+                (eq this.selectedJobOperation.uri this.jobHarvestWorship))}}
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-hw-url">
+            URL
+          </AuLabel>
+          <AuInput
+            id="task-hw-url"
+            @width="block"
+            @value={{this.url}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-hw-comment">
+            Comments
+          </AuLabel>
+          <AuTextarea
+            id="task-hw-comment"
+            @width="block"
+            @value={{this.comment}}
+            placeholder="Some details, if required!"/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-hw-creator">
+            Creator
+          </AuLabel>
+          <AuInput
+            id="task-hw-creator"
+            @width="block"
+            @value={{this.creator}}
+            @disabled={{true}}/>
+        </AuFormRow>
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}/>
+        {{/if}}
+      {{/if}}
+    </form>
   </:body>
   <:footer>
-    <AuButton>Action</AuButton>
+    <AuButtonGroup>
+      <AuButton
+        {{on 'click' this.createAndStartJob}}
+        @skin="primary"
+        @icon="check"
+        @iconAlignment="left"
+        @disabled={{this.scheduling}}
+        @loading={{this.scheduling}}
+        @loadingMessage="Creating">
+        Create and start Job
+      </AuButton>
+      <AuButton
+        {{on 'click' this.cancelCreateAndStartJob}}
+        @skin="secondary"
+        @icon="trash"
+        @iconAlignment="left"
+        @alert={{true}}
+        @disabled={{this.scheduling}}>
+        Cancel
+      </AuButton>
+    </AuButtonGroup>
   </:footer>
 </AuModal>
