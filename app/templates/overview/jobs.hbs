@@ -1,0 +1,106 @@
+{{page-title "Jobs"}}
+
+<AuDataTable
+  @content={{this.model}}
+  @fields="title description"
+  @noDataMessage="No jobs found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}} as |t|>
+  <t.menu as |menu|>
+    <menu.general>
+      <AuToolbar
+        @border="none"
+        @size="large"
+        as |Group|>
+        <Group>
+          <AuHeading @level="1" @skin="1">Jobs</AuHeading>
+        </Group>
+        <Group class="au-u-flex--vertical-center">
+          <AuLabel
+            @inline={{true}}
+            for="statuses">
+            Status
+          </AuLabel>
+          <div>
+            <StatusFilter
+              @status={{this.status}}
+              @onChange={{fn (mut this.status)}}
+              @allowClear={{true}}
+              id="statuses"/>
+          </div>
+          <AuLink
+            @route="overview.jobs.new"
+            @skin="button"
+            @icon="plus"
+            @iconAlignment="left">
+            Create new job
+          </AuLink>
+        </Group>
+      </AuToolbar>
+    </menu.general>
+  </t.menu>
+  <t.content as |c|>
+    <c.header>
+      <th>Target URL</th>
+      <AuDataTableThSortable
+        @field="created"
+        @currentSorting={{this.sort}}
+        @label="Created"
+        @class="data-table__header-title"/>
+      <AuDataTableThSortable
+        @field="modified"
+        @currentSorting={{this.sort}}
+        @label="Modified"
+        @class="data-table__header-title"/>
+      <AuDataTableThSortable
+        @field="creator"
+        @currentSorting={{this.sort}}
+        @label="Creator"
+        @class="data-table__header-title"/>
+      <AuDataTableThSortable
+        @field="operation"
+        @currentSorting={{this.sort}}
+        @label="Operation"
+        @class="data-table__header-title"/>
+      <AuDataTableThSortable
+        @field="status"
+        @currentSorting={{this.sort}}
+        @label="Status"
+        @class="data-table__header-title"/>
+      <th>Action</th>
+    </c.header>
+    <c.body as |row|>
+      <td class="au-u-word-break">
+        <JobTargetUrl @job={{row}} />
+      </td>
+      <td>
+        {{format-date row.created}}
+      </td>
+      <td>
+        {{format-date row.modified}}
+      </td>
+      <td>
+        {{row.creator}}
+      </td>
+      <td class="au-u-word-break">
+        {{operation-name row.operation}}
+      </td>
+      <td>
+        <StatusPill @status={{row.shortStatus}}></StatusPill>
+      </td>
+      <td>
+        <AuLink
+          @route="jobs.details"
+          @skin="button"
+          @icon="nav-right"
+          @iconAlignment="right"
+          @model={{row}}>
+          View
+        </AuLink>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>
+
+{{outlet}}

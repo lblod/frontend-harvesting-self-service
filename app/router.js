@@ -42,4 +42,11 @@ Router.map(function () {
   if (authenticationEnabled) {
     this.route('login');
   }
+
+  this.route('overview', function () {
+    this.route('jobs', function () {
+      this.route('new');
+    });
+    this.route('scheduled-jobs');
+  });
 });
