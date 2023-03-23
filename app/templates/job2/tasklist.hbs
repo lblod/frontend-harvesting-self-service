@@ -1,74 +1,164 @@
-<AuDataTable
-  @content={{this.model}}
-  @noDataMessage="No files found"
-  @sort={{this.sort}}
-  @size={{this.size}}
-  @page={{this.page}} as |t|>
-  <t.menu as |menu|>
-    <menu.general>
-      <AuToolbar
-        @border="none"
-        @size="large"
-        as |Group|>
-        <Group>
-          <AuHeading @level="1" @skin="1">Task List</AuHeading>
-        </Group>
-      </AuToolbar>
-    </menu.general>
-  </t.menu>
-  <t.content as |c|>
-    <c.header>
-      <th>URI</th>
-      <AuDataTableThSortable
-        @field="created"
-        @currentSorting={{this.sort}}
-        @label="Created"
-        @class="data-table__header-title"/>
-      <AuDataTableThSortable
-        @field="operation"
-        @currentSorting={{this.sort}}
-        @label="Operation"
-        @class="data-table__header-title"/>
-      <AuDataTableThSortable
-        @field="index"
-        @currentSorting={{this.sort}}
-        @label="Index"
-        @class="data-table__header-title"/>
-      <AuDataTableThSortable
-        @field="status"
-        @currentSorting={{this.sort}}
-        @label="Status"
-        @class="data-table__header-title"/>
-      <th>Actions</th>
-    </c.header>
-    <c.body as |row|>
-      <td>
-        {{row.uri}}
-      </td>
-      <td>
-        {{format-date row.created}}
-      </td>
-      <td class="au-u-word-break">
-        {{row.operation}}
-      </td>
-      <td>
-        {{row.index}}
-      </td>
-      <td>
-        {{row.name}}
-        <StatusPill @status={{row.shortStatus}}/>
-      </td>
-      <td>
-        <AuLink
-          @route="jobs.task.input-containers-files"
-          @skin="button"
-          @icon="nav-right"
-          @iconAlignment="right"
-          @model={{row}}>
-          View
-        </AuLink>
-      </td>
-    </c.body>
-  </t.content>
-</AuDataTable>
-
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <div class="au-u-padding au-u-padding-top">
+          <AuLink
+            @route="overview.jobs"
+            @skin="button"
+            @icon="nav-left"
+            @iconAlignment="left"
+            @width="inline">
+            Back to overview
+          </AuLink>
+          {{!--Job info--}}
+          <AuHeading
+            @level="3"
+            @skin="3"
+            class="au-u-margin-top au-u-margin-bottom">
+            Job details
+          </AuHeading>
+          <div class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+            {{debugger}}
+            <div>
+              <AuLabel>URI</AuLabel>
+              <p class="au-u-word-break">
+                {{this.job.uri}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Creator</AuLabel>
+              <p class="au-u-word-break">
+                {{this.job.creator}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Created</AuLabel>
+              <p class="au-u-word-break">
+                {{format-date this.job.created}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Modified</AuLabel>
+              <p class="au-u-word-break">
+                {{format-date this.job.modified}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Status</AuLabel>
+              <StatusPill @status={{this.job.shortStatus}}></StatusPill>
+            </div>
+            {{#if this.job.error.message}}
+              <div>
+                <AuAlert
+                  @icon="cross"
+                  @title="Error"
+                  @skin="error">
+                  <p class="au-u-word-break">
+                    {{this.job.error.message}}
+                  </p>
+                </AuAlert>
+              </div>
+            {{/if}}
+            {{#if this.job.comment}}
+              <div>
+                <AuLabel>Comments</AuLabel>
+                <p class="au-u-word-break">{{this.job.comment}}</p>
+              </div>
+            {{/if}} 
+          </div>
+          {{!--End job info--}}
+        </div>
+      </div>
+      <div class="au-c-sidebar__footer">
+        <AuButton
+          @skin="primary"
+          @icon="trash"
+          @iconAlignment="left"
+          @width="inline"
+          @wrap={{this.wrap}}
+          @alert={{true}}
+          @loading={{this.deleteJob.isRunning}}
+          @loadingMessage="Deleting"
+          {{on "click" (perform this.deleteJob this.job)}}>
+          Delete
+        </AuButton>
+      </div>
+    </div>
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+    <AuDataTable
+      @content={{this.model}}
+      @noDataMessage="No files found"
+      @sort={{this.sort}}
+      @size={{this.size}}
+      @page={{this.page}} as |t|>
+      <t.menu as |menu|>
+        <menu.general>
+          <AuToolbar
+            @border="none"
+            @size="large"
+            as |Group|>
+            <Group>
+              <AuHeading @level="1" @skin="1">Task List</AuHeading>
+            </Group>
+          </AuToolbar>
+        </menu.general>
+      </t.menu>
+      <t.content as |c|>
+        <c.header>
+          <th>URI</th>
+          <AuDataTableThSortable
+            @field="created"
+            @currentSorting={{this.sort}}
+            @label="Created"
+            @class="data-table__header-title"/>
+          <AuDataTableThSortable
+            @field="operation"
+            @currentSorting={{this.sort}}
+            @label="Operation"
+            @class="data-table__header-title"/>
+          <AuDataTableThSortable
+            @field="index"
+            @currentSorting={{this.sort}}
+            @label="Index"
+            @class="data-table__header-title"/>
+          <AuDataTableThSortable
+            @field="status"
+            @currentSorting={{this.sort}}
+            @label="Status"
+            @class="data-table__header-title"/>
+          <th>Actions</th>
+        </c.header>
+        <c.body as |row|>
+          <td>
+            {{row.uri}}
+          </td>
+          <td>
+            {{format-date row.created}}
+          </td>
+          <td class="au-u-word-break">
+            {{row.operation}}
+          </td>
+          <td>
+            {{row.index}}
+          </td>
+          <td>
+            {{row.name}}
+            <StatusPill @status={{row.shortStatus}}/>
+          </td>
+          <td>
+            <AuLink
+              @route="jobs.task.input-containers-files"
+              @skin="button"
+              @icon="nav-right"
+              @iconAlignment="right"
+              @model={{row}}>
+              View
+            </AuLink>
+          </td>
+        </c.body>
+      </t.content>
+    </AuDataTable>
+  </m.content>
+</AuMainContainer>

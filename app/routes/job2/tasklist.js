@@ -10,14 +10,20 @@ export default class Job2TasklistRoute extends Route.extend(
   modelName = 'task';
 
   async beforeModel() {
-    this.job = await this.modelFor('job2').id;
+    this.job = this.modelFor('job2');
   }
 
   mergeQueryOptions(param) {
     return {
       include: 'job',
-      'filter[job][:id:]': this.job,
+      'filter[job][:id:]': this.job.id,
       sort: param.sort,
     };
   }
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.set('job', this.job);
+  }
+
 }
