@@ -2,7 +2,6 @@
 
 <AuDataTable
   @content={{this.model}}
-  @fields="title description"
   @noDataMessage="No jobs found"
   @sort={{this.sort}}
   @size={{this.size}}
@@ -68,7 +67,7 @@
         @currentSorting={{this.sort}}
         @label="Status"
         @class="data-table__header-title"/>
-      <th>Action</th>
+      <th>Actions</th>
     </c.header>
     <c.body as |row|>
       <td class="au-u-word-break">
@@ -91,7 +90,7 @@
       </td>
       <td>
         <AuLink
-          @route="jobs.details"
+          @route="jobs2.tasklist"
           @skin="button"
           @icon="nav-right"
           @iconAlignment="right"
