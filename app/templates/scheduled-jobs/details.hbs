@@ -1,5 +1,8 @@
-<AuToolbar @border="bottom" @size="large">
-  <AuToolbarGroup class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
+<AuToolbar
+  @border="bottom"
+  @size="large"
+  as |Group|>
+  <Group class="au-c-toolbar__group--row au-u-flex au-u-flex--between">
     <AuHeading @skin="2">Scheduled Job details</AuHeading>
 
     <AuButtonGroup>
@@ -17,8 +20,8 @@
         </AuButton>
       </LinkTo>
     </AuButtonGroup>
-  </AuToolbarGroup>
-  <AuToolbarGroup class="au-c-toolbar__group--row">
+  </Group>
+  <Group class="au-c-toolbar__group--row">
     <ul class="au-o-grid">
       <li class="au-o-grid__item au-u-1-2 au-u-1-6@medium">
         <AuLabel>uri</AuLabel>
@@ -38,29 +41,31 @@
       </li>
       <li class="au-o-grid__item au-u-1-2 au-u-2-6@medium">
         {{#if this.model.error.message}}
-          <AuAlert @alertIcon="cross" @alertTitle="Error" @alertskin={{"error"}}>
+          <AuAlert @icon="cross" @title="Error" @skin={{"error"}}>
             <p class="au-u-word-break"> {{this.model.error.message}} </p>
           </AuAlert>
         {{/if}}
       </li>
     </ul>
-  </AuToolbarGroup>
+  </Group>
 </AuToolbar>
 
-
 <AuModal
-  @modalTitle="Edit Scheduled Job"
   @modalOpen={{this.editing}}
-  @closeModal={{this.closeEdit}} as |Modal|>
-  <Modal.Body>
+  @closeModal={{this.closeEdit}}>
+  <:title>
+    Edit Scheduled Job
+  </:title>
+  <:body>
     <div class="au-o-grid au-o-grid--tiny">
       {{#if this.editError}}
         <div class="au-o-grid__item au-u-1-1">
-          <AuAlert class="au-u-margin-bottom-none"
-                   @alertTitle="Something went wrong"
-                   @alertskin="error"
-                   @alertsize="small"
-                   @alertIcon="cross"/>
+          <AuAlert
+            class="au-u-margin-bottom-none"
+            @title="Something went wrong"
+            @skin="error"
+            @size="small"
+            @icon="cross"/>
         </div>
       {{/if}}
       <div class="au-o-grid__item au-u-1-1 au-u-3-5@small">
@@ -81,13 +86,13 @@
         <AuHelpText>{{this.newCronDescription}}</AuHelpText>
       </div>
     </div>
-  </Modal.Body>
-  <Modal.Footer>
+  </:body>
+  <:footer>
     <AuButton @disabled={{not this.isValidEdit}}
       {{on 'click' (perform this.update this.model)}}>
       Update
     </AuButton>
-  </Modal.Footer>
+  </:footer>
 </AuModal>
 
 {{outlet}}

@@ -1,8 +1,11 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
+import { service } from '@ember/service';
 
 export default class JobsDetailsController extends Controller {
+  @service router;
+
   @tracked page = 0;
   @tracked sort = 'created';
   @tracked size = 15;
@@ -60,7 +63,7 @@ export default class JobsDetailsController extends Controller {
           }
         }
       }
-      this.transitionToRoute('jobs.index');
     }
+    this.router.transitionTo('jobs.index');
   }
 }

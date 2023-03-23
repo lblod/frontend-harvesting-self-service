@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class JobTargetUrlComponent extends Component {
@@ -26,9 +26,7 @@ export default class JobTargetUrlComponent extends Component {
           sort: 'created',
         });
 
-        this.url = !remoteDataObject.firstObject
-          ? 'N/A'
-          : remoteDataObject.firstObject.source;
+        this.url = !remoteDataObject[0] ? 'N/A' : remoteDataObject[0].source;
       }
     } catch (e) {
       console.error(e);

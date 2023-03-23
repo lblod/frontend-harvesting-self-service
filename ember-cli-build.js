@@ -3,13 +3,12 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
-  let app = new EmberApp(defaults, {
-    // Add options here
-    sassOptions: {
-      includePaths: [
-        'node_modules/@appuniversum/appuniversum',
-        'node_modules/@appuniversum/ember-appuniversum/app/styles',
-      ],
+  const app = new EmberApp(defaults, {
+    'ember-simple-auth': {
+      useSessionSetupMethod: true,
+    },
+    '@appuniversum/ember-appuniversum': {
+      disableWormholeElement: true,
     },
   });
 

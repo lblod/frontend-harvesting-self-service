@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = function (environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'frontend-harvesting-self-service',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     yasgui: {
       // NOTE: look at app/modifiers/yasgui.js when changing this variable
       defaultQuery: 'EMBER_YASGUI_DEFAULT_QUERY',
@@ -18,10 +18,6 @@ module.exports = function (environment) {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
-      },
-      EXTEND_PROTOTYPES: {
-        // Prevent Ember Data from overriding Date.parse.
-        Date: false,
       },
     },
 

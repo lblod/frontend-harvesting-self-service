@@ -4,8 +4,10 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import { isValidCron } from 'cron-validator';
 import cronstrue from 'cronstrue';
+import { service } from '@ember/service';
 
 export default class ScheduledJobsDetailsController extends Controller {
+  @service router;
   queryParams = ['editing'];
 
   @tracked editing = false;
@@ -21,7 +23,7 @@ export default class ScheduledJobsDetailsController extends Controller {
   }
 
   get frequency() {
-    return this.model.schedule.get('repeatFrequency');
+    return this.model.schedule?.get('repeatFrequency');
   }
 
   get currentCronDescription() {
@@ -102,8 +104,8 @@ export default class ScheduledJobsDetailsController extends Controller {
           }
         }
       }
-      this.transitionToRoute('scheduled-jobs.index');
     }
+    this.router.transitionTo('scheduled-jobs.index');
   }
 
   @task

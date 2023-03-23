@@ -14,7 +14,7 @@ import {
 } from '../../utils/constants';
 import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;
@@ -57,6 +57,7 @@ export default class ScheduledJobsNewController extends Controller {
 
   @service toaster;
   @service router;
+  @service store;
 
   get cronDescription() {
     const isValidCronExpression = isValidCron(this.cronPattern);
@@ -117,8 +118,7 @@ export default class ScheduledJobsNewController extends Controller {
 
     const remoteDataObject = this.store.createRecord('remote-data-object', {
       source: this.url,
-      status:
-        'http://lblod.data.gift/file-download-statuses/ready-to-be-cached',
+      status: undefined,
       requestHeader: 'http://data.lblod.info/request-headers/accept/text/html',
       created: this.currentTime,
       modified: this.currentTime,

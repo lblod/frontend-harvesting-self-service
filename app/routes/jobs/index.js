@@ -1,6 +1,10 @@
 import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
+import { service } from '@ember/service';
+
 export default class JobsIndexRoute extends Route.extend(DataTableRouteMixin) {
+  @service store;
+
   modelName = 'job';
 
   queryParams = {
