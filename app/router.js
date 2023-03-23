@@ -45,7 +45,14 @@ Router.map(function () {
     });
     this.route('scheduled-jobs');
   });
-  this.route('job2', { path: '/job2/:id' }, function () {
+  this.route('job2', { path: '/job2/:jobId' }, function () {
     this.route('tasklist');
+    this.route('task', { path: '/task/:taskId' }, function () {
+      this.route('input-container-files');
+      this.route('results-container-files');
+      this.route('input-container-graph');
+      this.route('results-container-graph');
+      this.route('input-container-harvesting-collections');
+    });
   });
 });

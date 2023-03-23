@@ -19,7 +19,6 @@
             Job details
           </AuHeading>
           <div class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
-            {{debugger}}
             <div>
               <AuLabel>URI</AuLabel>
               <p class="au-u-word-break">
@@ -149,11 +148,11 @@
           </td>
           <td>
             <AuLink
-              @route="jobs.task.input-containers-files"
+              @route="job2.task.input-container-files"
               @skin="button"
               @icon="nav-right"
               @iconAlignment="right"
-              @model={{row}}>
+              @model={{row.id}}>
               View
             </AuLink>
           </td>

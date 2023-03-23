@@ -14,4 +14,3 @@ export default class Job2TasklistController extends Controller {
     e.stopPropagation();
   }
 }
-

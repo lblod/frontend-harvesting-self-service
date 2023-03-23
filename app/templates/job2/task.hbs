@@ -1,0 +1,86 @@
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <div class="au-u-padding au-u-padding-top">
+          <AuLink
+            @route="job2.tasklist"
+            @skin="button"
+            @icon="nav-left"
+            @iconAlignment="left"
+            @width="inline"
+            @model={{this.job.id}}>
+            Back to Tasklist
+          </AuLink>
+          {{!--Task info--}}
+          <AuHeading
+            @level="3"
+            @skin="3"
+            class="au-u-margin-top au-u-margin-bottom">
+            Task details
+          </AuHeading>
+          <div class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+            <div>
+              <AuLabel>URI</AuLabel>
+              <p class="au-u-word-break">
+                {{this.model.uri}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Operation</AuLabel>
+              <p class="au-u-word-break">
+                {{this.model.operation}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Created</AuLabel>
+              <p class="au-u-word-break">
+                {{format-date this.model.created}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Modified</AuLabel>
+              <p class="au-u-word-break">
+                {{format-date this.model.modified}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Status</AuLabel>
+              <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+            </div>
+            {{#if this.job.error.message}}
+              <div>
+                <AuAlert
+                  @icon="cross"
+                  @title="Error"
+                  @skin="error">
+                  <p class="au-u-word-break">
+                    {{this.job.error.message}}
+                  </p>
+                </AuAlert>
+              </div>
+            {{/if}}
+          </div>
+          {{!--End Task info--}}
+        </div>
+      </div>
+    </div>
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+    <AuTabs as |Tab|>
+      <Tab>
+        <AuLink class="active">Tab 1</AuLink>
+      </Tab>
+      <Tab>
+        <AuLink>Tab 2</AuLink>
+      </Tab>
+      <Tab>
+        <AuLink>Tab 3</AuLink>
+      </Tab>
+      <Tab>
+        <AuLink>Tab 4</AuLink>
+      </Tab>
+    </AuTabs>
+    {{outlet}}
+  </m.content>
+</AuMainContainer>

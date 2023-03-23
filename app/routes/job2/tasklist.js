@@ -25,5 +25,4 @@ export default class Job2TasklistRoute extends Route.extend(
     super.setupController(controller, model);
     controller.set('job', this.job);
   }
-
 }

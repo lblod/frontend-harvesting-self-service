@@ -5,6 +5,6 @@ export default class JobsTaskRoute extends Route {
   @service store;
 
   model(param) {
-    return this.store.findRecord('task', param.id);
+    return this.store.findRecord('task', param.taskId);
   }
 }
