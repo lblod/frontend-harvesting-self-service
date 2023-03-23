@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import { service } from '@ember/service';
 
-export default class Jobs2Controller extends Controller {
+export default class Job2Controller extends Controller {
   @service router;
 
   @tracked page = 0;

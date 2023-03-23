@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 
-export default class Jobs2TasklistRoute extends Route.extend(
+export default class Job2TasklistRoute extends Route.extend(
   DataTableRouteMixin
 ) {
   @service store;
@@ -10,7 +10,7 @@ export default class Jobs2TasklistRoute extends Route.extend(
   modelName = 'task';
 
   async beforeModel() {
-    this.job = await this.modelFor('jobs2').id;
+    this.job = await this.modelFor('job2').id;
   }
 
   mergeQueryOptions(param) {

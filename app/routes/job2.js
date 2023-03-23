@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import config from 'frontend-harvesting-self-service/config/environment';
 
-export default class Jobs2Route extends Route {
+export default class Job2Route extends Route {
   @service store;
 
   model(param) {
