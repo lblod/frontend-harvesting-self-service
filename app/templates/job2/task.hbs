@@ -67,20 +67,42 @@
     </div>
   </m.sidebar>
   <m.content @scroll={{true}}>
-    <AuTabs as |Tab|>
-      <Tab>
-        <AuLink class="active">Tab 1</AuLink>
-      </Tab>
-      <Tab>
-        <AuLink>Tab 2</AuLink>
-      </Tab>
-      <Tab>
-        <AuLink>Tab 3</AuLink>
-      </Tab>
-      <Tab>
-        <AuLink>Tab 4</AuLink>
-      </Tab>
-    </AuTabs>
-    {{outlet}}
+    <div class="au-u-flex au-u-flex--column full-height">
+      <AuTabs
+        class="au-u-margin-top"
+        as |Tab|>
+        <Tab>
+          <AuLink
+            @route="job2.task.input-container-files">
+            Input Container Files
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job2.task.results-container-files">
+            Results Container Files
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job2.task.input-container-graph">
+            Input Container Graph
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job2.task.results-container-graph">
+            Results Container Graphs
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job2.task.input-container-harvesting-collections">
+            Input Container Harvesting Collections
+          </AuLink>
+        </Tab>
+      </AuTabs>
+      {{outlet}}
+    </div>
   </m.content>
 </AuMainContainer>
