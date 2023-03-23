@@ -14,7 +14,7 @@ import {
 } from '../../utils/constants';
 import createAuthenticationConfiguration from '../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class ScheduledJobsNewController extends Controller {
   jobHarvest = JOB_OP_TYPE_HARVEST;

@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import config from 'frontend-harvesting-self-service/config/environment';
 
 export default class ScheduledJobsRoute extends Route {
