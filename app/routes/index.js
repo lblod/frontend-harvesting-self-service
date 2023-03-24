@@ -2,6 +2,6 @@ import Route from '@ember/routing/route';
 
 export default class IndexRoute extends Route {
   beforeModel() {
-    this.transitionTo('jobs.index');
+    this.transitionTo('overview.jobs');
   }
 }
