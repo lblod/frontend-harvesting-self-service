@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import {service } from '@ember/service';
+import { service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 
 export default class Job2TasklistController extends Controller {
