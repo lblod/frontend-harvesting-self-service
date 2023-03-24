@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import config from 'frontend-harvesting-self-service/config/environment';
 
-export default class SparqlRoute extends Route {
+export default class OverviewSparqlRoute extends Route {
   @service session;
 
   beforeModel(transition) {

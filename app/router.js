@@ -23,7 +23,6 @@ Router.map(function () {
 
     this.route('new');
   });
-  this.route('sparql');
 
   if (authenticationEnabled) {
     this.route('login');
@@ -34,6 +33,7 @@ Router.map(function () {
       this.route('new');
     });
     this.route('scheduled-jobs');
+    this.route('sparql');
   });
   this.route('job2', { path: '/job2/:jobId' }, function () {
     this.route('tasklist');
