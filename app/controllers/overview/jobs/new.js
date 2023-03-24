@@ -32,12 +32,12 @@ export default class OverviewJobsNewController extends Controller {
   );
 
   @tracked url;
-  @tracked urlValid = true;
+  @tracked urlValid;
   @tracked graphName;
-  @tracked graphNameValid = true;
+  @tracked graphNameValid;
   @tracked comment;
   @tracked selectedJobOperation;
-  @tracked selectedJobOperationValid = true;
+  @tracked selectedJobOperationValid;
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
@@ -78,9 +78,10 @@ export default class OverviewJobsNewController extends Controller {
     else this.urlValid = false;
     if (this.graphName) this.graphNameValid = true;
     else this.graphNameValid = false;
-    return (
-      this.selectedJobOperationValid && this.urlValid && this.graphNameValid
-    );
+
+    if (this.selectedJobOperation === this.jobImport)
+      return this.selectedJobOperationValid && this.graphNameValid;
+    else return this.selectedJobOperationValid && this.urlValid;
   }
 
   @action
@@ -161,7 +162,7 @@ export default class OverviewJobsNewController extends Controller {
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true }
       );
-      this.router.transitionTo('jobs');
+      this.router.transitionTo('overview.jobs');
     } catch (err) {
       this.toaster.error(
         `Error while scheduling new job: (${err})`,
