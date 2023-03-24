@@ -23,8 +23,9 @@
           @allowClear={{true}}
           @options={{this.jobOperations}}
           @selected={{this.selectedJobOperation}}
-          @onChange={{this.setJobOperation}} as |option|>
-            {{option.label}}
+          @onChange={{this.setJobOperation}}
+          as |option|>
+          {{option.label}}
         </PowerSelect>
       </AuFormRow>
       {{#if this.selectedJobOperation.uri}}
