@@ -9,7 +9,7 @@ export default class Job2TaskRoute extends Route {
   }
 
   model(param) {
-    return this.store.findRecord('task', param.taskId);
+    return this.store.findRecord('task', param.task_id);
   }
 
   setupController(controller, model) {

@@ -6,6 +6,6 @@ export default class Job2Route extends Route {
   @service store;
 
   model(param) {
-    return this.store.findRecord('job', param.jobId);
+    return this.store.findRecord('job', param.job_id);
   }
 }
