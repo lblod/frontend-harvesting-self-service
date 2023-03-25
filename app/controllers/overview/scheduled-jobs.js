@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 
-export default class ScheduledJobsIndexController extends Controller {
+export default class OverviewScheduledJobsController extends Controller {
   page = 0;
   sort = '-created';
   size = 15;

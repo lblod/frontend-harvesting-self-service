@@ -32,12 +32,14 @@ Router.map(function () {
     this.route('jobs', function () {
       this.route('new');
     });
-    this.route('scheduled-jobs');
+    this.route('scheduled-jobs', function () {
+      this.route('new');
+    });
     this.route('sparql');
   });
-  this.route('job2', { path: '/job2/:jobId' }, function () {
+  this.route('job2', { path: '/job2/:job_id' }, function () {
     this.route('tasklist');
-    this.route('task', { path: '/task/:taskId' }, function () {
+    this.route('task', { path: '/task/:task_id' }, function () {
       this.route('input-container-files');
       this.route('results-container-files');
       this.route('input-container-graph');
@@ -45,4 +47,12 @@ Router.map(function () {
       this.route('input-container-harvesting-collections');
     });
   });
+
+  this.route(
+    'scheduled-job2',
+    { path: '/scheduled-job2/:job_id' },
+    function () {
+      this.route('details');
+    }
+  );
 });

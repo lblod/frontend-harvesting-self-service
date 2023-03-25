@@ -1,2 +1,88 @@
-{{page-title "Overview Scheduled Jobs"}}
+{{page-title "Scheduled Jobs"}}
+
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No scheduled jobs found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}} as |t|>
+  <t.menu as |menu|>
+    <menu.general>
+      <AuToolbar
+        @border="none"
+        @size="large"
+        as |Group|>
+        <Group>
+          <AuHeading @level="1" @skin="1">Scheduled Jobs</AuHeading>
+        </Group>
+        <Group class="au-u-flex--vertical-center">
+          <AuLink
+            @route="overview.scheduled-jobs.new"
+            @skin="button"
+            @icon="plus"
+            @iconAlignment="left">
+            Create new scheduled job
+          </AuLink>
+        </Group>
+      </AuToolbar>
+    </menu.general>
+  </t.menu>
+  <t.content as |c|>
+    <c.header>
+      <th>URI</th>
+      <AuDataTableThSortable
+        @field="created"
+        @currentSorting={{this.sort}}
+        @label="Created"/>
+      <AuDataTableThSortable
+        @field="modified"
+        @currentSorting={{this.sort}}
+        @label="Modified"/>
+      <AuDataTableThSortable
+        @field="operation"
+        @currentSorting={{this.sort}}
+        @label="Operation"/>
+      <AuDataTableThSortable
+        @field="schedule"
+        @currentSorting={{this.sort}}
+        @label="Schedule"/>
+      <AuDataTableThSortable
+        @field="title"
+        @currentSorting={{this.sort}}
+        @label="Title"/>
+      <th>Actions</th>
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.uri}}
+      </td>
+      <td>
+        {{format-date row.created}}
+      </td>
+      <td>
+        {{format-date row.modified}}
+      </td>
+      <td class="au-u-word-break">
+        {{operation-name row.operation}}
+      </td>
+      <td>
+        {{row.schedule.repeatFrequency}}
+      </td>
+      <td>
+        {{row.title}}
+      </td>
+      <td>
+        <AuLink
+          @route="scheduled-job2.details"
+          @skin="button"
+          @icon="nav-right"
+          @iconAlignment="right"
+          @model={{row.id}}>
+          View
+        </AuLink>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>
+
 {{outlet}}

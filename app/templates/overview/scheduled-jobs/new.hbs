@@ -1,0 +1,138 @@
+{{page-title "New Scheduled Job"}}
+
+<AuModal
+  @modalOpen={{true}}
+  @closeModal={{this.cancelCreateScheduledJob}}
+  @overflow={{if this.selectedJobOperation.uri false true}}
+  @size="default">
+  <:title>Create new scheduled job</:title>
+  <:body>
+    <form class="au-c-form">
+      <AuFormRow
+        class="au-u-margin-bottom"
+        @alignment="default">
+        <AuLabel
+          for="job-type-select"
+          @required={{true}}
+          @requiredLabel="Required"
+          @error={{(not this.selectedJobOperationValid)}}>
+          Choose type
+        </AuLabel>
+        <PowerSelect
+          id="job-type-select"
+          @renderInPlace={{true}}
+          @allowClear={{true}}
+          @options={{this.jobOperations}}
+          @selected={{this.selectedJobOperation}}
+          @onChange={{this.setJobOperation}}
+          as |option|>
+          {{option.label}}
+        </PowerSelect>
+      </AuFormRow>
+      {{#if this.selectedJobOperation.uri}}
+        <AuFormRow @alignment="default">
+          <AuLabel
+            for="task-title"
+            @required={{true}}
+            @requiredLabel="Required"
+            @error={{(not this.titleValid)}}>
+            Title
+          </AuLabel>
+          <AuInput
+            id="task-title"
+            @width="block"
+            @value={{this.title}}
+            @error={{(not this.titleValid)}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel
+            for="task-url"
+            @required={{true}}
+            @requiredLabel="Required"
+            @error={{(not this.urlValid)}}>
+            URL
+          </AuLabel>
+          <AuInput
+            id="task-url"
+            @width="block"
+            @value={{this.url}}
+            @error={{(not this.urlValid)}}/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel
+            for="cron-pattern"
+            @required={{true}}
+            @requiredLabel="Required"
+            @error={{(not this.cronPatternValid)}}>
+            Cron pattern
+          </AuLabel>
+          <AuInput
+            id="cron-pattern"
+            @width="block"
+            @value={{this.cronPattern}}
+            @error={{(not this.cronPatternValid)}}/>
+          <AuHelpText @error={{(not this.isValidCronPattern)}}>
+            The job will be started: {{this.cronDescription}}
+          </AuHelpText>
+          <AuHelpText>
+            <strong>Some examples</strong> <br />
+            Every monday, at 04:05: "5 4 * * 1" <br />
+            At 14:13, only on Monday, only in April: "13 14 * 4 1" <br />
+            At 10:38, on day 5 of the month: "38 10 5 * *"
+          </AuHelpText>
+          <AuHelpText @warning={{true}}>
+            <strong>Warning</strong> <br />
+            With great power there must also come great responsibility. <br>
+            Try to think about spreading the load on the server by spreading
+            the jobs in time.
+          </AuHelpText>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel
+            for="task-creator"
+            @required={{true}}
+            @requiredLabel="Required">
+            Creator
+          </AuLabel>
+          <AuInput
+            id="task-creator"
+            @width="block"
+            @value={{this.creator}}
+            @disabled={{true}}/>
+        </AuFormRow>
+        {{#if this.authenticationEnabled}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
+      {{/if}}
+    </form>
+  </:body>
+  <:footer>
+    <AuButtonGroup>
+      <AuButton
+        {{on 'click' (perform this.createScheduledJob)}}
+        @skin="primary"
+        @icon="check"
+        @iconAlignment="left"
+        @loading={{this.createScheduledJob.isRunning}}
+        @loadingMessage="Creating">
+        Create Scheduled Job
+      </AuButton>
+      <AuButton
+        {{on 'click' this.cancelCreateScheduledJob}}
+        @skin="secondary"
+        @icon="trash"
+        @iconAlignment="left"
+        @alert={{true}}>
+        Cancel
+      </AuButton>
+    </AuButtonGroup>
+  </:footer>
+</AuModal>
