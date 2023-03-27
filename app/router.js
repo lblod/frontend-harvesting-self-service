@@ -11,23 +11,9 @@ const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
 );
 
 Router.map(function () {
-  this.route('scheduled-jobs', function () {
-    this.route('details', { path: '/:id' }, function () {
-      this.route('index');
-    });
-    this.route('scheduled-task', { path: '/scheduled-task/:id' }, function () {
-      this.route('input-containers-files');
-      this.route('input-containers-graph');
-      this.route('input-containers-harvesting-collections');
-    });
-
-    this.route('new');
-  });
-
   if (authenticationEnabled) {
     this.route('login');
   }
-
   this.route('overview', function () {
     this.route('jobs', function () {
       this.route('new');
@@ -47,7 +33,6 @@ Router.map(function () {
       this.route('input-container-harvesting-collections');
     });
   });
-
   this.route(
     'scheduled-job2',
     { path: '/scheduled-job2/:job_id' },
