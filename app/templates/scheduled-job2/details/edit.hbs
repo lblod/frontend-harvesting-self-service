@@ -1,0 +1,46 @@
+{{page-title "Edit"}}
+
+<AuModal
+  @modalOpen={{true}}
+  @closeModal={{this.closeEdit}}>
+  <:title>
+    Edit Scheduled Job
+  </:title>
+  <:body>
+    <div class="au-o-grid au-o-grid--tiny">
+      {{#if this.editError}}
+        <div class="au-o-grid__item au-u-1-1">
+          <AuAlert
+            class="au-u-margin-bottom-none"
+            @title="Something went wrong"
+            @skin="error"
+            @size="small"
+            @icon="cross"/>
+        </div>
+      {{/if}}
+      <div class="au-o-grid__item au-u-1-1 au-u-3-5@small">
+        <AuLabel for="task-title">
+          Title
+        </AuLabel>
+        <AuInput id="task-title"
+                 @width="block"
+                 @value={{this.newTitle}}/>
+      </div>
+      <div class="au-o-grid__item au-u-1-1 au-u-2-5@small">
+        <AuLabel for="cron-pattern">
+          Cron pattern
+        </AuLabel>
+        <AuInput id="cron-pattern"
+                 @width="block"
+                 @value={{this.newCronPattern}}/>
+        <AuHelpText>{{this.newCronDescription}}</AuHelpText>
+      </div>
+    </div>
+  </:body>
+  <:footer>
+    <AuButton @disabled={{not this.isValidEdit}}
+      {{on 'click' (perform this.update this.model)}}>
+      Update
+    </AuButton>
+  </:footer>
+</AuModal>

@@ -1,3 +1,5 @@
+{{page-title "Job Details"}}
+
 <AuMainContainer as |m|>
   <m.sidebar>
     <div class="au-c-sidebar">
@@ -110,23 +112,19 @@
           <AuDataTableThSortable
             @field="created"
             @currentSorting={{this.sort}}
-            @label="Created"
-            @class="data-table__header-title"/>
+            @label="Created"/>
           <AuDataTableThSortable
             @field="operation"
             @currentSorting={{this.sort}}
-            @label="Operation"
-            @class="data-table__header-title"/>
+            @label="Operation"/>
           <AuDataTableThSortable
             @field="index"
             @currentSorting={{this.sort}}
-            @label="Index"
-            @class="data-table__header-title"/>
+            @label="Index"/>
           <AuDataTableThSortable
             @field="status"
             @currentSorting={{this.sort}}
-            @label="Status"
-            @class="data-table__header-title"/>
+            @label="Status"/>
           <th>Actions</th>
         </c.header>
         <c.body as |row|>
@@ -143,7 +141,6 @@
             {{row.index}}
           </td>
           <td>
-            {{row.name}}
             <StatusPill @status={{row.shortStatus}}/>
           </td>
           <td>

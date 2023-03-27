@@ -52,7 +52,9 @@ Router.map(function () {
     'scheduled-job2',
     { path: '/scheduled-job2/:job_id' },
     function () {
-      this.route('details');
+      this.route('details', function () {
+        this.route('edit');
+      });
     }
   );
 });
