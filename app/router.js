@@ -55,6 +55,15 @@ Router.map(function () {
       this.route('details', function () {
         this.route('edit');
       });
+      this.route(
+        'scheduled-task',
+        { path: '/scheduled-task/:task_id' },
+        function () {
+          this.route('input-container-files');
+          this.route('input-container-graph');
+          this.route('input-container-harvesting-collections');
+        }
+      );
     }
   );
 });
