@@ -10,10 +10,8 @@ export default class IndexRoute extends Route {
     const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
       config.harvester.authEnabled
     );
-
-    if (authenticationEnabled) {
+    if (authenticationEnabled)
       this.session.requireAuthentication(transition, 'login');
-    }
     this.router.transitionTo('overview.jobs');
   }
 }

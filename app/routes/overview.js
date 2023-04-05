@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import config from 'frontend-harvesting-self-service/config/environment';
 
-export default class ScheduledJob2Route extends Route {
+export default class OverviewRoute extends Route {
   @service store;
   @service session;
 
@@ -12,11 +12,5 @@ export default class ScheduledJob2Route extends Route {
     );
     if (authenticationEnabled)
       this.session.requireAuthentication(transition, 'login');
-  }
-
-  model(param) {
-    return this.store.findRecord('scheduled-job', param.job_id, {
-      include: 'schedule',
-    });
   }
 }
