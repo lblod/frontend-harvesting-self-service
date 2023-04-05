@@ -183,7 +183,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
         'Scheduling failed',
         { icon: 'cross', timeOut: 10000, closable: true }
       );
-      this.scheduling = false;
     }
   }
 }
