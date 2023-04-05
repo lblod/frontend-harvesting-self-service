@@ -29,29 +29,32 @@ export default class ScheduledJob2DetailsController extends Controller {
   *deleteJob() {
     //Delete top level down the tree, less confusing if something fails.
 
-    //NOTE: Even though inputContainers & resultsContainers have the same nested structure, I duplicated the code since I know you like the seperation more then a wrapping |for| loop
+    //NOTE: Even though inputContainers & resultsContainers have the same
+    //nested structure, I duplicated the code since I know you like the
+    //seperation more then a wrapping |for| loop
     const scheduledTasks = yield this.job.scheduledTasks;
     yield this.job.destroyRecord();
 
-    for (let task of scheduledTasks.toArray()) {
+    for (const task of scheduledTasks) {
       const iContainers = yield task.inputContainers;
       yield task.destroyRecord();
 
-      for (let input of iContainers.toArray()) {
+      for (const input of iContainers) {
         const fileList = yield input.files;
         const collectionList = yield input.harvestingCollections;
         yield input.destroyRecord();
 
-        for (let file of fileList.toArray()) {
-          //NOTE: file model gets found but cannot get physical file in backend to delete
+        for (const file of fileList) {
+          //NOTE: file model gets found but cannot get physical file in backend
+          //to delete
           yield file.destroyRecord();
         }
 
-        for (let collection of collectionList.toArray()) {
+        for (const collection of collectionList) {
           const rObjs = yield collection.remoteDataObjects;
           yield collection.destroyRecord();
 
-          for (let rObj of rObjs.toArray()) {
+          for (const rObj of rObjs) {
             yield rObj.destroyRecord();
           }
         }

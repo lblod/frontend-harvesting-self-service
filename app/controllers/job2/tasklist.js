@@ -24,47 +24,47 @@ export default class Job2TasklistController extends Controller {
     const tasks = yield job.tasks;
     yield job.destroyRecord();
 
-    for (let task of tasks.toArray()) {
+    for (const task of tasks) {
       const iContainers = yield task.inputContainers;
       const rContainers = yield task.resultsContainers;
       yield task.destroyRecord();
 
-      for (let input of iContainers.toArray()) {
+      for (const input of iContainers) {
         const fileList = yield input.files;
         const collectionList = yield input.harvestingCollections;
         yield input.destroyRecord();
 
-        for (let file of fileList.toArray()) {
+        for (const file of fileList) {
           //NOTE: file model gets found but cannot get physical file in backend to delete
           yield file.destroyRecord();
         }
 
-        for (let collection of collectionList.toArray()) {
+        for (const collection of collectionList) {
           const rObjs = yield collection.remoteDataObjects;
           yield collection.destroyRecord();
 
-          for (let rObj of rObjs.toArray()) {
+          for (const rObj of rObjs) {
             yield rObj.destroyRecord();
           }
         }
       }
 
-      for (let result of rContainers.toArray()) {
+      for (const result of rContainers) {
         const fileList = yield result.files;
         const collectionList = yield result.harvestingCollections;
         yield result.destroyRecord();
 
-        for (let file of fileList.toArray()) {
+        for (const file of fileList) {
           //NOTE: file model gets found but cannot get physical file in backend to delete
           yield file.destroyRecord();
         }
 
-        for (let collection of collectionList.toArray()) {
+        for (const collection of collectionList) {
           const rObjs = yield collection.remoteDataObjects;
           yield collection.destroyRecord();
 
           //NOTE: Pretty sure this should get deleted after the file issue is resolved
-          for (let rObj of rObjs.toArray()) {
+          for (const rObj of rObjs) {
             yield rObj.destroyRecord();
           }
         }
