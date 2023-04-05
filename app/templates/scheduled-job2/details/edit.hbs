@@ -2,44 +2,58 @@
 
 <AuModal
   @modalOpen={{true}}
-  @closeModal={{this.closeEdit}}>
+  @closeModal={{this.cancelEditScheduledJob}}>
   <:title>
     Edit Scheduled Job
   </:title>
   <:body>
-    <div class="au-o-grid au-o-grid--tiny">
-      {{#if this.editError}}
-        <div class="au-o-grid__item au-u-1-1">
-          <AuAlert
-            class="au-u-margin-bottom-none"
-            @title="Something went wrong"
-            @skin="error"
-            @size="small"
-            @icon="cross"/>
-        </div>
-      {{/if}}
-      <div class="au-o-grid__item au-u-1-1 au-u-3-5@small">
-        <AuLabel for="task-title">
+    <form class="au-c-form au-o-grid au-o-grid--tiny">
+      <AuFormRow
+        class="au-o-grid__item au-u-3-5@small"
+        @alignment="default">
+        <AuLabel
+          for="task-title"
+          @required={{true}}
+          @requiredLabel="Required"
+          @error={{(not this.newTitleValid)}}>
           Title
         </AuLabel>
-        <AuInput id="task-title"
-                 @width="block"
-                 @value={{this.newTitle}}/>
-      </div>
-      <div class="au-o-grid__item au-u-1-1 au-u-2-5@small">
-        <AuLabel for="cron-pattern">
+        <AuInput
+          id="task-title"
+          @width="block"
+          @value={{this.newTitle}}
+          @error={{(not this.newTitleValid)}}/>
+      </AuFormRow>
+      <AuFormRow
+        class="au-o-grid__item au-u-2-5@small au-u-margin-none"
+        @alignment="default">
+        <AuLabel
+          for="cron-pattern"
+          @required={{true}}
+          @requiredLabel="Required"
+          @error={{(not this.newCronPatternValid)}}>
           Cron pattern
         </AuLabel>
-        <AuInput id="cron-pattern"
-                 @width="block"
-                 @value={{this.newCronPattern}}/>
-        <AuHelpText>{{this.newCronDescription}}</AuHelpText>
-      </div>
-    </div>
+        <AuInput
+          id="cron-pattern"
+          @width="block"
+          @value={{this.newCronPattern}}
+          @error={{(not this.newCronPatternValid)}}/>
+        <AuHelpText
+          @error={{(not this.newCronPatternValid)}}>
+          {{this.newCronDescription}}
+        </AuHelpText>
+      </AuFormRow>
+    </form>
   </:body>
   <:footer>
-    <AuButton @disabled={{not this.isValidEdit}}
-      {{on 'click' (perform this.update this.model)}}>
+    <AuButton
+      {{on 'click' (perform this.update)}}
+      @skin="primary"
+      @icon="sign"
+      @iconAlignment="left"
+      @loading={{this.update.isRunning}}
+      @loadingMessage="Updating">
       Update
     </AuButton>
   </:footer>

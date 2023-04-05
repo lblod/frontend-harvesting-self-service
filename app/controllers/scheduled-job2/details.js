@@ -14,7 +14,7 @@ export default class ScheduledJob2DetailsController extends Controller {
     return this.job.schedule?.get('repeatFrequency');
   }
 
-  get currentCronDescription() {
+  get cronDescription() {
     if (this.frequency) {
       return cronstrue.toString(this.frequency);
     } else {
