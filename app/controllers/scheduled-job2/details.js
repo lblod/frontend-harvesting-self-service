@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import cronstrue from 'cronstrue';
 
@@ -9,6 +10,8 @@ export default class ScheduledJob2DetailsController extends Controller {
   size = 15;
 
   @tracked job;
+
+  @service router;
 
   get frequency() {
     return this.job.schedule?.get('repeatFrequency');

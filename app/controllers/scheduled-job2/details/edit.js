@@ -29,24 +29,6 @@ export default class ScheduledJob2DetailsEditController extends Controller {
       return 'This is not a valid cron pattern';
     }
   }
-
-  //get editContainsUnsavedChanges() {
-  //  return (
-  //    this.job.title !== this.newTitle ||
-  //    this.job.schedule?.get('repeatFrequency') !== this.newCronPattern
-  //  );
-  //}
-
-  //@action
-  //closeEdit() {
-  //  const askForUserConfirmation = () =>
-  //    this.editContainsUnsavedChanges &&
-  //    confirm('Unsaved changes,\nare you sure to cancel this action?');
-  //  if (!this.editContainsUnsavedChanges || askForUserConfirmation()) {
-  //    this.newTitle = this.model.title || '';
-  //    this.newCronPattern = this.frequency || '*/5 * * * *';
-  //  }
-  //}
   
   @action
   cancelEditScheduledJob() {
