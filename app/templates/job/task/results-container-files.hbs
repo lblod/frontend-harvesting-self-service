@@ -1,0 +1,49 @@
+{{breadcrumb "Result Container Files" route="job.task.results-container-files"}}
+
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No files found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}} as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th>ID</th>
+      <AuDataTableThSortable
+        @field="name"
+        @currentSorting={{this.sort}}
+        @label="Name"/>
+      <th>Size</th>
+      <AuDataTableThSortable
+        @field="created"
+        @currentSorting={{this.sort}}
+        @label="Created"/>
+      <th>Actions</th>
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.uri}}
+      </td>
+      <td>
+        {{row.name}}
+      </td>
+      <td>
+        {{row.humanReadableSize}}
+      </td>
+      <td>
+        {{format-date row.created}}
+      </td>
+      <td>
+        <AuLinkExternal
+          href={{row.downloadLink}}
+          download
+          @icon="download"
+          @iconAlignment="left"
+          @skin="button"
+          {{on 'click' this.overrideClick}}>
+          Download File
+        </AuLinkExternal>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

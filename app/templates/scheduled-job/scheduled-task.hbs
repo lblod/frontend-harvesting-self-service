@@ -1,0 +1,83 @@
+{{page-title "Scheduled Task Details"}}
+{{breadcrumb "Scheduled Task Details" route="scheduled-job.scheduled-task.input-container-files"}}
+
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <div class="au-u-padding au-u-padding-top">
+          <AuLink
+            @route="scheduled-job.details"
+            @skin="button"
+            @icon="nav-left"
+            @iconAlignment="left"
+            @width="inline"
+            @model={{this.job.id}}>
+            Back to tasklist
+          </AuLink>
+          {{!--Task info--}}
+          <AuHeading
+            @level="3"
+            @skin="3"
+            class="au-u-margin-top au-u-margin-bottom">
+            Task details
+          </AuHeading>
+          <div class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+            <div>
+              <AuLabel>URI</AuLabel>
+              <p class="au-u-word-break">
+                {{this.model.uri}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Operation</AuLabel>
+              <p class="au-u-word-break">
+                {{this.model.operation}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Created</AuLabel>
+              <p class="au-u-word-break">
+                {{format-date this.model.created}}
+              </p>
+            </div>
+            <div>
+              <AuLabel>Modified</AuLabel>
+              <p class="au-u-word-break">
+                {{format-date this.model.modified}}
+              </p>
+            </div>
+          </div>
+          {{!--End Task info--}}
+        </div>
+      </div>
+    </div>
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+    <div class="au-u-flex au-u-flex--column full-height">
+      <AuTabs
+        class="au-u-margin-top"
+        as |Tab|>
+        <Tab>
+          <AuLink
+            @route="scheduled-job.scheduled-task.input-container-files">
+            Input Container Files
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="scheduled-job.scheduled-task.input-container-graph">
+            Input Container Graph
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="scheduled-job.scheduled-task.input-container-harvesting-collections">
+            Input Container Harvesting Collections
+          </AuLink>
+        </Tab>
+      </AuTabs>
+      {{outlet}}
+    </div>
+  </m.content>
+</AuMainContainer>

@@ -1,0 +1,17 @@
+{{breadcrumb "Result Container Graphs" route="job.task.results-container-graph"}}
+
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No graphs found"
+  as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th>URI</th>
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.hasGraph}}
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

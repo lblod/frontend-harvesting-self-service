@@ -23,7 +23,7 @@ Router.map(function () {
     });
     this.route('sparql');
   });
-  this.route('job2', { path: '/job2/:job_id' }, function () {
+  this.route('job', { path: '/job/:job_id' }, function () {
     this.route('tasklist');
     this.route('task', { path: '/task/:task_id' }, function () {
       this.route('input-container-files');
@@ -33,22 +33,18 @@ Router.map(function () {
       this.route('input-container-harvesting-collections');
     });
   });
-  this.route(
-    'scheduled-job2',
-    { path: '/scheduled-job2/:job_id' },
-    function () {
-      this.route('details', function () {
-        this.route('edit');
-      });
-      this.route(
-        'scheduled-task',
-        { path: '/scheduled-task/:task_id' },
-        function () {
-          this.route('input-container-files');
-          this.route('input-container-graph');
-          this.route('input-container-harvesting-collections');
-        }
-      );
-    }
-  );
+  this.route('scheduled-job', { path: '/scheduled-job/:job_id' }, function () {
+    this.route('details', function () {
+      this.route('edit');
+    });
+    this.route(
+      'scheduled-task',
+      { path: '/scheduled-task/:task_id' },
+      function () {
+        this.route('input-container-files');
+        this.route('input-container-graph');
+        this.route('input-container-harvesting-collections');
+      }
+    );
+  });
 });
