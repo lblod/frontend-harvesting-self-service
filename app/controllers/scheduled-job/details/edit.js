@@ -29,7 +29,7 @@ export default class ScheduledJobDetailsEditController extends Controller {
       return 'This is not a valid cron pattern';
     }
   }
-  
+
   @action
   cancelEditScheduledJob() {
     this.router.transitionTo('scheduled-job.details');
