@@ -81,5 +81,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "ember-breadcrumb-trail": "^0.2.0"
   }
 }
