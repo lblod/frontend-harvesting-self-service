@@ -7,14 +7,11 @@ import { action } from '@ember/object';
 export default class JobTasklistController extends Controller {
   @service router;
 
-  @tracked page = 0;
-  @tracked sort = 'created';
-  @tracked size = 15;
-  @tracked job;
-
-  sort = '-index';
   page = 0;
+  sort = '-created';
   size = 15;
+
+  @tracked job;
 
   @action
   reload() {
