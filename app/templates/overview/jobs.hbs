@@ -36,6 +36,13 @@
             @iconAlignment="left">
             Create new job
           </AuLink>
+          <AuButton
+            @skin="primary"
+            @icon="renew"
+            @iconAlignment="left"
+            {{on "click" this.reload}}>
+            Reload
+          </AuButton>
         </Group>
       </AuToolbar>
     </menu.general>

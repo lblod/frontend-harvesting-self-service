@@ -104,6 +104,15 @@
             <Group>
               <AuHeading @level="1" @skin="1">Task List</AuHeading>
             </Group>
+            <Group>
+              <AuButton
+                @skin="primary"
+                @icon="renew"
+                @iconAlignment="left"
+                {{on "click" this.reload}}>
+                Reload
+              </AuButton>
+            </Group>
           </AuToolbar>
         </menu.general>
       </t.menu>

@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
+import { action } from '@ember/object';
 
 export default class JobTasklistController extends Controller {
   @service router;
@@ -14,6 +15,11 @@ export default class JobTasklistController extends Controller {
   sort = '-index';
   page = 0;
   size = 15;
+
+  @action
+  reload() {
+    this.router.refresh();
+  }
 
   @task
   *deleteJob(job) {
