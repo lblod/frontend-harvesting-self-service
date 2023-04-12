@@ -1,1 +1,7 @@
 {{this.url}}
+{{#if this.fetchTargetUrl.isRunning}}
+  <AuLoader
+    @padding="small"
+    @message="URL loading..."
+    @disableMessage={{true}}/>
+{{/if}}
