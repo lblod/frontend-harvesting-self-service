@@ -1,0 +1,21 @@
+{{breadcrumb "Input Container Harvesting Collections" route="job.task.input-container-harvesting-collections"}}
+
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No remote-data-objects found"
+  as |t|>
+  <t.content as |c|>
+    <c.header>
+      <th>URI</th>
+      <th>Source (URL)</th>
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.uri}}
+      </td>
+      <td>
+        {{row.source}}
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

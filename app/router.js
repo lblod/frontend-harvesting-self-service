@@ -11,35 +11,40 @@ const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
 );
 
 Router.map(function () {
-  this.route('jobs', function () {
-    this.route('details', { path: '/:id' }, function () {
-      this.route('index');
-    });
-    this.route('task', { path: '/task/:id' }, function () {
-      this.route('input-containers-files');
-      this.route('results-containers-files');
-      this.route('input-containers-graph');
-      this.route('results-containers-graph');
-      this.route('input-containers-harvesting-collections');
-    });
-
-    this.route('new');
-  });
-  this.route('scheduled-jobs', function () {
-    this.route('details', { path: '/:id' }, function () {
-      this.route('index');
-    });
-    this.route('scheduled-task', { path: '/scheduled-task/:id' }, function () {
-      this.route('input-containers-files');
-      this.route('input-containers-graph');
-      this.route('input-containers-harvesting-collections');
-    });
-
-    this.route('new');
-  });
-  this.route('sparql');
-
   if (authenticationEnabled) {
     this.route('login');
   }
+  this.route('overview', function () {
+    this.route('jobs', function () {
+      this.route('new');
+    });
+    this.route('scheduled-jobs', function () {
+      this.route('new');
+    });
+    this.route('sparql');
+  });
+  this.route('job', { path: '/job/:job_id' }, function () {
+    this.route('tasklist');
+    this.route('task', { path: '/task/:task_id' }, function () {
+      this.route('input-container-files');
+      this.route('results-container-files');
+      this.route('input-container-graph');
+      this.route('results-container-graph');
+      this.route('input-container-harvesting-collections');
+    });
+  });
+  this.route('scheduled-job', { path: '/scheduled-job/:job_id' }, function () {
+    this.route('details', function () {
+      this.route('edit');
+    });
+    this.route(
+      'scheduled-task',
+      { path: '/scheduled-task/:task_id' },
+      function () {
+        this.route('input-container-files');
+        this.route('input-container-graph');
+        this.route('input-container-harvesting-collections');
+      }
+    );
+  });
 });

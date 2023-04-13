@@ -1,8 +1,10 @@
 {{page-title "Harvesting self service"}}
+
 <AuToaster @position="top"/>
+<AuModalContainer />
 <AuApp>
   <AuMainHeader
-    @appTitle="Job Dashboard"
+    @appTitle="Harvesting self service"
     @brandLink="https://www.vlaanderen.be/nl"
     @homeRoute="index">
     {{#if this.authenticationEnabled}}
@@ -11,6 +13,27 @@
       {{/if}}
     {{/if}}
   </AuMainHeader>
-  <AuModalContainer />
+  <AuToolbar
+    @size="small"
+    @skin="tint"
+    @border="bottom"
+    as |Group|>
+    <Group>
+      <ul class="au-c-list-horizontal au-c-list-horizontal--small">
+        {{#each (breadcrumbs) as |breadcrumb|}}
+          {{#let (not (has-next breadcrumb (breadcrumbs))) as |isLastBreadcrumb|}}
+            <li class="au-c-list-horizontal__item">
+              <AuLink
+                @route={{breadcrumb.data.route}}
+                @active={{isLastBreadcrumb}}
+                aria-current={{if isLastBreadcrumb "page"}}>
+                {{breadcrumb.title}}
+              </AuLink>
+            </li>
+          {{/let}}
+        {{/each}}
+      </ul>
+    </Group>
+  </AuToolbar>
   {{outlet}}
 </AuApp>

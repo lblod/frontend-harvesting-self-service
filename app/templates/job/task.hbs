@@ -1,0 +1,106 @@
+{{page-title "Task details"}}
+{{breadcrumb "Task Details" route="job.task.input-container-files"}}
+
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <div class="au-u-padding au-u-padding-top">
+          <AuLink
+            @route="job.tasklist"
+            @skin="button"
+            @icon="nav-left"
+            @iconAlignment="left"
+            @width="inline"
+            @model={{this.job.id}}>
+            Back to tasklist
+          </AuLink>
+          {{!--Task info--}}
+          <AuHeading
+            @level="3"
+            @skin="3"
+            class="au-u-margin-top au-u-margin-bottom">
+            Task details
+          </AuHeading>
+          <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+            <div>
+              <dt class="au-u-bold">URI</dt>
+              <dd>{{this.model.uri}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Operation</dt>
+              <dd>{{this.model.operation}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Created</dt>
+              <dd>{{format-date this.model.created}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Modified</dt>
+              <dd>{{format-date this.model.modified}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Status</dt>
+              <dd>
+                <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+              </dd>
+            </div>
+            {{#if this.job.error.message}}
+              <div>
+                <dt class="au-u-hidden-visually">Errors</dt>
+                <AuAlert
+                  @icon="cross"
+                  @title="Error"
+                  @skin="error">
+                  <p>
+                    <dd>{{this.job.error.message}}</dd>
+                  </p>
+                </AuAlert>
+              </div>
+            {{/if}}
+          </dl>
+          {{!--End Task info--}}
+        </div>
+      </div>
+    </div>
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+    <div class="au-u-flex au-u-flex--column full-height">
+      <AuTabs
+        class="au-u-margin-top"
+        as |Tab|>
+        <Tab>
+          <AuLink
+            @route="job.task.input-container-files">
+            Input Container Files
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job.task.results-container-files">
+            Results Container Files
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job.task.input-container-graph">
+            Input Container Graph
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job.task.results-container-graph">
+            Results Container Graphs
+          </AuLink>
+        </Tab>
+        <Tab>
+          <AuLink
+            @route="job.task.input-container-harvesting-collections">
+            Input Container Harvesting Collections
+          </AuLink>
+        </Tab>
+      </AuTabs>
+      {{outlet}}
+    </div>
+  </m.content>
+</AuMainContainer>

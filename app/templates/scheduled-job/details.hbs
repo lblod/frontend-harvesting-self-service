@@ -1,0 +1,166 @@
+{{page-title "Scheduled Job Details"}}
+{{breadcrumb "Details" route="scheduled-job.details"}}
+
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <div class="au-c-sidebar">
+      <div class="au-c-sidebar__content">
+        <div class="au-u-padding au-u-padding-top">
+          <AuLink
+            @route="overview.scheduled-jobs"
+            @skin="button"
+            @icon="nav-left"
+            @iconAlignment="left"
+            @width="inline">
+            Back to overview
+          </AuLink>
+          {{!--Job info--}}
+          <AuHeading
+            @level="3"
+            @skin="3"
+            class="au-u-margin-top au-u-margin-bottom">
+            Job details
+          </AuHeading>
+          <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+            <div>
+              <dt class="au-u-bold">Title</dt>
+              <dd>{{this.job.title}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">URI</dt>
+              <dd>{{this.job.uri}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Schedule</dt>
+              <dd>{{this.cronDescription}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Created</dt>
+              <dd>{{format-date this.job.created}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Modified</dt>
+              <dd>{{format-date this.job.modified}}</dd>
+            </div>
+            <div>
+              <dt class="au-u-bold">Creator</dt>
+              {{this.job.creator}}
+            </div>
+            {{#if this.job.comment}}
+              <div>
+                <dt class="au-u-bold">Comments</dt>
+                <dd>{{this.job.comment}}</dd>
+              </div>
+            {{/if}} 
+            {{#if this.job.error.message}}
+              <div>
+                <dt class="au-u-hidden-visually">Errors</dt>
+                <AuAlert
+                  @icon="cross"
+                  @title="Error"
+                  @skin="error">
+                  <p>
+                    <dd>{{this.job.error.message}}</dd>
+                  </p>
+                </AuAlert>
+              </div>
+            {{/if}}
+          </dl>
+          {{!--End job info--}}
+        </div>
+      </div>
+      <div class="au-c-sidebar__footer">
+        <AuLink
+          @skin="button"
+          @icon="pencil"
+          @iconAlignment="left"
+          @route="scheduled-job.details.edit"
+          @model={{this.job.id}}>
+          Edit
+        </AuLink>
+        <AuButton
+          @skin="primary"
+          @icon="trash"
+          @iconAlignment="left"
+          @width="inline"
+          @wrap={{this.wrap}}
+          @alert={{true}}
+          @loading={{this.deleteJob.isRunning}}
+          @loadingMessage="Deleting"
+          {{on "click" (perform this.deleteJob)}}>
+          Delete
+        </AuButton>
+      </div>
+    </div>
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+    <AuDataTable
+      @content={{this.model}}
+      @noDataMessage="No files found"
+      @sort={{this.sort}}
+      @size={{this.size}}
+      @page={{this.page}} as |t|>
+      <t.menu as |menu|>
+        <menu.general>
+          <AuToolbar
+            @border="none"
+            @size="large"
+            as |Group|>
+            <Group>
+              <AuHeading @level="1" @skin="1">
+                Scheduled Tasks List
+              </AuHeading>
+              <AuHelpText @skin="tertiary">
+                Momentarily, only information about the first task is shown.
+              </AuHelpText>
+            </Group>
+          </AuToolbar>
+        </menu.general>
+      </t.menu>
+      <t.content as |c|>
+        <c.header>
+          <th>URI</th>
+          <AuDataTableThSortable
+            @field="created"
+            @currentSorting={{this.sort}}
+            @label="Created"/>
+          <AuDataTableThSortable
+            @field="operation"
+            @currentSorting={{this.sort}}
+            @label="Operation"/>
+          <AuDataTableThSortable
+            @field="index"
+            @currentSorting={{this.sort}}
+            @label="Index"/>
+          <th>Actions</th>
+        </c.header>
+        <c.body as |row|>
+          <td>
+            {{row.uri}}
+          </td>
+          <td>
+            {{format-date row.created}}
+          </td>
+          <td class="au-u-word-break">
+            {{row.operation}}
+          </td>
+          <td>
+            {{row.index}}
+          </td>
+          <td>
+            <AuLink
+              @route="scheduled-job.scheduled-task.input-container-files"
+              @skin="button"
+              @icon="nav-right"
+              @iconAlignment="right"
+              @model={{row.id}}>
+              View
+            </AuLink>
+          </td>
+        </c.body>
+      </t.content>
+    </AuDataTable>
+  </m.content>
+</AuMainContainer>
+
+{{outlet}}

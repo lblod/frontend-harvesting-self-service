@@ -1,0 +1,10 @@
+{{breadcrumb "Overview" route="overview.jobs"}}
+
+<AuMainContainer as |m|>
+  <m.sidebar>
+    <SidebarMenu />
+  </m.sidebar>
+  <m.content @scroll={{true}}>
+    {{outlet}}
+  </m.content>
+</AuMainContainer>

@@ -1,33 +1,3 @@
-{{#if (or (eq @status "success") (eq @status "collected"))}}
-  <AuPill @skin="success">
-    {{@status}}
-  </AuPill>
-
-{{else if (or (eq @status "failure") (eq @status "failed") (eq @status "canceled"))}}
-  <AuPill @skin="error">
-    {{@status}}
-  </AuPill>
-
-{{else if (or (eq @status "ongoing") (eq @status "ready-for-collecting") (eq @status "ready-to-be-cached") (eq @status "ready-for-sameas"))}}
-  <AuPill @skin="action">
-    {{@status}}
-  </AuPill>
-
-{{else if (eq @status "not-started") }}
-  <AuPill>
-    {{@status}}
-  </AuPill>
-
-{{else if (eq @status "busy") }}
-  <AuPill @skin="warning">
-    {{@status}}
-</AuPill>
-
-{{else if (eq @status "scheduled") }}
-  <AuPill @skin="border">
-    {{@status}}
-</AuPill>
-
-{{else}}
+<AuPill @skin={{this.skin}}>
   {{@status}}
-{{/if}}
+</AuPill>

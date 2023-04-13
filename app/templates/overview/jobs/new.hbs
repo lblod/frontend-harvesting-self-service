@@ -1,0 +1,122 @@
+{{page-title "New Job"}}
+{{breadcrumb "New Job" route="overview.jobs.new"}}
+
+<AuModal
+  @modalOpen={{true}}
+  @closeModal={{this.cancelCreateAndStartJob}}
+  @overflow={{if this.selectedJobOperation.uri false true}}
+  @size="default">
+  <:title>Create new job</:title>
+  <:body>
+    <form class="au-c-form">
+      <AuFormRow
+        class="au-u-margin-bottom"
+        @alignment="default">
+        <AuLabel
+          for="job-type-select"
+          @required={{true}}
+          @requiredLabel="Required"
+          @error={{(not this.selectedJobOperationValid)}}>
+          Choose type
+        </AuLabel>
+        <PowerSelect
+          id="job-type-select"
+          @renderInPlace={{true}}
+          @allowClear={{true}}
+          @options={{this.jobOperations}}
+          @selected={{this.selectedJobOperation}}
+          @onChange={{this.setJobOperation}}
+          as |option|>
+          {{option.label}}
+        </PowerSelect>
+      </AuFormRow>
+      {{#if this.selectedJobOperation.uri}}
+        <AuFormRow @alignment="default">
+          {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
+            <AuLabel
+              for="graph-name"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{(not this.graphNameValid)}}>
+              Graph URI
+            </AuLabel>
+            <AuInput
+              id="graph-name"
+              @width="block"
+              @value={{this.graphName}}
+              @error={{(not this.graphNameValid)}}/>
+          {{else}}
+            <AuLabel
+              for="task-url"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{(not this.urlValid)}}>
+              URL
+            </AuLabel>
+            <AuInput
+              id="task-url"
+              @width="block"
+              @value={{this.url}}
+              @error={{(not this.urlValid)}}/>
+          {{/if}}
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel for="task-comment">
+            Comments
+          </AuLabel>
+          <AuTextarea
+            id="task-comment"
+            @width="block"
+            @value={{this.comment}}
+            placeholder="Some details, if appropriate!"/>
+        </AuFormRow>
+        <AuFormRow @alignment="default">
+          <AuLabel
+            for="task-creator"
+            @required={{true}}
+            @requiredLabel="Required">
+            Creator
+          </AuLabel>
+          <AuInput
+            id="task-creator"
+            @width="block"
+            @value={{this.creator}}
+            @disabled={{true}}/>
+        </AuFormRow>
+        {{#if (and this.authenticationEnabled
+                   (not (eq this.selectedJobOperation.uri this.jobImport)))}}
+          <AuthenticationConfiguration
+            @options={{this.securitySchemesOptions}}
+            @selected={{this.selectedSecurityScheme}}
+            @onChange={{this.setSecurityScheme}}
+            @credentials={{this.credentials}}
+            @securityScheme={{this.securityScheme}}
+            @onCredentialsChange={{this.updateCredentials}}
+            @onSecuritySchemeChange={{this.updateSecurityScheme}}
+          />
+        {{/if}}
+      {{/if}}
+    </form>
+  </:body>
+  <:footer>
+    <AuButtonGroup>
+      <AuButton
+        {{on 'click' (perform this.createAndStartJob)}}
+        @skin="primary"
+        @icon="check"
+        @iconAlignment="left"
+        @loading={{this.createAndStartJob.isRunning}}
+        @loadingMessage="Creating">
+        Create and start Job
+      </AuButton>
+      <AuButton
+        {{on 'click' this.cancelCreateAndStartJob}}
+        @skin="secondary"
+        @icon="cross"
+        @iconAlignment="left"
+        @alert={{true}}>
+        Cancel
+      </AuButton>
+    </AuButtonGroup>
+  </:footer>
+</AuModal>
