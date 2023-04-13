@@ -21,62 +21,51 @@
             class="au-u-margin-top au-u-margin-bottom">
             Job details
           </AuHeading>
-          <div class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+          <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
             <div>
-              <AuLabel>Title</AuLabel>
-              <p class="au-u-word-break">
-                {{this.job.title}}
-              </p>
+              <dt class="au-u-bold">Title</dt>
+              <dd>{{this.job.title}}</dd>
             </div>
             <div>
-              <AuLabel>URI</AuLabel>
-              <p class="au-u-word-break">
-                {{this.job.uri}}
-              </p>
+              <dt class="au-u-bold">URI</dt>
+              <dd>{{this.job.uri}}</dd>
             </div>
             <div>
-              <AuLabel>Schedule</AuLabel>
-              <p>
-                {{this.cronDescription}}
-              </p>
+              <dt class="au-u-bold">Schedule</dt>
+              <dd>{{this.cronDescription}}</dd>
             </div>
             <div>
-              <AuLabel>Created</AuLabel>
-              <p class="au-u-word-break">
-                {{format-date this.job.created}}
-              </p>
+              <dt class="au-u-bold">Created</dt>
+              <dd>{{format-date this.job.created}}</dd>
             </div>
             <div>
-              <AuLabel>Modified</AuLabel>
-              <p class="au-u-word-break">
-                {{format-date this.job.modified}}
-              </p>
+              <dt class="au-u-bold">Modified</dt>
+              <dd>{{format-date this.job.modified}}</dd>
             </div>
             <div>
-              <AuLabel>Creator</AuLabel>
-              <p class="au-u-word-break">
-                {{this.job.creator}}
-              </p>
+              <dt class="au-u-bold">Creator</dt>
+              {{this.job.creator}}
             </div>
+            {{#if this.job.comment}}
+              <div>
+                <dt class="au-u-bold">Comments</dt>
+                <dd>{{this.job.comment}}</dd>
+              </div>
+            {{/if}} 
             {{#if this.job.error.message}}
               <div>
+                <dt class="au-u-hidden-visually">Errors</dt>
                 <AuAlert
                   @icon="cross"
                   @title="Error"
                   @skin="error">
-                  <p class="au-u-word-break">
-                    {{this.job.error.message}}
+                  <p>
+                    <dd>{{this.job.error.message}}</dd>
                   </p>
                 </AuAlert>
               </div>
             {{/if}}
-            {{#if this.job.comment}}
-              <div>
-                <AuLabel>Comments</AuLabel>
-                <p class="au-u-word-break">{{this.job.comment}}</p>
-              </div>
-            {{/if}} 
-          </div>
+          </dl>
           {{!--End job info--}}
         </div>
       </div>

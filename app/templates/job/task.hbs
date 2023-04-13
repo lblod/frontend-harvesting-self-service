@@ -22,48 +22,43 @@
             class="au-u-margin-top au-u-margin-bottom">
             Task details
           </AuHeading>
-          <div class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+          <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
             <div>
-              <AuLabel>URI</AuLabel>
-              <p class="au-u-word-break">
-                {{this.model.uri}}
-              </p>
+              <dt class="au-u-bold">URI</dt>
+              <dd>{{this.model.uri}}</dd>
             </div>
             <div>
-              <AuLabel>Operation</AuLabel>
-              <p class="au-u-word-break">
-                {{this.model.operation}}
-              </p>
+              <dt class="au-u-bold">Operation</dt>
+              <dd>{{this.model.operation}}</dd>
             </div>
             <div>
-              <AuLabel>Created</AuLabel>
-              <p class="au-u-word-break">
-                {{format-date this.model.created}}
-              </p>
+              <dt class="au-u-bold">Created</dt>
+              <dd>{{format-date this.model.created}}</dd>
             </div>
             <div>
-              <AuLabel>Modified</AuLabel>
-              <p class="au-u-word-break">
-                {{format-date this.model.modified}}
-              </p>
+              <dt class="au-u-bold">Modified</dt>
+              <dd>{{format-date this.model.modified}}</dd>
             </div>
             <div>
-              <AuLabel>Status</AuLabel>
-              <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+              <dt class="au-u-bold">Status</dt>
+              <dd>
+                <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+              </dd>
             </div>
             {{#if this.job.error.message}}
               <div>
+                <dt class="au-u-hidden-visually">Errors</dt>
                 <AuAlert
                   @icon="cross"
                   @title="Error"
                   @skin="error">
-                  <p class="au-u-word-break">
-                    {{this.job.error.message}}
+                  <p>
+                    <dd>{{this.job.error.message}}</dd>
                   </p>
                 </AuAlert>
               </div>
             {{/if}}
-          </div>
+          </dl>
           {{!--End Task info--}}
         </div>
       </div>
