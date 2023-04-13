@@ -15,7 +15,7 @@ export default class JobTasklistController extends Controller {
 
   @action
   reload() {
-    this.router.refresh();
+    this.router.refresh('job.tasklist');
   }
 
   @task

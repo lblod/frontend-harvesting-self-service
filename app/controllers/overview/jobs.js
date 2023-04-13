@@ -16,6 +16,6 @@ export default class OverviewJobsController extends Controller {
 
   @action
   reload() {
-    this.router.refresh();
+    this.router.refresh('overview.jobs');
   }
 }
