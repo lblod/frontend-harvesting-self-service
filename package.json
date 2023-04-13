@@ -2,10 +2,10 @@
   "name": "frontend-harvesting-self-service",
   "version": "1.11.0",
   "private": true,
-  "description": "Small description for frontend-harvesting-self-service goes here",
-  "repository": "",
+  "description": "Frontend to the Harvester that allows for starting harvesting jobs and creating scheduled jobs.",
+  "repository": "https://github.com/lblod/frontend-harvesting-self-service",
   "license": "MIT",
-  "author": "",
+  "author": "RedPencil",
   "directories": {
     "doc": "doc",
     "test": "tests"
