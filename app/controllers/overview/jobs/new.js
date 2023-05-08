@@ -21,7 +21,7 @@ export default class OverviewJobsNewController extends Controller {
   creator = cts.JOB_CREATOR_SELF_SERVICE;
 
   harvestTaskOperation =
-    'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/singleton-job';
   importTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
 

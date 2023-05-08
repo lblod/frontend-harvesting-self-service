@@ -21,8 +21,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
 
-  harvesTaskOperation =
-    'http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting';
+  harvestTaskOperation =
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/singleton-job';
   importTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
 
@@ -158,7 +158,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       const scheduledTasks = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
         modified: this.currentTime,
-        operation: this.harvesTaskOperation,
+        operation: this.harvestTaskOperation,
         index: '0',
         inputContainers: [dataContainer],
         scheduledJob: scheduledJob,
