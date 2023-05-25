@@ -50,12 +50,16 @@ JOB_OP_TYPES.set(
   'Harvest Worship & Publish'
 );
 export const JOB_OP_TYPE_CREATE = new Map();
-if (config.harvester.besluitenHarvesting) {
+if (
+  ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenHarvesting)
+) {
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_IMPORT, 'Import');
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
 }
-if (config.harvester.worshipHarvesting) {
+if (
+  ['true', 'True', 'TRUE', true].includes(config.harvester.worshipHarvesting)
+) {
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_WORSHIP, 'Harvest Worship');
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
