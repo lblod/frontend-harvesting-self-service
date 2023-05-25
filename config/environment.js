@@ -13,6 +13,8 @@ module.exports = function (environment) {
     },
     harvester: {
       authEnabled: '{{AUTHENTICATION_ENABLED}}',
+      besluitenHarvesting: '{{BESLUITEN_HARVESTING_ENABLED}}',
+      worshipHarvesting: '{{WORSHIP_HARVESTING_ENABLED}}',
     },
     EmberENV: {
       FEATURES: {

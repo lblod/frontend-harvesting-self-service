@@ -1,3 +1,5 @@
+import config from 'frontend-harvesting-self-service/config/environment';
+
 export const JOB_OP_TYPE_HARVEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
 export const JOB_OP_TYPE_PUBLISH =
@@ -48,14 +50,18 @@ JOB_OP_TYPES.set(
   'Harvest Worship & Publish'
 );
 export const JOB_OP_TYPE_CREATE = new Map();
-JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
-JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_IMPORT, 'Import');
-JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
-JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_WORSHIP, 'Harvest Worship');
-JOB_OP_TYPE_CREATE.set(
-  JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
-  'Harvest Worship & Publish'
-);
+if (config.harvester.besluitenHarvesting) {
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_IMPORT, 'Import');
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
+}
+if (config.harvester.worshipHarvesting) {
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_WORSHIP, 'Harvest Worship');
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+    'Harvest Worship & Publish'
+  );
+}
 
 export const JOB_OP_STATUS_SUCCESS =
   'http://redpencil.data.gift/id/concept/JobStatus/success';
