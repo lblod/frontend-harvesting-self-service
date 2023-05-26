@@ -155,7 +155,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         harvestingCollections: [collection],
       });
 
-      const scheduledTasks = this.store.createRecord('scheduled-task', {
+      const scheduledTask = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
         modified: this.currentTime,
         operation: this.harvestTaskOperation,
@@ -165,11 +165,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
       });
 
       yield cronSchedule.save();
-      yield scheduledJob.save();
       yield remoteDataObject.save();
       yield collection.save();
       yield dataContainer.save();
-      yield scheduledTasks.save();
+      yield scheduledJob.save();
+      yield scheduledTask.save();
 
       this.toaster.success(
         'New job succesfully scheduled.',
