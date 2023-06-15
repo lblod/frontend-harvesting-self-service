@@ -19,7 +19,9 @@ export default class ScheduledJobDetailsController extends Controller {
 
   get cronDescription() {
     if (this.frequency) {
-      return cronstrue.toString(this.frequency);
+      return cronstrue.toString(this.frequency, {
+        use24HourTimeFormat: true,
+      });
     } else {
       return '';
     }
