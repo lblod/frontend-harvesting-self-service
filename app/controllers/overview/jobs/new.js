@@ -114,7 +114,7 @@ export default class OverviewJobsNewController extends Controller {
         yield dataContainer.save();
       } else {
         const remoteDataObject = this.store.createRecord('remote-data-object', {
-          source: this.url,
+          source: this.url.trim(),
           // This is deliberate, the collector service will set the status and
           // therefore start the job later:
           status: undefined,
