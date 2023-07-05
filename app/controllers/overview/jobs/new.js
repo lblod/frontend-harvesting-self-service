@@ -91,10 +91,11 @@ export default class OverviewJobsNewController extends Controller {
 
   @task
   *createAndStartJob() {
+    let scheduledJob;
     try {
       if (!this.validateForm()) return;
 
-      const scheduledJob = this.store.createRecord('job', {
+      scheduledJob = this.store.createRecord('job', {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
         created: this.currentTime,
         modified: this.currentTime,
@@ -169,6 +170,7 @@ export default class OverviewJobsNewController extends Controller {
         'Scheduling failed',
         { icon: 'cross', timeOut: 10000, closable: true }
       );
+      yield scheduledJob.destroyRecord();
     }
   }
 }
