@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import Store from '@ember-data/store';
 
-export default class StoreService extends DS.Store {
+export default class StoreService extends Store {
   async count(modelName, query, options) {
     query = query || {};
     if (!(query['page[size]'] || (query.page && query.page.size))) {
