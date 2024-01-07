@@ -8,6 +8,7 @@ export default class JobModel extends Model {
   @attr('string') comment;
   @attr('string') creator;
   @attr('string') operation;
+  @attr('string') vendor;
 
   @belongsTo('job-error', { async: true, inverse: null }) error;
   @hasMany('task', { async: true, inverse: 'job' }) tasks;
