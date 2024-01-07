@@ -40,6 +40,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked selectedJobOperationValid;
   @tracked cronPattern;
   @tracked cronPatternValid;
+  @tracked vendor;
+  @tracked vendorValid;
   @tracked selectedSecurityScheme;
   @tracked securityScheme;
   @tracked credentials;
@@ -94,6 +96,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.urlValid = !!this.url;
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
+    this.vendorValid = !!this.vendor;
     return (
       this.selectedJobOperationValid &&
       this.urlValid &&
@@ -123,6 +126,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         operation: this.selectedJobOperation.uri,
         title: this.title,
         schedule: cronSchedule,
+        vendor: this.vendor,
       });
 
       const remoteDataObject = this.store.createRecord('remote-data-object', {

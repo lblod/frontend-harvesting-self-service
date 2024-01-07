@@ -11,6 +11,8 @@ export default class OverviewScheduledJobsNewRoute extends Route {
     controller.set('selectedJobOperationValid', true);
     controller.set('cronPattern', '*/5 * * * *');
     controller.set('cronPatternValid', true);
+    controller.set('vendor', null);
+    controller.set('vendorValid', true);
     controller.set('selectedSecurityScheme', null);
     controller.set('securityScheme', {});
     controller.set('credentials', {});

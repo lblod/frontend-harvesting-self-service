@@ -35,6 +35,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked urlValid;
   @tracked graphName;
   @tracked graphNameValid;
+  @tracked vendor;
+  @tracked vendorValid;
   @tracked comment;
   @tracked selectedJobOperation;
   @tracked selectedJobOperationValid;
@@ -78,6 +80,8 @@ export default class OverviewJobsNewController extends Controller {
     else this.urlValid = false;
     if (this.graphName) this.graphNameValid = true;
     else this.graphNameValid = false;
+    if (this.vendor) this.vendorValid = true;
+    else this.vendorValid = false;
 
     if (this.selectedJobOperation === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;
@@ -102,6 +106,7 @@ export default class OverviewJobsNewController extends Controller {
         creator: this.creator,
         comment: this.comment,
         operation: this.selectedJobOperation.uri,
+        vendor: this.vendor,
       });
       yield scheduledJob.save();
 
