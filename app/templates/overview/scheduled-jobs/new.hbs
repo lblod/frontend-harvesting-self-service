@@ -101,6 +101,23 @@
             @value={{this.creator}}
             @disabled={{true}}/>
         </AuFormRow>
+        {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorship)
+                  (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport))}}
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="task-vendor"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{(not this.vendorValid)}}>
+              Vendor
+            </AuLabel>
+            <AuInput
+              id="task-vendor"
+              @width="block"
+              @value={{this.vendor}}
+              @error={{(not this.vendorValid)}}/>
+          </AuFormRow>
+        {{/if}}
         {{#if this.authenticationEnabled}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}

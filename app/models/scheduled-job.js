@@ -8,6 +8,7 @@ export default class ScheduledJobModel extends Model {
   @attr('date') modified;
   @attr('string') creator;
   @attr('string') operation;
+  @attr('string') vendor;
 
   @hasMany('scheduled-task', { async: true, inverse: 'scheduledJob' })
   scheduledTasks;
