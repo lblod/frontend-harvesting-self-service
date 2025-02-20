@@ -1,0 +1,23 @@
+<div class='au-u-flex au-u-flex--spaced-small'>
+  <AuInput
+    @queryParam='search'
+    @value={{this.search}}
+    @label='Search'
+    @labelHidden={{true}}
+    @icon='search'
+    @width='block'
+    id='keyword'
+    placeholder={{@placeholder}}
+    oninput={{this.handleSearch}}
+    {{on 'keyup' this.handleKeyUp}}
+  />
+  {{#if @buttonText}}
+    <AuButton
+      {{on 'click' this.updateSearchQuery}}
+      @width='block'
+      class='search-button'
+    >
+      {{@buttonText}}
+    </AuButton>
+  {{/if}}
+</div>
