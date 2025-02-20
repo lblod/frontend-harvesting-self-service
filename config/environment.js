@@ -15,6 +15,7 @@ module.exports = function (environment) {
       authEnabled: '{{AUTHENTICATION_ENABLED}}',
       besluitenHarvesting: '{{BESLUITEN_HARVESTING_ENABLED}}',
       worshipHarvesting: '{{WORSHIP_HARVESTING_ENABLED}}',
+      hideDeleteJobButton: '{{HIDE_DELETE_JOB_BUTTON_ENABLED}}',
     },
     EmberENV: {
       FEATURES: {
