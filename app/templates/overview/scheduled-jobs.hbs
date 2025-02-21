@@ -1,75 +1,70 @@
-{{page-title 'Scheduled Jobs'}}
-{{breadcrumb 'Scheduled Jobs' route='overview.scheduled-jobs'}}
+{{page-title "Scheduled Jobs"}}
+{{breadcrumb "Scheduled Jobs" route="overview.scheduled-jobs"}}
 
 <AuDataTable
-  @content={{this.model}}
-  @noDataMessage='No scheduled jobs found'
+  @content={{this.model.scheduledJobs}}
+  @noDataMessage="No scheduled jobs found"
   @sort={{this.sort}}
   @size={{this.size}}
-  @page={{this.page}}
-  as |t|
->
+  @page={{this.page}} as |t|>
   <t.menu as |menu|>
     <menu.general>
       <AuToolbar
-        class='au-u-padding-bottom-none'
-        @border='none'
-        @size='large'
-        as |Group|
-      >
+        @border="none"
+        @size="large"
+        as |Group|>
         <Group>
-          <AuHeading @level='1' @skin='1'>Scheduled Jobs</AuHeading>
+          <AuHeading @level="1" @skin="1">Scheduled Jobs</AuHeading>
         </Group>
-        <Group class='au-u-flex--vertical-center'>
+        <Group class="au-u-flex--vertical-center">
+          <div class='au-u-max-width-xsmall au-u-flex au-u-flex--spaced-small'>
+            <AuInput
+              @value={{this.searchValue}}
+              @queryParam='search'
+              @label='Search'
+              @labelHidden={{true}}
+              @icon='search'
+              @iconAlignment='right'
+              @width='block'
+              id='search'
+              placeholder='Search titel'
+              oninput={{perform this.updateSearchQuery value='target.value'}}
+            />
+          </div>
           <AuLink
-            @route='overview.scheduled-jobs.new'
-            @skin='button'
-            @icon='plus'
-            @iconAlignment='left'
-          >
+            @route="overview.scheduled-jobs.new"
+            @skin="button"
+            @icon="plus"
+            @iconAlignment="left">
             Create new scheduled job
           </AuLink>
         </Group>
       </AuToolbar>
-      <div
-        class='au-u-padding-left au-u-padding-right au-u-padding-bottom au-u-max-width-xsmall'
-      >
-        <SearchBar
-          @placeholder='Search titel'
-          @buttonText='Search'
-          @search={{this.search}}
-        />
-      </div>
     </menu.general>
   </t.menu>
   <t.content as |c|>
     <c.header>
       <th>URI</th>
       <AuDataTableThSortable
-        @field='created'
+        @field="created"
         @currentSorting={{this.sort}}
-        @label='Created'
-      />
+        @label="Created"/>
       <AuDataTableThSortable
-        @field='modified'
+        @field="modified"
         @currentSorting={{this.sort}}
-        @label='Modified'
-      />
+        @label="Modified"/>
       <AuDataTableThSortable
-        @field='operation'
+        @field="operation"
         @currentSorting={{this.sort}}
-        @label='Operation'
-      />
+        @label="Operation"/>
       <AuDataTableThSortable
-        @field='schedule'
+        @field="schedule"
         @currentSorting={{this.sort}}
-        @label='Schedule'
-      />
+        @label="Schedule"/>
       <AuDataTableThSortable
-        @field='title'
+        @field="title"
         @currentSorting={{this.sort}}
-        @label='Title'
-      />
+        @label="Title"/>
       <th>Actions</th>
     </c.header>
     <c.body as |row|>
@@ -82,7 +77,7 @@
       <td>
         {{format-date row.modified}}
       </td>
-      <td class='au-u-word-break'>
+      <td class="au-u-word-break">
         {{operation-name row.operation}}
       </td>
       <td>
@@ -93,12 +88,11 @@
       </td>
       <td>
         <AuLink
-          @route='scheduled-job.details'
-          @skin='button'
-          @icon='nav-right'
-          @iconAlignment='right'
-          @model={{row.id}}
-        >
+          @route="scheduled-job.details"
+          @skin="button"
+          @icon="nav-right"
+          @iconAlignment="right"
+          @model={{row.id}}>
           View
         </AuLink>
       </td>

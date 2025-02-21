@@ -24,17 +24,27 @@ export default class OverviewScheduledJobsRoute extends Route.extend(
       include: 'schedule',
       filters,
       page: {
-        number: params.page ?? 0,
+        number: params.page,
         size: params.size,
       },
       sort: params.sort ? params.sort : 'created',
     });
-    return scheduledJobs;
+    return {
+      scheduledJobs,
+      search: params.search,
+    };
   }
 
   mergeQueryOptions(param) {
     return {
       sort: param.sort,
     };
+  }
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    if (model.search) {
+      controller.searchValue = model.search;
+    }
   }
 }
