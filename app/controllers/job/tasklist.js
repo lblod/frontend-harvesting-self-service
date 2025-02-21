@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
-
+import config from 'frontend-harvesting-self-service/config/environment';
 export default class JobTasklistController extends Controller {
   @service router;
 
@@ -12,6 +12,12 @@ export default class JobTasklistController extends Controller {
   size = 15;
 
   @tracked job;
+
+  get hideDeleteJobButton() {
+    return ['true', 'True', 'TRUE', true].includes(
+      config.harvester.hideDeleteJobButton
+    );
+  }
 
   @action
   reload() {

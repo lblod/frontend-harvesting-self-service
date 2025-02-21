@@ -49,7 +49,7 @@
                 <dt class="au-u-bold">Comments</dt>
                 <dd>{{this.job.comment}}</dd>
               </div>
-            {{/if}} 
+            {{/if}}
             {{#if this.job.error.message}}
               <div>
                 <dt class="au-u-hidden-visually">Errors</dt>
@@ -68,6 +68,7 @@
         </div>
       </div>
       <div class="au-c-sidebar__footer">
+      {{#unless this.hideDeleteJobButton}}
         <AuButton
           @skin="primary"
           @icon="trash"
@@ -80,6 +81,7 @@
           {{on "click" (perform this.deleteJob this.job)}}>
           Delete
         </AuButton>
+      {{/unless}}
       </div>
     </div>
   </m.sidebar>
