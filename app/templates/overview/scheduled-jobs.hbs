@@ -2,7 +2,7 @@
 {{breadcrumb "Scheduled Jobs" route="overview.scheduled-jobs"}}
 
 <AuDataTable
-  @content={{this.model}}
+  @content={{this.model.scheduledJobs}}
   @noDataMessage="No scheduled jobs found"
   @sort={{this.sort}}
   @size={{this.size}}
@@ -17,6 +17,20 @@
           <AuHeading @level="1" @skin="1">Scheduled Jobs</AuHeading>
         </Group>
         <Group class="au-u-flex--vertical-center">
+          <div class='au-u-max-width-xsmall au-u-flex au-u-flex--spaced-small'>
+            <AuInput
+              @value={{this.searchValue}}
+              @queryParam='search'
+              @label='Search'
+              @labelHidden={{true}}
+              @icon='search'
+              @iconAlignment='right'
+              @width='block'
+              id='search'
+              placeholder='Search titel'
+              oninput={{perform this.updateSearchQuery value='target.value'}}
+            />
+          </div>
           <AuLink
             @route="overview.scheduled-jobs.new"
             @skin="button"
