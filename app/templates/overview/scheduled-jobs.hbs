@@ -2,7 +2,7 @@
 {{breadcrumb "Scheduled Jobs" route="overview.scheduled-jobs"}}
 
 <AuDataTable
-  @content={{this.model.scheduledJobs}}
+  @content={{this.model}}
   @noDataMessage="No scheduled jobs found"
   @sort={{this.sort}}
   @size={{this.size}}
@@ -19,7 +19,7 @@
         <Group class="au-u-flex--vertical-center">
           <div class='au-u-max-width-xsmall au-u-flex au-u-flex--spaced-small'>
             <AuInput
-              @value={{this.searchValue}}
+              @value={{this.search}}
               @queryParam='search'
               @label='Search'
               @labelHidden={{true}}

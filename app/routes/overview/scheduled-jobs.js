@@ -20,7 +20,7 @@ export default class OverviewScheduledJobsRoute extends Route.extend(
     if (params.search) {
       filters.title = params.search;
     }
-    const scheduledJobs = await this.store.query(this.modelName, {
+    return this.store.query(this.modelName, {
       include: 'schedule',
       filters,
       page: {
@@ -29,22 +29,11 @@ export default class OverviewScheduledJobsRoute extends Route.extend(
       },
       sort: params.sort ? params.sort : 'created',
     });
-    return {
-      scheduledJobs,
-      search: params.search,
-    };
   }
 
   mergeQueryOptions(param) {
     return {
       sort: param.sort,
     };
-  }
-
-  setupController(controller, model) {
-    super.setupController(controller, model);
-    if (model.search) {
-      controller.searchValue = model.search;
-    }
   }
 }
