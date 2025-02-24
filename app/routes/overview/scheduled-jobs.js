@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class OverviewScheduledJobsRoute extends Route.extend(
   DataTableRouteMixin
@@ -35,5 +36,15 @@ export default class OverviewScheduledJobsRoute extends Route.extend(
     return {
       sort: param.sort,
     };
+  }
+
+  @action
+  async loading(transition) {
+    // eslint-disable-next-line ember/no-controller-access-in-routes
+    const controller = this.controllerFor(this.routeName);
+    controller.set('currentlyLoading', true);
+    transition.promise.finally(function () {
+      controller.set('currentlyLoading', false);
+    });
   }
 }

@@ -42,7 +42,7 @@
       </AuToolbar>
     </menu.general>
   </t.menu>
-  <t.content as |c|>
+  <t.content class="{{if this.currentlyLoading "table-loading"}}" as |c|>
     <c.header>
       <th>URI</th>
       <AuDataTableThSortable

@@ -9,6 +9,7 @@ export default class OverviewScheduledJobsController extends Controller {
   @tracked page = 0;
   @tracked sort = '-created';
   @tracked search = '';
+  @tracked currentlyLoading = false;
 
   updateSearchQuery = task({ restartable: true }, async (value) => {
     await timeout(500);
