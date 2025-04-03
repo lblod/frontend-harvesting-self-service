@@ -91,6 +91,12 @@ export default class OverviewScheduledJobsNewController extends Controller {
   }
 
   @action
+  setProperty(property, event) {
+    this[property] = event.target.value;
+    this[`${property}Valid`] = !! this[property];
+  }
+
+  @action
   validateForm() {
     this.selectedJobOperationValid = !!this.selectedJobOperation;
     this.urlValid = !!this.url;

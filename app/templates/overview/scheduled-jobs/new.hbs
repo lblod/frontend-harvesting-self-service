@@ -36,14 +36,17 @@
             for="task-title"
             @required={{true}}
             @requiredLabel="Required"
-            @error={{(not this.titleValid)}}>
+            @error={{(not this.titleValid)}}
+          >
             Title
           </AuLabel>
           <AuInput
             id="task-title"
             @width="block"
-            @value={{this.title}}
-            @error={{(not this.titleValid)}}/>
+            value={{this.title}}
+            @error={{(not this.titleValid)}}
+            {{on "change" (fn this.setProperty "title")}}
+          />
         </AuFormRow>
         <AuFormRow @alignment="default">
           <AuLabel
@@ -56,8 +59,10 @@
           <AuInput
             id="task-url"
             @width="block"
-            @value={{this.url}}
-            @error={{(not this.urlValid)}}/>
+            value={{this.url}}
+            @error={{(not this.urlValid)}}
+            {{on "change" (fn this.setProperty "url")}}
+          />
         </AuFormRow>
         <AuFormRow @alignment="default">
           <AuLabel
@@ -70,8 +75,10 @@
           <AuInput
             id="cron-pattern"
             @width="block"
-            @value={{this.cronPattern}}
-            @error={{(not this.cronPatternValid)}}/>
+            value={{this.cronPattern}}
+            @error={{(not this.cronPatternValid)}}
+            {{on "change" (fn this.setProperty "cronPattern")}}
+          />
           <AuHelpText @error={{(not this.isValidCronPattern)}}>
             The job will be started: {{this.cronDescription}}
           </AuHelpText>
@@ -98,8 +105,10 @@
           <AuInput
             id="task-creator"
             @width="block"
-            @value={{this.creator}}
-            @disabled={{true}}/>
+            value={{this.creator}}
+            @disabled={{true}}
+            {{on "change" (fn this.setProperty "creator")}}
+          />
         </AuFormRow>
         {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorship)
                   (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport))}}
@@ -114,8 +123,10 @@
             <AuInput
               id="task-vendor"
               @width="block"
-              @value={{this.vendor}}
-              @error={{(not this.vendorValid)}}/>
+              value={{this.vendor}}
+              @error={{(not this.vendorValid)}}
+              {{on "change" (fn this.setProperty "vendor")}}
+            />
           </AuFormRow>
         {{/if}}
         {{#if this.authenticationEnabled}}
