@@ -93,8 +93,7 @@ export default class OverviewJobsNewController extends Controller {
     this.router.transitionTo('overview.jobs');
   }
 
-  @task
-  *createAndStartJob() {
+  createAndStartJob = task(async () => {
     let scheduledJob;
     try {
       if (!this.validateForm()) return;
@@ -108,7 +107,7 @@ export default class OverviewJobsNewController extends Controller {
         operation: this.selectedJobOperation.uri,
         vendor: this.vendor,
       });
-      yield scheduledJob.save();
+      await scheduledJob.save();
 
       let dataContainer;
 
@@ -116,7 +115,7 @@ export default class OverviewJobsNewController extends Controller {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
         });
-        yield dataContainer.save();
+        await dataContainer.save();
       } else {
         const remoteDataObject = this.store.createRecord('remote-data-object', {
           source: this.url.trim(),
@@ -129,12 +128,12 @@ export default class OverviewJobsNewController extends Controller {
           modified: this.currentTime,
           creator: this.creator,
         });
-        yield remoteDataObject.save();
+        await remoteDataObject.save();
 
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
           authenticationConfiguration: this.selectedSecurityScheme
-            ? yield createAuthenticationConfiguration(
+            ? await createAuthenticationConfiguration(
                 this.selectedSecurityScheme,
                 this.securityScheme,
                 this.credentials,
@@ -143,12 +142,12 @@ export default class OverviewJobsNewController extends Controller {
             : null, // authenticationConfiguration is optional
           remoteDataObjects: [remoteDataObject],
         });
-        yield collection.save();
+        await collection.save();
 
         dataContainer = this.store.createRecord('data-container', {
           harvestingCollections: [collection],
         });
-        yield dataContainer.save();
+        await dataContainer.save();
       }
 
       const task = this.store.createRecord('task', {
@@ -161,7 +160,7 @@ export default class OverviewJobsNewController extends Controller {
         inputContainers: [dataContainer],
         job: scheduledJob,
       });
-      yield task.save();
+      await task.save();
 
       this.toaster.success(
         'New job succesfully scheduled.',
@@ -175,7 +174,7 @@ export default class OverviewJobsNewController extends Controller {
         'Scheduling failed',
         { icon: 'cross', timeOut: 10000, closable: true }
       );
-      yield scheduledJob.destroyRecord();
+      await scheduledJob.destroyRecord();
     }
-  }
+  });
 }
