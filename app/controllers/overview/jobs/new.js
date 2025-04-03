@@ -72,6 +72,12 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   @action
+  setProperty(property, event) {
+    this[property] = event.target.value;
+    this[`${property}Valid`] = !! this[property];
+  }
+
+  @action
   validateForm() {
     //TODO use proper validation library
     if (this.selectedJobOperation) this.selectedJobOperationValid = true;
