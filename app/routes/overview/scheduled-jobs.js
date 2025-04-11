@@ -1,11 +1,8 @@
 import Route from '@ember/routing/route';
-import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 
-export default class OverviewScheduledJobsRoute extends Route.extend(
-  DataTableRouteMixin
-) {
+export default class OverviewScheduledJobsRoute extends Route {
   @service store;
 
   modelName = 'scheduled-job';
@@ -30,12 +27,6 @@ export default class OverviewScheduledJobsRoute extends Route.extend(
       },
       sort: params.sort ? params.sort : 'created',
     });
-  }
-
-  mergeQueryOptions(param) {
-    return {
-      sort: param.sort,
-    };
   }
 
   @action
