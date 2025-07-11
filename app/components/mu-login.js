@@ -1,11 +1,14 @@
 import BaseMuLoginComponent from 'ember-mu-login/components/mu-login';
+import { action } from '@ember/object';
 
 export default class MuLoginComponent extends BaseMuLoginComponent {
-  handleNicknameInput = (event) => {
-    this.nickname = event.target.value.trim();
-  };
+  @action
+  updateNickname(event) {
+    this.nickname = event.target.value;
+  }
 
-  handlePasswordInput = (event) => {
-    this.password = event.target.value.trim();
-  };
+  @action
+  updatePassword(event) {
+    this.password = event.target.value;
+  }
 }
