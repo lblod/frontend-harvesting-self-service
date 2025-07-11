@@ -86,7 +86,7 @@ export default class ApplicationController extends Controller {
       ],
 
       // Scheduled job routes
-      'scheduled-job.details': [
+      'scheduled-job.details.index': [
         { title: 'Overview', route: 'index' },
         { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },
         { title: 'Scheduled Job Details' },
@@ -94,25 +94,25 @@ export default class ApplicationController extends Controller {
       'scheduled-job.details.edit': [
         { title: 'Overview', route: 'index' },
         { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },
-        { title: 'Scheduled Job Details', route: 'scheduled-job.details' },
+        { title: 'Scheduled Job Details', route: 'scheduled-job.details.index' },
         { title: 'Edit' },
       ],
       'scheduled-job.scheduled-task.input-container-files': [
         { title: 'Overview', route: 'index' },
         { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },
-        { title: 'Scheduled Job Details', route: 'scheduled-job.details' },
+        { title: 'Scheduled Job Details', route: 'scheduled-job.details.index' },
         { title: 'Input Container Files' },
       ],
       'scheduled-job.scheduled-task.input-container-graph': [
         { title: 'Overview', route: 'index' },
         { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },
-        { title: 'Scheduled Job Details', route: 'scheduled-job.details' },
+        { title: 'Scheduled Job Details', route: 'scheduled-job.details.index' },
         { title: 'Input Container Graph' },
       ],
       'scheduled-job.scheduled-task.input-container-harvesting-collections': [
         { title: 'Overview', route: 'index' },
         { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },
-        { title: 'Scheduled Job Details', route: 'scheduled-job.details' },
+        { title: 'Scheduled Job Details', route: 'scheduled-job.details.index' },
         { title: 'Input Container Harvesting Collection' },
       ],
 
