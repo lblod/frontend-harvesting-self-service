@@ -1,0 +1,22 @@
+<ul class="au-c-list-horizontal au-c-list-horizontal--small">
+  {{#each @breadcrumbs as |breadcrumb index|}}
+    {{#let (eq index (sub @breadcrumbs.length 1)) as |isLastBreadcrumb|}}
+      <li class="au-c-list-horizontal__item">
+        {{#if breadcrumb.route}}
+          <AuLink
+            @route={{breadcrumb.route}}
+            @active={{isLastBreadcrumb}}
+            aria-current={{if isLastBreadcrumb "page"}}>
+            {{breadcrumb.title}}
+          </AuLink>
+        {{else}}
+          <AuLink
+            @active={{true}}
+            aria-current="page">
+            {{breadcrumb.title}}
+          </AuLink>
+        {{/if}}
+      </li>
+    {{/let}}
+  {{/each}}
+</ul>

@@ -19,20 +19,7 @@
     @border="bottom"
     as |Group|>
     <Group>
-      <ul class="au-c-list-horizontal au-c-list-horizontal--small">
-        {{#each (breadcrumbs) as |breadcrumb|}}
-          {{#let (not (has-next breadcrumb (breadcrumbs))) as |isLastBreadcrumb|}}
-            <li class="au-c-list-horizontal__item">
-              <AuLink
-                @route={{breadcrumb.data.route}}
-                @active={{isLastBreadcrumb}}
-                aria-current={{if isLastBreadcrumb "page"}}>
-                {{breadcrumb.title}}
-              </AuLink>
-            </li>
-          {{/let}}
-        {{/each}}
-      </ul>
+      <Breadcrumb @breadcrumbs={{this.breadcrumbs}} />
     </Group>
   </AuToolbar>
   {{outlet}}
