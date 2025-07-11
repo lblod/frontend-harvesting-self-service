@@ -93,7 +93,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   setProperty(property, event) {
     this[property] = event.target.value;
-    this[`${property}Valid`] = !! this[property];
+    this[`${property}Valid`] = !!this[property];
   }
 
   @action
