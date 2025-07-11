@@ -1,6 +1,6 @@
 <ul class="au-c-list-horizontal au-c-list-horizontal--small">
   {{#each @breadcrumbs as |breadcrumb index|}}
-    {{#let (eq index (sub @breadcrumbs.length 1)) as |isLastBreadcrumb|}}
+    {{#let (eq (inc index) @breadcrumbs.length) as |isLastBreadcrumb|}}
       <li class="au-c-list-horizontal__item">
         {{#if breadcrumb.route}}
           <AuLink

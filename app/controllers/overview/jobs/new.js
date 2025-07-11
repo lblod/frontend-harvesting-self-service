@@ -14,9 +14,11 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
 
-  jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
-    return { label: value, uri: key };
-  });
+  @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
+    ([key, value]) => {
+      return { label: value, uri: key };
+    }
+  );
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
 
