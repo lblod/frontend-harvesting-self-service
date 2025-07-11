@@ -18,7 +18,7 @@ export default class JobTasklistController extends Controller {
     this.router.refresh('job.tasklist');
   }
 
-  deleteJob = task(async(job) => {
+  deleteJob = task(async (job) => {
     //Delete top level down the tree, less confusing if something fails.
 
     //NOTE: Even though inputContainers & resultsContainers have the same nested structure, I duplicated the code since I know you like the seperation more then a wrapping |for| loop

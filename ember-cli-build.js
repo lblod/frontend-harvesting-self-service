@@ -12,11 +12,11 @@ module.exports = function (defaults) {
     },
     babel: {
       plugins: [
-        require.resolve("ember-concurrency/async-arrow-task-transform"),
-      ]
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
     },
     sassOptions: {
-      includePaths: ["node_modules/@appuniversum/ember-appuniversum"], // just "node_modules" would also work, but it seems to slow (re)builds down a lot
+      includePaths: ['node_modules/@appuniversum/ember-appuniversum'], // just "node_modules" would also work, but it seems to slow (re)builds down a lot
     },
   });
 

@@ -14,7 +14,7 @@ export default class JobTargetUrlComponent extends Component {
     }
   }
 
-  fetchTargetUrl = task( async () => {
+  fetchTargetUrl = task(async () => {
     try {
       const tasks = await this.args.job.tasks;
       const firstTask = tasks.find((task) => task.index === '0');

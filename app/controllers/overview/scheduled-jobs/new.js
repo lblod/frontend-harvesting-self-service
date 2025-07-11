@@ -116,7 +116,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.router.transitionTo('overview.scheduled-jobs');
   }
 
-  createScheduledJob = task( async () => {
+  createScheduledJob = task(async () => {
     try {
       if (!this.validateForm()) return;
 
