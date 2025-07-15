@@ -4,9 +4,11 @@
   </AuAlert>
 {{/if}}
 <form  {{on "submit" this.login}}>
-  <div>
+    <AuFormRow
+      @alignment="pre"
+    >
     <AuLabel for="nickname">
-      {{t 'login.username'}}
+      Gebruiker
     </AuLabel>
     <AuInput
       type="text"
@@ -14,10 +16,14 @@
       value={{this.nickname}}
       {{on "input" this.updateNickname}}
     />
-  </div>
-  <div>
+    </AuFormRow>
+    <br>
+    <AuFormRow
+      @alignment="pre"
+    >
+
     <AuLabel for="password">
-      {{t 'login.password'}}
+      Wachtwoord
     </AuLabel>
     <AuInput
       type="password"
@@ -25,12 +31,11 @@
       value={{this.password}}
       {{on "input" this.updatePassword}}
     />
-  </div>
+    </AuFormRow>
   <br>
   <div>
-    <AuButton
-      type="submit">
-      {{t 'login.submit'}}
+    <AuButton type="submit" @icon="lock-closed">
+      Login
     </AuButton>
   </div>
 </form>
