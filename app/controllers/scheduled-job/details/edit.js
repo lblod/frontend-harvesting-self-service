@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isValidCron } from 'cron-validator';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import { service } from '@ember/service';
 import cronstrue from 'cronstrue';
 
@@ -39,6 +39,16 @@ export default class ScheduledJobDetailsEditController extends Controller {
     return this.job.title !== this.newTitle;
   }
 
+  @action
+  setTitle(event) {
+    this.newTitleValid = event.target.value;
+  }
+
+  @action
+  setCron(event) {
+    this.newCronPattern = event.target.value;
+  }
+
   get updatedFrequency() {
     return this.job.get('schedule.frequency') !== this.newCronPattern;
   }
@@ -51,18 +61,17 @@ export default class ScheduledJobDetailsEditController extends Controller {
     return this.newTitleValid && this.newCronPatternValid;
   }
 
-  @task
-  *update() {
+  update = task(async () => {
     if (!this.validateForm()) return;
     try {
-      const schedule = yield this.job.schedule;
-      yield this.job.set('modified', new Date());
-      if (this.updatedTitle) yield this.job.set('title', this.newTitle);
-      yield this.job.save();
+      const schedule = await this.job.schedule;
+      await this.job.set('modified', new Date());
+      if (this.updatedTitle) await this.job.set('title', this.newTitle);
+      await this.job.save();
 
       if (this.updatedFrequency) {
-        yield schedule.set('repeatFrequency', this.newCronPattern);
-        yield schedule.save();
+        await schedule.set('repeatFrequency', this.newCronPattern);
+        await schedule.save();
       }
 
       this.toaster.success('Changes to scheduled job saved', 'Save success', {
@@ -73,7 +82,7 @@ export default class ScheduledJobDetailsEditController extends Controller {
       this.router.transitionTo('scheduled-job.details');
     } catch (err) {
       this.job.rollbackAttributes();
-      const schedule = yield this.job.schedule;
+      const schedule = await this.job.schedule;
       schedule.rollbackAttributes();
 
       this.toaster.error(
@@ -82,5 +91,5 @@ export default class ScheduledJobDetailsEditController extends Controller {
         { icon: 'cross', timeOut: 10000, closable: true }
       );
     }
-  }
+  });
 }

@@ -1,5 +1,4 @@
 {{page-title "Scheduled Jobs"}}
-{{breadcrumb "Scheduled Jobs" route="overview.scheduled-jobs"}}
 
 <AuDataTable
   @content={{this.model}}
@@ -17,6 +16,20 @@
           <AuHeading @level="1" @skin="1">Scheduled Jobs</AuHeading>
         </Group>
         <Group class="au-u-flex--vertical-center">
+          <div class='au-u-max-width-xsmall au-u-flex au-u-flex--spaced-small'>
+            <AuInput
+              value={{this.search}}
+              @queryParam='search'
+              @label='Search'
+              @labelHidden={{true}}
+              @icon='search'
+              @iconAlignment='right'
+              @width='block'
+              id='search'
+              placeholder='Search titel'
+              oninput={{perform this.updateSearchQuery value='target.value'}}
+            />
+          </div>
           <AuLink
             @route="overview.scheduled-jobs.new"
             @skin="button"
@@ -28,7 +41,7 @@
       </AuToolbar>
     </menu.general>
   </t.menu>
-  <t.content as |c|>
+  <t.content class="{{if this.currentlyLoading "table-loading"}}" as |c|>
     <c.header>
       <th>URI</th>
       <AuDataTableThSortable

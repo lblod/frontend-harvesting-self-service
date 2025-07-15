@@ -1,5 +1,5 @@
 {{page-title "Scheduled Job Details"}}
-{{breadcrumb "Details" route="scheduled-job.details"}}
+
 
 <AuMainContainer as |m|>
   <m.sidebar>
@@ -51,7 +51,7 @@
                 <dt class="au-u-bold">Comments</dt>
                 <dd>{{this.job.comment}}</dd>
               </div>
-            {{/if}} 
+            {{/if}}
             {{#if this.job.error.message}}
               <div>
                 <dt class="au-u-hidden-visually">Errors</dt>

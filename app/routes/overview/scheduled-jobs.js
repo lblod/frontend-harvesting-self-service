@@ -1,17 +1,41 @@
 import Route from '@ember/routing/route';
-import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default class OverviewScheduledJobsRoute extends Route.extend(
-  DataTableRouteMixin
-) {
+export default class OverviewScheduledJobsRoute extends Route {
   @service store;
 
-  modelName = 'scheduled-job';
+  queryParams = {
+    filter: { refreshModel: true },
+    page: { refreshModel: true },
+    search: { refreshModel: true },
+    size: { refreshModel: true },
+    sort: { refreshModel: true },
+  };
 
-  mergeQueryOptions(param) {
-    return {
-      sort: param.sort,
-    };
+  async model(params) {
+    const filters = {};
+    if (params.search) {
+      filters.title = params.search;
+    }
+    return this.store.query('scheduled-job', {
+      include: 'schedule',
+      filters,
+      page: {
+        number: params.page,
+        size: params.size,
+      },
+      sort: params.sort ? params.sort : 'created',
+    });
+  }
+
+  @action
+  async loading(transition) {
+    // eslint-disable-next-line ember/no-controller-access-in-routes
+    const controller = this.controllerFor(this.routeName);
+    controller.set('currentlyLoading', true);
+    transition.promise.finally(function () {
+      controller.set('currentlyLoading', false);
+    });
   }
 }

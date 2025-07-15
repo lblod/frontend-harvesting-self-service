@@ -1,5 +1,4 @@
 {{page-title "New Job"}}
-{{breadcrumb "New Job" route="overview.jobs.new"}}
 
 <AuModal
   @modalOpen={{true}}
@@ -43,8 +42,10 @@
             <AuInput
               id="graph-name"
               @width="block"
-              @value={{this.graphName}}
-              @error={{(not this.graphNameValid)}}/>
+              value={{this.graphName}}
+              @error={{(not this.graphNameValid)}}
+              {{on "change" (fn this.setProperty "graphName")}}
+            />
           {{else}}
             <AuLabel
               for="task-url"
@@ -56,8 +57,10 @@
             <AuInput
               id="task-url"
               @width="block"
-              @value={{this.url}}
-              @error={{(not this.urlValid)}}/>
+              value={{this.url}}
+              @error={{(not this.urlValid)}}
+              {{on "change" (fn this.setProperty "url")}}
+            />
           {{/if}}
         </AuFormRow>
         <AuFormRow @alignment="default">
@@ -67,8 +70,10 @@
           <AuTextarea
             id="task-comment"
             @width="block"
-            @value={{this.comment}}
-            placeholder="Some details, if appropriate!"/>
+            value={{this.comment}}
+            placeholder="Some details, if appropriate!"
+            {{on "change" (fn this.setProperty "comment")}}
+          />
         </AuFormRow>
         <AuFormRow @alignment="default">
           <AuLabel
@@ -80,8 +85,10 @@
           <AuInput
             id="task-creator"
             @width="block"
-            @value={{this.creator}}
-            @disabled={{true}}/>
+            value={{this.creator}}
+            @disabled={{true}}
+            {{on "change" (fn this.setProperty "creator")}}
+          />
         </AuFormRow>
         {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorship)
                   (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport))}}
@@ -96,8 +103,10 @@
             <AuInput
               id="task-vendor"
               @width="block"
-              @value={{this.vendor}}
-              @error={{(not this.vendorValid)}}/>
+              value={{this.vendor}}
+              @error={{(not this.vendorValid)}}
+              {{on "change" (fn this.setProperty "vendor")}}
+            />
           </AuFormRow>
         {{/if}}
         {{#if (and this.authenticationEnabled

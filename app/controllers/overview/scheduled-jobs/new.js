@@ -91,6 +91,12 @@ export default class OverviewScheduledJobsNewController extends Controller {
   }
 
   @action
+  setProperty(property, event) {
+    this[property] = event.target.value;
+    this[`${property}Valid`] = !!this[property];
+  }
+
+  @action
   validateForm() {
     this.selectedJobOperationValid = !!this.selectedJobOperation;
     this.urlValid = !!this.url;
@@ -110,8 +116,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.router.transitionTo('overview.scheduled-jobs');
   }
 
-  @task
-  *createScheduledJob() {
+  createScheduledJob = task(async () => {
     try {
       if (!this.validateForm()) return;
 
@@ -145,7 +150,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         // - Shallow copy of authtentication configuration (see DL-4896)
         // - See timing issue comments, in controllers/jobs/new.js
         authenticationConfiguration: this.selectedSecurityScheme
-          ? yield createAuthenticationConfiguration(
+          ? await createAuthenticationConfiguration(
               this.selectedSecurityScheme,
               this.securityScheme,
               this.credentials,
@@ -168,12 +173,12 @@ export default class OverviewScheduledJobsNewController extends Controller {
         scheduledJob: scheduledJob,
       });
 
-      yield cronSchedule.save();
-      yield remoteDataObject.save();
-      yield collection.save();
-      yield dataContainer.save();
-      yield scheduledJob.save();
-      yield scheduledTask.save();
+      await cronSchedule.save();
+      await remoteDataObject.save();
+      await collection.save();
+      await dataContainer.save();
+      await scheduledJob.save();
+      await scheduledTask.save();
 
       this.toaster.success(
         'New job succesfully scheduled.',
@@ -188,5 +193,5 @@ export default class OverviewScheduledJobsNewController extends Controller {
         { icon: 'cross', timeOut: 10000, closable: true }
       );
     }
-  }
+  });
 }

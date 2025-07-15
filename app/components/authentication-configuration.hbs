@@ -26,7 +26,7 @@
     <AuInput
       id='task-authentication-configuration-username'
       @width="block"
-      @value={{@credentials.username}}
+      value={{@credentials.username}}
       {{on 'change'
         (fn this.handleCredentialsChange 'username' @credentials.username)}}/>
   </AuFormRow>
@@ -37,7 +37,7 @@
     <AuInput
       id='task-authentication-configuration-password'
       @width="block"
-      @value={{@credentials.password}}
+      value={{@credentials.password}}
       {{on 'change'
         (fn this.handleCredentialsChange 'password' @credentials.password)}}/>
   </AuFormRow>
@@ -50,7 +50,7 @@
     <AuInput
       id='task-authentication-configuration-flow'
       @width="block"
-      @value={{@securityScheme.flow}}
+      value={{@securityScheme.flow}}
       {{on 'change'
         (fn this.handleSecuritySchemeChange 'flow' @securityScheme.flow)}}/>
   </AuFormRow>
@@ -61,7 +61,7 @@
     <AuInput
       id='task-authentication-configuration-token'
       @width="block"
-      @value={{@securityScheme.token}}
+      value={{@securityScheme.token}}
       {{on 'change'
         (fn this.handleSecuritySchemeChange 'token' @securityScheme.token)}}/>
   </AuFormRow>
@@ -72,7 +72,7 @@
     <AuInput
       id='task-authentication-configuration-clientId'
       @width="block"
-      @value={{@credentials.clientId}}
+      value={{@credentials.clientId}}
       {{on 'change'
         (fn this.handleCredentialsChange 'clientId' @credentials.clientId)}}/>
   </AuFormRow>
@@ -83,7 +83,7 @@
     <AuInput
       id='task-authentication-configuration-clientSecret'
       @width="block"
-      @value={{@credentials.clientSecret}}
+      value={{@credentials.clientSecret}}
       {{on 'change'
         (fn this.handleCredentialsChange 'clientSecret' @credentials.clientSecret)}}/>
   </AuFormRow>

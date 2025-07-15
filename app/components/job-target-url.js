@@ -14,13 +14,12 @@ export default class JobTargetUrlComponent extends Component {
     }
   }
 
-  @task
-  *fetchTargetUrl() {
+  fetchTargetUrl = task(async () => {
     try {
-      const tasks = yield this.args.job.tasks;
+      const tasks = await this.args.job.tasks;
       const firstTask = tasks.find((task) => task.index === '0');
       if (firstTask) {
-        const remoteDataObject = yield this.store.query('remoteDataObject', {
+        const remoteDataObject = await this.store.query('remoteDataObject', {
           'filter[harvesting-collection][data-container][input-from-tasks][:id:]':
             firstTask.id,
           sort: 'created',
@@ -34,5 +33,5 @@ export default class JobTargetUrlComponent extends Component {
     } catch (e) {
       console.error(e);
     }
-  }
+  });
 }

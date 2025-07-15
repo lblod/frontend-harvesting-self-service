@@ -10,6 +10,14 @@ module.exports = function (defaults) {
     '@appuniversum/ember-appuniversum': {
       disableWormholeElement: true,
     },
+    babel: {
+      plugins: [
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
+    },
+    sassOptions: {
+      includePaths: ['node_modules/@appuniversum/ember-appuniversum'], // just "node_modules" would also work, but it seems to slow (re)builds down a lot
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
