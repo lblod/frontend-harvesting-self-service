@@ -6,11 +6,9 @@ export default class OverviewScheduledJobsRoute extends Route {
   @service store;
 
   queryParams = {
-    search: { refreshModel: true },
-    sort: { refreshModel: true },
-    page: { refreshModel: true },
     filter: { refreshModel: true },
     page: { refreshModel: true },
+    search: { refreshModel: true },
     size: { refreshModel: true },
     sort: { refreshModel: true },
   };
