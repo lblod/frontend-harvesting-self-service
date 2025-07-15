@@ -5,12 +5,14 @@ import { action } from '@ember/object';
 export default class OverviewScheduledJobsRoute extends Route {
   @service store;
 
-  modelName = 'scheduled-job';
-
   queryParams = {
     search: { refreshModel: true },
     sort: { refreshModel: true },
     page: { refreshModel: true },
+    filter: { refreshModel: true },
+    page: { refreshModel: true },
+    size: { refreshModel: true },
+    sort: { refreshModel: true },
   };
 
   async model(params) {
@@ -18,7 +20,7 @@ export default class OverviewScheduledJobsRoute extends Route {
     if (params.search) {
       filters.title = params.search;
     }
-    return this.store.query(this.modelName, {
+    return this.store.query('scheduled-job', {
       include: 'schedule',
       filters,
       page: {
