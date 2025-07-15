@@ -129,7 +129,7 @@ export default class ApplicationController extends Controller {
       ],
 
       // Login route
-      login: [{ title: 'Overview', route: 'index' }, { title: 'Login' }],
+      login: [{ title: 'Login' }],
     };
 
     this.breadcrumbs = breadcrumbMap[currentRoute] || [
