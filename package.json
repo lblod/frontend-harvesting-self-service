@@ -1,6 +1,6 @@
 {
   "name": "frontend-harvesting-self-service",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "description": "Frontend to the Harvester that allows for starting harvesting jobs and creating scheduled jobs.",
   "repository": "https://github.com/lblod/frontend-harvesting-self-service",
