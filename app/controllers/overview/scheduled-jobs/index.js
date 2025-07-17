@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
-export default class OverviewScheduledJobsController extends Controller {
+export default class OverviewScheduledJobsIndexController extends Controller {
   queryParams = ['page', 'sort', 'size', 'search'];
 
   size = 15;

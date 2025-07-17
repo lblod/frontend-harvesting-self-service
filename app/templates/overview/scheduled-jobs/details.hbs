@@ -1,0 +1,28 @@
+{{page-title "Scheduled Job Details"}}
+
+<div class="au-u-padding au-u-padding-bottom-none">
+  <div class="au-u-margin-bottom-small">
+    <AuHeading @level="1" @skin="1">
+      {{this.job.title}}
+    </AuHeading>
+  </div>
+
+  <AuTabs class="au-u-margin-bottom-none" as |Tab|>
+    <Tab>
+      <AuLink
+        @route="overview.scheduled-jobs.details.index"
+        @model={{this.job.id}}>
+        Overview
+      </AuLink>
+    </Tab>
+    <Tab>
+      <AuLink
+        @route="overview.scheduled-jobs.details.executions"
+        @model={{this.job.id}}>
+        Executions
+      </AuLink>
+    </Tab>
+  </AuTabs>
+  
+  {{outlet}}
+</div>

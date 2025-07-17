@@ -7,10 +7,8 @@
     Edit Scheduled Job
   </:title>
   <:body>
-    <form class="au-c-form au-o-grid au-o-grid--tiny">
-      <AuFormRow
-        class="au-o-grid__item au-u-3-5@small"
-        @alignment="default">
+    <form class="au-c-form">
+      <AuFormRow @alignment="default">
         <AuLabel
           for="task-title"
           @required={{true}}
@@ -25,13 +23,30 @@
           {{on "change" this.setTitle}}
            @error={{(not this.newTitleValid)}}/>
       </AuFormRow>
-      <AuFormRow
-        class="au-o-grid__item au-u-2-5@small au-u-margin-none"
-        @alignment="default">
+      
+      {{#if this.hasEndpoint}}
+        <AuFormRow @alignment="default">
+          <AuLabel
+            for="task-endpoint"
+            @required={{true}}
+            @requiredLabel="Required"
+            @error={{(not this.newEndpointValid)}}>
+            Endpoint
+          </AuLabel>
+          <AuInput
+            id="task-endpoint"
+            @width="block"
+            value={{this.newEndpoint}}
+            {{on "change" this.setEndpoint}}
+             @error={{(not this.newEndpointValid)}}/>
+        </AuFormRow>
+      {{/if}}
+      
+      <AuFormRow @alignment="default">
         <AuLabel
           for="cron-pattern"
           @required={{true}}
-               @requiredLabel="Required"
+          @requiredLabel="Required"
           @error={{(not this.newCronPatternValid)}}>
           Cron pattern
         </AuLabel>

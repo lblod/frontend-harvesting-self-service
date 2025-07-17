@@ -1,0 +1,78 @@
+<div class="au-u-padding au-u-padding-top-small">
+  <AuCard as |c|>
+    <c.header>
+      <div class="au-u-flex au-u-flex--between au-u-flex--items-center">
+        <AuHeading @level="2" @skin="2">
+          Job Overview
+        </AuHeading>
+        <div class="au-u-flex">
+          <AuLink
+            @skin="button"
+            @icon="pencil"
+            @iconAlignment="left"
+            @route="overview.scheduled-jobs.details.edit"
+            @model={{this.job.id}}
+            @width="inline"
+            class="au-u-margin-right-small">
+            Edit
+          </AuLink>
+          <AuButton
+            @skin="primary"
+            @icon="trash"
+            @iconAlignment="left"
+            @width="inline"
+            @alert={{true}}
+            @loading={{this.deleteJob.isRunning}}
+            @loadingMessage="Deleting"
+            {{on "click" (perform this.deleteJob)}}>
+            Delete
+          </AuButton>
+        </div>
+      </div>
+    </c.header>
+    <c.content>
+      <div class="au-o-grid au-o-grid--small">
+        <div class="au-o-grid__item au-u-1-2@medium">
+          <dl class="au-c-list-description">
+            <dt class="au-u-bold">Title</dt>
+            <dd>{{this.job.title}}</dd>
+
+            <dt class="au-u-bold">Schedule</dt>
+            <dd>{{this.cronDescription}}</dd>
+
+            <dt class="au-u-bold">Endpoint</dt>
+            <dd>
+              <ScheduledJobEndpoint @scheduledJob={{this.job}} />
+            </dd>
+          </dl>
+        </div>
+
+        <div class="au-o-grid__item au-u-1-2@medium">
+          <dl class="au-c-list-description">
+            <dt class="au-u-bold">Created</dt>
+            <dd>{{format-date this.job.created}}</dd>
+
+            <dt class="au-u-bold">Modified</dt>
+            <dd>{{format-date this.job.modified}}</dd>
+
+            {{#if this.job.comment}}
+              <dt class="au-u-bold">Comments</dt>
+              <dd>{{this.job.comment}}</dd>
+            {{/if}}
+          </dl>
+        </div>
+      </div>
+
+      {{#if this.job.error.message}}
+        <div class="au-u-margin-top">
+          <AuAlert
+            @icon="cross"
+            @title="Error"
+            @skin="error">
+            <p>{{this.job.error.message}}</p>
+          </AuAlert>
+        </div>
+      {{/if}}
+    </c.content>
+  </AuCard>
+</div>

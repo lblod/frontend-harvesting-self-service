@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 
-export default class ScheduledJobDetailsExecutionsRoute extends Route.extend(
+export default class OverviewScheduledJobsDetailsExecutionsRoute extends Route.extend(
   DataTableRouteMixin
 ) {
   @service store;
@@ -22,7 +22,9 @@ export default class ScheduledJobDetailsExecutionsRoute extends Route.extend(
   }
 
   mergeQueryOptions(params) {
-    const scheduledJob = this.modelFor('scheduled-job');
+    const scheduledJob = this.controllerFor(
+      'overview.scheduled-jobs.details'
+    ).job;
 
     const options = {
       sort: params['exec-sort'],

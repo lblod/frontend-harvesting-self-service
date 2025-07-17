@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 
-export default class OverviewScheduledJobsRoute extends Route {
+export default class OverviewScheduledJobsIndexRoute extends Route {
   @service store;
 
   queryParams = {

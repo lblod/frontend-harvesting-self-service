@@ -5,7 +5,7 @@ import { service } from '@ember/service';
 import { later, cancel } from '@ember/runloop';
 import { registerDestructor } from '@ember/destroyable';
 
-export default class ScheduledJobDetailsExecutionsController extends Controller {
+export default class OverviewScheduledJobsDetailsExecutionsController extends Controller {
   @tracked execPage = 0;
   @tracked execSort = '-created';
   @tracked execStatus;
@@ -135,7 +135,7 @@ export default class ScheduledJobDetailsExecutionsController extends Controller 
   @action
   reload() {
     this.lastRefreshTime = Date.now();
-    this.router.refresh('scheduled-job.details.executions');
+    this.router.refresh('overview.scheduled-jobs.details.executions');
     // After refresh, schedule the next refresh
     this.scheduleRefresh();
   }

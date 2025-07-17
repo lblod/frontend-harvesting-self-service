@@ -1,0 +1,10 @@
+{{#if this.loadEndpoint.isRunning}}
+  <div class="au-u-flex au-u-flex--vertical-center">
+    <AuIcon @icon="loading" @size="small" @spin={{true}} />
+    <span class="au-u-margin-left-tiny au-u-text-muted">Loading...</span>
+  </div>
+{{else if this.endpoint}}
+  {{this.endpoint}}
+{{else}}
+  <span class="au-u-text-muted">No endpoint found</span>
+{{/if}}

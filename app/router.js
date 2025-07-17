@@ -20,6 +20,10 @@ Router.map(function () {
     });
     this.route('scheduled-jobs', function () {
       this.route('new');
+      this.route('details', { path: '/:job_id' }, function () {
+        this.route('executions');
+        this.route('edit');
+      });
     });
     this.route('sparql');
   });
@@ -32,20 +36,5 @@ Router.map(function () {
       this.route('results-container-graph');
       this.route('input-container-harvesting-collections');
     });
-  });
-  this.route('scheduled-job', { path: '/scheduled-job/:job_id' }, function () {
-    this.route('details', function () {
-      this.route('executions');
-      this.route('edit');
-    });
-    this.route(
-      'scheduled-task',
-      { path: '/scheduled-task/:task_id' },
-      function () {
-        this.route('input-container-files');
-        this.route('input-container-graph');
-        this.route('input-container-harvesting-collections');
-      }
-    );
   });
 });
