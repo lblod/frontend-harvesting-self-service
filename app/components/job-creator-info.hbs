@@ -1,0 +1,30 @@
+{{#if this.isScheduledJob}}
+  {{#if this.isLoading}}
+    <div class="au-u-flex au-u-flex--vertical-center">
+      <AuIcon @icon="loading" @size="small" @spin={{true}} />
+      <span class="au-u-margin-left-tiny">Loading scheduled job...</span>
+    </div>
+  {{else if this.error}}
+    <div class="au-u-flex au-u-flex--vertical-center">
+      <AuIcon @icon="alert-triangle" @size="small" />
+      <span class="au-u-margin-left-tiny au-u-text-muted">Failed to load scheduled job info</span>
+    </div>
+    <br>
+    <small class="au-u-text-muted">{{@creator}}</small>
+  {{else if this.scheduledJob}}
+    <small class="au-u-text-muted">Scheduled Job</small>
+    <br>
+    <AuLink
+      @route="scheduled-job.details.index"
+      @model={{this.scheduledJobId}}
+              @skin="button-link"
+      @icon="calendar"
+      @iconAlignment="left">
+      {{this.scheduledJob.title}}
+    </AuLink>
+  {{else}}
+    <span class="au-u-text-muted">Unknown scheduled job</span>
+  {{/if}}
+{{else}}
+  {{@creator}}
+{{/if}}

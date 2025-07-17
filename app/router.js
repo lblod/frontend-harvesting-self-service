@@ -35,6 +35,7 @@ Router.map(function () {
   });
   this.route('scheduled-job', { path: '/scheduled-job/:job_id' }, function () {
     this.route('details', function () {
+      this.route('executions');
       this.route('edit');
     });
     this.route(

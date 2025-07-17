@@ -19,4 +19,9 @@ export default class ScheduledJobRoute extends Route {
       include: 'schedule',
     });
   }
+
+  redirect(model) {
+    // Default to details index page when accessing /scheduled-job/:id
+    this.transitionTo('scheduled-job.details.index', model.id);
+  }
 }

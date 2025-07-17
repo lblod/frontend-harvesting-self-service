@@ -1,13 +1,16 @@
 import Route from '@ember/routing/route';
+import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 
-export default class ScheduledJobDetailsRoute extends Route {
+export default class ScheduledJobDetailsRoute extends Route.extend(
+  DataTableRouteMixin
+) {
   @service store;
 
   queryParams = {
-    search: { refreshModel: true },
+    page: { refreshModel: true, replace: true },
+    size: { refreshModel: true },
     sort: { refreshModel: true },
-    page: { refreshModel: true },
   };
 
   modelName = 'scheduled-task';
@@ -16,8 +19,8 @@ export default class ScheduledJobDetailsRoute extends Route {
     this.job = this.modelFor('scheduled-job');
   }
 
-  async model(params) {
-    return this.store.query(this.modelName, {
+  mergeQueryOptions(params) {
+    return {
       include: 'scheduled-job',
       'filter[scheduled-job][:id:]': this.job.id,
       sort: params.sort,
@@ -25,7 +28,7 @@ export default class ScheduledJobDetailsRoute extends Route {
         number: params.page,
         size: params.size,
       },
-    });
+    };
   }
 
   setupController(controller, model) {

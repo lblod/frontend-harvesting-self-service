@@ -100,6 +100,11 @@ export default class ApplicationController extends Controller {
         },
         { title: 'Edit' },
       ],
+      'scheduled-job.details.executions': [
+        { title: 'Overview', route: 'index' },
+        { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },
+        { title: 'Scheduled Job Executions' },
+      ],
       'scheduled-job.scheduled-task.input-container-files': [
         { title: 'Overview', route: 'index' },
         { title: 'Scheduled Jobs', route: 'overview.scheduled-jobs' },

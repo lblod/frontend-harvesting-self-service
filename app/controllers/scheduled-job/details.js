@@ -5,13 +5,15 @@ import { task } from 'ember-concurrency';
 import cronstrue from 'cronstrue';
 
 export default class ScheduledJobDetailsController extends Controller {
-  sort = '-created';
-  page = 0;
-  size = 15;
-
+  @tracked sort = '-created';
+  @tracked page = 0;
   @tracked job;
 
   @service router;
+
+  size = 15;
+
+  queryParams = ['page', 'size', 'sort'];
 
   get frequency() {
     return this.job.schedule?.get('repeatFrequency');

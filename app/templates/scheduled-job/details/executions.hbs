@@ -1,0 +1,94 @@
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No executions found"
+  @sort={{this.execSort}}
+  @size={{this.execSize}}
+  @page={{this.execPage}} as |t|>
+  <t.menu as |menu|>
+    <menu.general>
+      <AuToolbar
+        @border="none"
+        @size="large"
+        as |Group|>
+        <Group>
+          <AuHeading @level="1" @skin="1">
+            Executions
+          </AuHeading>
+          <AuHelpText @skin="tertiary">
+            Jobs created by this scheduled job
+          </AuHelpText>
+        </Group>
+        <Group class="au-u-flex--vertical-center">
+          <AuLabel
+            @inline={{true}}
+            for="statuses">
+            Status
+          </AuLabel>
+          <div>
+            <StatusFilter
+              @status={{this.execStatus}}
+              @onChange={{fn (mut this.execStatus)}}
+              @allowClear={{true}}
+              id="statuses"/>
+          </div>
+          <AuButton
+            @skin="secondary"
+            @icon="renew"
+            @iconAlignment="left"
+            {{on "click" this.reload}}>
+            Reload
+          </AuButton>
+        </Group>
+      </AuToolbar>
+    </menu.general>
+  </t.menu>
+  <t.content as |c|>
+    <c.header>
+      <th>Target URL</th>
+      <AuDataTableThSortable
+        @field="created"
+        @currentSorting={{this.execSort}}
+        @label="Created"/>
+      <AuDataTableThSortable
+        @field="modified"
+        @currentSorting={{this.execSort}}
+        @label="Modified"/>
+      <AuDataTableThSortable
+        @field="operation"
+        @currentSorting={{this.execSort}}
+        @label="Operation"/>
+      <AuDataTableThSortable
+        @field="status"
+        @currentSorting={{this.execSort}}
+        @label="Status"/>
+      <th>Actions</th>
+    </c.header>
+    <c.body as |row|>
+      <td class="au-u-word-break">
+        <JobTargetUrl @job={{row}} />
+      </td>
+      <td>
+        {{format-date row.created}}
+      </td>
+      <td>
+        {{format-date row.modified}}
+      </td>
+      <td class="au-u-word-break">
+        {{operation-name row.operation}}
+      </td>
+      <td>
+        <StatusPill @status={{row.shortStatus}}></StatusPill>
+      </td>
+      <td>
+        <AuLink
+          @route="job.tasklist"
+          @skin="button"
+          @icon="nav-right"
+          @iconAlignment="right"
+          @model={{row.id}}>
+          View
+        </AuLink>
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>

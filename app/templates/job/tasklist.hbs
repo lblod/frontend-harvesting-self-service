@@ -27,7 +27,9 @@
             </div>
             <div>
               <dt class="au-u-bold">Creator</dt>
-              <dd>{{this.job.creator}}</dd>
+              <dd>
+                <JobCreatorInfo @creator={{this.job.creator}} />
+              </dd>
             </div>
             <div>
               <dt class="au-u-bold">Created</dt>
