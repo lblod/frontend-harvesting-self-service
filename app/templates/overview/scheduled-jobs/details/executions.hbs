@@ -24,7 +24,7 @@
             for="statuses">
             Status
           </AuLabel>
-          <div>
+          <div {{auto-refresh this.reload}}>
             <StatusFilter
               @status={{this.execStatus}}
               @onChange={{fn (mut this.execStatus)}}

@@ -86,7 +86,7 @@
       </div>
     </div>
   </m.sidebar>
-  <m.content @scroll={{true}}>
+  <m.content @scroll={{true}} {{auto-refresh this.reload interval=60000}}>
     <AuDataTable
       @content={{this.model}}
       @noDataMessage="No files found"
