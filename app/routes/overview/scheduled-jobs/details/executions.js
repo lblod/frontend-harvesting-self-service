@@ -1,42 +1,29 @@
 import Route from '@ember/routing/route';
-import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 
-export default class OverviewScheduledJobsDetailsExecutionsRoute extends Route.extend(
-  DataTableRouteMixin
-) {
+export default class OverviewScheduledJobsDetailsExecutionsRoute extends Route {
   @service store;
 
-  modelName = 'job';
-
   queryParams = {
-    'exec-page': { refreshModel: true, replace: true },
-    'exec-size': { refreshModel: true },
-    'exec-sort': { refreshModel: true },
-    'exec-status': { refreshModel: true },
+    execPage: { refreshModel: true },
+    execSize: { refreshModel: true },
+    execSort: { refreshModel: true },
+    execStatus: { refreshModel: true },
   };
 
-  model(params) {
-    // Call parent model method with additional filtering
-    return super.model(params);
-  }
-
-  mergeQueryOptions(params) {
-    const scheduledJob = this.controllerFor(
-      'overview.scheduled-jobs.details'
-    ).job;
-
+  async model(params) {
+    const scheduledJob = await this.modelFor('overview.scheduled-jobs.details');
     const options = {
-      sort: params['exec-sort'],
-      page: { number: params['exec-page'], size: params['exec-size'] },
-      include: 'tasks',
+      sort: params.execSort,
+      page: {
+        number: params.execPage,
+        size: params.execSize,
+      },
       'filter[creator]': scheduledJob.uri,
     };
-
-    if (params['exec-status']) {
-      options['filter[:exact:status]'] = params['exec-status'];
+    if (params.execStatus) {
+      options['filter[:exact:status]'] = params.execStatus;
     }
-
-    return options;
+    return this.store.query('job', options);
   }
 }

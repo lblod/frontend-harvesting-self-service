@@ -18,12 +18,7 @@ export default class OverviewScheduledJobsDetailsExecutionsController extends Co
   lastRefreshTime = null;
   refreshIntervalDuration = 120000; // 2 minutes
 
-  queryParams = [
-    { execPage: 'exec-page' },
-    { execSize: 'exec-size' },
-    { execStatus: 'exec-status' },
-    { execSort: 'exec-sort' },
-  ];
+  queryParams = ['execPage', 'execSize', 'execStatus', 'execSort'];
 
   constructor() {
     super(...arguments);
