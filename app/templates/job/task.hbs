@@ -68,30 +68,32 @@
       <AuTabs
         class="au-u-margin-top"
         as |Tab|>
-        <Tab>
-          <AuLink
-            @route="job.task.input-container-files">
-            Input Container Files ({{this.counts.inputContainerFiles}})
-          </AuLink>
-        </Tab>
-        <Tab>
-          <AuLink
-            @route="job.task.results-container-files">
-            Results Container Files ({{this.counts.resultContainerFiles}})
-          </AuLink>
-        </Tab>
-        <Tab>
-          <AuLink
-            @route="job.task.input-container-graph">
-            Input Container Graph ({{this.counts.inputContainerGraphs}})
-          </AuLink>
-        </Tab>
-        <Tab>
-          <AuLink
-            @route="job.task.results-container-graph">
-            Results Container Graphs ({{this.counts.resultContainerGraphs}})
-          </AuLink>
-        </Tab>
+        {{#unless (eq this.model.operation "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting")}}
+          <Tab>
+            <AuLink
+              @route="job.task.input-container-files">
+              Input Container Files ({{this.counts.inputContainerFiles}})
+            </AuLink>
+          </Tab>
+          <Tab>
+            <AuLink
+              @route="job.task.results-container-files">
+              Results Container Files ({{this.counts.resultContainerFiles}})
+            </AuLink>
+          </Tab>
+          <Tab>
+            <AuLink
+              @route="job.task.input-container-graph">
+              Input Container Graph ({{this.counts.inputContainerGraphs}})
+            </AuLink>
+          </Tab>
+          <Tab>
+            <AuLink
+              @route="job.task.results-container-graph">
+              Results Container Graphs ({{this.counts.resultContainerGraphs}})
+            </AuLink>
+          </Tab>
+        {{/unless}}
         <Tab>
           <AuLink
             @route="job.task.input-container-harvesting-collections">
