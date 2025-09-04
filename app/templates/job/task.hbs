@@ -75,12 +75,14 @@
               Input Container Files ({{this.counts.inputContainerFiles}})
             </AuLink>
           </Tab>
-          <Tab>
-            <AuLink
-              @route="job.task.results-container-files">
-              Results Container Files ({{this.counts.resultContainerFiles}})
-            </AuLink>
-          </Tab>
+        {{/unless}}
+        <Tab>
+          <AuLink
+            @route="job.task.results-container-files">
+            Results Container Files ({{this.counts.resultContainerFiles}})
+          </AuLink>
+        </Tab>
+        {{#unless (eq this.model.operation "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting")}}
           <Tab>
             <AuLink
               @route="job.task.input-container-graph">
