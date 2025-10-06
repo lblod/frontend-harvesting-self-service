@@ -5,24 +5,30 @@ steps:
       - npm ci
   lint-js:
     image: danlynn/ember-cli:4.8.0
-    group: lint
+    depends_on: install
     commands:
       - npm run lint:js
   lint-hbs:
     image: danlynn/ember-cli:4.8.0
-    group: lint
+    depends_on: install
     commands:
       - npm run lint:hbs
+  lint-css:
+    image: danlynn/ember-cli:4.8.0
+    depends_on: install
+    commands:
+      - npm run lint:css
   dependency-lint:
     image: danlynn/ember-cli:4.8.0
-    group: lint
+    depends_on: install
+    failure: ignore
     commands:
       - ember dependency-lint
-    failure: ignore
   test:
     image: danlynn/ember-cli:4.8.0
+    depends_on: [lint-js, lint-hbs, lint-css, dependency-lint]
+    failure: ignore
     commands:
       - npm run test:ember
-    failure: ignore
 when:
-  event: pull_request
+  - event: pull_request
