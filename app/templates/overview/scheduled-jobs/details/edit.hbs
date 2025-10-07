@@ -13,7 +13,7 @@
           for="task-title"
           @required={{true}}
           @requiredLabel="Required"
-          @error={{(not this.newTitleValid)}}>
+          @error={{not this.newTitleValid}}>
           Title
         </AuLabel>
         <AuInput
@@ -21,7 +21,7 @@
           @width="block"
           value={{this.newTitle}}
           {{on "change" this.setTitle}}
-           @error={{(not this.newTitleValid)}}/>
+           @error={{not this.newTitleValid}} />
       </AuFormRow>
       
       {{#if this.hasEndpoint}}
@@ -30,7 +30,7 @@
             for="task-endpoint"
             @required={{true}}
             @requiredLabel="Required"
-            @error={{(not this.newEndpointValid)}}>
+            @error={{not this.newEndpointValid}}>
             Endpoint
           </AuLabel>
           <AuInput
@@ -38,7 +38,7 @@
             @width="block"
             value={{this.newEndpoint}}
             {{on "change" this.setEndpoint}}
-             @error={{(not this.newEndpointValid)}}/>
+             @error={{not this.newEndpointValid}} />
         </AuFormRow>
       {{/if}}
       
@@ -47,7 +47,7 @@
           for="cron-pattern"
           @required={{true}}
           @requiredLabel="Required"
-          @error={{(not this.newCronPatternValid)}}>
+          @error={{not this.newCronPatternValid}}>
           Cron pattern
         </AuLabel>
         <AuInput
@@ -55,9 +55,9 @@
           @width="block"
           value={{this.newCronPattern}}
           {{on "change" this.setCron}}
-          @error={{(not this.newCronPatternValid)}}/>
+          @error={{not this.newCronPatternValid}} />
         <AuHelpText
-          @error={{(not this.newCronPatternValid)}}>
+          @error={{not this.newCronPatternValid}}>
           {{this.newCronDescription}}
         </AuHelpText>
       </AuFormRow>

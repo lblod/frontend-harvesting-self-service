@@ -15,7 +15,7 @@
           for="job-type-select"
           @required={{true}}
           @requiredLabel="Required"
-          @error={{(not this.selectedJobOperationValid)}}>
+          @error={{not this.selectedJobOperationValid}}>
           Choose type
         </AuLabel>
         <PowerSelect
@@ -35,7 +35,7 @@
             for="task-title"
             @required={{true}}
             @requiredLabel="Required"
-            @error={{(not this.titleValid)}}
+            @error={{not this.titleValid}}
           >
             Title
           </AuLabel>
@@ -43,7 +43,7 @@
             id="task-title"
             @width="block"
             value={{this.title}}
-            @error={{(not this.titleValid)}}
+            @error={{not this.titleValid}}
             {{on "change" (fn this.setProperty "title")}}
           />
         </AuFormRow>
@@ -52,14 +52,14 @@
             for="task-url"
             @required={{true}}
             @requiredLabel="Required"
-            @error={{(not this.urlValid)}}>
+            @error={{not this.urlValid}}>
             URL
           </AuLabel>
           <AuInput
             id="task-url"
             @width="block"
             value={{this.url}}
-            @error={{(not this.urlValid)}}
+            @error={{not this.urlValid}}
             {{on "change" (fn this.setProperty "url")}}
           />
         </AuFormRow>
@@ -68,17 +68,17 @@
             for="cron-pattern"
             @required={{true}}
             @requiredLabel="Required"
-            @error={{(not this.cronPatternValid)}}>
+            @error={{not this.cronPatternValid}}>
             Cron pattern
           </AuLabel>
           <AuInput
             id="cron-pattern"
             @width="block"
             value={{this.cronPattern}}
-            @error={{(not this.cronPatternValid)}}
+            @error={{not this.cronPatternValid}}
             {{on "change" (fn this.setProperty "cronPattern")}}
           />
-          <AuHelpText @error={{(not this.isValidCronPattern)}}>
+          <AuHelpText @error={{not this.isValidCronPattern}}>
             The job will be started: {{this.cronDescription}}
           </AuHelpText>
           <AuHelpText>
@@ -116,14 +116,14 @@
               for="task-vendor"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{(not this.vendorValid)}}>
+              @error={{not this.vendorValid}}>
               Vendor
             </AuLabel>
             <AuInput
               id="task-vendor"
               @width="block"
               value={{this.vendor}}
-              @error={{(not this.vendorValid)}}
+              @error={{not this.vendorValid}}
               {{on "change" (fn this.setProperty "vendor")}}
             />
           </AuFormRow>

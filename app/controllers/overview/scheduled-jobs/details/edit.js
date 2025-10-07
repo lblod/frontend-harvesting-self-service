@@ -86,7 +86,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
       this.toaster.error(
         'Failed to load endpoint information',
         'Loading Error',
-        { icon: 'cross', timeOut: 5000, closable: true }
+        { icon: 'cross', timeOut: 5000, closable: true },
       );
     }
   });
@@ -163,7 +163,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
       this.toaster.error(
         `Error while saving changes to the scheduled job: (${err})`,
         'Saving failed',
-        { icon: 'cross', timeOut: 10000, closable: true }
+        { icon: 'cross', timeOut: 10000, closable: true },
       );
     }
   });
@@ -171,7 +171,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
   updateEndpoint = task(async () => {
     if (!this.hasEndpoint) {
       throw new Error(
-        'Cannot update endpoint for job type that does not have one'
+        'Cannot update endpoint for job type that does not have one',
       );
     }
 

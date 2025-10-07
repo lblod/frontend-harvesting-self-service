@@ -7,7 +7,7 @@ export default class OverviewSparqlRoute extends Route {
 
   beforeModel(transition) {
     const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-      config.harvester.authEnabled
+      config.harvester.authEnabled,
     );
 
     if (authenticationEnabled) {

@@ -25,5 +25,5 @@ export default modifier(
     if (env.yasgui.extraPrefixes !== 'EMBER_YASGUI_EXTRA_PREFIXES')
       yasgui.config.yasqe.addPrefixes(JSON.parse(env.yasgui.extraPrefixes));
   },
-  { eager: false }
+  { eager: false },
 );

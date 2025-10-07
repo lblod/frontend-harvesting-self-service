@@ -47,7 +47,7 @@ JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVEST_WORSHIP, 'Harvest Worship');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
-  'Harvest Worship & Publish'
+  'Harvest Worship & Publish',
 );
 export const JOB_OP_TYPE_CREATE = new Map();
 if (
@@ -63,7 +63,7 @@ if (
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_WORSHIP, 'Harvest Worship');
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
-    'Harvest Worship & Publish'
+    'Harvest Worship & Publish',
   );
 }
 

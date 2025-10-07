@@ -8,7 +8,7 @@ export default class IndexRoute extends Route {
 
   beforeModel(transition) {
     const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-      config.harvester.authEnabled
+      config.harvester.authEnabled,
     );
     if (authenticationEnabled)
       this.session.requireAuthentication(transition, 'login');

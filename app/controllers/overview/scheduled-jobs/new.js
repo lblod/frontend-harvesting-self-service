@@ -29,7 +29,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   securitySchemesOptions = [cts.BASIC_AUTH, cts.OAUTH2];
 
   authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-    config.harvester.authEnabled
+    config.harvester.authEnabled,
   );
 
   @tracked title;
@@ -154,7 +154,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
               this.selectedSecurityScheme,
               this.securityScheme,
               this.credentials,
-              this.store
+              this.store,
             )
           : null, // authenticationConfiguration is optional
         remoteDataObjects: [remoteDataObject],
@@ -183,14 +183,14 @@ export default class OverviewScheduledJobsNewController extends Controller {
       this.toaster.success(
         'New job succesfully scheduled.',
         'Scheduling success',
-        { icon: 'check', timeOut: 10000, closable: true }
+        { icon: 'check', timeOut: 10000, closable: true },
       );
       this.router.transitionTo('overview.scheduled-jobs');
     } catch (err) {
       this.toaster.error(
         `Error while scheduling new job: (${err})`,
         'Scheduling failed',
-        { icon: 'cross', timeOut: 10000, closable: true }
+        { icon: 'cross', timeOut: 10000, closable: true },
       );
     }
   });

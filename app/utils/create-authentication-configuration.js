@@ -10,7 +10,7 @@ export default async function createAuthenticationConfiguration(
   securitySchemeType,
   securitySchemeConfig,
   credentials,
-  store
+  store,
 ) {
   const getSecuritySchemeModel = (securitySchemeType) => {
     switch (securitySchemeType.label) {
@@ -36,12 +36,12 @@ export default async function createAuthenticationConfiguration(
 
   let securityScheme = await store.createRecord(
     getSecuritySchemeModel(securitySchemeType),
-    securitySchemeType.label === 'Oauth2' ? securitySchemeConfig : ''
+    securitySchemeType.label === 'Oauth2' ? securitySchemeConfig : '',
   );
 
   let credential = await store.createRecord(
     getCredentialModel(securitySchemeType),
-    credentials
+    credentials,
   );
 
   let authConfig = await store.createRecord('authentication-configuration', {

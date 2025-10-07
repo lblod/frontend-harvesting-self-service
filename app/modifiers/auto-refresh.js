@@ -86,10 +86,10 @@ export default modifier(
         window.removeEventListener('blur', handleWindowBlur);
         document.removeEventListener(
           'visibilitychange',
-          handleVisibilityChange
+          handleVisibilityChange,
         );
       }
     };
   },
-  { eager: false }
+  { eager: false },
 );

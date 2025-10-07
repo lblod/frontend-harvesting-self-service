@@ -41,7 +41,7 @@ export default class JobCreatorInfoComponent extends Component {
     try {
       this.scheduledJob = await this.store.findRecord(
         'scheduled-job',
-        this.scheduledJobId
+        this.scheduledJobId,
       );
     } catch (error) {
       this.error = error;
