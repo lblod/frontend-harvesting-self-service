@@ -1,13 +1,13 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class RemoteDataObjectModel extends Model {
-  @attr('string') uri;
-  @attr('string') source;
+  @attr uri;
+  @attr source;
   @attr('date') created;
   @attr('date') modified;
-  @attr('string') status;
-  @attr('string') requestHeader;
-  @attr('string') creator;
+  @attr status;
+  @attr requestHeader;
+  @attr creator;
   @belongsTo('file', { async: true, inverse: 'remoteDataObject' }) file;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme

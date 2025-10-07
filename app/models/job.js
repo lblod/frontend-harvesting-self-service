@@ -1,14 +1,14 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class JobModel extends Model {
-  @attr('string') uri;
-  @attr('string') status;
+  @attr uri;
+  @attr status;
   @attr('date') created;
   @attr('date') modified;
-  @attr('string') comment;
-  @attr('string') creator;
-  @attr('string') operation;
-  @attr('string') vendor;
+  @attr comment;
+  @attr creator;
+  @attr operation;
+  @attr vendor;
 
   @belongsTo('job-error', { async: true, inverse: null }) error;
   @hasMany('task', { async: true, inverse: 'job' }) tasks;

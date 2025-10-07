@@ -18,6 +18,11 @@ module.exports = function (defaults) {
     sassOptions: {
       includePaths: ['node_modules/@appuniversum/ember-appuniversum'], // just "node_modules" would also work, but it seems to slow (re)builds down a lot
     },
+    emberData: {
+      deprecations: {
+        DEPRECATE_STORE_EXTENDS_EMBER_OBJECT: false,
+      },
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

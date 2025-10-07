@@ -19,7 +19,7 @@ export default class JobTargetUrlComponent extends Component {
       const tasks = await this.args.job.tasks;
       const firstTask = tasks.find((task) => task.index === '0');
       if (firstTask) {
-        const remoteDataObject = await this.store.query('remoteDataObject', {
+        const remoteDataObject = await this.store.query('remote-data-object', {
           'filter[harvesting-collection][data-container][input-from-tasks][:id:]':
             firstTask.id,
           sort: 'created',
