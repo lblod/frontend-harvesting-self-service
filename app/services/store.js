@@ -1,4 +1,4 @@
-import Store from '@ember-data/store';
+import Store from 'ember-data/store';
 
 export default class StoreService extends Store {
   async count(modelName, query, options) {

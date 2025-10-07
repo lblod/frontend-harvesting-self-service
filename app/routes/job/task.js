@@ -30,7 +30,7 @@ export default class JobTaskRoute extends Route {
         {
           'filter[harvesting-collection][data-container][input-from-tasks][:id:]':
             taskId,
-        }
+        },
       ),
     };
     return this.store.findRecord('task', taskId);

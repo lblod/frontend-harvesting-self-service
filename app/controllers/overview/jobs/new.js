@@ -17,7 +17,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
       return { label: value, uri: key };
-    }
+    },
   );
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
@@ -30,7 +30,7 @@ export default class OverviewJobsNewController extends Controller {
   securitySchemesOptions = [cts.BASIC_AUTH, cts.OAUTH2];
 
   authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-    config.harvester.authEnabled
+    config.harvester.authEnabled,
   );
 
   @tracked url;
@@ -145,7 +145,7 @@ export default class OverviewJobsNewController extends Controller {
                 this.selectedSecurityScheme,
                 this.securityScheme,
                 this.credentials,
-                this.store
+                this.store,
               )
             : null, // authenticationConfiguration is optional
           remoteDataObjects: [remoteDataObject],
@@ -173,14 +173,14 @@ export default class OverviewJobsNewController extends Controller {
       this.toaster.success(
         'New job succesfully scheduled.',
         'Scheduling success',
-        { icon: 'check', timeOut: 10000, closable: true }
+        { icon: 'check', timeOut: 10000, closable: true },
       );
       this.router.transitionTo('overview.jobs');
     } catch (err) {
       this.toaster.error(
         `Error while scheduling new job: (${err})`,
         'Scheduling failed',
-        { icon: 'cross', timeOut: 10000, closable: true }
+        { icon: 'cross', timeOut: 10000, closable: true },
       );
       await scheduledJob.destroyRecord();
     }

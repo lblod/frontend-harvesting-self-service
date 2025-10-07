@@ -3,6 +3,6 @@ import Credential from './credential';
 
 export default class BasicAuthenticationCredential extends Credential {
   @attr uri;
-  @attr('string') username;
-  @attr('string') password;
+  @attr username;
+  @attr password;
 }

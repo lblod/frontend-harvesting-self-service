@@ -10,7 +10,7 @@ export default class ApplicationController extends Controller {
   @tracked breadcrumbs = [];
 
   authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
-    config.harvester.authEnabled
+    config.harvester.authEnabled,
   );
 
   constructor() {

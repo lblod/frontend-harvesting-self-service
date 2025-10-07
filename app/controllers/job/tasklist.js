@@ -15,7 +15,7 @@ export default class JobTasklistController extends Controller {
 
   get hideDeleteJobButton() {
     return ['true', 'True', 'TRUE', true].includes(
-      config.harvester.hideDeleteJobButton
+      config.harvester.hideDeleteJobButton,
     );
   }
 

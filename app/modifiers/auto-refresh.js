@@ -1,3 +1,4 @@
+/* eslint ember/no-runloop: "warn" -- TODO: We might not need runloop functions here */
 import { modifier } from 'ember-modifier';
 import { later, cancel } from '@ember/runloop';
 
@@ -86,10 +87,10 @@ export default modifier(
         window.removeEventListener('blur', handleWindowBlur);
         document.removeEventListener(
           'visibilitychange',
-          handleVisibilityChange
+          handleVisibilityChange,
         );
       }
     };
   },
-  { eager: false }
+  { eager: false },
 );
