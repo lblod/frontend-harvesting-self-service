@@ -1,3 +1,4 @@
+/* eslint ember/no-runloop: "warn" -- TODO: We might not need runloop functions here */
 import { modifier } from 'ember-modifier';
 import { later, cancel } from '@ember/runloop';
 
