@@ -13,9 +13,17 @@ module.exports = function (environment) {
     },
     harvester: {
       authEnabled: '{{AUTHENTICATION_ENABLED}}',
+      loginRoute: '{{LOGIN_ROUTE}}', // 'login' or 'acmidm-login'
       besluitenHarvesting: '{{BESLUITEN_HARVESTING_ENABLED}}',
       worshipHarvesting: '{{WORSHIP_HARVESTING_ENABLED}}',
       hideDeleteJobButton: '{{HIDE_DELETE_JOB_BUTTON_ENABLED}}',
+    },
+    acmidm: {
+      clientId: '{{ACMIDM_CLIENT_ID}}',
+      baseUrl: '{{ACMIDM_BASE_URL}}',
+      redirectUrl: '{{ACMIDM_REDIRECT_URL}}',
+      logoutUrl: '{{ACMIDM_LOGOUT_URL}}',
+      scope: '{{ACMIDM_SCOPE}}',
     },
     EmberENV: {
       EXTEND_PROTOTYPES: false,
