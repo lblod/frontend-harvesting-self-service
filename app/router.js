@@ -13,6 +13,8 @@ const authenticationEnabled = ['true', 'True', 'TRUE', true].includes(
 Router.map(function () {
   if (authenticationEnabled) {
     this.route('login');
+    this.route('acmidm-login');
+    this.route('acmidm-callback', { path: '/authorization/callback' });
   }
   this.route('overview', function () {
     this.route('jobs', function () {

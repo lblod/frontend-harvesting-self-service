@@ -11,7 +11,7 @@ export default class OverviewSparqlRoute extends Route {
     );
 
     if (authenticationEnabled) {
-      this.session.requireAuthentication(transition, 'login');
+      this.session.requireAuthentication(transition);
     }
   }
 }
