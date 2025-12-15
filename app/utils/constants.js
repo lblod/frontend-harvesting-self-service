@@ -22,7 +22,8 @@ export const JOB_OP_TYPE_HEALING_WORSHIP =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/healingOperation/worship';
 export const JOB_OP_TYPE_DUMPED_WORSHIP =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/deltaDumpFileCreation/worship';
-
+export const JOB_OP_TYPE_HARVESTING_OPARL =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
 // Auth Type
 export const BASIC_AUTH = {
   label: 'Basic',
@@ -49,7 +50,9 @@ JOB_OP_TYPES.set(
   JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
   'Harvest Worship & Publish',
 );
+JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
 export const JOB_OP_TYPE_CREATE = new Map();
+
 if (
   ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenHarvesting)
 ) {
@@ -64,6 +67,12 @@ if (
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
     'Harvest Worship & Publish',
+  );
+}
+if (['true', 'True', 'TRUE', true].includes(config.harvester.oparlHarvesting)) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_OPARL,
+    'Harvest OParl API & Publish'
   );
 }
 
