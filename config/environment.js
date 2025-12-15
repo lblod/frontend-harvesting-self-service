@@ -16,6 +16,7 @@ module.exports = function (environment) {
       loginRoute: '{{LOGIN_ROUTE}}', // 'login' or 'acmidm-login'
       besluitenHarvesting: '{{BESLUITEN_HARVESTING_ENABLED}}',
       worshipHarvesting: '{{WORSHIP_HARVESTING_ENABLED}}',
+      oparlHarvesting: '{{OPARL_HARVESTING_ENABLED}}',
       hideDeleteJobButton: '{{HIDE_DELETE_JOB_BUTTON_ENABLED}}',
     },
     acmidm: {
@@ -45,6 +46,8 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.harvester.oparlHarvesting = true;
+    ENV.harvester.authEnabled = true;
   }
 
   if (environment === 'test') {

@@ -22,7 +22,8 @@
     "lint:js:fix": "eslint . --fix",
     "release": "release-it",
     "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
+    "dev:proxy": "ember serve --environment=development --proxy=http://localhost:80",
+    "test": "npm-run-all --print-name \"lint\" \"test:*\"",
     "test:ember": "ember test"
   },
   "devDependencies": {
