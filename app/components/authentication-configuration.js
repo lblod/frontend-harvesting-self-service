@@ -3,12 +3,12 @@ import { action } from '@ember/object';
 
 export default class AuthenticationConfiguration extends Component {
   @action
-  handleCredentialsChange(attributeName, value) {
-    this.args.onCredentialsChange(attributeName, value);
+  handleCredentialsChange(attributeName, event) {
+    this.args.onCredentialsChange(attributeName, event.target.value);
   }
 
   @action
-  handleSecuritySchemeChange(attributeName, value) {
-    this.args.onSecuritySchemeChange(attributeName, value);
+  handleSecuritySchemeChange(attributeName, event) {
+    this.args.onSecuritySchemeChange(attributeName, event.target.value);
   }
 }

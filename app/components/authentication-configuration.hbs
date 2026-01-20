@@ -28,7 +28,7 @@
       @width="block"
       value={{@credentials.username}}
       {{on 'change'
-        (fn this.handleCredentialsChange 'username' @credentials.username)}}/>
+        (fn this.handleCredentialsChange 'username')}}/>
   </AuFormRow>
   <AuFormRow @alignment="default">
     <AuLabel for='task-authentication-configuration-password'>
@@ -39,7 +39,7 @@
       @width="block"
       value={{@credentials.password}}
       {{on 'change'
-        (fn this.handleCredentialsChange 'password' @credentials.password)}}/>
+        (fn this.handleCredentialsChange 'password')}}/>
   </AuFormRow>
 {{/if}}
 {{#if (eq @selected.label 'Oauth2')}}
@@ -52,7 +52,7 @@
       @width="block"
       value={{@securityScheme.flow}}
       {{on 'change'
-        (fn this.handleSecuritySchemeChange 'flow' @securityScheme.flow)}}/>
+        (fn this.handleSecuritySchemeChange 'flow')}}/>
   </AuFormRow>
   <AuFormRow @alignment="default">
     <AuLabel for='task-authentication-configuration-token'>
@@ -63,7 +63,7 @@
       @width="block"
       value={{@securityScheme.token}}
       {{on 'change'
-        (fn this.handleSecuritySchemeChange 'token' @securityScheme.token)}}/>
+        (fn this.handleSecuritySchemeChange 'token')}}/>
   </AuFormRow>
   <AuFormRow @alignment="default">
     <AuLabel for='task-authentication-configuration-clientId'>
@@ -74,7 +74,7 @@
       @width="block"
       value={{@credentials.clientId}}
       {{on 'change'
-        (fn this.handleCredentialsChange 'clientId' @credentials.clientId)}}/>
+        (fn this.handleCredentialsChange 'clientId')}}/>
   </AuFormRow>
   <AuFormRow @alignment="default">
     <AuLabel for='task-authentication-configuration-clientSecret'>
@@ -85,6 +85,6 @@
       @width="block"
       value={{@credentials.clientSecret}}
       {{on 'change'
-        (fn this.handleCredentialsChange 'clientSecret' @credentials.clientSecret)}}/>
+        (fn this.handleCredentialsChange 'clientSecret')}}/>
   </AuFormRow>
 {{/if}}
