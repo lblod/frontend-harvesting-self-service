@@ -30,39 +30,77 @@
         </PowerSelect>
       </AuFormRow>
       {{#if this.selectedJobOperation.uri}}
-        <AuFormRow @alignment="default">
           {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
-            <AuLabel
-              for="graph-name"
-              @required={{true}}
-              @requiredLabel="Required"
-              @error={{not this.graphNameValid}}>
-              Graph URI
-            </AuLabel>
-            <AuInput
-              id="graph-name"
-              @width="block"
-              value={{this.graphName}}
-              @error={{not this.graphNameValid}}
-              {{on "change" (fn this.setProperty "graphName")}}
-            />
+            <AuFormRow @alignment="default">
+              <AuLabel
+                for="graph-name"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.graphNameValid}}>
+                Graph URI
+              </AuLabel>
+              <AuInput
+                id="graph-name"
+                @width="block"
+                value={{this.graphName}}
+                @error={{not this.graphNameValid}}
+                {{on "change" (fn this.setProperty "graphName")}}
+              />
+            </AuFormRow>
+          {{else if (eq this.selectedJobOperation.uri this.jobCodelistMapping)}}
+            <AuFormRow>
+              <AuLabel
+                for="task-decisions-uri"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.decisionsUriValid}}
+                >
+                Decisions to map
+              </AuLabel>
+              <AuInput
+                id="task-decisions-uri"
+                @width="block"
+                value={{this.decisionsUri}}
+                @error={{not this.decisionsUriValid}}
+                {{on "change" (fn this.setProperty "decisionsUri")}}
+              />
+            </AuFormRow>
+            <AuFormRow>
+              <AuLabel
+                for="task-codelist-uri"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.codelistUriValid}}
+                >
+                Codelist
+              </AuLabel>
+              <AuInput
+                id="task-codelist-uri"
+                @width="block"
+                value={{this.codelistUrl}}
+                @error={{not this.codelistUriValid}}
+                {{on "change" (fn this.setProperty "codelistUri")}}
+              />
+            </AuFormRow>
           {{else}}
-            <AuLabel
-              for="task-url"
-              @required={{true}}
-              @requiredLabel="Required"
-              @error={{not this.urlValid}}>
-              URL
-            </AuLabel>
-            <AuInput
-              id="task-url"
-              @width="block"
-              value={{this.url}}
-              @error={{not this.urlValid}}
-              {{on "change" (fn this.setProperty "url")}}
-            />
+            <AuFormRow @alignment="default">
+              <AuLabel
+                for="task-url"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.urlValid}}>
+                URL
+              </AuLabel>
+              <AuInput
+                id="task-url"
+                @width="block"
+                value={{this.url}}
+                @error={{not this.urlValid}}
+                {{on "change" (fn this.setProperty "url")}}
+              />
+            </AuFormRow>
           {{/if}}
-        </AuFormRow>
+
         <AuFormRow @alignment="default">
           <AuLabel for="task-comment">
             Comments

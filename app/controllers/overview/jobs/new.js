@@ -13,6 +13,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
+  jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -45,6 +46,10 @@ export default class OverviewJobsNewController extends Controller {
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
+  @tracked decisionsUri;
+  @tracked decisionsUriValid;
+  @tracked codelistUri;
+  @tracked codelistUriValid;
 
   @service toaster;
   @service router;
@@ -90,10 +95,15 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
+    this.decisionsUriValid = !!(this.decisionsUri);
+    this.codelistUriValid = !!(this.codelistUri);
 
-    if (this.selectedJobOperation === this.jobImport)
+    if (this.selectedJobOperation.uri === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;
-    else return this.selectedJobOperationValid && this.urlValid;
+    else if (this.selectedJobOperation.uri === this.jobCodelistMapping)
+      return this.selectedJobOperationValid && this.decisionsUriValid && this.codelistUriValid;
+    else
+      return this.selectedJobOperationValid && this.urlValid;
   }
 
   @action
@@ -122,6 +132,11 @@ export default class OverviewJobsNewController extends Controller {
       if (this.selectedJobOperation.uri === this.jobImport) {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
+        });
+        await dataContainer.save();
+      } else if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+        dataContainer = this.store.createRecord('data-container', {
+          hasResource: [this.codelistUri.trim(), this.decisionsUri.trim()]
         });
         await dataContainer.save();
       } else {
