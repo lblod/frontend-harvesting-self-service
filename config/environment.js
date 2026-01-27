@@ -20,6 +20,7 @@ module.exports = function (environment) {
       pdfHarvesting: '{{PDF_HARVESTING_ENABLED}}',
       NERAndNELAnnotations: '{{NER_AND_NEL_ANNOTATIONS_ENABLED}}',
       besluitenLinking: '{{BESLUITEN_LINKING_ENABLED}}',
+      codelistMapping: '{{CODELIST_MAPPING_ENABLED}}',
       hideDeleteJobButton: '{{HIDE_DELETE_JOB_BUTTON_ENABLED}}',
     },
     acmidm: {
@@ -54,6 +55,7 @@ module.exports = function (environment) {
     ENV.harvester.NERAndNELAnnotations = true;
     ENV.harvester.besluitenLinking = true;
     ENV.harvester.authEnabled = true;
+    ENV.harvester.codelistMapping = true;
   }
 
   if (environment === 'test') {
