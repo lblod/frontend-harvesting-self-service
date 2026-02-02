@@ -46,8 +46,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
-  @tracked decisionsUri;
-  @tracked decisionsUriValid;
+  @tracked decisionUri;
+  @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid;
 
@@ -95,15 +95,18 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.decisionsUriValid = !!(this.decisionsUri);
-    this.codelistUriValid = !!(this.codelistUri);
+    this.decisionUriValid = !!this.decisionUri;
+    this.codelistUriValid = !!this.codelistUri;
 
     if (this.selectedJobOperation.uri === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;
     else if (this.selectedJobOperation.uri === this.jobCodelistMapping)
-      return this.selectedJobOperationValid && this.decisionsUriValid && this.codelistUriValid;
-    else
-      return this.selectedJobOperationValid && this.urlValid;
+      return (
+        this.selectedJobOperationValid &&
+        this.decisionUriValid &&
+        this.codelistUriValid
+      );
+    else return this.selectedJobOperationValid && this.urlValid;
   }
 
   @action
@@ -116,7 +119,7 @@ export default class OverviewJobsNewController extends Controller {
     try {
       if (!this.validateForm()) return;
 
-      scheduledJob = this.store.createRecord('job', {
+      let jobAttributes = {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
         created: this.currentTime,
         modified: this.currentTime,
@@ -124,24 +127,38 @@ export default class OverviewJobsNewController extends Controller {
         comment: this.comment,
         operation: this.selectedJobOperation.uri,
         vendor: this.vendor,
-      });
+      };
+
+      let shapeForTargets;
+      if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+        shapeForTargets = this.store.createRecord('node-shape', {
+          targetNode: [this.decisionUri],
+        });
+        await shapeForTargets.save();
+        jobAttributes = Object.assign(jobAttributes, {
+          codelist: this.codelistUri,
+          shapeForTargets: [shapeForTargets],
+        });
+        scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
+      } else {
+        scheduledJob = this.store.createRecord('job', jobAttributes);
+      }
       await scheduledJob.save();
 
       let dataContainer;
-
       if (this.selectedJobOperation.uri === this.jobImport) {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
-        dataContainer = this.store.createRecord('data-container', {
-          hasResource: [this.codelistUri.trim(), this.decisionsUri.trim()]
-        });
-        await dataContainer.save();
       } else {
+        const source =
+          this.selectedJobOperation.uri === this.jobCodelistMapping
+            ? shapeForTargets.uri
+            : this.url.trim();
+
         const remoteDataObject = this.store.createRecord('remote-data-object', {
-          source: this.url.trim(),
+          source,
           // This is deliberate, the collector service will set the status and
           // therefore start the job later:
           status: undefined,

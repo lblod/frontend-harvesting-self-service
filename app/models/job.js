@@ -11,7 +11,7 @@ export default class JobModel extends Model {
   @attr vendor;
 
   @belongsTo('job-error', { async: true, inverse: null }) error;
-  @hasMany('task', { async: true, inverse: 'job' }) tasks;
+  @hasMany('task', { async: true, inverse: 'job', as: 'job' }) tasks;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme from backend
   statusesMap = {
