@@ -53,16 +53,16 @@
                 for="task-decisions-uri"
                 @required={{true}}
                 @requiredLabel="Required"
-                @error={{not this.decisionsUriValid}}
+                @error={{not this.decisionUriValid}}
                 >
                 Decisions to map
               </AuLabel>
               <AuInput
                 id="task-decisions-uri"
                 @width="block"
-                value={{this.decisionsUri}}
-                @error={{not this.decisionsUriValid}}
-                {{on "change" (fn this.setProperty "decisionsUri")}}
+                value={{this.decisionUri}}
+                @error={{not this.decisionUriValid}}
+                {{on "change" (fn this.setProperty "decisionUri")}}
               />
             </AuFormRow>
             <AuFormRow>

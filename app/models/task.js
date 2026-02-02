@@ -9,7 +9,7 @@ export default class TaskModel extends Model {
   @attr index;
 
   @belongsTo('job-error', { async: true, inverse: null }) error;
-  @belongsTo('job', { async: true, inverse: 'tasks' }) job;
+  @belongsTo('job', { async: true, inverse: 'tasks', polymorphic: true }) job;
 
   @hasMany('task', { async: true, inverse: null }) parentTasks;
 
