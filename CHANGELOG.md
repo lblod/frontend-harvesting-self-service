@@ -1,3 +1,8 @@
+## v2.6.1 (2026-02-02)
+
+#### :bug: Bug Fix
+* [#41](https://github.com/lblod/frontend-harvesting-self-service/pull/41) fix(authentication-configuration): fix handling of input fields ([@elpoelma](https://github.com/elpoelma))
+
 ## v2.6.0 (2025-10-14)
 
 #### :rocket: Enhancement
