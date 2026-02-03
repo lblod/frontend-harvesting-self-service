@@ -47,9 +47,9 @@ export default class OverviewJobsNewController extends Controller {
   @tracked securityScheme = {};
   @tracked credentials = {};
   @tracked decisionUri;
-  @tracked decisionUriValid;
+  @tracked decisionUriValid = true;
   @tracked codelistUri;
-  @tracked codelistUriValid;
+  @tracked codelistUriValid = true;
 
   @service toaster;
   @service router;
