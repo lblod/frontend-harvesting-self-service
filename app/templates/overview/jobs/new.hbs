@@ -48,7 +48,7 @@
               />
             </AuFormRow>
           {{else if (eq this.selectedJobOperation.uri this.jobCodelistMapping)}}
-            <AuFormRow>
+            <AuFormRow @alignment="default">
               <AuLabel
                 for="task-decisions-uri"
                 @required={{true}}
@@ -65,7 +65,7 @@
                 {{on "change" (fn this.setProperty "decisionUri")}}
               />
             </AuFormRow>
-            <AuFormRow>
+            <AuFormRow @alignment="default">
               <AuLabel
                 for="task-codelist-uri"
                 @required={{true}}
@@ -77,7 +77,7 @@
               <AuInput
                 id="task-codelist-uri"
                 @width="block"
-                value={{this.codelistUrl}}
+                value={{this.codelistUri}}
                 @error={{not this.codelistUriValid}}
                 {{on "change" (fn this.setProperty "codelistUri")}}
               />
