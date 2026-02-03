@@ -50,23 +50,6 @@
           {{else if (eq this.selectedJobOperation.uri this.jobCodelistMapping)}}
             <AuFormRow @alignment="default">
               <AuLabel
-                for="task-decisions-uri"
-                @required={{true}}
-                @requiredLabel="Required"
-                @error={{not this.decisionUriValid}}
-                >
-                Decisions to map
-              </AuLabel>
-              <AuInput
-                id="task-decisions-uri"
-                @width="block"
-                value={{this.decisionUri}}
-                @error={{not this.decisionUriValid}}
-                {{on "change" (fn this.setProperty "decisionUri")}}
-              />
-            </AuFormRow>
-            <AuFormRow @alignment="default">
-              <AuLabel
                 for="task-codelist-uri"
                 @required={{true}}
                 @requiredLabel="Required"
@@ -80,6 +63,18 @@
                 value={{this.codelistUri}}
                 @error={{not this.codelistUriValid}}
                 {{on "change" (fn this.setProperty "codelistUri")}}
+              />
+            </AuFormRow>
+            <AuFormRow @alignment="default">
+              <AuLabel for="task-decisions-uri">
+                Decision to map
+              </AuLabel>
+              <AuInput
+                id="task-decisions-uri"
+                @width="block"
+                value={{this.decisionUri}}
+                placeholder="Leave blank to apply to all decisions"
+                {{on "change" (fn this.setProperty "decisionUri")}}
               />
             </AuFormRow>
           {{else}}

@@ -47,7 +47,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked securityScheme = {};
   @tracked credentials = {};
   @tracked decisionUri;
-  @tracked decisionUriValid = true;
+  @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
 
@@ -95,9 +95,10 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.decisionUriValid = !!this.decisionUri;
+    this.decisionUriValid = true;
     this.codelistUriValid = !!this.codelistUri;
 
+    if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;
     else if (this.selectedJobOperation.uri === this.jobCodelistMapping)
@@ -131,9 +132,18 @@ export default class OverviewJobsNewController extends Controller {
 
       let shapeForTargets;
       if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
-        shapeForTargets = this.store.createRecord('node-shape', {
-          targetNode: [this.decisionUri],
-        });
+        if (this.decisionUri) {
+          shapeForTargets = this.store.createRecord('node-shape', {
+            targetNode: [this.decisionUri],
+          });
+        } else {
+          shapeForTargets = this.store.createRecord('node-shape', {
+            targetClass: [
+              // Alternative: 'http://data.vlaanderen.be/ns/besluit#Besluit',
+              'http://data.europa.eu/eli/ontology#LegalExpression',
+            ],
+          });
+        }
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           codelist: this.codelistUri,
