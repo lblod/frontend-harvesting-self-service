@@ -24,6 +24,12 @@ export const JOB_OP_TYPE_DUMPED_WORSHIP =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/deltaDumpFileCreation/worship';
 export const JOB_OP_TYPE_HARVESTING_OPARL =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
+export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
+export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS = 
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/ner-and-nel-annotations';
+export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
 // Auth Type
 export const BASIC_AUTH = {
   label: 'Basic',
@@ -51,6 +57,12 @@ JOB_OP_TYPES.set(
   'Harvest Worship & Publish',
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
+JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, 'Harvest PDF to ELI');
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+  'Generate NER and NEL Annotations on ELI decisions',
+);
+JOB_OP_TYPES.set(JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST, 'Entity Linking test');
 export const JOB_OP_TYPE_CREATE = new Map();
 
 if (
@@ -72,7 +84,29 @@ if (
 if (['true', 'True', 'TRUE', true].includes(config.harvester.oparlHarvesting)) {
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVESTING_OPARL,
-    'Harvest OParl API & Publish'
+    'Harvest OParl API & Publish as ELI',
+  );
+}
+if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    'Harvest PDF & Publish as ELI',
+  );
+}
+if (
+  ['true', 'True', 'TRUE', true].includes(config.harvester.NERAndNELAnnotations)
+) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    'Perform Named Entity Recognition & Entity Linking on ELI decisions & Publish',
+  );
+}
+if (
+  ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenLinking)
+) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST,
+    'Entity Linking test',
   );
 }
 
