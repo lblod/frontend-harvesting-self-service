@@ -17,6 +17,9 @@ module.exports = function (environment) {
       besluitenHarvesting: '{{BESLUITEN_HARVESTING_ENABLED}}',
       worshipHarvesting: '{{WORSHIP_HARVESTING_ENABLED}}',
       oparlHarvesting: '{{OPARL_HARVESTING_ENABLED}}',
+      pdfHarvesting: '{{PDF_HARVESTING_ENABLED}}',
+      NERAndNELAnnotations: '{{NER_AND_NEL_ANNOTATIONS_ENABLED}}',
+      besluitenLinking: '{{BESLUITEN_LINKING_ENABLED}}',
       hideDeleteJobButton: '{{HIDE_DELETE_JOB_BUTTON_ENABLED}}',
     },
     acmidm: {
@@ -47,6 +50,9 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV.harvester.oparlHarvesting = true;
+    ENV.harvester.pdfHarvesting = true;
+    ENV.harvester.NERAndNELAnnotations = true;
+    ENV.harvester.besluitenLinking = true;
     ENV.harvester.authEnabled = true;
   }
 
