@@ -26,7 +26,7 @@ export const JOB_OP_TYPE_HARVESTING_OPARL =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
 export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
-export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS = 
+export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/ner-and-nel-annotations';
 export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
