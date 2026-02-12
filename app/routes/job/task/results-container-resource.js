@@ -10,7 +10,7 @@ export default class JobTaskResultsContainerResourceRoute extends Route.extend(
   modelName = 'data-container';
 
   async beforeModel() {
-    this.task = await this.modelFor('job.task');
+    this.task = (await this.modelFor('job.task')).task;
   }
 
   mergeQueryOptions(param) {
