@@ -1,0 +1,23 @@
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No remote-data-objects found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}}
+  as |t|
+>
+  <t.content as |c|>
+    <c.header>
+      <th>URI</th>
+      <th>Resource URI(s)</th>
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.uri}}
+      </td>
+      <td>
+        {{row.hasResource}}
+      </td>
+    </c.body>
+  </t.content>
+</AuDataTable>
