@@ -54,7 +54,10 @@ export default class JobTaskRoute extends Route {
     });
     this.counts.total = total;
 
-    return this.store.findRecord('task', taskId);
+    return {
+      task: await this.store.findRecord('task', taskId),
+      counts: this.counts,
+    };
   }
 
   setupController(controller, model) {

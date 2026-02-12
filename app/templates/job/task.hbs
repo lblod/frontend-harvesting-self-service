@@ -26,24 +26,24 @@
           <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
             <div>
               <dt class="au-u-bold">URI</dt>
-              <dd>{{this.model.uri}}</dd>
+              <dd>{{this.model.task.uri}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Operation</dt>
-              <dd>{{this.model.operation}}</dd>
+              <dd>{{this.model.task.operation}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Created</dt>
-              <dd>{{format-date this.model.created}}</dd>
+              <dd>{{format-date this.model.task.created}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Modified</dt>
-              <dd>{{format-date this.model.modified}}</dd>
+              <dd>{{format-date this.model.task.modified}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Status</dt>
               <dd>
-                <StatusPill @status={{this.model.shortStatus}} />
+                <StatusPill @status={{this.model.task.shortStatus}} />
               </dd>
             </div>
             {{#if this.job.error.message}}
@@ -67,7 +67,7 @@
       <AuTabs class="au-u-margin-top" as |Tab|>
         {{#unless
           (eq
-            this.model.operation
+            this.model.task.operation
             "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting"
           )
         }}
@@ -88,7 +88,7 @@
         {{/if}}
         {{#unless
           (eq
-            this.model.operation
+            this.model.task.operation
             "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting"
           )
         }}
