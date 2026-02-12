@@ -37,6 +37,9 @@ Router.map(function () {
       this.route('input-container-graph');
       this.route('results-container-graph');
       this.route('input-container-harvesting-collections');
+      this.route('results-container-harvesting-collections');
+      this.route('input-container-resource');
+      this.route('results-container-resource');
     });
   });
 });

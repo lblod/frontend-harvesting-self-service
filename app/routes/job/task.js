@@ -32,7 +32,28 @@ export default class JobTaskRoute extends Route {
             taskId,
         },
       ),
+      resultContainerHarvestingCollections: await this.store.count(
+        'remote-data-object',
+        {
+          'filter[harvesting-collection][data-container][result-from-tasks][:id:]':
+            taskId,
+        },
+      ),
+      resultResourceContainers: await this.store.count('data-container', {
+        'filter[result-from-tasks][:id:]': taskId,
+        'filter[:has:has-resource]': true,
+      }),
+      inputResourceContainers: await this.store.count('data-container', {
+        'filter[input-from-tasks][:id:]': taskId,
+        'filter[:has:has-resource]': true,
+      }),
     };
+    let total = 0;
+    Object.keys(this.counts).forEach((key) => {
+      total += this.counts[key];
+    });
+    this.counts.total = total;
+
     return this.store.findRecord('task', taskId);
   }
 
