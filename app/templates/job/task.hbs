@@ -11,46 +11,45 @@
             @icon="nav-left"
             @iconAlignment="left"
             @width="inline"
-            @model={{this.job.id}}>
+            @model={{this.job.id}}
+          >
             Back to tasklist
           </AuLink>
-          {{!--Task info--}}
+          {{!Task info}}
           <AuHeading
             @level="3"
             @skin="3"
-            class="au-u-margin-top au-u-margin-bottom">
+            class="au-u-margin-top au-u-margin-bottom"
+          >
             Task details
           </AuHeading>
           <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
             <div>
               <dt class="au-u-bold">URI</dt>
-              <dd>{{this.model.uri}}</dd>
+              <dd>{{this.model.task.uri}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Operation</dt>
-              <dd>{{this.model.operation}}</dd>
+              <dd>{{this.model.task.operation}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Created</dt>
-              <dd>{{format-date this.model.created}}</dd>
+              <dd>{{format-date this.model.task.created}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Modified</dt>
-              <dd>{{format-date this.model.modified}}</dd>
+              <dd>{{format-date this.model.task.modified}}</dd>
             </div>
             <div>
               <dt class="au-u-bold">Status</dt>
               <dd>
-                <StatusPill @status={{this.model.shortStatus}}></StatusPill>
+                <StatusPill @status={{this.model.task.shortStatus}} />
               </dd>
             </div>
             {{#if this.job.error.message}}
               <div>
                 <dt class="au-u-hidden-visually">Errors</dt>
-                <AuAlert
-                  @icon="cross"
-                  @title="Error"
-                  @skin="error">
+                <AuAlert @icon="cross" @title="Error" @skin="error">
                   <p>
                     <dd>{{this.job.error.message}}</dd>
                   </p>
@@ -58,52 +57,90 @@
               </div>
             {{/if}}
           </dl>
-          {{!--End Task info--}}
+          {{!End Task info}}
         </div>
       </div>
     </div>
   </m.sidebar>
   <m.content @scroll={{true}}>
     <div class="au-u-flex au-u-flex--column full-height">
-      <AuTabs
-        class="au-u-margin-top"
-        as |Tab|>
-        {{#unless (eq this.model.operation "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting")}}
-          <Tab>
-            <AuLink
-              @route="job.task.input-container-files">
-              Input Container Files ({{this.counts.inputContainerFiles}})
-            </AuLink>
-          </Tab>
+      <AuTabs class="au-u-margin-top" as |Tab|>
+        {{#unless
+          (eq
+            this.model.task.operation
+            "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting"
+          )
+        }}
+          {{#if (gt this.counts.inputContainerFiles 0)}}
+            <Tab>
+              <AuLink @route="job.task.input-container-files">
+                Input Container Files ({{this.counts.inputContainerFiles}})
+              </AuLink>
+            </Tab>
+          {{/if}}
         {{/unless}}
-        <Tab>
-          <AuLink
-            @route="job.task.results-container-files">
-            Results Container Files ({{this.counts.resultContainerFiles}})
-          </AuLink>
-        </Tab>
-        {{#unless (eq this.model.operation "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting")}}
+        {{#if (gt this.counts.resultContainerFiles 0)}}
           <Tab>
-            <AuLink
-              @route="job.task.input-container-graph">
-              Input Container Graph ({{this.counts.inputContainerGraphs}})
+            <AuLink @route="job.task.results-container-files">
+              Results Container Files ({{this.counts.resultContainerFiles}})
             </AuLink>
           </Tab>
-          <Tab>
-            <AuLink
-              @route="job.task.results-container-graph">
-              Results Container Graphs ({{this.counts.resultContainerGraphs}})
-            </AuLink>
-          </Tab>
+        {{/if}}
+        {{#unless
+          (eq
+            this.model.task.operation
+            "http://lblod.data.gift/id/jobs/concept/TaskOperation/collecting"
+          )
+        }}
+          {{#if (gt this.counts.inputContainerGraphs 0)}}
+            <Tab>
+              <AuLink @route="job.task.input-container-graph">
+                Input Container Graph ({{this.counts.inputContainerGraphs}})
+              </AuLink>
+            </Tab>
+          {{/if}}
+          {{#if (gt this.counts.resultContainerGraphs 0)}}
+            <Tab>
+              <AuLink @route="job.task.results-container-graph">
+                Results Container Graphs ({{this.counts.resultContainerGraphs}})
+              </AuLink>
+            </Tab>
+          {{/if}}
         {{/unless}}
-        <Tab>
-          <AuLink
-            @route="job.task.input-container-harvesting-collections">
-            Input Container Harvesting Collections ({{this.counts.inputContainerHarvestingCollections}})
-          </AuLink>
-        </Tab>
+        {{#if (gt this.counts.inputContainerHarvestingCollections 0)}}
+          <Tab>
+            <AuLink @route="job.task.input-container-harvesting-collections">
+              Input Container Harvesting Collections ({{this.counts.inputContainerHarvestingCollections}})
+            </AuLink>
+          </Tab>
+        {{/if}}
+        {{#if (gt this.counts.resultContainerHarvestingCollections 0)}}
+          <Tab>
+            <AuLink @route="job.task.results-container-harvesting-collections">
+              Result Container Harvesting Collections ({{this.counts.resultContainerHarvestingCollections}})
+            </AuLink>
+          </Tab>
+        {{/if}}
+        {{#if (gt this.counts.inputResourceContainers 0)}}
+          <Tab>
+            <AuLink @route="job.task.input-container-resource">
+              Input Containers with Resources ({{this.counts.inputResourceContainers}})
+            </AuLink>
+          </Tab>
+        {{/if}}
+        {{#if (gt this.counts.resultResourceContainers 0)}}
+          <Tab>
+            <AuLink @route="job.task.results-container-resource">
+              Result Containers with Resources ({{this.counts.resultResourceContainers}})
+            </AuLink>
+          </Tab>
+        {{/if}}
       </AuTabs>
-      {{outlet}}
+      {{#if (eq 0 this.counts.total)}}
+        <p>No inputs or results found.</p>
+      {{else}}
+        {{outlet}}
+      {{/if}}
     </div>
   </m.content>
 </AuMainContainer>

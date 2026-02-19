@@ -10,7 +10,7 @@ export default class JobTaskInputContainerFilesRoute extends Route.extend(
   modelName = 'file';
 
   async beforeModel() {
-    this.task = await this.modelFor('job.task');
+    this.task = (await this.modelFor('job.task')).task;
   }
 
   mergeQueryOptions(param) {
