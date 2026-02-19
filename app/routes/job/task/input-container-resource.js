@@ -15,7 +15,7 @@ export default class JobTaskInputContainerResourceRoute extends Route.extend(
 
   mergeQueryOptions(param) {
     return {
-      'filter[result-from-tasks][:id:]': this.task.id,
+      'filter[input-from-tasks][:id:]': this.task.id,
       sort: param.sort,
     };
   }
