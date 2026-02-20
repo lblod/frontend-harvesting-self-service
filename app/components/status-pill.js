@@ -18,6 +18,7 @@ export default class StatusPillComponent extends Component {
       case 'busy':
         return 'warning';
       case 'scheduled':
+      case 'archived':
         return 'border';
       case 'not-started':
       default:
