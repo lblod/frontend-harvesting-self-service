@@ -53,7 +53,7 @@ JOB_OP_TYPES.set(
 );
 export const JOB_OP_TYPE_CREATE = new Map();
 if (
-  ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenHarvesting) || true // fixme NORDINE
+  ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenHarvesting)
 ) {
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_CLEANUP_SINGLE_JOB, 'Cleanup single job');
