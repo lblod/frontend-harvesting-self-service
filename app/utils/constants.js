@@ -34,6 +34,12 @@ export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
 export const JOB_OP_TYPE_CODELIST_MAPPING =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/match-codelist';
+
+export const CONSUMER_SYNC_MODES = {
+  initial: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/initial-sync',
+  delta: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/delta',
+};
+
 // Auth Type
 export const BASIC_AUTH = {
   label: 'Basic',

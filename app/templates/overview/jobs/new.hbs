@@ -77,6 +77,29 @@
                 {{on "change" (fn this.setProperty "decisionUri")}}
               />
             </AuFormRow>
+          {{else if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
+            <AuFormRow @alignment="default">
+              <AuLabel
+                for="task-oslo-sync-mode"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.urlValid}}>
+                Sync mode
+              </AuLabel>
+              <AuRadioGroup
+                id="task-oslo-sync-mode"
+                @name="task-oslo-sync-mode"
+                @selected={{this.url}}
+                {{on "change" (fn this.setProperty "url")}}
+                as |Group|>
+                <Group.Radio @value={{this.intialConsumerSyncModeUri}}>
+                  Initial sync
+                </Group.Radio>
+                <Group.Radio @value={{this.deltaConsumerSyncModeUri}}>
+                  Delta sync
+                </Group.Radio>
+              </AuRadioGroup>
+            </AuFormRow>
           {{else}}
             <AuFormRow @alignment="default">
               <AuLabel
