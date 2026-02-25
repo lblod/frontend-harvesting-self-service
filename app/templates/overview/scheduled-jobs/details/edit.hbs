@@ -23,8 +23,8 @@
           {{on "change" this.setTitle}}
            @error={{not this.newTitleValid}} />
       </AuFormRow>
-      
-      {{#if this.hasEndpoint}}
+
+      {{#if (and this.hasEndpoint (not this.job.isConsumerDeltaSyncJob))}}
         <AuFormRow @alignment="default">
           <AuLabel
             for="task-endpoint"
@@ -41,7 +41,7 @@
              @error={{not this.newEndpointValid}} />
         </AuFormRow>
       {{/if}}
-      
+
       <AuFormRow @alignment="default">
         <AuLabel
           for="cron-pattern"

@@ -40,10 +40,15 @@
             <dt class="au-u-bold">Schedule</dt>
             <dd>{{this.cronDescription}}</dd>
 
+            {{#if this.job.isConsumerDeltaSyncJob}}
+            <dt class="au-u-bold">Sync mode</dt>
+            <dd>Delta sync</dd>
+            {{else}}
             <dt class="au-u-bold">Endpoint</dt>
             <dd>
               <ScheduledJobEndpoint @scheduledJob={{this.job}} />
             </dd>
+            {{/if}}
           </dl>
         </div>
 
