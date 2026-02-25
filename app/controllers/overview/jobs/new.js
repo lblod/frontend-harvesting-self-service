@@ -55,6 +55,10 @@ export default class OverviewJobsNewController extends Controller {
   @tracked codelistUri;
   @tracked codelistUriValid = true;
 
+  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
+  consumeLokaalBeslistPublishedBy =
+    this.consumeLokaalBeslistPublishedByOptions[0];
+
   @service toaster;
   @service router;
   @service store;
@@ -88,6 +92,9 @@ export default class OverviewJobsNewController extends Controller {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
   }
+
+  @action
+  noop() {}
 
   @action
   validateForm() {

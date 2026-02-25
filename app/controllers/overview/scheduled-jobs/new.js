@@ -49,6 +49,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked securityScheme;
   @tracked credentials;
 
+  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
+  consumeLokaalBeslistPublishedBy =
+    this.consumeLokaalBeslistPublishedByOptions[0];
+
   @service toaster;
   @service router;
   @service store;
@@ -99,6 +103,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
   }
+
+  @action
+  noop() {}
 
   @action
   validateForm() {

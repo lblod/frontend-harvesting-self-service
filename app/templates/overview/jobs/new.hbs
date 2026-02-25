@@ -79,16 +79,34 @@
             </AuFormRow>
           {{else if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
             <AuFormRow @alignment="default">
+              <AuLabel for="decisions-published-by">
+                Published by
+              </AuLabel>
+              <PowerSelect
+                id="decisions-published-by"
+                @options={{this.consumeLokaalBeslistPublishedByOptions}}
+                @selected={{this.consumeLokaalBeslistPublishedBy}}
+                @onChange={{this.noop}}
+                @disabled={{true}}
+                @renderInPlace={{true}}
+                as |option|>
+                {{option.label}}
+              </PowerSelect>
+              <AuHelpText @warning={{true}}>
+                For now, Lokaal Beslist harvesting is limited to decisions published by Ghent.
+              </AuHelpText>
+            </AuFormRow>
+            <AuFormRow @alignment="default">
               <AuLabel
-                for="task-oslo-sync-mode"
+                for="consumer-sync-mode"
                 @required={{true}}
                 @requiredLabel="Required"
                 @error={{not this.urlValid}}>
                 Sync mode
               </AuLabel>
               <AuRadioGroup
-                id="task-oslo-sync-mode"
-                @name="task-oslo-sync-mode"
+                id="consumer-sync-mode"
+                @name="consumer-sync-mode"
                 @selected={{this.url}}
                 {{on "change" (fn this.setProperty "url")}}
                 as |Group|>
