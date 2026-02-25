@@ -14,6 +14,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
+  jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
@@ -25,6 +26,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/singleton-job';
   importTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
+
+  deltaConsumerSyncModeUri = cts.CONSUMER_SYNC_MODES.delta;
 
   securitySchemesOptions = [cts.BASIC_AUTH, cts.OAUTH2];
 
@@ -88,6 +91,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
+    this.url = undefined;
   }
 
   @action

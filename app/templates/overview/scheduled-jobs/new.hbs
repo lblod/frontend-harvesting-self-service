@@ -47,22 +47,50 @@
             {{on "change" (fn this.setProperty "title")}}
           />
         </AuFormRow>
-        <AuFormRow @alignment="default">
-          <AuLabel
-            for="task-url"
-            @required={{true}}
-            @requiredLabel="Required"
-            @error={{not this.urlValid}}>
-            URL
-          </AuLabel>
-          <AuInput
-            id="task-url"
-            @width="block"
-            value={{this.url}}
-            @error={{not this.urlValid}}
-            {{on "change" (fn this.setProperty "url")}}
-          />
-        </AuFormRow>
+        {{#if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
+            <AuFormRow @alignment="default">
+              <AuLabel
+                for="task-oslo-sync-mode"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.urlValid}}>
+                Sync mode
+              </AuLabel>
+              <AuRadioGroup
+                id="task-oslo-sync-mode"
+                @name="task-oslo-sync-mode"
+                @selected={{this.deltaConsumerSyncModeUri}}
+                {{on "change" (fn this.setProperty "url")}}
+                as |Group|>
+                <AuHelpText @warning={{true}}>
+                  Initial sync is a one-time run and should be started as a single harvesting job. A scheduled job for delta sync is ideal to keep data up to date.
+                </AuHelpText>
+                <Group.Radio @disabled={{true}}>
+                  Initial sync
+                </Group.Radio>
+                <Group.Radio @value={{this.deltaConsumerSyncModeUri}}>
+                  Delta sync
+                </Group.Radio>
+              </AuRadioGroup>
+            </AuFormRow>
+        {{else}}
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="task-url"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{not this.urlValid}}>
+              URL
+            </AuLabel>
+            <AuInput
+              id="task-url"
+              @width="block"
+              value={{this.url}}
+              @error={{not this.urlValid}}
+              {{on "change" (fn this.setProperty "url")}}
+            />
+          </AuFormRow>
+        {{/if}}
         <AuFormRow @alignment="default">
           <AuLabel
             for="cron-pattern"
@@ -128,7 +156,8 @@
             />
           </AuFormRow>
         {{/if}}
-        {{#if this.authenticationEnabled}}
+        {{#if (and this.authenticationEnabled
+                   (not (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)))}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}
