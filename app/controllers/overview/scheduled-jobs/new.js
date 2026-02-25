@@ -95,7 +95,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
-    this.url = undefined;
+    this.url =
+      selected?.uri === this.jobHarvestOsloEli
+        ? this.deltaConsumerSyncModeUri
+        : undefined;
   }
 
   @action

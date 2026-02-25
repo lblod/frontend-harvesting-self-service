@@ -77,7 +77,7 @@
               <AuRadioGroup
                 id="consumer-sync-mode"
                 @name="consumer-sync-mode"
-                @selected={{this.deltaConsumerSyncModeUri}}
+                @selected={{this.url}}
                 {{on "change" (fn this.setProperty "url")}}
                 as |Group|>
                 <Group.Radio @disabled={{true}}>
