@@ -14,6 +14,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
+  jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -27,6 +28,9 @@ export default class OverviewJobsNewController extends Controller {
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/singleton-job';
   importTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
+
+  intialConsumerSyncModeUri = cts.CONSUMER_SYNC_MODES.initial;
+  deltaConsumerSyncModeUri = cts.CONSUMER_SYNC_MODES.delta;
 
   securitySchemesOptions = [cts.BASIC_AUTH, cts.OAUTH2];
 
@@ -50,6 +54,10 @@ export default class OverviewJobsNewController extends Controller {
   @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
+
+  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
+  consumeLokaalBeslistPublishedBy =
+    this.consumeLokaalBeslistPublishedByOptions[0];
 
   @service toaster;
   @service router;
@@ -76,6 +84,7 @@ export default class OverviewJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
+    this.url = undefined;
   }
 
   @action
@@ -83,6 +92,9 @@ export default class OverviewJobsNewController extends Controller {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
   }
+
+  @action
+  noop() {}
 
   @action
   validateForm() {
