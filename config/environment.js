@@ -18,6 +18,7 @@ module.exports = function (environment) {
       worshipHarvesting: '{{WORSHIP_HARVESTING_ENABLED}}',
       oparlHarvesting: '{{OPARL_HARVESTING_ENABLED}}',
       pdfHarvesting: '{{PDF_HARVESTING_ENABLED}}',
+      osloHarvesting: '{{OSLO_HARVESTING_ENABLED}}',
       NERAndNELAnnotations: '{{NER_AND_NEL_ANNOTATIONS_ENABLED}}',
       besluitenLinking: '{{BESLUITEN_LINKING_ENABLED}}',
       codelistMapping: '{{CODELIST_MAPPING_ENABLED}}',
@@ -52,6 +53,7 @@ module.exports = function (environment) {
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV.harvester.oparlHarvesting = true;
     ENV.harvester.pdfHarvesting = true;
+    ENV.harvester.osloHarvesting = true;
     ENV.harvester.NERAndNELAnnotations = true;
     ENV.harvester.besluitenLinking = true;
     ENV.harvester.authEnabled = true;

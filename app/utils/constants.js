@@ -26,12 +26,20 @@ export const JOB_OP_TYPE_HARVESTING_OPARL =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
 export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
+export const JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oslo-to-eli';
 export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/ner-and-nel-annotations';
 export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
 export const JOB_OP_TYPE_CODELIST_MAPPING =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/match-codelist';
+
+export const CONSUMER_SYNC_MODES = {
+  initial: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/initial-sync',
+  delta: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/delta',
+};
+
 // Auth Type
 export const BASIC_AUTH = {
   label: 'Basic',
@@ -60,6 +68,7 @@ JOB_OP_TYPES.set(
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, 'Harvest PDF to ELI');
+JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI, 'Harvest OSLO to ELI');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
   'Generate NER and NEL Annotations on ELI decisions',
@@ -94,6 +103,12 @@ if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
     'Harvest PDF & Publish as ELI',
+  );
+}
+if (['true', 'True', 'TRUE', true].includes(config.harvester.osloHarvesting)) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI,
+    'Harvest Lokaal Beslist OSLO & Publish as ELI',
   );
 }
 if (
