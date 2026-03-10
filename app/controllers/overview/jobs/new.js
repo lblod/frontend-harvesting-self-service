@@ -15,6 +15,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
+  jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -54,6 +55,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
+  @tracked municipalityLabel;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -166,6 +168,16 @@ export default class OverviewJobsNewController extends Controller {
         scheduledJob = this.store.createRecord('job', jobAttributes);
       }
       await scheduledJob.save();
+
+      if (this.selectedJobOperation.uri === this.jobHarvestPdfToELI) {
+        const municipality = this.store.createRecord('organization', {
+          identifier: this.municipalityLabel,
+          'pref-label': this.municipalityLabel,
+          classification:
+            'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
+        });
+        await municipality.save();
+      }
 
       let dataContainer;
       if (this.selectedJobOperation.uri === this.jobImport) {

@@ -137,6 +137,24 @@
             </AuFormRow>
           {{/if}}
 
+          {{#if (eq this.selectedJobOperation.uri this.jobHarvestPdfToELI)}}
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="task-municipality-label"
+              @required={{false}}
+              @requiredLabel="Optional"
+              >
+              Municipality
+            </AuLabel>
+            <AuInput
+              id="task-municipality-label"
+              @width="block"
+              value={{this.municipalityLabel}}
+              {{on "change" (fn this.setProperty "municipalityLabel")}}
+            />
+          </AuFormRow>
+          {{/if}}
+
         <AuFormRow @alignment="default">
           <AuLabel for="task-comment">
             Comments
