@@ -4,8 +4,8 @@
   @options={{this.jobOperations}}
   @selected={{@operation}}
   @onChange={{@onChange}}
-  class="operation-filter"
+  class="filter-workaround"
   ...attributes
   as |operation|>
-  {{operation}}
+  {{operation-name operation}}
 </PowerSelect>
