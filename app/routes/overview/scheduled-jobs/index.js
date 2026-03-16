@@ -11,12 +11,16 @@ export default class OverviewScheduledJobsIndexRoute extends Route {
     search: { refreshModel: true },
     size: { refreshModel: true },
     sort: { refreshModel: true },
+    operation: {refreshModel: true, replace: true },
   };
 
   async model(params) {
     const filters = {};
     if (params.search) {
       filters.title = params.search;
+    }
+    if (params.operation) {
+      filters[':exact:operation'] = params.operation;
     }
     return this.store.query('scheduled-job', {
       include: 'schedule',
