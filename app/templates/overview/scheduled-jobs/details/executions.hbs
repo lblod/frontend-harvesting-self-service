@@ -19,6 +19,20 @@
           </AuHelpText>
         </Group>
         <Group class="au-u-flex--vertical-center">
+
+          <AuLabel
+            @inline={{true}}
+            for="operations">
+            Operation
+          </AuLabel>
+          <div {{auto-refresh this.reload}}>
+            <OperationFilter
+              @operation={{this.operation}}
+              @onChange={{fn (mut this.operation)}}
+              @allowClear={{true}}
+              id="operations"/>
+          </div>
+
           <AuLabel
             @inline={{true}}
             for="statuses">
