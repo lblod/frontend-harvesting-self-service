@@ -14,6 +14,7 @@ export default class OverviewJobsRoute extends Route.extend(
     size: { refreshModel: true },
     sort: { refreshModel: true },
     status: { refreshModel: true },
+    operation: { refreshModel: true, replace: true },
   };
 
   mergeQueryOptions(param) {
@@ -25,6 +26,9 @@ export default class OverviewJobsRoute extends Route.extend(
 
     if (param.status) {
       options['filter[:exact:status]'] = param.status;
+    }
+    if (param.operation) {
+      options['filter[:exact:operation]'] = param.operation;
     }
 
     return options;
