@@ -1,11 +1,11 @@
 <PowerSelect
   @allowClear={{@allowClear}}
   @searchEnabled={{false}}
-  @options={{this.statusOptions}}
-  @selected={{@status}}
+  @options={{this.jobOperations}}
+  @selected={{@operation}}
   @onChange={{@onChange}}
   class="filter-workaround"
   ...attributes
-  as |status|>
-  {{status-name status}}
+  as |operation|>
+  {{operation-name operation}}
 </PowerSelect>

@@ -7,12 +7,13 @@ export default class OverviewJobsController extends Controller {
   @tracked page = 0;
   @tracked sort = '-created';
   @tracked status;
+  @tracked operation;
 
   @service router;
 
   size = 15;
 
-  queryParams = ['page', 'size', 'status', 'sort'];
+  queryParams = ['page', 'size', 'status', 'sort', 'operation'];
 
   @action
   reload() {

@@ -17,6 +17,20 @@
         </Group>
         <Group class="au-u-flex--vertical-center">
           <div class='au-u-max-width-xsmall au-u-flex au-u-flex--spaced-small'>
+
+          <AuLabel
+            @inline={{true}}
+            for="operations">
+            Operation
+          </AuLabel>
+          <div {{auto-refresh this.reload}}>
+            <OperationFilter
+              @operation={{this.operation}}
+              @onChange={{fn (mut this.operation)}}
+              @allowClear={{true}}
+              id="operations"/>
+          </div>
+
             <AuInput
               value={{this.search}}
               @queryParam='search'
