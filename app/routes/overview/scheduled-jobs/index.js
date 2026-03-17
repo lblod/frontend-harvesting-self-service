@@ -11,7 +11,7 @@ export default class OverviewScheduledJobsIndexRoute extends Route {
     search: { refreshModel: true },
     size: { refreshModel: true },
     sort: { refreshModel: true },
-    operation: {refreshModel: true, replace: true },
+    operation: { refreshModel: true, replace: true },
   };
 
   async model(params) {
