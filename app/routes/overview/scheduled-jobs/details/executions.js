@@ -9,7 +9,6 @@ export default class OverviewScheduledJobsDetailsExecutionsRoute extends Route {
     execSize: { refreshModel: true },
     execSort: { refreshModel: true },
     execStatus: { refreshModel: true },
-    operation: { refreshModel: true, replace: true },
   };
 
   async model(params) {
@@ -24,9 +23,6 @@ export default class OverviewScheduledJobsDetailsExecutionsRoute extends Route {
     };
     if (params.execStatus) {
       options['filter[:exact:status]'] = params.execStatus;
-    }
-    if (params.operation) {
-      options['filter[:exact:operation]'] = params.operation;
     }
     return this.store.query('job', options);
   }
