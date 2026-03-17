@@ -15,6 +15,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
+  jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -55,6 +56,10 @@ export default class OverviewJobsNewController extends Controller {
   @tracked codelistUri;
   @tracked codelistUriValid = true;
 
+  @tracked loadingGoverningBodies = false;
+  @tracked governingBodies = [];
+  @tracked selectedGoverningBody;
+
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
     this.consumeLokaalBeslistPublishedByOptions[0];
@@ -82,9 +87,26 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   @action
-  setJobOperation(selected) {
+  async setJobOperation(selected) {
     this.selectedJobOperation = selected;
     this.url = undefined;
+
+    if (selected?.uri === cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI) {
+      this.loadingOrganizations = true;
+      this.governingBodies = await this.store.query('organization', {
+        filter: {
+          ':has:sub-organization-of': 't',
+          'sub-organization-of': {
+            classification:
+              'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
+          },
+        },
+      });
+      this.loadingOrganizations = false;
+    } else {
+      this.governingBodies = [];
+      this.selectedGoverningBody = null;
+    }
   }
 
   @action
@@ -95,6 +117,11 @@ export default class OverviewJobsNewController extends Controller {
 
   @action
   noop() {}
+
+  @action
+  changeSelectedGoverningBody(org) {
+    this.selectedGoverningBody = org;
+  }
 
   @action
   validateForm() {
@@ -167,7 +194,8 @@ export default class OverviewJobsNewController extends Controller {
       }
       await scheduledJob.save();
 
-      let dataContainer;
+      const inputContainers = [];
+      let dataContainer, dataContainerWithGoverningBody;
       if (this.selectedJobOperation.uri === this.jobImport) {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
@@ -210,6 +238,19 @@ export default class OverviewJobsNewController extends Controller {
           harvestingCollections: [collection],
         });
         await dataContainer.save();
+        inputContainers.push(dataContainer);
+
+        if (this.selectedJobOperation.uri === this.jobHarvestPdfToELI) {
+          dataContainerWithGoverningBody = this.store.createRecord(
+            'data-container',
+            {
+              hasResource: [this.selectedGoverningBody.uri],
+            },
+          );
+
+          await dataContainerWithGoverningBody.save();
+          inputContainers.push(dataContainerWithGoverningBody);
+        }
       }
 
       const task = this.store.createRecord('task', {
@@ -219,7 +260,7 @@ export default class OverviewJobsNewController extends Controller {
         operation: this.harvestTaskOperation,
         comment: this.comment,
         index: '0',
-        inputContainers: [dataContainer],
+        inputContainers: inputContainers,
         job: scheduledJob,
       });
       await task.save();
