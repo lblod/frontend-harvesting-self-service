@@ -7,13 +7,12 @@ export default class OverviewScheduledJobsDetailsExecutionsController extends Co
   @tracked execPage = 0;
   @tracked execSort = '-created';
   @tracked execStatus;
-  @tracked operation;
 
   @service router;
 
   execSize = 15;
 
-  queryParams = ['execPage', 'execSize', 'execStatus', 'execSort', 'operation'];
+  queryParams = ['execPage', 'execSize', 'execStatus', 'execSort'];
 
   @action
   reload() {
