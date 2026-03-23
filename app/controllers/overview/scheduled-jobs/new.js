@@ -15,6 +15,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
+  jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
@@ -50,6 +51,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked selectedSecurityScheme;
   @tracked securityScheme;
   @tracked credentials;
+  @tracked decisionUri;
+  @tracked decisionUriValid;
+  @tracked codelistUri;
+  @tracked codelistUriValid = true;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -99,7 +104,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   }
 
   @action
-  setJobOperation(selected) {
+  async setJobOperation(selected) {
     this.selectedJobOperation = selected;
     this.url =
       selected?.uri === this.jobHarvestOsloEli
@@ -123,12 +128,21 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
-    return (
+    this.decisionUriValid = true;
+    this.codelistUriValid = !!this.codelistUri;
+
+    const baseValid = (
       this.selectedJobOperationValid &&
-      this.urlValid &&
       this.titleValid &&
       this.cronPatternValid
     );
+
+    if (this.selectedJobOperation.uri === this.jobCodelistMapping)
+      return baseValid &&
+        this.decisionUriValid &&
+        this.codelistUriValid;
+    else
+      return baseValid && this.urlValid;
   }
 
   @action
@@ -144,7 +158,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
         repeatFrequency: this.cronPattern,
       });
 
-      const scheduledJob = this.store.createRecord('scheduled-job', {
+    let jobName = 'scheduled-job';
+    const jobAttributes = {
         creator: this.creator,
         created: this.currentTime,
         modified: this.currentTime,
@@ -152,7 +167,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
         title: this.title,
         schedule: cronSchedule,
         vendor: this.vendor,
-      });
+      };
+
       let sources = [this.url.trim()];
       if (this.selectedJobOperation.uri === this.jobPdfScraping) {
         const newLinePattern = /\r?\n/;
@@ -173,6 +189,29 @@ export default class OverviewScheduledJobsNewController extends Controller {
           creator: this.creator,
         });
       });
+
+      if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+        let shapeForTargets;
+        if (this.decisionUri) {
+          shapeForTargets = this.store.createRecord('node-shape', {
+            targetNode: [this.decisionUri],
+          });
+        } else {
+          shapeForTargets = this.store.createRecord('node-shape', {
+            targetClass: [
+              // Alternative: 'http://data.vlaanderen.be/ns/besluit#Besluit',
+              'http://data.europa.eu/eli/ontology#LegalExpression',
+            ],
+          });
+        }
+        await shapeForTargets.save();
+        jobAttributes.shapeForTargets = [shapeForTargets];
+        jobAttributes.codelist = this.codelistUri;
+        jobName = 'scheduled-annotation-job';
+      }
+      
+      const scheduledJob = this.store.createRecord(jobName, jobAttributes);
+
       await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
       const collection = this.store.createRecord('harvesting-collection', {
         creator: this.creator,
