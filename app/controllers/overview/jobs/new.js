@@ -56,9 +56,9 @@ export default class OverviewJobsNewController extends Controller {
   @tracked codelistUri;
   @tracked codelistUriValid = true;
 
-  @tracked loadingGoverningBodies = false;
-  @tracked governingBodies = [];
-  @tracked selectedGoverningBody;
+  @tracked loadingMunicipalities = false;
+  @tracked municipalities = [];
+  @tracked selectedMunicipality;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -93,19 +93,18 @@ export default class OverviewJobsNewController extends Controller {
 
     if (selected?.uri === cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI) {
       this.loadingOrganizations = true;
-      this.governingBodies = await this.store.query('organization', {
+      this.municipalities = await this.store.query('organization', {
+        page: { size: 600 },
         filter: {
-          ':has:sub-organization-of': 't',
-          'sub-organization-of': {
-            classification:
-              'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
-          },
+          classification:
+            'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
         },
+        sort: ':no-case:pref-label',
       });
       this.loadingOrganizations = false;
     } else {
-      this.governingBodies = [];
-      this.selectedGoverningBody = null;
+      this.municipalities = [];
+      this.selectedMunicipality = null;
     }
   }
 
@@ -119,8 +118,8 @@ export default class OverviewJobsNewController extends Controller {
   noop() {}
 
   @action
-  changeSelectedGoverningBody(org) {
-    this.selectedGoverningBody = org;
+  changeSelectedMunicipality(org) {
+    this.selectedMunicipality = org;
   }
 
   @action
@@ -195,7 +194,7 @@ export default class OverviewJobsNewController extends Controller {
       await scheduledJob.save();
 
       const inputContainers = [];
-      let dataContainer, dataContainerWithGoverningBody;
+      let dataContainer, dataContainerWithMunicipality;
       if (this.selectedJobOperation.uri === this.jobImport) {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
@@ -241,15 +240,15 @@ export default class OverviewJobsNewController extends Controller {
         inputContainers.push(dataContainer);
 
         if (this.selectedJobOperation.uri === this.jobHarvestPdfToELI) {
-          dataContainerWithGoverningBody = this.store.createRecord(
+          dataContainerWithMunicipality = this.store.createRecord(
             'data-container',
             {
-              hasResource: [this.selectedGoverningBody.uri],
+              hasResource: [this.selectedMunicipality.uri],
             },
           );
 
-          await dataContainerWithGoverningBody.save();
-          inputContainers.push(dataContainerWithGoverningBody);
+          await dataContainerWithMunicipality.save();
+          inputContainers.push(dataContainerWithMunicipality);
         }
       }
 
