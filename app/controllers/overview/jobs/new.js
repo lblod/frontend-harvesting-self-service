@@ -57,6 +57,10 @@ export default class OverviewJobsNewController extends Controller {
   @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
+  @tracked graphForTargetsUri;
+  @tracked graphForTargetsUriValid;
+  @tracked propertyPathForTextUri;
+  @tracked propertyPathForTextUriValid;
 
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
@@ -141,6 +145,8 @@ export default class OverviewJobsNewController extends Controller {
     else this.vendorValid = false;
     this.decisionUriValid = true;
     this.codelistUriValid = !!this.codelistUri;
+    this.graphForTargetsUriValid = true;
+    this.propertyPathForTextUriValid = true;
 
     if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
@@ -149,7 +155,9 @@ export default class OverviewJobsNewController extends Controller {
       return (
         this.selectedJobOperationValid &&
         this.decisionUriValid &&
-        this.codelistUriValid
+        this.codelistUriValid &&
+        this.graphForTargetsUriValid &&
+        this.propertyPathForTextUriValid
       );
     else return this.selectedJobOperationValid && this.urlValid;
   }
@@ -192,6 +200,8 @@ export default class OverviewJobsNewController extends Controller {
         jobAttributes = Object.assign(jobAttributes, {
           codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
+          graphForTargets: this.graphForTargetsUri || undefined,
+          propertyPathForText: this.propertyPathForTextUri || undefined
         });
         scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
       } else {

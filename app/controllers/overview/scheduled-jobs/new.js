@@ -55,6 +55,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
+  @tracked graphForTargetsUri;
+  @tracked graphForTargetsUriValid;
+  @tracked propertyPathForTextUri;
+  @tracked propertyPathForTextUriValid;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -130,6 +134,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.vendorValid = !!this.vendor;
     this.decisionUriValid = true;
     this.codelistUriValid = !!this.codelistUri;
+    this.graphForTargetsUriValid = true;
+    this.propertyPathForTextUriValid = true;
 
     const baseValid = (
       this.selectedJobOperationValid &&
@@ -140,7 +146,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
     if (this.selectedJobOperation.uri === this.jobCodelistMapping)
       return baseValid &&
         this.decisionUriValid &&
-        this.codelistUriValid;
+        this.codelistUriValid &&
+        this.graphForTargetsUriValid &&
+        this.propertyPathForTextUriValid;
     else
       return baseValid && this.urlValid;
   }
@@ -207,9 +215,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
         await shapeForTargets.save();
         jobAttributes.shapeForTargets = [shapeForTargets];
         jobAttributes.codelist = this.codelistUri;
+        jobAttributes.graphForTargets = this.graphForTargetsUri || undefined;
+        jobAttributes.propertyPathForText = this.propertyPathForTextUri || undefined;
         jobName = 'scheduled-annotation-job';
       }
-      
+
       const scheduledJob = this.store.createRecord(jobName, jobAttributes);
 
       await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
