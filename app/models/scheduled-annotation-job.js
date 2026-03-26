@@ -3,5 +3,7 @@ import ScheduledJobModel from './scheduled-job';
 
 export default class AnnotationJobModel extends ScheduledJobModel {
   @attr codelist;
+  @attr graphForTargets;
+  @attr propertyPathForText;
   @hasMany('node-shape', { async: true, inverse: null }) shapeForTargets;
 }
