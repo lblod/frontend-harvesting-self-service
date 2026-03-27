@@ -71,14 +71,14 @@
                 for="consumer-sync-mode"
                 @required={{true}}
                 @requiredLabel="Required"
-                @error={{not this.urlValid}}>
+                @error={{not this.urlsValid}}>
                 Sync mode
               </AuLabel>
               <AuRadioGroup
                 id="consumer-sync-mode"
                 @name="consumer-sync-mode"
                 @selected={{this.url}}
-                {{on "change" (fn this.setProperty "url")}}
+                {{on "change" (fn this.setProperty "urls")}}
                 as |Group|>
                 <Group.Radio @disabled={{true}}>
                   Initial sync
@@ -96,7 +96,7 @@
             <Url::Multiple
               @id="task-url"
               @isRequired={{true}}
-              @onChange={{fn (mut this.url)}}
+              @onChange={{fn (mut this.urls)}}
               @forceErrors={{this.forceErrors}}
               @isRestrictedToOne={{not this.isMultiUrlSupportedForJobOperation}}
             />

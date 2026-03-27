@@ -38,8 +38,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   @tracked title;
   @tracked titleValid;
-  @tracked url;
-  @tracked urlValid;
+  @tracked urls;
+  @tracked urlsValid;
   @tracked selectedJobOperation;
   @tracked selectedJobOperationValid;
   @tracked cronPattern;
@@ -85,6 +85,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return this.selectedJobOperation.uri === this.jobHarvestPdfEli;
   }
 
+  get url() {
+    return this.urls?.[0];
+  }
+
   @action
   updateCredentials(attributeName, credentials) {
     this.credentials[attributeName] = credentials;
@@ -102,9 +106,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
-    this.url =
+    this.urls =
       selected?.uri === this.jobHarvestOsloEli
-        ? this.deltaConsumerSyncModeUri
+        ? [this.deltaConsumerSyncModeUri]
         : undefined;
   }
 
@@ -121,13 +125,13 @@ export default class OverviewScheduledJobsNewController extends Controller {
   validateForm() {
     this.forceErrors = true;
     this.selectedJobOperationValid = !!this.selectedJobOperation;
-    this.urlValid = !!this.url;
+    this.urlsValid = !!this.url;
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
     return (
       this.selectedJobOperationValid &&
-      this.urlValid &&
+      this.urlsValid &&
       this.titleValid &&
       this.cronPatternValid
     );
