@@ -34,6 +34,8 @@ export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
 export const JOB_OP_TYPE_CODELIST_MAPPING =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/match-codelist';
+export const JOB_OP_TYPE_PDF_SCRAPER =
+  'http://lblod.data.gift/id/jobs/concept/TaskOperation/pdf-scraping';
 
 export const CONSUMER_SYNC_MODES = {
   initial: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/initial-sync',
@@ -75,6 +77,7 @@ JOB_OP_TYPES.set(
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST, 'Entity Linking test');
 JOB_OP_TYPES.set(JOB_OP_TYPE_CODELIST_MAPPING, 'Codelist mapping');
+JOB_OP_TYPES.set(JOB_OP_TYPE_PDF_SCRAPER, 'PDF url scraping');
 export const JOB_OP_TYPE_CREATE = new Map();
 
 if (
@@ -129,6 +132,9 @@ if (
 }
 if (['true', 'True', 'TRUE', true].includes(config.harvester.codelistMapping)) {
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_CODELIST_MAPPING, 'Codelist mapping');
+}
+if (['true', 'True', 'TRUE', true].includes(true)) {
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_PDF_SCRAPER, 'PDF url scraping');
 }
 
 export const JOB_OP_STATUS_SUCCESS =

@@ -15,7 +15,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
-  jobHarvestPdfEli = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
+  jobPdfScraper = cts.JOB_OP_TYPE_PDF_SCRAPER;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
@@ -82,7 +82,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   }
 
   get isMultiUrlSupportedForJobOperation() {
-    return this.selectedJobOperation.uri === this.jobHarvestPdfEli;
+    return this.selectedJobOperation.uri === this.jobPdfScraper;
   }
 
   get url() {
@@ -161,15 +161,19 @@ export default class OverviewScheduledJobsNewController extends Controller {
         vendor: this.vendor,
       });
 
-      const remoteDataObject = this.store.createRecord('remote-data-object', {
-        source: this.url,
-        status: undefined,
-        requestHeader:
-          'http://data.lblod.info/request-headers/accept/text/html',
-        created: this.currentTime,
-        modified: this.currentTime,
-        creator: this.creator,
-      });
+      const remoteDataObjects = [];
+      for (const url of this.urls) {
+        const remoteDataObject = this.store.createRecord('remote-data-object', {
+          source: url,
+          status: undefined,
+          requestHeader:
+            'http://data.lblod.info/request-headers/accept/text/html',
+          created: this.currentTime,
+          modified: this.currentTime,
+          creator: this.creator,
+        });
+        remoteDataObjects.push(remoteDataObject);
+      }
 
       const collection = this.store.createRecord('harvesting-collection', {
         creator: this.creator,
@@ -184,7 +188,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
               this.store,
             )
           : null, // authenticationConfiguration is optional
-        remoteDataObjects: [remoteDataObject],
+        remoteDataObjects: remoteDataObjects,
       });
 
       const dataContainer = this.store.createRecord('data-container', {
@@ -201,14 +205,18 @@ export default class OverviewScheduledJobsNewController extends Controller {
       });
 
       await cronSchedule.save();
-      await remoteDataObject.save();
+      await Promise.all(
+        remoteDataObjects.map(
+          async (remoteDataObject) => await remoteDataObject.save(),
+        ),
+      );
       await collection.save();
       await dataContainer.save();
       await scheduledJob.save();
       await scheduledTask.save();
 
       this.toaster.success(
-        'New job succesfully scheduled.',
+        'New job successfully scheduled.',
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true },
       );
