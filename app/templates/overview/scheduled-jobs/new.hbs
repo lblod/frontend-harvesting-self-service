@@ -93,19 +93,12 @@
             </AuFormRow>
         {{else}}
           <AuFormRow @alignment="default">
-            <AuLabel
-              for="task-url"
-              @required={{true}}
-              @requiredLabel="Required"
-              @error={{not this.urlValid}}>
-              URL
-            </AuLabel>
-            <AuInput
-              id="task-url"
-              @width="block"
-              value={{this.url}}
-              @error={{not this.urlValid}}
-              {{on "change" (fn this.setProperty "url")}}
+            <Url::Single
+              @id="task-url"
+              @isRequired={{true}}
+              @value={{this.url}}
+              @onChange={{fn (mut this.url)}}
+              @forceErrors={{this.forceErrors}}
             />
           </AuFormRow>
         {{/if}}

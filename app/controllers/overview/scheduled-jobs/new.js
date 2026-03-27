@@ -49,6 +49,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked securityScheme;
   @tracked credentials;
 
+  @tracked forceErrors;
+
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
     this.consumeLokaalBeslistPublishedByOptions[0];
@@ -112,6 +114,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   @action
   validateForm() {
+    this.forceErrors = true;
     this.selectedJobOperationValid = !!this.selectedJobOperation;
     this.urlValid = !!this.url;
     this.titleValid = !!this.title;
@@ -127,6 +130,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   @action
   async cancelCreateScheduledJob() {
+    this.forceErrors = false;
     this.router.transitionTo('overview.scheduled-jobs');
   }
 
