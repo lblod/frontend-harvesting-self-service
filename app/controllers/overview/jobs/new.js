@@ -16,6 +16,7 @@ export default class OverviewJobsNewController extends Controller {
   jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
+  jobPdfScraper = cts.JOB_OP_TYPE_PDF_SCRAPER;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -39,8 +40,8 @@ export default class OverviewJobsNewController extends Controller {
     config.harvester.authEnabled,
   );
 
-  @tracked url;
-  @tracked urlValid;
+  @tracked urls;
+  @tracked urlsValid;
   @tracked graphName;
   @tracked graphNameValid;
   @tracked vendor;
@@ -60,6 +61,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked governingBodies = [];
   @tracked selectedGoverningBody;
 
+  @tracked forceErrors;
+
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
     this.consumeLokaalBeslistPublishedByOptions[0];
@@ -70,6 +73,14 @@ export default class OverviewJobsNewController extends Controller {
 
   get currentTime() {
     return new Date();
+  }
+
+  get isMultiUrlSupportedForJobOperation() {
+    return this.selectedJobOperation.uri === this.jobPdfScraper;
+  }
+
+  get url() {
+    return this.urls?.[0];
   }
 
   @action
@@ -89,7 +100,7 @@ export default class OverviewJobsNewController extends Controller {
   @action
   async setJobOperation(selected) {
     this.selectedJobOperation = selected;
-    this.url = undefined;
+    this.urls = [];
 
     if (selected?.uri === cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI) {
       this.loadingOrganizations = true;
@@ -125,11 +136,12 @@ export default class OverviewJobsNewController extends Controller {
 
   @action
   validateForm() {
+    this.forceErrors = true;
     //TODO use proper validation library
     if (this.selectedJobOperation) this.selectedJobOperationValid = true;
     else this.selectedJobOperationValid = false;
-    if (this.url) this.urlValid = true;
-    else this.urlValid = false;
+    if (this.urls) this.urlValid = true;
+    else this.urlsValid = false;
     if (this.graphName) this.graphNameValid = true;
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
@@ -146,11 +158,12 @@ export default class OverviewJobsNewController extends Controller {
         this.decisionUriValid &&
         this.codelistUriValid
       );
-    else return this.selectedJobOperationValid && this.urlValid;
+    else return this.selectedJobOperationValid && this.urlsValid;
   }
 
   @action
   async cancelCreateAndStartJob() {
+    this.forceErrors = false;
     this.router.transitionTo('overview.jobs');
   }
 
@@ -202,23 +215,29 @@ export default class OverviewJobsNewController extends Controller {
         });
         await dataContainer.save();
       } else {
-        const source =
-          this.selectedJobOperation.uri === this.jobCodelistMapping
-            ? shapeForTargets.uri
-            : this.url.trim();
+        const remoteDataObjects = [];
+        for (const url of this.urls) {
+          const source =
+            this.selectedJobOperation.uri === this.jobCodelistMapping
+              ? shapeForTargets.uri
+              : url.trim();
 
-        const remoteDataObject = this.store.createRecord('remote-data-object', {
-          source,
-          // This is deliberate, the collector service will set the status and
-          // therefore start the job later:
-          status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
-          created: this.currentTime,
-          modified: this.currentTime,
-          creator: this.creator,
-        });
-        await remoteDataObject.save();
+          const remoteDataObject = this.store.createRecord(
+            'remote-data-object',
+            {
+              source,
+              // This is deliberate, the collector service will set the status and
+              // therefore start the job later:
+              status: undefined,
+              requestHeader:
+                'http://data.lblod.info/request-headers/accept/text/html',
+              created: this.currentTime,
+              modified: this.currentTime,
+              creator: this.creator,
+            },
+          );
+          remoteDataObjects.push(remoteDataObject);
+        }
 
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
@@ -230,8 +249,13 @@ export default class OverviewJobsNewController extends Controller {
                 this.store,
               )
             : null, // authenticationConfiguration is optional
-          remoteDataObjects: [remoteDataObject],
+          remoteDataObjects: remoteDataObjects,
         });
+        await Promise.all(
+          remoteDataObjects.map(
+            async (remoteDataObject) => await remoteDataObject.save(),
+          ),
+        );
         await collection.save();
 
         dataContainer = this.store.createRecord('data-container', {
@@ -266,7 +290,7 @@ export default class OverviewJobsNewController extends Controller {
       await task.save();
 
       this.toaster.success(
-        'New job succesfully scheduled.',
+        'New job successfully scheduled.',
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true },
       );

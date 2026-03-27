@@ -101,7 +101,7 @@
                 for="consumer-sync-mode"
                 @required={{true}}
                 @requiredLabel="Required"
-                @error={{not this.urlValid}}>
+                @error={{not this.urlsValid}}>
                 Sync mode
               </AuLabel>
               <AuRadioGroup
@@ -120,32 +120,25 @@
             </AuFormRow>
           {{else}}
             <AuFormRow @alignment="default">
-              <AuLabel
-                for="task-url"
-                @required={{true}}
-                @requiredLabel="Required"
-                @error={{not this.urlValid}}>
-                URL
-              </AuLabel>
-              <AuInput
-                id="task-url"
-                @width="block"
-                value={{this.url}}
-                @error={{not this.urlValid}}
-                {{on "change" (fn this.setProperty "url")}}
+              <Url::Multiple
+                @id="task-url"
+                @isRequired={{true}}
+                @onChange={{fn (mut this.urls)}}
+                @forceErrors={{this.forceErrors}}
+                @isRestrictedToOne={{not this.isMultiUrlSupportedForJobOperation}}
               />
             </AuFormRow>
           {{/if}}
 
           {{#if (eq this.selectedJobOperation.uri this.jobHarvestPdfToELI)}}
             <AuFormRow @alignment="default">
-              <AuLabel for="decision-passed-by">  
+              <AuLabel for="decision-passed-by">
                 Passed by
               </AuLabel>
               <PowerSelect
                 id="decision-passed-by"
                 @options={{this.governingBodies}}
-                @selected={{this.selectedGoverningBody}}  
+                @selected={{this.selectedGoverningBody}}
                 @onChange={{this.changeSelectedGoverningBody}}
                 @renderInPlace={{true}}
                 @disabled={{or this.loadingGoverningBodies (not this.governingBodies.length)}}

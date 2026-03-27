@@ -5,8 +5,8 @@ export default class OverviewJobsNewRoute extends Route {
     super.setupController(...arguments);
     controller.set('selectedJobOperation', null);
     controller.set('selectedJobOperationValid', true);
-    controller.set('url', null);
-    controller.set('urlValid', true);
+    controller.set('urls', null);
+    controller.set('urlsValid', true);
     controller.set('comment', null);
     controller.set('graphName', null);
     controller.set('graphNameValid', true);
