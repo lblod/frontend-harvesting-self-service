@@ -8,13 +8,24 @@
     @forceErrors={{@forceErrors}}
   />
   {{#each this.otherUrls as |url|}}
-    <Url::Single
-      @id={{url.id}}
-      @isRequired={{true}}
-      @value={{url.value}}
-      @onChange={{fn this.updateOtherUrl url}}
-      @forceErrors={{@forceErrors}}
-    />
+    <div class="au-u-flex au-u-flex--vertical-end">
+      <Url::Single
+        @id={{url.id}}
+        @isRequired={{true}}
+        @value={{url.value}}
+        @onChange={{fn this.updateOtherUrl url}}
+        @forceErrors={{@forceErrors}}
+        class="au-u-3-4"
+      />
+      <AuButton
+        class="au-u-margin-bottom-tiny"
+        {{on "click" (fn this.removeUrlObject url)}}
+        @icon="cross"
+        @skin="link"
+        @alert={{true}}
+        @hideText={{true}}
+      >Add url</AuButton>
+    </div>
   {{/each}}
 </div>
 {{#unless @isRestrictedToOne}}

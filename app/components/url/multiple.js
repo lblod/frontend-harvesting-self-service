@@ -27,6 +27,12 @@ export default class UrlMultiple extends Component {
   }
 
   @action
+  removeUrlObject(urlObject) {
+    this.otherUrls.removeObject(urlObject);
+    this.args.onChange?.(this.allUrls);
+  }
+
+  @action
   addEmptyUrl() {
     const newUrlObject = {
       id: `${this.args.id}-${uuid()}`,
