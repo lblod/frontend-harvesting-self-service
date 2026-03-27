@@ -98,6 +98,7 @@
               @isRequired={{true}}
               @onChange={{fn (mut this.url)}}
               @forceErrors={{this.forceErrors}}
+              @isRestrictedToOne={{not this.isMultiUrlSupportedForJobOperation}}
             />
           </AuFormRow>
         {{/if}}

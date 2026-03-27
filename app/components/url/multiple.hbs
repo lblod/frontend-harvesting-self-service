@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-inline-styles --}}
+{{! template-lint-disable no-inline-styles }}
 <div class="au-o-flow" style="width: 100% !important">
   <Url::Single
     @id="task-url"
@@ -17,8 +17,10 @@
     />
   {{/each}}
 </div>
-<AuButton
-  {{on "click" this.addEmptyUrl}}
-  @skin="link"
-  @disabled={{not this.url}}
->Add url</AuButton>
+{{#unless @isRestrictedToOne}}
+  <AuButton
+    {{on "click" this.addEmptyUrl}}
+    @skin="link"
+    @disabled={{not this.url}}
+  >Add url</AuButton>
+{{/unless}}

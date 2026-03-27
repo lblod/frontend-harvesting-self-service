@@ -15,6 +15,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
+  jobHarvestPdfEli = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
@@ -78,6 +79,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
   get currentTime() {
     const timestamp = new Date();
     return timestamp;
+  }
+
+  get isMultiUrlSupportedForJobOperation() {
+    return this.selectedJobOperation.uri === this.jobHarvestPdfEli;
   }
 
   @action
