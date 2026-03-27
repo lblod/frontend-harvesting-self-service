@@ -1,15 +1,17 @@
-<AuLabel
-  for={{this.componentId}}
-  @required={{@isRequired}}
-  @requiredLabel="Required"
-  @error={{this.isError}}
->
-  {{this.label}}
-</AuLabel>
-<AuInput
-  id={{this.componentId}}
-  @width="block"
-  value={{@value}}
-  @error={{this.isError}}
-  {{on "change" this.updateValue}}
-/>
+<div>
+  <AuLabel
+    for={{this.componentId}}
+    @required={{@isRequired}}
+    @requiredLabel="Required"
+    @error={{this.isError}}
+  >
+    {{this.label}}
+  </AuLabel>
+  <AuInput
+    id={{this.componentId}}
+    @width="block"
+    value={{@value}}
+    @error={{this.isError}}
+    {{on "change" this.updateValue}}
+  />
+</div>

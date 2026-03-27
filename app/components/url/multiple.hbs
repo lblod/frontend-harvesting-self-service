@@ -1,0 +1,24 @@
+{{!-- template-lint-disable no-inline-styles --}}
+<div class="au-o-flow" style="width: 100% !important">
+  <Url::Single
+    @id="task-url"
+    @isRequired={{true}}
+    @value={{this.url}}
+    @onChange={{this.updateUrl}}
+    @forceErrors={{@forceErrors}}
+  />
+  {{#each this.otherUrls as |url|}}
+    <Url::Single
+      @id={{url.id}}
+      @isRequired={{true}}
+      @value={{url.value}}
+      @onChange={{fn this.updateOtherUrl url}}
+      @forceErrors={{@forceErrors}}
+    />
+  {{/each}}
+</div>
+<AuButton
+  {{on "click" this.addEmptyUrl}}
+  @skin="link"
+  @disabled={{not this.url}}
+>Add url</AuButton>

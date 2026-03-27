@@ -93,10 +93,9 @@
             </AuFormRow>
         {{else}}
           <AuFormRow @alignment="default">
-            <Url::Single
+            <Url::Multiple
               @id="task-url"
               @isRequired={{true}}
-              @value={{this.url}}
               @onChange={{fn (mut this.url)}}
               @forceErrors={{this.forceErrors}}
             />
