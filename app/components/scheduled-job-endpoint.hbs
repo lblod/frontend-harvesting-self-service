@@ -1,10 +1,22 @@
-{{#if this.loadEndpoint.isRunning}}
+{{#if this.loadEndpoints.isRunning}}
   <div class="au-u-flex au-u-flex--vertical-center">
     <AuIcon @icon="loading" @size="small" @spin={{true}} />
     <span class="au-u-margin-left-tiny au-u-text-muted">Loading...</span>
   </div>
-{{else if this.endpoint}}
-  {{this.endpoint}}
+{{else if this.endpoints}}
+  <ul class="au-u-margin-top-small">
+    {{#each this.endpoints as |endpoint|}}
+      <li>
+        <AuLinkExternal
+          href={{endpoint}}
+          @newTab={{true}}
+          @width={{this.width}}
+        >
+          {{endpoint}}
+        </AuLinkExternal>
+      </li>
+    {{/each}}
+  </ul>
 {{else}}
-  <span class="au-u-text-muted">No endpoint found</span>
+  <span class="au-u-text-muted">No endpoints found</span>
 {{/if}}

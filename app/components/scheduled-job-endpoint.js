@@ -6,14 +6,14 @@ import { task } from 'ember-concurrency';
 export default class ScheduledJobEndpointComponent extends Component {
   @service store;
 
-  @tracked endpoint = null;
+  @tracked endpoints = [];
 
   constructor() {
     super(...arguments);
-    this.loadEndpoint.perform();
+    this.loadEndpoints.perform();
   }
 
-  loadEndpoint = task(async () => {
+  loadEndpoints = task(async () => {
     if (!this.args.scheduledJob) {
       return;
     }
@@ -34,15 +34,14 @@ export default class ScheduledJobEndpointComponent extends Component {
             const firstCollection = harvestingCollections[0];
             const remoteDataObjects = await firstCollection.remoteDataObjects;
 
-            if (remoteDataObjects.length > 0) {
-              const firstRemoteDataObject = remoteDataObjects[0];
-              this.endpoint = firstRemoteDataObject.source;
+            if (remoteDataObjects.length >= 1) {
+              this.endpoints = remoteDataObjects.map((rdo) => rdo.source);
             }
           }
         }
       }
     } catch (error) {
-      console.error('Failed to load scheduled job endpoint:', error);
+      console.error('Failed to load scheduled job endpoints:', error);
     }
   });
 }
