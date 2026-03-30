@@ -15,7 +15,7 @@ export default class OverviewScheduledJobsDetailsEditRoute extends Route {
     controller.set('newCronPatternValid', true);
 
     // Load current endpoint
-    await controller.loadCurrentEndpoint.perform();
-    controller.set('newEndpointValid', true);
+    await controller.loadCurrentEndpoints.perform();
+    controller.set('newEndpointsValid', true);
   }
 }

@@ -7,22 +7,30 @@ import { service } from '@ember/service';
 import cronstrue from 'cronstrue';
 
 export default class OverviewScheduledJobsDetailsEditController extends Controller {
-  // Edit Popup fields
   @tracked newTitle;
   @tracked newTitleValid;
   @tracked newCronPattern;
   @tracked newCronPatternValid;
-  @tracked newEndpoint;
-  @tracked newEndpointValid;
-  @tracked originalEndpoint;
+  @tracked newEndpoints;
+  @tracked newEndpointsValid;
+  @tracked originalEndpoints;
   @tracked hasEndpoint = false;
   @tracked isLoadingEndpoint = false;
+  @tracked forceErrors;
 
   @service toaster;
   @service router;
 
   get job() {
     return this.model;
+  }
+
+  get newEndpoint() {
+    return this.newEndpoints?.[0];
+  }
+
+  get originalEndpoint() {
+    return this.originalEndpoints?.[0];
   }
 
   get newCronDescription() {
@@ -43,10 +51,11 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
 
   @action
   cancelEditScheduledJob() {
+    this.forceErrors = false;
     this.router.transitionTo('overview.scheduled-jobs.details');
   }
 
-  findEndpointSource = task(async () => {
+  findEndpointSources = task(async () => {
     const scheduledTasks = await this.job.scheduledTasks;
     if (!scheduledTasks.length) return null;
 
@@ -62,22 +71,22 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     const remoteDataObjects = await firstCollection.remoteDataObjects;
     if (!remoteDataObjects.length) return null;
 
-    return remoteDataObjects[0].source;
+    return remoteDataObjects.map((rdo) => rdo.source);
   });
 
-  loadCurrentEndpoint = task(async () => {
+  loadCurrentEndpoints = task(async () => {
     try {
-      const endpointSource = await this.findEndpointSource.perform();
+      const endpointSources = await this.findEndpointSources.perform();
 
-      if (endpointSource) {
+      if (endpointSources?.length >= 1) {
         // Job has an endpoint - load it for editing
-        this.originalEndpoint = endpointSource;
-        this.newEndpoint = endpointSource;
+        this.originalEndpoints = endpointSources;
+        this.newEndpoints = endpointSources;
         this.hasEndpoint = true;
       } else {
         // Job has no endpoint - this is valid for some job types
-        this.originalEndpoint = null;
-        this.newEndpoint = null;
+        this.originalEndpoints = [];
+        this.newEndpoints = [];
         this.hasEndpoint = false;
       }
     } catch (error) {
@@ -105,11 +114,6 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     this.newCronPattern = event.target.value;
   }
 
-  @action
-  setEndpoint(event) {
-    this.newEndpoint = event.target.value;
-  }
-
   get updatedFrequency() {
     return this.job.get('schedule.frequency') !== this.newCronPattern;
   }
@@ -120,15 +124,16 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
 
   @action
   validateForm() {
+    this.forceErrors = true;
     this.newTitleValid = !!this.newTitle;
     this.newCronPatternValid =
       !!this.newCronPattern && isValidCron(this.newCronPattern);
 
     // Only validate endpoint if this job type has one
-    this.newEndpointValid = this.hasEndpoint ? !!this.newEndpoint : true;
+    this.newEndpointsValid = this.hasEndpoint ? !!this.newEndpoint : true;
 
     return (
-      this.newTitleValid && this.newCronPatternValid && this.newEndpointValid
+      this.newTitleValid && this.newCronPatternValid && this.newEndpointsValid
     );
   }
 
@@ -146,7 +151,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
       }
 
       if (this.updatedEndpoint) {
-        await this.updateEndpoint.perform();
+        await this.updateEndpoints.perform();
       }
 
       this.toaster.success('Changes to scheduled job saved', 'Save success', {
@@ -165,10 +170,12 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
         'Saving failed',
         { icon: 'cross', timeOut: 10000, closable: true },
       );
+    } finally {
+      this.forceErrors = false;
     }
   });
 
-  updateEndpoint = task(async () => {
+  updateEndpoints = task(async () => {
     if (!this.hasEndpoint) {
       throw new Error(
         'Cannot update endpoint for job type that does not have one',

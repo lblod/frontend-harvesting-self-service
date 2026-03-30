@@ -26,19 +26,19 @@
 
       {{#if (and this.hasEndpoint (not this.job.isConsumerDeltaSyncJob))}}
         <AuFormRow @alignment="default">
-          <AuLabel
-            for="task-endpoint"
-            @required={{true}}
-            @requiredLabel="Required"
-            @error={{not this.newEndpointValid}}>
-            Endpoint
-          </AuLabel>
-          <AuInput
-            id="task-endpoint"
-            @width="block"
-            value={{this.newEndpoint}}
-            {{on "change" this.setEndpoint}}
-             @error={{not this.newEndpointValid}} />
+          {{#if this.loadCurrentEndpoints.isRunning}}
+            Loading endpoints
+          {{else}}
+          <Url::Multiple
+              @id="task-endpoint"
+              @label="Endpoint"
+              @isRequired={{true}}
+              @initialUrls={{this.originalEndpoints}}
+              @onChange={{fn (mut this.newEndpoints)}}
+              @forceErrors={{this.forceErrors}}
+              @isRestrictedToOne={{not @model.isMultiUrlSupportedForJobOperation}}
+            />
+            {{/if}}
         </AuFormRow>
       {{/if}}
 
