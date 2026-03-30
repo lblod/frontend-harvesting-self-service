@@ -2,6 +2,7 @@
 <div class="au-o-flow" style="width: 100% !important">
   <Url::Single
     @id="task-url"
+    @label={{@label}}
     @isRequired={{true}}
     @value={{this.url}}
     @onChange={{this.updateUrl}}
@@ -11,6 +12,7 @@
     <div class="au-u-flex au-u-flex--vertical-end">
       <Url::Single
         @id={{url.id}}
+        @label={{@label}}
         @isRequired={{true}}
         @value={{url.value}}
         @onChange={{fn this.updateOtherUrl url}}

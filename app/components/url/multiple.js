@@ -9,6 +9,11 @@ export default class UrlMultiple extends Component {
   @tracked url;
   @tracked otherUrls = A([]);
 
+  constructor() {
+    super(...arguments);
+    this.setInitialUrls();
+  }
+
   @action
   updateUrl(urlValue) {
     this.url = urlValue;
@@ -39,6 +44,22 @@ export default class UrlMultiple extends Component {
       value: null,
     };
     this.otherUrls.pushObject(newUrlObject);
+  }
+
+  @action
+  setInitialUrls() {
+    const urls = this.args.initialUrls ?? [];
+    this.otherUrls.clear();
+    this.url = urls.shift();
+    if (!this.args.isRestrictedToOne) {
+      for (let index = 0; index < urls.length; index++) {
+        const newUrlObject = {
+          id: `${this.args.id}-${uuid()}`,
+          value: urls[index],
+        };
+        this.otherUrls.push(newUrlObject);
+      }
+    }
   }
 
   get allUrls() {
