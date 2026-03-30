@@ -1,39 +1,59 @@
 {{! template-lint-disable no-inline-styles }}
-<div class="au-o-flow" style="width: 100% !important">
-  <Url::Single
-    @id="task-url"
-    @label={{@label}}
-    @isRequired={{true}}
-    @value={{this.url}}
-    @onChange={{this.updateUrl}}
-    @forceErrors={{@forceErrors}}
-  />
-  {{#each this.otherUrls as |url|}}
-    <div class="au-u-flex au-u-flex--vertical-end">
-      <Url::Single
-        @id={{url.id}}
-        @label={{@label}}
-        @isRequired={{true}}
-        @value={{url.value}}
-        @onChange={{fn this.updateOtherUrl url}}
-        @forceErrors={{@forceErrors}}
-        class="au-u-3-4"
-      />
-      <AuButton
-        class="au-u-margin-bottom-tiny"
-        {{on "click" (fn this.removeUrlObject url)}}
-        @icon="cross"
-        @skin="link"
-        @alert={{true}}
-        @hideText={{true}}
-      >Add url</AuButton>
-    </div>
-  {{/each}}
-</div>
-{{#unless @isRestrictedToOne}}
-  <AuButton
-    {{on "click" this.addEmptyUrl}}
-    @skin="link"
-    @disabled={{not this.url}}
-  >Add url</AuButton>
-{{/unless}}
+{{#if @isEditState}}
+  <div class="full-width-override">
+    <AuLabel>
+      {{@label}}
+    </AuLabel>
+    <AuAlert @icon="info-circle" @skin="warning" @size="tiny">
+      Editing the endpoints of this job is currently not supported
+    </AuAlert>
+    <AuList @direction={{this.direction}} @divider={{this.divider}} as |Item|>
+      <Item>
+        -
+        {{this.url}}
+      </Item>
+      {{#each this.otherUrls as |url|}}
+        <Item>- {{url.value}}</Item>
+      {{/each}}
+    </AuList>
+  </div>
+{{else}}
+  <div class="au-o-flow" style="width: 100% !important">
+    <Url::Single
+      @id="task-url"
+      @label={{@label}}
+      @isRequired={{true}}
+      @value={{this.url}}
+      @onChange={{this.updateUrl}}
+      @forceErrors={{@forceErrors}}
+    />
+    {{#each this.otherUrls as |url|}}
+      <div class="au-u-flex au-u-flex--vertical-end">
+        <Url::Single
+          @id={{url.id}}
+          @label={{@label}}
+          @isRequired={{true}}
+          @value={{url.value}}
+          @onChange={{fn this.updateOtherUrl url}}
+          @forceErrors={{@forceErrors}}
+          class="au-u-3-4"
+        />
+        <AuButton
+          class="au-u-margin-bottom-tiny"
+          {{on "click" (fn this.removeUrlObject url)}}
+          @icon="cross"
+          @skin="link"
+          @alert={{true}}
+          @hideText={{true}}
+        >Add url</AuButton>
+      </div>
+    {{/each}}
+  </div>
+  {{#unless @isRestrictedToOne}}
+    <AuButton
+      {{on "click" this.addEmptyUrl}}
+      @skin="link"
+      @disabled={{not this.url}}
+    >Add url</AuButton>
+  {{/unless}}
+{{/if}}

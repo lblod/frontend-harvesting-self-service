@@ -27,9 +27,9 @@
       {{#if (and this.hasEndpoint (not this.job.isConsumerDeltaSyncJob))}}
         <AuFormRow @alignment="default">
           {{#if this.loadCurrentEndpoints.isRunning}}
-            Loading endpoints
+            Loading endpoints...
           {{else}}
-          <Url::Multiple
+            <Url::Multiple
               @id="task-endpoint"
               @label="Endpoint"
               @isRequired={{true}}
@@ -37,8 +37,9 @@
               @onChange={{fn (mut this.newEndpoints)}}
               @forceErrors={{this.forceErrors}}
               @isRestrictedToOne={{not @model.isMultiUrlSupportedForJobOperation}}
-            />
-            {{/if}}
+              @isEditState={{@model.isMultiUrlSupportedForJobOperation}}
+          />
+          {{/if}}
         </AuFormRow>
       {{/if}}
 

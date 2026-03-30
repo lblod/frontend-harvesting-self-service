@@ -8,6 +8,8 @@ export default class OverviewScheduledJobsDetailsEditRoute extends Route {
     super.setupController(controller, model);
     controller.set('newTitle', model.title);
     controller.set('newTitleValid', true);
+    controller.set('originalEndpoints', []);
+    controller.set('newEndpoints', []);
 
     // Load the schedule relationship and get the cron pattern
     const schedule = await model.schedule;

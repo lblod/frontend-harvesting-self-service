@@ -15,7 +15,6 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
   @tracked newEndpointsValid;
   @tracked originalEndpoints;
   @tracked hasEndpoint = false;
-  @tracked isLoadingEndpoint = false;
   @tracked forceErrors;
 
   @service toaster;
@@ -55,7 +54,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     this.router.transitionTo('overview.scheduled-jobs.details');
   }
 
-  findEndpointSources = task(async () => {
+  async findEndpointSources() {
     const scheduledTasks = await this.job.scheduledTasks;
     if (!scheduledTasks.length) return null;
 
@@ -72,12 +71,11 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     if (!remoteDataObjects.length) return null;
 
     return remoteDataObjects.map((rdo) => rdo.source);
-  });
+  }
 
   loadCurrentEndpoints = task(async () => {
     try {
-      const endpointSources = await this.findEndpointSources.perform();
-
+      const endpointSources = await this.findEndpointSources();
       if (endpointSources?.length >= 1) {
         // Job has an endpoint - load it for editing
         this.originalEndpoints = endpointSources;
@@ -151,7 +149,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
       }
 
       if (this.updatedEndpoint) {
-        await this.updateEndpoints.perform();
+        await this.updateEndpoint.perform();
       }
 
       this.toaster.success('Changes to scheduled job saved', 'Save success', {
@@ -175,7 +173,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     }
   });
 
-  updateEndpoints = task(async () => {
+  updateEndpoint = task(async () => {
     if (!this.hasEndpoint) {
       throw new Error(
         'Cannot update endpoint for job type that does not have one',
