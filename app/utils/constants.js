@@ -77,12 +77,15 @@ export const JOB_OP_STATUS_FAILED =
   'http://redpencil.data.gift/id/concept/JobStatus/failed';
 export const JOB_OP_STATUS_CANCELED =
   'http://redpencil.data.gift/id/concept/JobStatus/canceled';
+export const JOB_OP_STATUS_PREPARING =
+  'http://redpencil.data.gift/id/concept/JobStatus/preparing';
 export const JOB_OP_STATUS = new Map();
 JOB_OP_STATUS.set(JOB_OP_STATUS_SUCCESS, 'Success');
 JOB_OP_STATUS.set(JOB_OP_STATUS_SCHEDULED, 'Scheduled');
 JOB_OP_STATUS.set(JOB_OP_STATUS_BUSY, 'Busy');
 JOB_OP_STATUS.set(JOB_OP_STATUS_FAILED, 'Failed');
 JOB_OP_STATUS.set(JOB_OP_STATUS_CANCELED, 'Canceled');
+JOB_OP_STATUS.set(JOB_OP_STATUS_PREPARING, 'Preparing');
 
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';

@@ -24,6 +24,7 @@ export default class TaskModel extends Model {
     'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
     'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
     'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled',
+    'http://redpencil.data.gift/id/concept/JobStatus/preparing': 'preparing',
   };
 
   get shortStatus() {
