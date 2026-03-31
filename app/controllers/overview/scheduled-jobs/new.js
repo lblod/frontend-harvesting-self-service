@@ -15,7 +15,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
-  jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
+  jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
+  jobCodelistMappingAnnotating = cts.JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
@@ -57,7 +58,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
-  @tracked propertyPathForTextUri = 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
+  @tracked propertyPathForTextUri =
+    'https://data.europarl.europa.eu/def/epvoc#expressionContent';
   @tracked propertyPathForTextUriValid;
   @tracked confidenceTreshold = 0;
   @tracked confidenceTresholdValid;
@@ -91,8 +93,16 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return timestamp;
   }
 
+<<<<<<< HEAD
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
+=======
+  get isCodelistMappingJob() {
+    return (
+      this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
+      this.selectedJobOperation.uri === this.jobCodelistMappingAnnotating
+    );
+>>>>>>> 36e2433 (Split codelist mapping into two jobs.)
   }
 
   @action
@@ -140,21 +150,21 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.propertyPathForTextUriValid = true;
     this.confidenceTresholdValid = !isNaN(parseFloat(this.confidenceTreshold));
 
-    const baseValid = (
+    const baseValid =
       this.selectedJobOperationValid &&
       this.titleValid &&
-      this.cronPatternValid
-    );
+      this.cronPatternValid;
 
-    if (this.selectedJobOperation.uri === this.jobCodelistMapping)
-      return baseValid &&
+    if (this.isCodelistMappingJob)
+      return (
+        baseValid &&
         this.decisionUriValid &&
         this.codelistUriValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
-        this.confidenceTresholdValid;
-    else
-      return baseValid && this.urlValid;
+        this.confidenceTresholdValid
+      );
+    else return baseValid && this.urlValid;
   }
 
   @action
@@ -170,8 +180,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
         repeatFrequency: this.cronPattern,
       });
 
-    let jobName = 'scheduled-job';
-    const jobAttributes = {
+      let jobName = 'scheduled-job';
+      const jobAttributes = {
         creator: this.creator,
         created: this.currentTime,
         modified: this.currentTime,
@@ -202,7 +212,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         });
       });
 
-      if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+      if (this.isCodelistMappingJob) {
         let shapeForTargets;
         if (this.decisionUri) {
           shapeForTargets = this.store.createRecord('node-shape', {
@@ -210,16 +220,16 @@ export default class OverviewScheduledJobsNewController extends Controller {
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetClass: [
-              'http://data.europa.eu/eli/ontology#Expression',
-            ],
+            targetClass: ['http://data.europa.eu/eli/ontology#Expression'],
           });
         }
         await shapeForTargets.save();
         jobAttributes.shapeForTargets = [shapeForTargets];
         jobAttributes.codelist = this.codelistUri;
         jobAttributes.graphForTargets = this.graphForTargetsUri || undefined;
-        jobAttributes.propertyPathForText = this.propertyPathForTextUri || 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
+        jobAttributes.propertyPathForText =
+          this.propertyPathForTextUri ||
+          'https://data.europarl.europa.eu/def/epvoc#expressionContent';
         jobAttributes.confidenceTreshold = this.confidenceTreshold || '0';
         jobName = 'scheduled-annotation-job';
       }

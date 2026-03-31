@@ -14,7 +14,8 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
-  jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
+  jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
+  jobCodelistMappingAnnotating = cts.JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
@@ -59,7 +60,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
-  @tracked propertyPathForTextUri = 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
+  @tracked propertyPathForTextUri =
+    'https://data.europarl.europa.eu/def/epvoc#expressionContent';
   @tracked propertyPathForTextUriValid;
   @tracked confidenceTreshold = 0;
   @tracked confidenceTresholdValid;
@@ -82,6 +84,13 @@ export default class OverviewJobsNewController extends Controller {
 
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
+  }
+  
+  get isCodelistMappingJob() {
+    return (
+      this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
+      this.selectedJobOperation.uri === this.jobCodelistMappingAnnotating
+    );
   }
 
   @action
@@ -154,7 +163,7 @@ export default class OverviewJobsNewController extends Controller {
     if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;
-    else if (this.selectedJobOperation.uri === this.jobCodelistMapping)
+    else if (this.isCodelistMappingJob)
       return (
         this.selectedJobOperationValid &&
         this.decisionUriValid &&
@@ -187,16 +196,14 @@ export default class OverviewJobsNewController extends Controller {
       };
 
       let shapeForTargets;
-      if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+      if (this.isCodelistMappingJob) {
         if (this.decisionUri) {
           shapeForTargets = this.store.createRecord('node-shape', {
             targetNode: [this.decisionUri],
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetClass: [
-              'http://data.europa.eu/eli/ontology#Expression',
-            ],
+            targetClass: ['http://data.europa.eu/eli/ontology#Expression'],
           });
         }
         await shapeForTargets.save();
@@ -204,7 +211,9 @@ export default class OverviewJobsNewController extends Controller {
           codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
           graphForTargets: this.graphForTargetsUri || undefined,
-          propertyPathForText: this.propertyPathForTextUri || 'https://data.europarl.europa.eu/def/epvoc#expressionContent',
+          propertyPathForText:
+            this.propertyPathForTextUri ||
+            'https://data.europarl.europa.eu/def/epvoc#expressionContent',
           confidenceTreshold: this.confidenceTreshold || '0',
         });
         scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
