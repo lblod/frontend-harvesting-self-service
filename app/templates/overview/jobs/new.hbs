@@ -100,6 +100,18 @@
                 {{on "change" (fn this.setProperty "propertyPathForTextUri")}}
               />
             </AuFormRow>
+          <AuFormRow @alignment="default">
+            <AuLabel for="confidence-treshold">
+              Confidence treshold
+            </AuLabel>
+            <AuInput
+              id="confidence-treshold"
+              @width="block"
+              value={{this.confidenceTreshold}}
+              placeholder="An integer number between 0 and 100"
+              {{on "change" (fn this.setProperty "confidenceTreshold")}}
+            />
+          </AuFormRow>
           {{else if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
             <AuFormRow @alignment="default">
               <AuLabel for="decisions-published-by">
