@@ -57,7 +57,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
-  @tracked propertyPathForTextUri;
+  @tracked propertyPathForTextUri = 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
   @tracked propertyPathForTextUriValid;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
@@ -216,7 +216,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         jobAttributes.shapeForTargets = [shapeForTargets];
         jobAttributes.codelist = this.codelistUri;
         jobAttributes.graphForTargets = this.graphForTargetsUri || undefined;
-        jobAttributes.propertyPathForText = this.propertyPathForTextUri || undefined;
+        jobAttributes.propertyPathForText = this.propertyPathForTextUri || 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
         jobName = 'scheduled-annotation-job';
       }
 
