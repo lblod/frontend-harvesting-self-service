@@ -211,8 +211,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
             targetClass: [
-              // Alternative: 'http://data.vlaanderen.be/ns/besluit#Besluit',
-              'http://data.europa.eu/eli/ontology#LegalExpression',
+              'http://data.europa.eu/eli/ontology#Expression',
             ],
           });
         }
