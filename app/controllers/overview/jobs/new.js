@@ -59,7 +59,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
-  @tracked propertyPathForTextUri;
+  @tracked propertyPathForTextUri = 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
   @tracked propertyPathForTextUriValid;
 
   @tracked loadingMunicipalities = false;
@@ -146,7 +146,7 @@ export default class OverviewJobsNewController extends Controller {
     this.decisionUriValid = true;
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
-    this.propertyPathForTextUriValid = true;
+    this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
 
     if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
@@ -201,7 +201,7 @@ export default class OverviewJobsNewController extends Controller {
           codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
           graphForTargets: this.graphForTargetsUri || undefined,
-          propertyPathForText: this.propertyPathForTextUri || undefined
+          propertyPathForText: this.propertyPathForTextUri || 'https://data.europarl.europa.eu/def/epvoc#expressionContent'
         });
         scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
       } else {
