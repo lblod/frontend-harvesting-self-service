@@ -16,6 +16,7 @@ export default class OverviewJobsNewController extends Controller {
   jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
+  jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {

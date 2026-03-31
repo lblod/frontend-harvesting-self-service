@@ -118,6 +118,26 @@
                 </Group.Radio>
               </AuRadioGroup>
             </AuFormRow>
+          {{else if (eq this.selectedJobOperation.uri this.jobPdfScraping)}}
+            <AuFormRow @alignment="default">
+              <AuLabel
+                for="task-url"
+                @required={{true}}
+                @requiredLabel="Required"
+                @error={{not this.urlValid}}>
+                URL's
+              </AuLabel>
+              <AuTextarea
+                id="task-url"
+                @width="block"
+                value={{this.url}}
+                @error={{not this.urlValid}}
+                {{on "change" (fn this.setProperty "url")}}
+              />
+              <AuHelpText>
+                All url values in this input should be separated by a new-line
+              </AuHelpText>
+            </AuFormRow>
           {{else}}
             <AuFormRow @alignment="default">
               <AuLabel
