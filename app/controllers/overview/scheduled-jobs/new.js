@@ -15,6 +15,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
+  jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
