@@ -101,14 +101,14 @@
                 for="consumer-sync-mode"
                 @required={{true}}
                 @requiredLabel="Required"
-                @error={{not this.urlValid}}>
+                @error={{not this.remoteDateObject.isSourceValidUrl}}>
                 Sync mode
               </AuLabel>
               <AuRadioGroup
                 id="consumer-sync-mode"
                 @name="consumer-sync-mode"
-                @selected={{this.url}}
-                {{on "change" (fn this.setProperty "url")}}
+                @selected={{this.remoteDataObject.source}}
+                {{on "change" this.setRemoteDataObjectFromInputEvent}}
                 as |Group|>
                 <Group.Radio @value={{this.intialConsumerSyncModeUri}}>
                   Initial sync
@@ -120,32 +120,27 @@
             </AuFormRow>
           {{else}}
             <AuFormRow @alignment="default">
-              <AuLabel
-                for="task-url"
-                @required={{true}}
-                @requiredLabel="Required"
-                @error={{not this.urlValid}}>
-                URL
-              </AuLabel>
-              <AuInput
-                id="task-url"
-                @width="block"
-                value={{this.url}}
-                @error={{not this.urlValid}}
-                {{on "change" (fn this.setProperty "url")}}
+              <RemoteDataObjectInput::Single
+                @id="task-url"
+                @label="URL"
+                @isRequired={{true}}
+                @isError={{not this.remoteDataObject.isSourceValidUrl}}
+                @model={{this.remoteDataObject}}
+                @onChange={{this.setRemoteDataObject}}
+                @creator={{this.creator}}
               />
             </AuFormRow>
           {{/if}}
 
           {{#if (eq this.selectedJobOperation.uri this.jobHarvestPdfToELI)}}
             <AuFormRow @alignment="default">
-              <AuLabel for="decision-passed-by">  
+              <AuLabel for="decision-passed-by">
                 Passed by
               </AuLabel>
               <PowerSelect
                 id="decision-passed-by"
                 @options={{this.governingBodies}}
-                @selected={{this.selectedGoverningBody}}  
+                @selected={{this.selectedGoverningBody}}
                 @onChange={{this.changeSelectedGoverningBody}}
                 @renderInPlace={{true}}
                 @disabled={{or this.loadingGoverningBodies (not this.governingBodies.length)}}

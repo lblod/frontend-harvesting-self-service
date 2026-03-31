@@ -28,4 +28,18 @@ export default class RemoteDataObjectModel extends Model {
   get shortStatus() {
     return this.statusesMap[this.status];
   }
+
+  get isSourceEmpty() {
+    return !this.source;
+  }
+
+  get isSourceValidUrl() {
+    if (this.isSourceEmpty) {
+      return false;
+    }
+
+    const urlRegex =
+      /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?$/;
+    return String(this.source).match(urlRegex) !== null;
+  }
 }

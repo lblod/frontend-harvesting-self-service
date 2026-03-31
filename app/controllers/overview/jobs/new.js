@@ -39,8 +39,6 @@ export default class OverviewJobsNewController extends Controller {
     config.harvester.authEnabled,
   );
 
-  @tracked url;
-  @tracked urlValid;
   @tracked graphName;
   @tracked graphNameValid;
   @tracked vendor;
@@ -55,6 +53,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked decisionUriValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
+
+  @tracked remoteDataObject;
 
   @tracked loadingGoverningBodies = false;
   @tracked governingBodies = [];
@@ -89,7 +89,7 @@ export default class OverviewJobsNewController extends Controller {
   @action
   async setJobOperation(selected) {
     this.selectedJobOperation = selected;
-    this.url = undefined;
+    this.remoteDataObject = undefined;
 
     if (selected?.uri === cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI) {
       this.loadingOrganizations = true;
@@ -107,6 +107,28 @@ export default class OverviewJobsNewController extends Controller {
       this.governingBodies = [];
       this.selectedGoverningBody = null;
     }
+  }
+
+  @action
+  setRemoteDataObject(rdoModel) {
+    this.remoteDataObject = rdoModel;
+  }
+
+  @action
+  setRemoteDataObjectFromInputEvent(event) {
+    const source = event.target?.value;
+    if (!this.remoteDataObject) {
+      const now = new Date();
+      this.remoteDataObject = this.store.createRecord('remote-data-object', {
+        status: undefined,
+        requestHeader:
+          'http://data.lblod.info/request-headers/accept/text/html',
+        created: now,
+        modified: now,
+        creator: this.creator,
+      });
+    }
+    this.remoteDataObject.source = source;
   }
 
   @action
@@ -128,8 +150,6 @@ export default class OverviewJobsNewController extends Controller {
     //TODO use proper validation library
     if (this.selectedJobOperation) this.selectedJobOperationValid = true;
     else this.selectedJobOperationValid = false;
-    if (this.url) this.urlValid = true;
-    else this.urlValid = false;
     if (this.graphName) this.graphNameValid = true;
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
@@ -146,7 +166,12 @@ export default class OverviewJobsNewController extends Controller {
         this.decisionUriValid &&
         this.codelistUriValid
       );
-    else return this.selectedJobOperationValid && this.urlValid;
+    else {
+      return (
+        this.selectedJobOperationValid &&
+        this.remoteDataObject?.isSourceValidUrl
+      );
+    }
   }
 
   @action
@@ -157,7 +182,9 @@ export default class OverviewJobsNewController extends Controller {
   createAndStartJob = task(async () => {
     let scheduledJob;
     try {
-      if (!this.validateForm()) return;
+      if (!this.validateForm()) {
+        return;
+      }
 
       let jobAttributes = {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
@@ -205,20 +232,10 @@ export default class OverviewJobsNewController extends Controller {
         const source =
           this.selectedJobOperation.uri === this.jobCodelistMapping
             ? shapeForTargets.uri
-            : this.url.trim();
+            : this.remoteDataObject?.source?.trim();
 
-        const remoteDataObject = this.store.createRecord('remote-data-object', {
-          source,
-          // This is deliberate, the collector service will set the status and
-          // therefore start the job later:
-          status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
-          created: this.currentTime,
-          modified: this.currentTime,
-          creator: this.creator,
-        });
-        await remoteDataObject.save();
+        this.remoteDataObject.source = source;
+        await this.remoteDataObject.save();
 
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
@@ -230,7 +247,7 @@ export default class OverviewJobsNewController extends Controller {
                 this.store,
               )
             : null, // authenticationConfiguration is optional
-          remoteDataObjects: [remoteDataObject],
+          remoteDataObjects: [this.remoteDataObject],
         });
         await collection.save();
 
@@ -266,7 +283,7 @@ export default class OverviewJobsNewController extends Controller {
       await task.save();
 
       this.toaster.success(
-        'New job succesfully scheduled.',
+        'New job successfully scheduled.',
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true },
       );

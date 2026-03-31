@@ -1,0 +1,17 @@
+<div ...attributes class="full-width-override">
+  <AuLabel
+    for={{this.componentId}}
+    @required={{@isRequired}}
+    @requiredLabel="Required"
+    @error={{this.isError}}
+  >
+    {{this.label}}
+  </AuLabel>
+  <AuInput
+    id={{this.componentId}}
+    @width="block"
+    value={{@model.source}}
+    @error={{this.isError}}
+    {{on "change" this.update}}
+  />
+</div>
