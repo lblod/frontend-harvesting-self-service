@@ -11,7 +11,11 @@ export default class ScheduledJobModel extends Model {
   @attr operation;
   @attr vendor;
 
-  @hasMany('scheduled-task', { async: true, inverse: 'scheduledJob', as: 'scheduled-job' })
+  @hasMany('scheduled-task', {
+    async: true,
+    inverse: 'scheduledJob',
+    as: 'scheduled-job',
+  })
   scheduledTasks;
   @belongsTo('cron-schedule', { async: true, inverse: null }) schedule;
 
