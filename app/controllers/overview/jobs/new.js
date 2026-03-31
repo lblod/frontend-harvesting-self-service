@@ -61,6 +61,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri = 'https://data.europarl.europa.eu/def/epvoc#expressionContent';
   @tracked propertyPathForTextUriValid;
+  @tracked confidenceTreshold = 0;
+  @tracked confidenceTresholdValid;
 
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
@@ -147,6 +149,7 @@ export default class OverviewJobsNewController extends Controller {
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
+    this.confidenceTresholdValid = !isNaN(parseFloat(this.confidenceTreshold));
 
     if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
@@ -157,7 +160,8 @@ export default class OverviewJobsNewController extends Controller {
         this.decisionUriValid &&
         this.codelistUriValid &&
         this.graphForTargetsUriValid &&
-        this.propertyPathForTextUriValid
+        this.propertyPathForTextUriValid &&
+        this.confidenceTresholdValid
       );
     else return this.selectedJobOperationValid && this.urlValid;
   }
@@ -201,7 +205,8 @@ export default class OverviewJobsNewController extends Controller {
           codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
           graphForTargets: this.graphForTargetsUri || undefined,
-          propertyPathForText: this.propertyPathForTextUri || 'https://data.europarl.europa.eu/def/epvoc#expressionContent'
+          propertyPathForText: this.propertyPathForTextUri || 'https://data.europarl.europa.eu/def/epvoc#expressionContent',
+          confidenceTreshold: this.confidenceTreshold || '0',
         });
         scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
       } else {
