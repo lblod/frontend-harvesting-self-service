@@ -54,8 +54,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
-  @tracked decisionUri;
-  @tracked decisionUriValid;
+  @tracked decisionUris;
+  @tracked decisionUrisValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
@@ -154,7 +154,7 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.decisionUriValid = true;
+    this.decisionUrisValid = true;
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
@@ -166,7 +166,7 @@ export default class OverviewJobsNewController extends Controller {
     else if (this.isCodelistMappingJob)
       return (
         this.selectedJobOperationValid &&
-        this.decisionUriValid &&
+        this.decisionUrisValid &&
         this.codelistUriValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
@@ -197,9 +197,9 @@ export default class OverviewJobsNewController extends Controller {
 
       let shapeForTargets;
       if (this.isCodelistMappingJob) {
-        if (this.decisionUri) {
+        if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetNode: [this.decisionUri],
+            targetNode: this.decisionUris.split(/\n/).filter((x) => x),
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {

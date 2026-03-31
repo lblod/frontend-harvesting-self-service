@@ -69,12 +69,12 @@
             <AuLabel for="task-decisions-uri">
               Decision to map
             </AuLabel>
-            <AuInput
+            <AuTextarea
               id="task-decisions-uri"
               @width="block"
-              value={{this.decisionUri}}
-              placeholder="Leave blank to apply to all decisions"
-              {{on "change" (fn this.setProperty "decisionUri")}}
+              value={{this.decisionUris}}
+              placeholder="Every line is a decision URI; leave blank to apply to all decisions"
+              {{on "change" (fn this.setProperty "decisionUris")}}
             />
           </AuFormRow>
           <AuFormRow @alignment="default">

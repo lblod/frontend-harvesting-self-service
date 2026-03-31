@@ -52,8 +52,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked selectedSecurityScheme;
   @tracked securityScheme;
   @tracked credentials;
-  @tracked decisionUri;
-  @tracked decisionUriValid;
+  @tracked decisionUris;
+  @tracked decisionUrisValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
@@ -144,7 +144,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
-    this.decisionUriValid = true;
+    this.decisionUrisValid = true;
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = true;
@@ -158,7 +158,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     if (this.isCodelistMappingJob)
       return (
         baseValid &&
-        this.decisionUriValid &&
+        this.decisionUrisValid &&
         this.codelistUriValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
@@ -214,9 +214,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
       if (this.isCodelistMappingJob) {
         let shapeForTargets;
-        if (this.decisionUri) {
+        if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetNode: [this.decisionUri],
+            targetNode: this.decisionUris.split(/\n/).filter((x) => x),
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
