@@ -139,22 +139,21 @@
 
           {{#if (eq this.selectedJobOperation.uri this.jobHarvestPdfToELI)}}
             <AuFormRow @alignment="default">
-              <AuLabel for="decision-passed-by">  
-                Passed by
+              <AuLabel for="decision-passed-by">
+                Municipality
               </AuLabel>
               <PowerSelect
                 id="decision-passed-by"
-                @options={{this.governingBodies}}
-                @selected={{this.selectedGoverningBody}}  
-                @onChange={{this.changeSelectedGoverningBody}}
+                @searchEnabled={{true}}
+                @searchField="label"
+                @options={{this.municipalities}}
+                @selected={{this.selectedMunicipality}}
+                @onChange={{this.changeSelectedMunicipality}}
                 @renderInPlace={{true}}
-                @disabled={{or this.loadingGoverningBodies (not this.governingBodies.length)}}
+                @disabled={{or this.loadingMunicipalities (not this.municipalities.length)}}
                 as |option|>
                 {{option.label}}
               </PowerSelect>
-              <AuHelpText @warning={{true}}>
-                The governing body that originally passed or made the decision.
-              </AuHelpText>
             </AuFormRow>
           {{/if}}
 
