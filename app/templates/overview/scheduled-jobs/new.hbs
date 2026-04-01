@@ -91,7 +91,7 @@
                 Initial sync is a one-time run and should be started as a single harvesting job. A scheduled job for delta sync is ideal to keep data up to date.
               </AuHelpText>
             </AuFormRow>
-        {{else if (eq this.selectedJobOperation.uri this.jobPdfScraping)}}
+        {{else if this.isJobWithMultipleEndpoints}}
           <AuFormRow @alignment="default">
             <AuLabel
               for="task-url"

@@ -74,6 +74,10 @@ export default class OverviewJobsNewController extends Controller {
     return new Date();
   }
 
+  get isJobWithMultipleEndpoints() {
+    return this.selectedJobOperation?.uri === this.jobPdfScraping;
+  }
+
   @action
   updateCredentials(attributeName, credentials) {
     this.credentials[attributeName] = credentials;
