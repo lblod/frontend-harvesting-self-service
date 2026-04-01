@@ -118,7 +118,7 @@
                 </Group.Radio>
               </AuRadioGroup>
             </AuFormRow>
-          {{else if (eq this.selectedJobOperation.uri this.jobPdfScraping)}}
+          {{else if this.isJobWithMultipleEndpoints}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="task-url"
