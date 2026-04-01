@@ -8,6 +8,7 @@ import cronstrue from 'cronstrue';
 import createAuthenticationConfiguration from '../../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
 import * as cts from '../../../utils/constants';
+import { isValidUrl } from '../../../utils/string-validation';
 
 export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvest = cts.JOB_OP_TYPE_HARVEST;
@@ -151,7 +152,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
       let sources = [this.url.trim()];
       if (this.selectedJobOperation.uri === this.jobPdfScraping) {
         const newLinePattern = /\r?\n/;
-        sources = this.url.split(newLinePattern);
+        sources = this.url.split(newLinePattern).map((source) => {
+          if (!isValidUrl(source)) {
+            throw new Error(`Value: "${source}" is not a valid url.`);
+          }
+        });
       }
       const remoteDataObjects = sources.map((source) => {
         return this.store.createRecord('remote-data-object', {
