@@ -148,17 +148,23 @@ export default class OverviewScheduledJobsNewController extends Controller {
         schedule: cronSchedule,
         vendor: this.vendor,
       });
-
-      const remoteDataObject = this.store.createRecord('remote-data-object', {
-        source: this.url,
-        status: undefined,
-        requestHeader:
-          'http://data.lblod.info/request-headers/accept/text/html',
-        created: this.currentTime,
-        modified: this.currentTime,
-        creator: this.creator,
+      let sources = [this.url.trim()];
+      if (this.selectedJobOperation.uri === this.jobPdfScraping) {
+        const newLinePattern = /\r?\n/;
+        sources = this.url.split(newLinePattern);
+      }
+      const remoteDataObjects = sources.map((source) => {
+        return this.store.createRecord('remote-data-object', {
+          source: source,
+          status: undefined,
+          requestHeader:
+            'http://data.lblod.info/request-headers/accept/text/html',
+          created: this.currentTime,
+          modified: this.currentTime,
+          creator: this.creator,
+        });
       });
-
+      await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
       const collection = this.store.createRecord('harvesting-collection', {
         creator: this.creator,
         //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
@@ -172,7 +178,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
               this.store,
             )
           : null, // authenticationConfiguration is optional
-        remoteDataObjects: [remoteDataObject],
+        remoteDataObjects: remoteDataObjects,
       });
 
       const dataContainer = this.store.createRecord('data-container', {
@@ -189,14 +195,13 @@ export default class OverviewScheduledJobsNewController extends Controller {
       });
 
       await cronSchedule.save();
-      await remoteDataObject.save();
       await collection.save();
       await dataContainer.save();
       await scheduledJob.save();
       await scheduledTask.save();
 
       this.toaster.success(
-        'New job succesfully scheduled.',
+        'New job successfully scheduled.',
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true },
       );

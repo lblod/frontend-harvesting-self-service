@@ -202,24 +202,31 @@ export default class OverviewJobsNewController extends Controller {
         });
         await dataContainer.save();
       } else {
-        const source =
-          this.selectedJobOperation.uri === this.jobCodelistMapping
-            ? shapeForTargets.uri
-            : this.url.trim();
+        let sources = [this.url.trim()];
+        if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+          sources = [shapeForTargets.uri];
+        }
+        if (this.selectedJobOperation.uri === this.jobPdfScraping) {
+          const newLinePattern = /\r?\n/;
+          sources = this.url.split(newLinePattern);
+        }
 
-        const remoteDataObject = this.store.createRecord('remote-data-object', {
-          source,
-          // This is deliberate, the collector service will set the status and
-          // therefore start the job later:
-          status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
-          created: this.currentTime,
-          modified: this.currentTime,
-          creator: this.creator,
+        const remoteDataObjects = sources.map((source) => {
+          return this.store.createRecord('remote-data-object', {
+            source,
+            // This is deliberate, the collector service will set the status and
+            // therefore start the job later:
+            status: undefined,
+            requestHeader:
+              'http://data.lblod.info/request-headers/accept/text/html',
+            created: this.currentTime,
+            modified: this.currentTime,
+            creator: this.creator,
+          });
         });
-        await remoteDataObject.save();
-
+        await Promise.all(
+          remoteDataObjects.map(async (rdo) => await rdo.save()),
+        );
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
           authenticationConfiguration: this.selectedSecurityScheme
@@ -230,7 +237,7 @@ export default class OverviewJobsNewController extends Controller {
                 this.store,
               )
             : null, // authenticationConfiguration is optional
-          remoteDataObjects: [remoteDataObject],
+          remoteDataObjects: remoteDataObjects,
         });
         await collection.save();
 
