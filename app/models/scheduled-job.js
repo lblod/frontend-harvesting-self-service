@@ -18,4 +18,8 @@ export default class ScheduledJobModel extends Model {
   get isConsumerDeltaSyncJob() {
     return this.operation === cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   }
+
+  get isJobWithMultipleEndpoints() {
+    return this.operation === cts.JOB_OP_TYPE_PDF_SCRAPING;
+  }
 }
