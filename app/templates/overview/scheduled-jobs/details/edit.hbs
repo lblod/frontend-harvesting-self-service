@@ -24,7 +24,7 @@
            @error={{not this.newTitleValid}} />
       </AuFormRow>
 
-      {{#if (and this.hasEndpoint (not this.job.isConsumerDeltaSyncJob))}}
+      {{#if this.isEndpointInputShown}}
         <AuFormRow @alignment="default">
           <AuLabel
             for="task-endpoint"
@@ -40,6 +40,15 @@
             {{on "change" this.setEndpoint}}
              @error={{not this.newEndpointValid}} />
         </AuFormRow>
+      {{/if}}
+
+      {{#if this.job.isJobWithMultipleEndpoints}}
+        <AuLabel>
+          Endpoints
+        </AuLabel>
+        <AuAlert @icon="info-circle" @skin="warning" @size="small">
+          Editing the endpoints of this job is currently not supported
+        </AuAlert>
       {{/if}}
 
       <AuFormRow @alignment="default">
