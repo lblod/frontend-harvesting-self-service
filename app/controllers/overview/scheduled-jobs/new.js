@@ -96,7 +96,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
   }
-  
+
   get isCodelistMappingJob() {
     return (
       this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
@@ -147,7 +147,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = true;
-    this.confidenceThresholdValid = !isNaN(parseFloat(this.confidenceThreshold));
+    this.confidenceThresholdValid = !isNaN(
+      parseFloat(this.confidenceThreshold),
+    );
 
     const baseValid =
       this.selectedJobOperationValid &&
@@ -218,7 +220,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
       const inputContainers = [];
       if (!this.isCodelistMappingJob) {
-
         let sources = [this.url.trim()];
         if (this.selectedJobOperation.uri === this.jobPdfScraping) {
           const newLinePattern = /\r?\n/;
@@ -240,7 +241,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
           });
         });
 
-        await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
+        await Promise.all(
+          remoteDataObjects.map(async (rdo) => await rdo.save()),
+        );
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
           //TODO: authentication configuration doesn't work currently for scheduled jobs. Because

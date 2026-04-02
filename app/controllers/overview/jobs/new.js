@@ -85,7 +85,7 @@ export default class OverviewJobsNewController extends Controller {
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
   }
-  
+
   get isCodelistMappingJob() {
     return (
       this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
@@ -158,7 +158,9 @@ export default class OverviewJobsNewController extends Controller {
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
-    this.confidenceThresholdValid = !isNaN(parseFloat(this.confidenceThreshold));
+    this.confidenceThresholdValid = !isNaN(
+      parseFloat(this.confidenceThreshold),
+    );
 
     if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
