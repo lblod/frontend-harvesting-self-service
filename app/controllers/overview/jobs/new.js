@@ -229,7 +229,7 @@ export default class OverviewJobsNewController extends Controller {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else {
+      } else if (!this.isCodelistMappingJob) {
         let sources = [this.url.trim()];
         if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
           sources = [shapeForTargets.uri];

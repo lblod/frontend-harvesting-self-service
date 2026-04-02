@@ -93,16 +93,15 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return timestamp;
   }
 
-<<<<<<< HEAD
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
-=======
+  }
+  
   get isCodelistMappingJob() {
     return (
       this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
       this.selectedJobOperation.uri === this.jobCodelistMappingAnnotating
     );
->>>>>>> 36e2433 (Split codelist mapping into two jobs.)
   }
 
   @action
@@ -179,6 +178,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       const cronSchedule = this.store.createRecord('cron-schedule', {
         repeatFrequency: this.cronPattern,
       });
+      await cronSchedule.save();
 
       let jobName = 'scheduled-job';
       const jobAttributes = {
@@ -190,27 +190,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
         schedule: cronSchedule,
         vendor: this.vendor,
       };
-
-      let sources = [this.url.trim()];
-      if (this.selectedJobOperation.uri === this.jobPdfScraping) {
-        const newLinePattern = /\r?\n/;
-        sources = this.url.split(newLinePattern).map((source) => {
-          if (!isValidUrl(source)) {
-            throw new Error(`Value: "${source}" is not a valid url.`);
-          }
-        });
-      }
-      const remoteDataObjects = sources.map((source) => {
-        return this.store.createRecord('remote-data-object', {
-          source: source,
-          status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
-          created: this.currentTime,
-          modified: this.currentTime,
-          creator: this.creator,
-        });
-      });
 
       if (this.isCodelistMappingJob) {
         let shapeForTargets;
@@ -235,41 +214,66 @@ export default class OverviewScheduledJobsNewController extends Controller {
       }
 
       const scheduledJob = this.store.createRecord(jobName, jobAttributes);
+      await scheduledJob.save();
 
-      await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
-      const collection = this.store.createRecord('harvesting-collection', {
-        creator: this.creator,
-        //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
-        // - Shallow copy of authtentication configuration (see DL-4896)
-        // - See timing issue comments, in controllers/jobs/new.js
-        authenticationConfiguration: this.selectedSecurityScheme
-          ? await createAuthenticationConfiguration(
-              this.selectedSecurityScheme,
-              this.securityScheme,
-              this.credentials,
-              this.store,
-            )
-          : null, // authenticationConfiguration is optional
-        remoteDataObjects: remoteDataObjects,
-      });
+      const inputContainers = [];
+      if (!this.isCodelistMappingJob) {
 
-      const dataContainer = this.store.createRecord('data-container', {
-        harvestingCollections: [collection],
-      });
+        let sources = [this.url.trim()];
+        if (this.selectedJobOperation.uri === this.jobPdfScraping) {
+          const newLinePattern = /\r?\n/;
+          sources = this.url.split(newLinePattern).map((source) => {
+            if (!isValidUrl(source)) {
+              throw new Error(`Value: "${source}" is not a valid url.`);
+            }
+          });
+        }
+        const remoteDataObjects = sources.map((source) => {
+          return this.store.createRecord('remote-data-object', {
+            source: source,
+            status: undefined,
+            requestHeader:
+              'http://data.lblod.info/request-headers/accept/text/html',
+            created: this.currentTime,
+            modified: this.currentTime,
+            creator: this.creator,
+          });
+        });
+
+        await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
+        const collection = this.store.createRecord('harvesting-collection', {
+          creator: this.creator,
+          //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
+          // - Shallow copy of authtentication configuration (see DL-4896)
+          // - See timing issue comments, in controllers/jobs/new.js
+          authenticationConfiguration: this.selectedSecurityScheme
+            ? await createAuthenticationConfiguration(
+                this.selectedSecurityScheme,
+                this.securityScheme,
+                this.credentials,
+                this.store,
+              )
+            : null, // authenticationConfiguration is optional
+          remoteDataObjects: remoteDataObjects,
+        });
+        await collection.save();
+
+        const dataContainer = this.store.createRecord('data-container', {
+          harvestingCollections: [collection],
+        });
+        await dataContainer.save();
+
+        inputContainers.push(dataContainer);
+      }
 
       const scheduledTask = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
         modified: this.currentTime,
         operation: this.harvestTaskOperation,
         index: '0',
-        inputContainers: [dataContainer],
+        inputContainers: inputContainers,
         scheduledJob: scheduledJob,
       });
-
-      await cronSchedule.save();
-      await collection.save();
-      await dataContainer.save();
-      await scheduledJob.save();
       await scheduledTask.save();
 
       this.toaster.success(
