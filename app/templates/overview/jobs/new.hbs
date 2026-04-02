@@ -101,15 +101,15 @@
               />
             </AuFormRow>
           <AuFormRow @alignment="default">
-            <AuLabel for="confidence-treshold">
-              Confidence treshold
+            <AuLabel for="confidence-threshold">
+              Confidence threshold
             </AuLabel>
             <AuInput
-              id="confidence-treshold"
+              id="confidence-threshold"
               @width="block"
-              value={{this.confidenceTreshold}}
+              value={{this.confidenceThreshold}}
               placeholder="An integer number between 0 and 100"
-              {{on "change" (fn this.setProperty "confidenceTreshold")}}
+              {{on "change" (fn this.setProperty "confidenceThreshold")}}
             />
           </AuFormRow>
           {{else if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}

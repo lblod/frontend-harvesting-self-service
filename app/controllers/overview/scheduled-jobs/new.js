@@ -61,8 +61,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked propertyPathForTextUri =
     'https://data.europarl.europa.eu/def/epvoc#expressionContent';
   @tracked propertyPathForTextUriValid;
-  @tracked confidenceTreshold = 0;
-  @tracked confidenceTresholdValid;
+  @tracked confidenceThreshold = 0;
+  @tracked confidenceThresholdValid;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -147,7 +147,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.codelistUriValid = !!this.codelistUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = true;
-    this.confidenceTresholdValid = !isNaN(parseFloat(this.confidenceTreshold));
+    this.confidenceThresholdValid = !isNaN(parseFloat(this.confidenceThreshold));
 
     const baseValid =
       this.selectedJobOperationValid &&
@@ -161,7 +161,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         this.codelistUriValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
-        this.confidenceTresholdValid
+        this.confidenceThresholdValid
       );
     else return baseValid && this.urlValid;
   }
@@ -209,7 +209,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         jobAttributes.propertyPathForText =
           this.propertyPathForTextUri ||
           'https://data.europarl.europa.eu/def/epvoc#expressionContent';
-        jobAttributes.confidenceTreshold = this.confidenceTreshold || '0';
+        jobAttributes.confidenceThreshold = this.confidenceThreshold || '0';
         jobName = 'scheduled-annotation-job';
       }
 
