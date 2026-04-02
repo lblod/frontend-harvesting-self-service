@@ -6,5 +6,5 @@ export default class AnnotationJobModel extends JobModel {
   @hasMany('node-shape', { async: true, inverse: null }) shapeForTargets;
   @attr graphForTargets;
   @attr propertyPathForText;
-  @attr('number') confidenceTreshold;
+  @attr('number') confidenceThreshold;
 }
