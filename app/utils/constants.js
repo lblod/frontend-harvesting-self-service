@@ -85,7 +85,7 @@ JOB_OP_TYPES.set(
 );
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
-  'Codelist mapping (annotating)',
+  'Codelist mapping (evaluation)',
 );
 export const JOB_OP_TYPE_CREATE = new Map();
 
