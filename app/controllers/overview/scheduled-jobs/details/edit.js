@@ -41,6 +41,14 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     }
   }
 
+  get isEndpointInputShown() {
+    return (
+      this.hasEndpoint &&
+      !this.job.isConsumerDeltaSyncJob &&
+      !this.job.isJobWithMultipleEndpoints
+    );
+  }
+
   @action
   cancelEditScheduledJob() {
     this.router.transitionTo('overview.scheduled-jobs.details');

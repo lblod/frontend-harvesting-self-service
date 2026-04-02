@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import createAuthenticationConfiguration from '../../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
 import * as cts from '../../../utils/constants';
+import { isValidUrl } from '../../../utils/string-validation';
 
 export default class OverviewJobsNewController extends Controller {
   jobHarvest = cts.JOB_OP_TYPE_HARVEST;
@@ -16,6 +17,7 @@ export default class OverviewJobsNewController extends Controller {
   jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
+  jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -70,6 +72,10 @@ export default class OverviewJobsNewController extends Controller {
 
   get currentTime() {
     return new Date();
+  }
+
+  get isJobWithMultipleEndpoints() {
+    return this.selectedJobOperation?.uri === this.jobPdfScraping;
   }
 
   @action
@@ -201,24 +207,35 @@ export default class OverviewJobsNewController extends Controller {
         });
         await dataContainer.save();
       } else {
-        const source =
-          this.selectedJobOperation.uri === this.jobCodelistMapping
-            ? shapeForTargets.uri
-            : this.url.trim();
+        let sources = [this.url.trim()];
+        if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
+          sources = [shapeForTargets.uri];
+        }
+        if (this.selectedJobOperation.uri === this.jobPdfScraping) {
+          const newLinePattern = /\r?\n/;
+          sources = this.url.split(newLinePattern).map((source) => {
+            if (!isValidUrl(source)) {
+              throw new Error(`"${source}" is not a valid url.`);
+            }
+          });
+        }
 
-        const remoteDataObject = this.store.createRecord('remote-data-object', {
-          source,
-          // This is deliberate, the collector service will set the status and
-          // therefore start the job later:
-          status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
-          created: this.currentTime,
-          modified: this.currentTime,
-          creator: this.creator,
+        const remoteDataObjects = sources.map((source) => {
+          return this.store.createRecord('remote-data-object', {
+            source,
+            // This is deliberate, the collector service will set the status and
+            // therefore start the job later:
+            status: undefined,
+            requestHeader:
+              'http://data.lblod.info/request-headers/accept/text/html',
+            created: this.currentTime,
+            modified: this.currentTime,
+            creator: this.creator,
+          });
         });
-        await remoteDataObject.save();
-
+        await Promise.all(
+          remoteDataObjects.map(async (rdo) => await rdo.save()),
+        );
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
           authenticationConfiguration: this.selectedSecurityScheme
@@ -229,7 +246,7 @@ export default class OverviewJobsNewController extends Controller {
                 this.store,
               )
             : null, // authenticationConfiguration is optional
-          remoteDataObjects: [remoteDataObject],
+          remoteDataObjects: remoteDataObjects,
         });
         await collection.save();
 

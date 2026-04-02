@@ -26,6 +26,8 @@ export const JOB_OP_TYPE_HARVESTING_OPARL =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
 export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
+export const JOB_OP_TYPE_PDF_SCRAPING =
+  'http://lblod.data.gift/id/jobs/concept/TaskOperation/pdf-scraping';
 export const JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oslo-to-eli';
 export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
@@ -68,6 +70,7 @@ JOB_OP_TYPES.set(
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, 'Harvest PDF to ELI');
+JOB_OP_TYPES.set(JOB_OP_TYPE_PDF_SCRAPING, 'PDF url scraping');
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI, 'Harvest OSLO to ELI');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
@@ -75,6 +78,7 @@ JOB_OP_TYPES.set(
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST, 'Entity Linking test');
 JOB_OP_TYPES.set(JOB_OP_TYPE_CODELIST_MAPPING, 'Codelist mapping');
+
 export const JOB_OP_TYPE_CREATE = new Map();
 
 if (
@@ -104,6 +108,7 @@ if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
     'Harvest PDF & Publish as ELI',
   );
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_PDF_SCRAPING, 'PDF url scraping');
 }
 if (['true', 'True', 'TRUE', true].includes(config.harvester.osloHarvesting)) {
   JOB_OP_TYPE_CREATE.set(

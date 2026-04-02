@@ -8,6 +8,7 @@ import cronstrue from 'cronstrue';
 import createAuthenticationConfiguration from '../../../utils/create-authentication-configuration';
 import config from 'frontend-harvesting-self-service/config/environment';
 import * as cts from '../../../utils/constants';
+import { isValidUrl } from '../../../utils/string-validation';
 
 export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvest = cts.JOB_OP_TYPE_HARVEST;
@@ -15,6 +16,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
+  jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
@@ -76,6 +78,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
   get currentTime() {
     const timestamp = new Date();
     return timestamp;
+  }
+
+  get isJobWithMultipleEndpoints() {
+    return this.selectedJobOperation?.uri === this.jobPdfScraping;
   }
 
   @action
@@ -147,17 +153,27 @@ export default class OverviewScheduledJobsNewController extends Controller {
         schedule: cronSchedule,
         vendor: this.vendor,
       });
-
-      const remoteDataObject = this.store.createRecord('remote-data-object', {
-        source: this.url,
-        status: undefined,
-        requestHeader:
-          'http://data.lblod.info/request-headers/accept/text/html',
-        created: this.currentTime,
-        modified: this.currentTime,
-        creator: this.creator,
+      let sources = [this.url.trim()];
+      if (this.selectedJobOperation.uri === this.jobPdfScraping) {
+        const newLinePattern = /\r?\n/;
+        sources = this.url.split(newLinePattern).map((source) => {
+          if (!isValidUrl(source)) {
+            throw new Error(`Value: "${source}" is not a valid url.`);
+          }
+        });
+      }
+      const remoteDataObjects = sources.map((source) => {
+        return this.store.createRecord('remote-data-object', {
+          source: source,
+          status: undefined,
+          requestHeader:
+            'http://data.lblod.info/request-headers/accept/text/html',
+          created: this.currentTime,
+          modified: this.currentTime,
+          creator: this.creator,
+        });
       });
-
+      await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
       const collection = this.store.createRecord('harvesting-collection', {
         creator: this.creator,
         //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
@@ -171,7 +187,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
               this.store,
             )
           : null, // authenticationConfiguration is optional
-        remoteDataObjects: [remoteDataObject],
+        remoteDataObjects: remoteDataObjects,
       });
 
       const dataContainer = this.store.createRecord('data-container', {
@@ -188,14 +204,13 @@ export default class OverviewScheduledJobsNewController extends Controller {
       });
 
       await cronSchedule.save();
-      await remoteDataObject.save();
       await collection.save();
       await dataContainer.save();
       await scheduledJob.save();
       await scheduledTask.save();
 
       this.toaster.success(
-        'New job succesfully scheduled.',
+        'New job successfully scheduled.',
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true },
       );
