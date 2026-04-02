@@ -16,7 +16,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
-  jobCodelistMappingAnnotating = cts.JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING;
+  jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
 
@@ -100,7 +100,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   get isCodelistMappingJob() {
     return (
       this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
-      this.selectedJobOperation.uri === this.jobCodelistMappingAnnotating
+      this.selectedJobOperation.uri === this.jobCodelistMappingEvaluation
     );
   }
 

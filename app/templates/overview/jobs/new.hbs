@@ -47,7 +47,7 @@
                 {{on "change" (fn this.setProperty "graphName")}}
               />
             </AuFormRow>
-          {{else if (or (eq this.selectedJobOperation.uri this.jobCodelistMappingTraining) (eq this.selectedJobOperation.uri this.jobCodelistMappingAnnotating))}}
+          {{else if (or (eq this.selectedJobOperation.uri this.jobCodelistMappingTraining) (eq this.selectedJobOperation.uri this.jobCodelistMappingEvaluation))}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="task-codelist-uri"

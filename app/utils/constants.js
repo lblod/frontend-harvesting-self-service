@@ -36,8 +36,8 @@ export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
 export const JOB_OP_TYPE_CODELIST_MAPPING_TRAINING =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/training';
-export const JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING =
-  'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/annotate';
+export const JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/evaluation';
 
 export const CONSUMER_SYNC_MODES = {
   initial: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/initial-sync',
@@ -84,7 +84,7 @@ JOB_OP_TYPES.set(
   'Codelist mapping (training)',
 );
 JOB_OP_TYPES.set(
-  JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING,
+  JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
   'Codelist mapping (annotating)',
 );
 export const JOB_OP_TYPE_CREATE = new Map();
@@ -146,8 +146,8 @@ if (['true', 'True', 'TRUE', true].includes(config.harvester.codelistMapping)) {
     'Codelist mapping (training)',
   );
   JOB_OP_TYPE_CREATE.set(
-    JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING,
-    'Codelist mapping (annotating)',
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+    'Codelist mapping (evaluation)',
   );
 }
 

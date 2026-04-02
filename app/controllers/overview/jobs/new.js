@@ -15,7 +15,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
   jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
-  jobCodelistMappingAnnotating = cts.JOB_OP_TYPE_CODELIST_MAPPING_ANNOTATING;
+  jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
@@ -89,7 +89,7 @@ export default class OverviewJobsNewController extends Controller {
   get isCodelistMappingJob() {
     return (
       this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
-      this.selectedJobOperation.uri === this.jobCodelistMappingAnnotating
+      this.selectedJobOperation.uri === this.jobCodelistMappingEvaluation
     );
   }
 
@@ -195,8 +195,8 @@ export default class OverviewJobsNewController extends Controller {
         vendor: this.vendor,
       };
 
-      let shapeForTargets;
       if (this.isCodelistMappingJob) {
+        let shapeForTargets;
         if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
             targetNode: this.decisionUris.split(/\n/).filter((x) => x),
@@ -231,9 +231,6 @@ export default class OverviewJobsNewController extends Controller {
         await dataContainer.save();
       } else if (!this.isCodelistMappingJob) {
         let sources = [this.url.trim()];
-        if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
-          sources = [shapeForTargets.uri];
-        }
         if (this.selectedJobOperation.uri === this.jobPdfScraping) {
           const newLinePattern = /\r?\n/;
           sources = this.url.split(newLinePattern).map((source) => {
