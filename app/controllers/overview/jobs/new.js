@@ -14,7 +14,8 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
   jobHarvestWorshipAndImport = cts.JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT;
-  jobCodelistMapping = cts.JOB_OP_TYPE_CODELIST_MAPPING;
+  jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
+  jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
@@ -53,10 +54,17 @@ export default class OverviewJobsNewController extends Controller {
   @tracked selectedSecurityScheme;
   @tracked securityScheme = {};
   @tracked credentials = {};
-  @tracked decisionUri;
-  @tracked decisionUriValid;
+  @tracked decisionUris;
+  @tracked decisionUrisValid;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
+  @tracked graphForTargetsUri;
+  @tracked graphForTargetsUriValid;
+  @tracked propertyPathForTextUri =
+    'https://data.europarl.europa.eu/def/epvoc#expressionContent';
+  @tracked propertyPathForTextUriValid;
+  @tracked confidenceThreshold = 0;
+  @tracked confidenceThresholdValid;
 
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
@@ -76,6 +84,13 @@ export default class OverviewJobsNewController extends Controller {
 
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
+  }
+
+  get isCodelistMappingJob() {
+    return (
+      this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
+      this.selectedJobOperation.uri === this.jobCodelistMappingEvaluation
+    );
   }
 
   @action
@@ -139,17 +154,25 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.decisionUriValid = true;
+    this.decisionUrisValid = true;
     this.codelistUriValid = !!this.codelistUri;
+    this.graphForTargetsUriValid = true;
+    this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
+    this.confidenceThresholdValid = !isNaN(
+      parseFloat(this.confidenceThreshold),
+    );
 
     if (!this.selectedJobOperation) return false;
     if (this.selectedJobOperation.uri === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;
-    else if (this.selectedJobOperation.uri === this.jobCodelistMapping)
+    else if (this.isCodelistMappingJob)
       return (
         this.selectedJobOperationValid &&
-        this.decisionUriValid &&
-        this.codelistUriValid
+        this.decisionUrisValid &&
+        this.codelistUriValid &&
+        this.graphForTargetsUriValid &&
+        this.propertyPathForTextUriValid &&
+        this.confidenceThresholdValid
       );
     else return this.selectedJobOperationValid && this.urlValid;
   }
@@ -174,24 +197,26 @@ export default class OverviewJobsNewController extends Controller {
         vendor: this.vendor,
       };
 
-      let shapeForTargets;
-      if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
-        if (this.decisionUri) {
+      if (this.isCodelistMappingJob) {
+        let shapeForTargets;
+        if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetNode: [this.decisionUri],
+            targetNode: this.decisionUris.split(/\n/).filter((x) => x),
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetClass: [
-              // Alternative: 'http://data.vlaanderen.be/ns/besluit#Besluit',
-              'http://data.europa.eu/eli/ontology#LegalExpression',
-            ],
+            targetClass: ['http://data.europa.eu/eli/ontology#Expression'],
           });
         }
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
+          graphForTargets: this.graphForTargetsUri || undefined,
+          propertyPathForText:
+            this.propertyPathForTextUri ||
+            'https://data.europarl.europa.eu/def/epvoc#expressionContent',
+          confidenceThreshold: this.confidenceThreshold || '0',
         });
         scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
       } else {
@@ -206,11 +231,8 @@ export default class OverviewJobsNewController extends Controller {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else {
+      } else if (!this.isCodelistMappingJob) {
         let sources = [this.url.trim()];
-        if (this.selectedJobOperation.uri === this.jobCodelistMapping) {
-          sources = [shapeForTargets.uri];
-        }
         if (this.selectedJobOperation.uri === this.jobPdfScraping) {
           const newLinePattern = /\r?\n/;
           sources = this.url.split(newLinePattern).map((source) => {

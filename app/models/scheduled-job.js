@@ -11,9 +11,17 @@ export default class ScheduledJobModel extends Model {
   @attr operation;
   @attr vendor;
 
-  @hasMany('scheduled-task', { async: true, inverse: 'scheduledJob' })
+  @hasMany('scheduled-task', {
+    async: true,
+    inverse: 'scheduledJob',
+    as: 'scheduled-job',
+  })
   scheduledTasks;
   @belongsTo('cron-schedule', { async: true, inverse: null }) schedule;
+
+  // For codelist mapping tasks
+  @attr codelist;
+  @hasMany('node-shape', { async: true, inverse: null }) shapeForTargets;
 
   get isConsumerDeltaSyncJob() {
     return this.operation === cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
