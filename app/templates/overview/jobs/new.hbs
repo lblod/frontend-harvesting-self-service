@@ -30,7 +30,7 @@
         </PowerSelect>
       </AuFormRow>
       {{#if this.selectedJobOperation.uri}}
-          {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
+          {{#if this.isJobWithGraphName}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="graph-name"
@@ -47,7 +47,9 @@
                 {{on "change" (fn this.setProperty "graphName")}}
               />
             </AuFormRow>
-          {{else if (or (eq this.selectedJobOperation.uri this.jobCodelistMappingTraining) (eq this.selectedJobOperation.uri this.jobCodelistMappingEvaluation))}}
+          {{/if}}
+          
+          {{#if this.isJobWithCodelist}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="task-codelist-uri"
@@ -65,54 +67,22 @@
                 {{on "change" (fn this.setProperty "codelistUri")}}
               />
             </AuFormRow>
+            
             <AuFormRow @alignment="default">
-              <AuLabel for="task-decisions-uri">
-                Decisions to map
-              </AuLabel>
-              <AuTextarea
-                id="task-decisions-uri"
-                @width="block"
-                value={{this.decisionUris}}
-                placeholder="Every line is a decision URI; leave blank to apply to all decisions"
-                {{on "change" (fn this.setProperty "decisionUris")}}
-              />
-            </AuFormRow>
-            <AuFormRow @alignment="default">
-              <AuLabel for="graph-for-targets-uri">
-                Decisions graph
+              <AuLabel for="confidence-threshold">
+                Confidence threshold
               </AuLabel>
               <AuInput
-                id="graph-for-targets-uri"
+                id="confidence-threshold"
                 @width="block"
-                value={{this.graphForTargetsUri}}
-                {{on "change" (fn this.setProperty "graphForTargetsUri")}}
+                value={{this.confidenceThreshold}}
+                placeholder="An integer number between 0 and 100"
+                {{on "change" (fn this.setProperty "confidenceThreshold")}}
               />
             </AuFormRow>
-            <AuFormRow @alignment="default">
-              <AuLabel for="property-path-for-text-uri">
-                Property for decision content
-              </AuLabel>
-              <AuInput
-                id="property-path-for-text-uri"
-                @width="block"
-                value={{this.propertyPathForTextUri}}
-                placeholder="https://data.europarl.europa.eu/def/epvoc#expressionContent"
-                {{on "change" (fn this.setProperty "propertyPathForTextUri")}}
-              />
-            </AuFormRow>
-          <AuFormRow @alignment="default">
-            <AuLabel for="confidence-threshold">
-              Confidence threshold
-            </AuLabel>
-            <AuInput
-              id="confidence-threshold"
-              @width="block"
-              value={{this.confidenceThreshold}}
-              placeholder="An integer number between 0 and 100"
-              {{on "change" (fn this.setProperty "confidenceThreshold")}}
-            />
-          </AuFormRow>
-          {{else if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
+          {{/if}}
+
+          {{#if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
             <AuFormRow @alignment="default">
               <AuLabel for="decisions-published-by">
                 Published by
@@ -153,7 +123,19 @@
                 </Group.Radio>
               </AuRadioGroup>
             </AuFormRow>
-          {{else if this.isJobWithMultipleEndpoints}}
+          {{/if}}
+
+          {{#if this.isJobWithDecisionSelector}}
+            <DecisionSelectorConfiguration
+            @decisionUris={{this.decisionUris}}
+            @graphForTargetsUri={{this.graphForTargetsUri}}
+            @targetClassUri={{this.targetClassUri}}
+            @propertyPathForTextUri={{this.propertyPathForTextUri}}
+            @setProperty={{this.setProperty}}
+            />
+          {{/if}}
+
+          {{#if this.isJobWithMultipleEndpoints}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="task-url"
@@ -173,7 +155,8 @@
                 All url values in this input should be separated by a new-line
               </AuHelpText>
             </AuFormRow>
-          {{else}}
+          {{/if}}
+          {{#if this.isJobWithSimpleUrl}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="task-url"
@@ -260,7 +243,8 @@
         {{/if}}
         {{#if (and this.authenticationEnabled
                    (not (eq this.selectedJobOperation.uri this.jobImport))
-                   (not (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)))}}
+                   (not (eq this.selectedJobOperation.uri this.jobHarvestOsloEli))
+                   (not (eq this.selectedJobOperation.uri this.jobEliToNERAndNEL)))}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}
