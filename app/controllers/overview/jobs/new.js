@@ -19,6 +19,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
+  jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -61,8 +62,10 @@ export default class OverviewJobsNewController extends Controller {
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri =
-    'https://data.europarl.europa.eu/def/epvoc#expressionContent';
+    '<http://data.europa.eu/eli/ontology#is_realized_by> / <https://data.europarl.europa.eu/def/epvoc#expressionContent>';
   @tracked propertyPathForTextUriValid;
+  @tracked targetClassUri = 'http://data.europa.eu/eli/ontology#Work';
+  @tracked targetClassUriValid;
   @tracked confidenceThreshold = 0;
   @tracked confidenceThresholdValid;
 
@@ -84,6 +87,33 @@ export default class OverviewJobsNewController extends Controller {
 
   get isJobWithMultipleEndpoints() {
     return this.selectedJobOperation?.uri === this.jobPdfScraping;
+  }
+
+  get isJobWithGraphName() {
+    return this.selectedJobOperation?.uri === this.jobImport ? true : false;
+  }
+
+  get isJobWithSimpleUrl() {
+    return this.selectedJobOperation.uri !== this.jobImport &&
+      !this.isJobWithDecisionSelector &&
+      !this.isJobWithMultipleEndpoints
+      ? true
+      : false;
+  }
+
+  get isJobWithCodelist() {
+    return this.selectedJobOperation?.uri === this.jobCodelistMappingTraining ||
+      this.selectedJobOperation?.uri === this.jobCodelistMappingEvaluation
+      ? true
+      : false;
+  }
+
+  get isJobWithDecisionSelector() {
+    return (
+      this.selectedJobOperation?.uri === this.jobEliToNERAndNEL ||
+      this.selectedJobOperation?.uri === this.jobCodelistMappingTraining ||
+      this.selectedJobOperation?.uri === this.jobCodelistMappingEvaluation
+    );
   }
 
   get isCodelistMappingJob() {
@@ -156,6 +186,7 @@ export default class OverviewJobsNewController extends Controller {
     else this.vendorValid = false;
     this.decisionUrisValid = true;
     this.codelistUriValid = !!this.codelistUri;
+    this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
     this.confidenceThresholdValid = !isNaN(
@@ -172,9 +203,18 @@ export default class OverviewJobsNewController extends Controller {
         this.codelistUriValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
+        this.targetClassUriValid &&
         this.confidenceThresholdValid
       );
-    else return this.selectedJobOperationValid && this.urlValid;
+    else if (this.selectedJobOperation.uri === this.jobEliToNERAndNEL) {
+      return (
+        this.selectedJobOperationValid &&
+        this.decisionUrisValid &&
+        this.graphForTargetsUriValid &&
+        this.propertyPathForTextUriValid &&
+        this.targetClassUriValid
+      );
+    } else return this.selectedJobOperationValid && this.urlValid;
   }
 
   @action
@@ -184,6 +224,7 @@ export default class OverviewJobsNewController extends Controller {
 
   createAndStartJob = task(async () => {
     let scheduledJob;
+    const sources = [];
     try {
       if (!this.validateForm()) return;
 
@@ -197,7 +238,7 @@ export default class OverviewJobsNewController extends Controller {
         vendor: this.vendor,
       };
 
-      if (this.isCodelistMappingJob) {
+      if (this.isJobWithDecisionSelector) {
         let shapeForTargets;
         if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
@@ -205,7 +246,7 @@ export default class OverviewJobsNewController extends Controller {
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetClass: ['http://data.europa.eu/eli/ontology#Expression'],
+            targetClass: [this.targetClassUri.trim()],
           });
         }
         await shapeForTargets.save();
@@ -213,9 +254,7 @@ export default class OverviewJobsNewController extends Controller {
           codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
           graphForTargets: this.graphForTargetsUri || undefined,
-          propertyPathForText:
-            this.propertyPathForTextUri ||
-            'https://data.europarl.europa.eu/def/epvoc#expressionContent',
+          propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });
         scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
@@ -231,64 +270,62 @@ export default class OverviewJobsNewController extends Controller {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else if (!this.isCodelistMappingJob) {
-        let sources = [this.url.trim()];
-        if (this.selectedJobOperation.uri === this.jobPdfScraping) {
-          const newLinePattern = /\r?\n/;
-          sources = this.url.split(newLinePattern).map((source) => {
-            if (!isValidUrl(source)) {
-              throw new Error(`"${source}" is not a valid url.`);
-            }
-          });
-        }
-
-        const remoteDataObjects = sources.map((source) => {
-          return this.store.createRecord('remote-data-object', {
-            source,
-            // This is deliberate, the collector service will set the status and
-            // therefore start the job later:
-            status: undefined,
-            requestHeader:
-              'http://data.lblod.info/request-headers/accept/text/html',
-            created: this.currentTime,
-            modified: this.currentTime,
-            creator: this.creator,
-          });
+      } else if (this.isJobWithSimpleUrl) {
+        sources.push(this.url.trim());
+      } else if (this.isJobWithMultipleEndpoints) {
+        const newLinePattern = /\r?\n/;
+        this.url.split(newLinePattern).map((source) => {
+          if (!isValidUrl(source)) {
+            throw new Error(`"${source}" is not a valid url.`);
+          }
+          sources.push(source.trim());
         });
-        await Promise.all(
-          remoteDataObjects.map(async (rdo) => await rdo.save()),
-        );
-        const collection = this.store.createRecord('harvesting-collection', {
+      }
+
+      const remoteDataObjects = sources.map((source) => {
+        return this.store.createRecord('remote-data-object', {
+          source,
+          // This is deliberate, the collector service will set the status and
+          // therefore start the job later:
+          status: undefined,
+          requestHeader:
+            'http://data.lblod.info/request-headers/accept/text/html',
+          created: this.currentTime,
+          modified: this.currentTime,
           creator: this.creator,
-          authenticationConfiguration: this.selectedSecurityScheme
-            ? await createAuthenticationConfiguration(
-                this.selectedSecurityScheme,
-                this.securityScheme,
-                this.credentials,
-                this.store,
-              )
-            : null, // authenticationConfiguration is optional
-          remoteDataObjects: remoteDataObjects,
         });
-        await collection.save();
+      });
+      await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
+      const collection = this.store.createRecord('harvesting-collection', {
+        creator: this.creator,
+        authenticationConfiguration: this.selectedSecurityScheme
+          ? await createAuthenticationConfiguration(
+              this.selectedSecurityScheme,
+              this.securityScheme,
+              this.credentials,
+              this.store,
+            )
+          : null, // authenticationConfiguration is optional
+        remoteDataObjects: remoteDataObjects,
+      });
+      await collection.save();
 
-        dataContainer = this.store.createRecord('data-container', {
-          harvestingCollections: [collection],
-        });
-        await dataContainer.save();
-        inputContainers.push(dataContainer);
+      dataContainer = this.store.createRecord('data-container', {
+        harvestingCollections: [collection],
+      });
+      await dataContainer.save();
+      inputContainers.push(dataContainer);
 
-        if (this.selectedJobOperation.uri === this.jobHarvestPdfToELI) {
-          dataContainerWithMunicipality = this.store.createRecord(
-            'data-container',
-            {
-              hasResource: [this.selectedMunicipality.uri],
-            },
-          );
+      if (this.selectedJobOperation.uri === this.jobHarvestPdfToELI) {
+        dataContainerWithMunicipality = this.store.createRecord(
+          'data-container',
+          {
+            hasResource: [this.selectedMunicipality.uri],
+          },
+        );
 
-          await dataContainerWithMunicipality.save();
-          inputContainers.push(dataContainerWithMunicipality);
-        }
+        await dataContainerWithMunicipality.save();
+        inputContainers.push(dataContainerWithMunicipality);
       }
 
       const task = this.store.createRecord('task', {
