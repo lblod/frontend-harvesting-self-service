@@ -73,7 +73,7 @@ JOB_OP_TYPES.set(
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
-  'Harvest direct PDF links & Publish as ELI',
+  'Harvest direct PDF link & Publish as ELI',
 );
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_PDF_SCRAPING,
@@ -120,7 +120,7 @@ if (['true', 'True', 'TRUE', true].includes(config.harvester.oparlHarvesting)) {
 if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
-    'Harvest direct PDF links & Publish as ELI',
+    'Harvest direct PDF link & Publish as ELI',
   );
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_PDF_SCRAPING,
