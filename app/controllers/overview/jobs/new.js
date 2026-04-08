@@ -90,22 +90,22 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   get isJobWithGraphName() {
-    return this.selectedJobOperation?.uri === this.jobImport ? true : false;
+    return this.selectedJobOperation?.uri === this.jobImport;
   }
 
-  get isJobWithSimpleUrl() {
-    return this.selectedJobOperation.uri !== this.jobImport &&
+  get isJobWithSingleUrl() {
+    return (
+      this.selectedJobOperation.uri !== this.jobImport &&
       !this.isJobWithDecisionSelector &&
       !this.isJobWithMultipleEndpoints
-      ? true
-      : false;
+    );
   }
 
   get isJobWithCodelist() {
-    return this.selectedJobOperation?.uri === this.jobCodelistMappingTraining ||
+    return (
+      this.selectedJobOperation?.uri === this.jobCodelistMappingTraining ||
       this.selectedJobOperation?.uri === this.jobCodelistMappingEvaluation
-      ? true
-      : false;
+    );
   }
 
   get isJobWithDecisionSelector() {
@@ -116,10 +116,10 @@ export default class OverviewJobsNewController extends Controller {
     );
   }
 
-  get isCodelistMappingJob() {
+  get isJobWithMunicipality() {
     return (
-      this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
-      this.selectedJobOperation.uri === this.jobCodelistMappingEvaluation
+      this.selectedJobOperation?.uri === this.jobHarvestPdfToELI ||
+      this.selectedJobOperation?.uri === this.jobPdfScraping
     );
   }
 
@@ -142,20 +142,8 @@ export default class OverviewJobsNewController extends Controller {
     this.selectedJobOperation = selected;
     this.url = undefined;
 
-    if (selected?.uri === cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI) {
-      this.loadingOrganizations = true;
-      this.municipalities = await this.store.query('organization', {
-        page: { size: 600 },
-        filter: {
-          classification:
-            'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
-        },
-        sort: ':no-case:pref-label',
-      });
-      this.loadingOrganizations = false;
-    } else {
-      this.municipalities = [];
-      this.selectedMunicipality = null;
+    if (this.isJobWithMunicipality) {
+      await this.loadMunicipalities();
     }
   }
 
@@ -193,28 +181,24 @@ export default class OverviewJobsNewController extends Controller {
       parseFloat(this.confidenceThreshold),
     );
 
-    if (!this.selectedJobOperation) return false;
-    if (this.selectedJobOperation.uri === this.jobImport)
-      return this.selectedJobOperationValid && this.graphNameValid;
-    else if (this.isCodelistMappingJob)
-      return (
-        this.selectedJobOperationValid &&
-        this.decisionUrisValid &&
-        this.codelistUriValid &&
-        this.graphForTargetsUriValid &&
-        this.propertyPathForTextUriValid &&
-        this.targetClassUriValid &&
-        this.confidenceThresholdValid
-      );
-    else if (this.selectedJobOperation.uri === this.jobEliToNERAndNEL) {
-      return (
-        this.selectedJobOperationValid &&
+    let isValid = this.selectedJobOperationValid;
+    // Once isValid is false, it stays false until the end
+    if (this.selectedJobOperation.uri === this.jobImport && isValid)
+      isValid = this.graphNameValid;
+    if (this.isJobWithCodelist && isValid) {
+      isValid = this.codelistUriValid;
+    }
+    if (this.isJobWithDecisionSelector && isValid) {
+      isValid =
         this.decisionUrisValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
-        this.targetClassUriValid
-      );
-    } else return this.selectedJobOperationValid && this.urlValid;
+        this.targetClassUriValid;
+    }
+    if (isValid) {
+      isValid = this.urlValid;
+    }
+    return isValid;
   }
 
   @action
@@ -223,11 +207,10 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   createAndStartJob = task(async () => {
-    let scheduledJob;
-    const sources = [];
     try {
       if (!this.validateForm()) return;
 
+      let jobName = 'scheduled-job';
       let jobAttributes = {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
         created: this.currentTime,
@@ -237,6 +220,10 @@ export default class OverviewJobsNewController extends Controller {
         operation: this.selectedJobOperation.uri,
         vendor: this.vendor,
       };
+
+      if (this.isJobWithCodelist) {
+        jobAttributes.codelist = this.codelistUri;
+      }
 
       if (this.isJobWithDecisionSelector) {
         let shapeForTargets;
@@ -251,26 +238,26 @@ export default class OverviewJobsNewController extends Controller {
         }
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
-          codelist: this.codelistUri,
           shapeForTargets: [shapeForTargets],
           graphForTargets: this.graphForTargetsUri || undefined,
           propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });
-        scheduledJob = this.store.createRecord('annotation-job', jobAttributes);
-      } else {
-        scheduledJob = this.store.createRecord('job', jobAttributes);
+        jobName = 'annotation-job';
       }
+
+      const scheduledJob = this.store.createRecord(jobName, jobAttributes);
       await scheduledJob.save();
 
       const inputContainers = [];
+      const sources = [];
       let dataContainer, dataContainerWithMunicipality;
       if (this.selectedJobOperation.uri === this.jobImport) {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else if (this.isJobWithSimpleUrl) {
+      } else if (this.isJobWithSingleEndpoint) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
         const newLinePattern = /\r?\n/;
@@ -355,4 +342,17 @@ export default class OverviewJobsNewController extends Controller {
       await scheduledJob.destroyRecord();
     }
   });
+
+  async loadMunicipalities() {
+    this.loadingOrganizations = true;
+    this.municipalities = await this.store.query('organization', {
+      page: { size: 600 },
+      filter: {
+        classification:
+          'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
+      },
+      sort: ':no-case:pref-label',
+    });
+    this.loadingOrganizations = false;
+  }
 }
