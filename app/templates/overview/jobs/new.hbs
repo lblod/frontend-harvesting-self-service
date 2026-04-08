@@ -156,7 +156,7 @@
               </AuHelpText>
             </AuFormRow>
           {{/if}}
-          {{#if this.isJobWithSimpleUrl}}
+          {{#if this.isJobWithSingleUrl}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="task-url"
@@ -175,7 +175,7 @@
             </AuFormRow>
           {{/if}}
 
-          {{#if (eq this.selectedJobOperation.uri this.jobHarvestPdfToELI)}}
+          {{#if this.isJobWithMunicipality}}
             <AuFormRow @alignment="default">
               <AuLabel for="decision-passed-by">
                 Municipality
