@@ -172,7 +172,6 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.decisionUrisValid = true;
     this.codelistUriValid = !!this.codelistUri;
     this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = true;
@@ -195,7 +194,7 @@ export default class OverviewJobsNewController extends Controller {
         this.propertyPathForTextUriValid &&
         this.targetClassUriValid;
     }
-    if (isValid) {
+    if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
     }
     return isValid;
@@ -261,9 +260,11 @@ export default class OverviewJobsNewController extends Controller {
       } else if (this.isJobWithSingleEndpoint) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
+        this.decisionUrisValid = true;
         const newLinePattern = /\r?\n/;
         this.url.split(newLinePattern).map((source) => {
           if (!isValidUrl(source)) {
+            this.decisionUrisValid = false;
             throw new Error(`"${source}" is not a valid url.`);
           }
           sources.push(source.trim());
