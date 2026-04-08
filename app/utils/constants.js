@@ -71,8 +71,14 @@ JOB_OP_TYPES.set(
   'Harvest Worship & Publish',
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
-JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, 'Harvest PDF to ELI');
-JOB_OP_TYPES.set(JOB_OP_TYPE_PDF_SCRAPING, 'PDF url scraping');
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+  'Harvest direct PDF links to ELI',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_PDF_SCRAPING,
+  'Harvest PDFs from Website URL & Publish as ELI',
+);
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI, 'Harvest OSLO to ELI');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
