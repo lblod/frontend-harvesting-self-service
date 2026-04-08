@@ -207,6 +207,7 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   createAndStartJob = task(async () => {
+    let scheduledJob;
     try {
       if (!this.validateForm()) return;
 
@@ -246,7 +247,7 @@ export default class OverviewJobsNewController extends Controller {
         jobName = 'annotation-job';
       }
 
-      const scheduledJob = this.store.createRecord(jobName, jobAttributes);
+      scheduledJob = this.store.createRecord(jobName, jobAttributes);
       await scheduledJob.save();
 
       const inputContainers = [];
