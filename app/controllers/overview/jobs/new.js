@@ -259,6 +259,7 @@ export default class OverviewJobsNewController extends Controller {
       } else if (this.isJobWithSingleUrl) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
+        this.decisionUrisValid = true;
         const newLinePattern = /\r?\n/;
         this.url.split(newLinePattern).map((source) => {
           if (!isValidUrl(source)) {
