@@ -59,7 +59,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked securityScheme;
   @tracked credentials;
   @tracked decisionUris;
-  @tracked decisionUrisValid;
+  @tracked decisionUrisValid = true;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
@@ -266,7 +266,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
       if (this.isJobWithSingleEndpoint) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
-        this.decisionUrisValid = true;
         const newLinePattern = /\r?\n/;
         this.url.split(newLinePattern).map((source) => {
           if (!isValidUrl(source)) {
