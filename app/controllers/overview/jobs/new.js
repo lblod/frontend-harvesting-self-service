@@ -210,7 +210,11 @@ export default class OverviewJobsNewController extends Controller {
     try {
       if (!this.validateForm()) return;
 
-      let jobName = 'scheduled-job';
+      let jobName = 'job';
+      if (this.isJobWithDecisionSelector) {
+        jobName = 'annotation-job';
+      }
+
       let jobAttributes = {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/busy',
         created: this.currentTime,
@@ -243,7 +247,6 @@ export default class OverviewJobsNewController extends Controller {
           propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });
-        jobName = 'annotation-job';
       }
 
       scheduledJob = this.store.createRecord(jobName, jobAttributes);
