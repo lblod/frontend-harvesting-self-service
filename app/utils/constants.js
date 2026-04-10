@@ -183,6 +183,63 @@ JOB_OP_STATUS.set(JOB_OP_STATUS_PREPARING, 'Preparing');
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';
 
+export function isJobWithGraphName(jobOperationUri) {
+  return [JOB_OP_TYPE_IMPORT].includes(jobOperationUri);
+}
+
+export function isJobWithSingleUrl(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_HARVEST,
+    JOB_OP_TYPE_HARVEST_AND_IMPORT,
+    JOB_OP_TYPE_HARVEST_WORSHIP,
+    JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+    JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_OPARL,
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithMultipleEndpoints(jobOperationUri) {
+  return [JOB_OP_TYPE_PDF_SCRAPING].includes(jobOperationUri);
+}
+
+export function isJobWithCodelist(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithDecisionUris(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithDecisionSelector(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithMunicipality(jobOperationUri) {
+  return [JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, JOB_OP_TYPE_PDF_SCRAPING].includes(
+    jobOperationUri,
+  );
+}
+
+export function isJobWithAuthentication(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_HARVEST,
+    JOB_OP_TYPE_HARVEST_AND_IMPORT,
+    JOB_OP_TYPE_HARVEST_WORSHIP,
+    JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+  ].includes(jobOperationUri);
+}
+
 export const REQUEST_HEADERS = new Map();
 REQUEST_HEADERS.set(
   JOB_OP_TYPE_HARVEST,

@@ -106,34 +106,29 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return timestamp;
   }
 
+  get isJobWithGraphName() {
+    return cts.isJobWithGraphName(this.selectedJobOperation?.uri);
+  }
   get isJobWithSingleUrl() {
-    return !this.isJobWithDecisionSelector && !this.isJobWithMultipleEndpoints;
+    return cts.isJobWithSingleUrl(this.selectedJobOperation?.uri);
   }
-
   get isJobWithMultipleEndpoints() {
-    return this.selectedJobOperation?.uri === this.jobPdfScraping;
+    return cts.isJobWithMultipleEndpoints(this.selectedJobOperation?.uri);
   }
-
-  get isJobWithCodelist() {
-    return (
-      this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
-      this.selectedJobOperation.uri === this.jobCodelistMappingEvaluation
-    );
+  get isJobWithDecisionUris() {
+    return cts.isJobWithDecisionUris(this.selectedJobOperation?.uri);
   }
-
   get isJobWithDecisionSelector() {
-    return (
-      this.selectedJobOperation?.uri === this.jobEliToNERAndNEL ||
-      this.selectedJobOperation?.uri === this.jobCodelistMappingTraining ||
-      this.selectedJobOperation?.uri === this.jobCodelistMappingEvaluation
-    );
+    return cts.isJobWithDecisionSelector(this.selectedJobOperation?.uri);
   }
-
+  get isJobWithCodelist() {
+    return cts.isJobWithCodelist(this.selectedJobOperation?.uri);
+  }
   get isJobWithMunicipality() {
-    return (
-      this.selectedJobOperation?.uri === this.jobHarvestPdfToELI ||
-      this.selectedJobOperation?.uri === this.jobPdfScraping
-    );
+    return cts.isJobWithMunicipality(this.selectedJobOperation?.uri);
+  }
+  get isJobWithAuthentication() {
+    return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
   }
 
   @action
