@@ -20,6 +20,7 @@ export default class OverviewJobsNewController extends Controller {
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
+  jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
 
   @tracked jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(
     ([key, value]) => {
@@ -28,6 +29,8 @@ export default class OverviewJobsNewController extends Controller {
   );
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
+
+  request_headers = cts.REQUEST_HEADERS;
 
   harvestTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/singleton-job';
@@ -260,7 +263,7 @@ export default class OverviewJobsNewController extends Controller {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else if (this.isJobWithSingleEndpoint) {
+      } else if (this.isJobWithSingleUrl) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
         const newLinePattern = /\r?\n/;
@@ -272,15 +275,16 @@ export default class OverviewJobsNewController extends Controller {
           sources.push(source.trim());
         });
       }
-
+      console.log(sources);
       const remoteDataObjects = sources.map((source) => {
         return this.store.createRecord('remote-data-object', {
           source,
           // This is deliberate, the collector service will set the status and
           // therefore start the job later:
           status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
+          requestHeader: this.request_headers.has(this.selectedJobOperation.uri)
+            ? this.request_headers.get(this.selectedJobOperation.uri)
+            : undefined,
           created: this.currentTime,
           modified: this.currentTime,
           creator: this.creator,
