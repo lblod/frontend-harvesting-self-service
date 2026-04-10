@@ -262,7 +262,7 @@
           </AuFormRow>
         {{/if}}
         {{#if (and this.authenticationEnabled
-                   (not (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)))}}
+                   this.isJobWithAuthentication)}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}

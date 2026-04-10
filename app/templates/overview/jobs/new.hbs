@@ -30,7 +30,7 @@
         </PowerSelect>
       </AuFormRow>
       {{#if this.selectedJobOperation.uri}}
-          {{#if this.isJobWithGraphName}}
+          {{#if (this.isJobWithGraphName this.selectedJobOperation.uri)}}
             <AuFormRow @alignment="default">
               <AuLabel
                 for="graph-name"
@@ -242,9 +242,7 @@
           </AuFormRow>
         {{/if}}
         {{#if (and this.authenticationEnabled
-                   (not (eq this.selectedJobOperation.uri this.jobImport))
-                   (not (eq this.selectedJobOperation.uri this.jobHarvestOsloEli))
-                   (not (eq this.selectedJobOperation.uri this.jobEliToNERAndNEL)))}}
+                   this.isJobWithAuthentication)}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}
