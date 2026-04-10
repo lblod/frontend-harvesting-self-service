@@ -179,3 +179,33 @@ JOB_OP_STATUS.set(JOB_OP_STATUS_CANCELED, 'Canceled');
 
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';
+
+export const REQUEST_HEADERS = new Map();
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST_WORSHIP,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST_AND_IMPORT,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+  'http://data.lblod.info/request-headers/accept/application/pdf',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_PDF_SCRAPING,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_OPARL,
+  'http://data.lblod.info/request-headers/accept/application/json',
+);

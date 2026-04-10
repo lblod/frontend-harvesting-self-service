@@ -21,6 +21,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
+  jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE)
     .filter(([key]) => {
@@ -266,7 +267,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
       const inputContainers = [];
       const sources = [];
-      if (this.isJobWithSingleEndpoint) {
+      if (this.isJobWithSingleUrl) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
         const newLinePattern = /\r?\n/;
