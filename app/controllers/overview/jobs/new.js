@@ -28,10 +28,12 @@ export default class OverviewJobsNewController extends Controller {
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
 
-  harvestTaskOperation =
+  singletonJobTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/singleton-job';
   importTaskOperation =
     'http://lblod.data.gift/id/jobs/concept/TaskOperation/publishHarvestedTriples';
+  codelistMappingTaskOperation =
+    'http://lblod.data.gift/id/jobs/concept/TaskOperation/codelist-matching/annotate';
 
   intialConsumerSyncModeUri = cts.CONSUMER_SYNC_MODES.initial;
   deltaConsumerSyncModeUri = cts.CONSUMER_SYNC_MODES.delta;
@@ -295,7 +297,9 @@ export default class OverviewJobsNewController extends Controller {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
         created: this.currentTime,
         modified: this.currentTime,
-        operation: this.harvestTaskOperation,
+        operation: this.isCodelistMappingJob
+          ? this.codelistMappingTaskOperation
+          : this.singletonJobTaskOperation,
         comment: this.comment,
         index: '0',
         inputContainers: inputContainers,
