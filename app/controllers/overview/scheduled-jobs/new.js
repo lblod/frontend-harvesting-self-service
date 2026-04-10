@@ -225,6 +225,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
       await cronSchedule.save();
 
       let jobName = 'scheduled-job';
+      if (this.isJobWithDecisionSelector) {
+        jobName = 'scheduled-annotation-job';
+      }
+
       let jobAttributes = {
         creator: this.creator,
         created: this.currentTime,
@@ -255,7 +259,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
           propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });
-        jobName = 'scheduled-annotation-job';
       }
 
       const scheduledJob = this.store.createRecord(jobName, jobAttributes);
