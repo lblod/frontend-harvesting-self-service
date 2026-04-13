@@ -179,6 +179,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
     this.codelistUriValid = !!this.codelistUri;
+    this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = true;
     this.confidenceThresholdValid = !isNaN(
