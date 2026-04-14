@@ -47,7 +47,7 @@
             {{on "change" (fn this.setProperty "title")}}
           />
         </AuFormRow>
-        {{#if (or (eq this.selectedJobOperation.uri this.jobCodelistMappingTraining) (eq this.selectedJobOperation.uri this.jobCodelistMappingEvaluation))}}
+        {{#if this.isJobWithCodelist}}
           <AuFormRow @alignment="default">
             <AuLabel
               for="task-codelist-uri"
@@ -66,41 +66,6 @@
             />
           </AuFormRow>
           <AuFormRow @alignment="default">
-            <AuLabel for="task-decisions-uri">
-              Decision to map
-            </AuLabel>
-            <AuTextarea
-              id="task-decisions-uri"
-              @width="block"
-              value={{this.decisionUris}}
-              placeholder="Every line is a decision URI; leave blank to apply to all decisions"
-              {{on "change" (fn this.setProperty "decisionUris")}}
-            />
-          </AuFormRow>
-          <AuFormRow @alignment="default">
-            <AuLabel for="graph-for-targets-uri">
-              Decisions graph
-            </AuLabel>
-            <AuInput
-              id="graph-for-targets-uri"
-              @width="block"
-              value={{this.graphForTargetsUri}}
-              {{on "change" (fn this.setProperty "graphForTargetsUri")}}
-            />
-          </AuFormRow>
-          <AuFormRow @alignment="default">
-            <AuLabel for="property-path-for-text-uri">
-              Property for decision content
-            </AuLabel>
-            <AuInput
-              id="property-path-for-text-uri"
-              @width="block"
-              value={{this.propertyPathForTextUri}}
-              placeholder="https://data.europarl.europa.eu/def/epvoc#expressionContent"
-              {{on "change" (fn this.setProperty "propertyPathForTextUri")}}
-            />
-          </AuFormRow>
-          <AuFormRow @alignment="default">
             <AuLabel for="confidence-threshold">
               Confidence threshold
             </AuLabel>
@@ -112,7 +77,9 @@
               {{on "change" (fn this.setProperty "confidenceThreshold")}}
             />
           </AuFormRow>
-        {{else if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
+        {{/if}}
+
+        {{#if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
             <AuFormRow @alignment="default">
               <AuLabel for="decisions-published-by">
                 Published by
@@ -156,7 +123,19 @@
                 Initial sync is a one-time run and should be started as a single harvesting job. A scheduled job for delta sync is ideal to keep data up to date.
               </AuHelpText>
             </AuFormRow>
-        {{else if this.isJobWithMultipleEndpoints}}
+        {{/if}}
+
+          {{#if this.isJobWithDecisionSelector}}
+            <DecisionSelectorConfiguration
+              @decisionUris={{this.decisionUris}}
+              @graphForTargetsUri={{this.graphForTargetsUri}}
+              @targetClassUri={{this.targetClassUri}}
+              @propertyPathForTextUri={{this.propertyPathForTextUri}}
+              @setProperty={{this.setProperty}}
+            />
+          {{/if}}
+
+        {{#if this.isJobWithMultipleEndpoints}}
           <AuFormRow @alignment="default">
             <AuLabel
               for="task-url"
@@ -176,7 +155,9 @@
               All url values in this input should be separated by a new-line
             </AuHelpText>
           </AuFormRow>
-        {{else}}
+        {{/if}}
+
+        {{#if this.isJobWithSingleUrl}}
           <AuFormRow @alignment="default">
             <AuLabel
               for="task-url"
@@ -194,6 +175,27 @@
             />
           </AuFormRow>
         {{/if}}
+
+        {{#if this.isJobWithMunicipality}}
+          <AuFormRow @alignment="default">
+            <AuLabel for="decision-passed-by">
+              Municipality
+            </AuLabel>
+            <PowerSelect
+              id="decision-passed-by"
+              @searchEnabled={{true}}
+              @searchField="label"
+              @options={{this.municipalities}}
+              @selected={{this.selectedMunicipality}}
+              @onChange={{this.changeSelectedMunicipality}}
+              @renderInPlace={{true}}
+              @disabled={{or this.loadingMunicipalities (not this.municipalities.length)}}
+              as |option|>
+              {{option.label}}
+            </PowerSelect>
+          </AuFormRow>
+        {{/if}}
+
         <AuFormRow @alignment="default">
           <AuLabel
             for="cron-pattern"
@@ -260,7 +262,7 @@
           </AuFormRow>
         {{/if}}
         {{#if (and this.authenticationEnabled
-                   (not (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)))}}
+                   this.isJobWithAuthentication)}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}

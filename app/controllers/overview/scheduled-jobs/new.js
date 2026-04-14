@@ -18,11 +18,18 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
   jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
+  jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
+  jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
+  jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
 
-  jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
-    return { label: value, uri: key };
-  });
+  jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE)
+    .filter(([key]) => {
+      return key !== this.jobHarvestPdfToELI; // Exclude the PDF to ELI job operation as this is supposed to be a one-time job
+    })
+    .map(([key, value]) => {
+      return { label: value, uri: key };
+    });
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
 
@@ -53,16 +60,22 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked securityScheme;
   @tracked credentials;
   @tracked decisionUris;
-  @tracked decisionUrisValid;
+  @tracked decisionUrisValid = true;
   @tracked codelistUri;
   @tracked codelistUriValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri =
-    'https://data.europarl.europa.eu/def/epvoc#expressionContent';
+    '<http://data.europa.eu/eli/ontology#is_realized_by> / <https://data.europarl.europa.eu/def/epvoc#expressionContent>';
   @tracked propertyPathForTextUriValid;
+  @tracked targetClassUri = 'http://data.europa.eu/eli/ontology#Work';
+  @tracked targetClassUriValid;
   @tracked confidenceThreshold = 0;
   @tracked confidenceThresholdValid;
+
+  @tracked loadingMunicipalities = false;
+  @tracked municipalities = [];
+  @tracked selectedMunicipality;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -93,15 +106,29 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return timestamp;
   }
 
-  get isJobWithMultipleEndpoints() {
-    return this.selectedJobOperation?.uri === this.jobPdfScraping;
+  get isJobWithGraphName() {
+    return cts.isJobWithGraphName(this.selectedJobOperation?.uri);
   }
-
-  get isCodelistMappingJob() {
-    return (
-      this.selectedJobOperation.uri === this.jobCodelistMappingTraining ||
-      this.selectedJobOperation.uri === this.jobCodelistMappingEvaluation
-    );
+  get isJobWithSingleUrl() {
+    return cts.isJobWithSingleUrl(this.selectedJobOperation?.uri);
+  }
+  get isJobWithMultipleEndpoints() {
+    return cts.isJobWithMultipleEndpoints(this.selectedJobOperation?.uri);
+  }
+  get isJobWithDecisionUris() {
+    return cts.isJobWithDecisionUris(this.selectedJobOperation?.uri);
+  }
+  get isJobWithDecisionSelector() {
+    return cts.isJobWithDecisionSelector(this.selectedJobOperation?.uri);
+  }
+  get isJobWithCodelist() {
+    return cts.isJobWithCodelist(this.selectedJobOperation?.uri);
+  }
+  get isJobWithMunicipality() {
+    return cts.isJobWithMunicipality(this.selectedJobOperation?.uri);
+  }
+  get isJobWithAuthentication() {
+    return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
   }
 
   @action
@@ -125,6 +152,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
       selected?.uri === this.jobHarvestOsloEli
         ? this.deltaConsumerSyncModeUri
         : undefined;
+    if (this.isJobWithMunicipality) {
+      await this.loadMunicipalities();
+    }
   }
 
   @action
@@ -137,35 +167,44 @@ export default class OverviewScheduledJobsNewController extends Controller {
   noop() {}
 
   @action
+  changeSelectedMunicipality(org) {
+    this.selectedMunicipality = org;
+  }
+
+  @action
   validateForm() {
     this.selectedJobOperationValid = !!this.selectedJobOperation;
     this.urlValid = !!this.url;
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
-    this.decisionUrisValid = true;
     this.codelistUriValid = !!this.codelistUri;
+    this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = true;
     this.propertyPathForTextUriValid = true;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
     );
 
-    const baseValid =
+    // Once isValid is false, it stays false until the end
+    let isValid =
       this.selectedJobOperationValid &&
       this.titleValid &&
       this.cronPatternValid;
-
-    if (this.isCodelistMappingJob)
-      return (
-        baseValid &&
+    if (this.isJobWithCodelist && isValid) {
+      isValid = this.codelistUriValid;
+    }
+    if (this.isJobWithDecisionSelector && isValid) {
+      isValid =
         this.decisionUrisValid &&
-        this.codelistUriValid &&
         this.graphForTargetsUriValid &&
         this.propertyPathForTextUriValid &&
-        this.confidenceThresholdValid
-      );
-    else return baseValid && this.urlValid;
+        this.targetClassUriValid;
+    }
+    if (this.isJobWithSingleUrl && isValid) {
+      isValid = this.urlValid;
+    }
+    return isValid;
   }
 
   @action
@@ -183,7 +222,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
       await cronSchedule.save();
 
       let jobName = 'scheduled-job';
-      const jobAttributes = {
+      if (this.isJobWithDecisionSelector) {
+        jobName = 'scheduled-annotation-job';
+      }
+
+      let jobAttributes = {
         creator: this.creator,
         created: this.currentTime,
         modified: this.currentTime,
@@ -193,7 +236,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
         vendor: this.vendor,
       };
 
-      if (this.isCodelistMappingJob) {
+      if (this.isJobWithCodelist) {
+        jobAttributes.codelist = this.codelistUri;
+      }
+      if (this.isJobWithDecisionSelector) {
         let shapeForTargets;
         if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
@@ -201,73 +247,70 @@ export default class OverviewScheduledJobsNewController extends Controller {
           });
         } else {
           shapeForTargets = this.store.createRecord('node-shape', {
-            targetClass: ['http://data.europa.eu/eli/ontology#Expression'],
+            targetClass: [this.targetClassUri.trim()],
           });
         }
-        await shapeForTargets.save();
-        jobAttributes.shapeForTargets = [shapeForTargets];
-        jobAttributes.codelist = this.codelistUri;
-        jobAttributes.graphForTargets = this.graphForTargetsUri || undefined;
-        jobAttributes.propertyPathForText =
-          this.propertyPathForTextUri ||
-          'https://data.europarl.europa.eu/def/epvoc#expressionContent';
-        jobAttributes.confidenceThreshold = this.confidenceThreshold || '0';
-        jobName = 'scheduled-annotation-job';
+        jobAttributes = Object.assign(jobAttributes, {
+          shapeForTargets: [shapeForTargets],
+          graphForTargets: this.graphForTargetsUri || undefined,
+          propertyPathForText: this.propertyPathForTextUri,
+          confidenceThreshold: this.confidenceThreshold || '0',
+        });
       }
 
       const scheduledJob = this.store.createRecord(jobName, jobAttributes);
       await scheduledJob.save();
 
       const inputContainers = [];
-      if (!this.isCodelistMappingJob) {
-        let sources = [this.url.trim()];
-        if (this.selectedJobOperation.uri === this.jobPdfScraping) {
-          const newLinePattern = /\r?\n/;
-          sources = this.url.split(newLinePattern).map((source) => {
-            if (!isValidUrl(source)) {
-              throw new Error(`Value: "${source}" is not a valid url.`);
-            }
-          });
-        }
-        const remoteDataObjects = sources.map((source) => {
-          return this.store.createRecord('remote-data-object', {
-            source: source,
-            status: undefined,
-            requestHeader:
-              'http://data.lblod.info/request-headers/accept/text/html',
-            created: this.currentTime,
-            modified: this.currentTime,
-            creator: this.creator,
-          });
+      const sources = [];
+      if (this.isJobWithSingleUrl) {
+        sources.push(this.url.trim());
+      } else if (this.isJobWithMultipleEndpoints) {
+        const newLinePattern = /\r?\n/;
+        this.url.split(newLinePattern).map((source) => {
+          if (!isValidUrl(source)) {
+            this.decisionUrisValid = false;
+            throw new Error(`"${source}" is not a valid url.`);
+          }
+          sources.push(source.trim());
         });
-
-        await Promise.all(
-          remoteDataObjects.map(async (rdo) => await rdo.save()),
-        );
-        const collection = this.store.createRecord('harvesting-collection', {
-          creator: this.creator,
-          //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
-          // - Shallow copy of authtentication configuration (see DL-4896)
-          // - See timing issue comments, in controllers/jobs/new.js
-          authenticationConfiguration: this.selectedSecurityScheme
-            ? await createAuthenticationConfiguration(
-                this.selectedSecurityScheme,
-                this.securityScheme,
-                this.credentials,
-                this.store,
-              )
-            : null, // authenticationConfiguration is optional
-          remoteDataObjects: remoteDataObjects,
-        });
-        await collection.save();
-
-        const dataContainer = this.store.createRecord('data-container', {
-          harvestingCollections: [collection],
-        });
-        await dataContainer.save();
-
-        inputContainers.push(dataContainer);
       }
+      const remoteDataObjects = sources.map((source) => {
+        return this.store.createRecord('remote-data-object', {
+          source: source,
+          status: undefined,
+          requestHeader:
+            'http://data.lblod.info/request-headers/accept/text/html',
+          created: this.currentTime,
+          modified: this.currentTime,
+          creator: this.creator,
+        });
+      });
+
+      await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
+      const collection = this.store.createRecord('harvesting-collection', {
+        creator: this.creator,
+        //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
+        // - Shallow copy of authtentication configuration (see DL-4896)
+        // - See timing issue comments, in controllers/jobs/new.js
+        authenticationConfiguration: this.selectedSecurityScheme
+          ? await createAuthenticationConfiguration(
+              this.selectedSecurityScheme,
+              this.securityScheme,
+              this.credentials,
+              this.store,
+            )
+          : null, // authenticationConfiguration is optional
+        remoteDataObjects: remoteDataObjects,
+      });
+      await collection.save();
+
+      const dataContainer = this.store.createRecord('data-container', {
+        harvestingCollections: [collection],
+      });
+      await dataContainer.save();
+
+      inputContainers.push(dataContainer);
 
       const scheduledTask = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
@@ -293,4 +336,18 @@ export default class OverviewScheduledJobsNewController extends Controller {
       );
     }
   });
+
+  async loadMunicipalities() {
+    console.log('Loading municipalities...');
+    this.loadingOrganizations = true;
+    this.municipalities = await this.store.query('organization', {
+      page: { size: 600 },
+      filter: {
+        classification:
+          'http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001',
+      },
+      sort: ':no-case:pref-label',
+    });
+    this.loadingOrganizations = false;
+  }
 }
