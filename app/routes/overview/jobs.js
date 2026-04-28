@@ -22,7 +22,7 @@ export default class OverviewJobsRoute extends Route.extend(
     const options = {
       sort: param.sort,
       page: { number: param.number, size: param.size },
-      include: 'tasks',
+      //include: 'tasks',
     };
 
     if (param.status) {
