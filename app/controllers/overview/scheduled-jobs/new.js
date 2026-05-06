@@ -275,42 +275,49 @@ export default class OverviewScheduledJobsNewController extends Controller {
           sources.push(source.trim());
         });
       }
-      const remoteDataObjects = sources.map((source) => {
-        return this.store.createRecord('remote-data-object', {
-          source: source,
-          status: undefined,
-          requestHeader:
-            'http://data.lblod.info/request-headers/accept/text/html',
-          created: this.currentTime,
-          modified: this.currentTime,
-          creator: this.creator,
+      if (sources.length > 0) {
+        const remoteDataObjects = sources.map((source) => {
+          return this.store.createRecord('remote-data-object', {
+            source: source,
+            status: undefined,
+            requestHeader:
+              'http://data.lblod.info/request-headers/accept/text/html',
+            created: this.currentTime,
+            modified: this.currentTime,
+            creator: this.creator,
+          });
         });
-      });
 
-      await Promise.all(remoteDataObjects.map(async (rdo) => await rdo.save()));
-      const collection = this.store.createRecord('harvesting-collection', {
-        creator: this.creator,
-        //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
-        // - Shallow copy of authtentication configuration (see DL-4896)
-        // - See timing issue comments, in controllers/jobs/new.js
-        authenticationConfiguration: this.selectedSecurityScheme
-          ? await createAuthenticationConfiguration(
-              this.selectedSecurityScheme,
-              this.securityScheme,
-              this.credentials,
-              this.store,
-            )
-          : null, // authenticationConfiguration is optional
-        remoteDataObjects: remoteDataObjects,
-      });
-      await collection.save();
+        await Promise.all(
+          remoteDataObjects.map(async (rdo) => await rdo.save()),
+        );
+        const collection = this.store.createRecord('harvesting-collection', {
+          creator: this.creator,
+          //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
+          // - Shallow copy of authtentication configuration (see DL-4896)
+          // - See timing issue comments, in controllers/jobs/new.js
+          authenticationConfiguration: this.selectedSecurityScheme
+            ? await createAuthenticationConfiguration(
+                this.selectedSecurityScheme,
+                this.securityScheme,
+                this.credentials,
+                this.store,
+              )
+            : null, // authenticationConfiguration is optional
+          remoteDataObjects: remoteDataObjects,
+        });
+        await collection.save();
 
-      const dataContainer = this.store.createRecord('data-container', {
-        harvestingCollections: [collection],
-      });
-      await dataContainer.save();
-
-      inputContainers.push(dataContainer);
+        const dataContainer = this.store.createRecord('data-container', {
+          harvestingCollections: [collection],
+        });
+        await dataContainer.save();
+        inputContainers.push(dataContainer);
+      } else {
+        const dataContainer = this.store.createRecord('data-container', {});
+        await dataContainer.save();
+        inputContainers.push(dataContainer);
+      }
 
       const scheduledTask = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
