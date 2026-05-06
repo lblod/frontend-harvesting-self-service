@@ -161,6 +161,12 @@ export default class OverviewScheduledJobsNewController extends Controller {
   setProperty(property, event) {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
+
+    if (property === 'decisionUris' || property === 'graphForTargetsUri') {
+      const hasScope = !!(this.decisionUris || this.graphForTargetsUri);
+      this.decisionUrisValid = hasScope;
+      this.graphForTargetsUriValid = hasScope;
+    }
   }
 
   @action
