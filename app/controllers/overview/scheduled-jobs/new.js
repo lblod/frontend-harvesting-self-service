@@ -180,7 +180,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.vendorValid = !!this.vendor;
     this.codelistUriValid = !!this.codelistUri;
     this.targetClassUriValid = !!this.targetClassUri;
-    this.graphForTargetsUriValid = true;
+    const hasDecisionScope = !!(this.decisionUris || this.graphForTargetsUri);
+    this.decisionUrisValid = hasDecisionScope;
+    this.graphForTargetsUriValid = hasDecisionScope;
     this.propertyPathForTextUriValid = true;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),

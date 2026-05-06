@@ -164,7 +164,9 @@ export default class OverviewJobsNewController extends Controller {
     else this.vendorValid = false;
     this.codelistUriValid = !!this.codelistUri;
     this.targetClassUriValid = !!this.targetClassUri;
-    this.graphForTargetsUriValid = true;
+    const hasDecisionScope = !!(this.decisionUris || this.graphForTargetsUri);
+    this.decisionUrisValid = hasDecisionScope;
+    this.graphForTargetsUriValid = hasDecisionScope;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
