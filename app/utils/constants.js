@@ -223,9 +223,11 @@ export function isJobWithDecisionSelector(jobOperationUri) {
 }
 
 export function isJobWithMunicipality(jobOperationUri) {
-  return [JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, JOB_OP_TYPE_PDF_SCRAPING].includes(
-    jobOperationUri,
-  );
+  return [
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    JOB_OP_TYPE_PDF_SCRAPING,
+    JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+  ].includes(jobOperationUri);
 }
 
 export function isJobWithAuthentication(jobOperationUri) {
