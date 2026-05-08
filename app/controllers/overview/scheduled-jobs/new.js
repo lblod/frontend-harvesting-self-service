@@ -313,6 +313,17 @@ export default class OverviewScheduledJobsNewController extends Controller {
         inputContainers.push(dataContainer);
       }
 
+      if (this.isJobWithMunicipality) {
+        const dataContainerWithMunicipality = this.store.createRecord(
+          'data-container',
+          {
+            hasResource: [this.selectedMunicipality.uri],
+          },
+        );
+        await dataContainerWithMunicipality.save();
+        inputContainers.push(dataContainerWithMunicipality);
+      }
+
       const scheduledTask = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
         modified: this.currentTime,

@@ -17,7 +17,6 @@ export default class OverviewJobsNewController extends Controller {
   jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
   jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
-  jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
   jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
 
@@ -304,7 +303,7 @@ export default class OverviewJobsNewController extends Controller {
       }
       inputContainers.push(dataContainer);
 
-      if (this.selectedJobOperation.uri === this.jobHarvestPdfToELI) {
+      if (this.isJobWithMunicipality) {
         dataContainerWithMunicipality = this.store.createRecord(
           'data-container',
           {
