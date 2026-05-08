@@ -59,6 +59,17 @@
           </dl>
           {{!End Task info}}
         </div>
+        {{#if this.canRestartTask}}
+          <div class="au-u-padding">
+            <AuButton
+              {{on "click" this.restartTask}}
+              @icon="renew"
+              @alert={{true}}
+            >
+              Restart
+            </AuButton>
+          </div>
+        {{/if}}
       </div>
     </div>
   </m.sidebar>
