@@ -257,6 +257,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
       const inputContainers = [];
       const sources = [];
+      let dataContainer, dataContainerWithMunicipality;
       if (this.isJobWithSingleUrl) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
@@ -302,24 +303,25 @@ export default class OverviewScheduledJobsNewController extends Controller {
         });
         await collection.save();
 
-        const dataContainer = this.store.createRecord('data-container', {
+        dataContainer = this.store.createRecord('data-container', {
           harvestingCollections: [collection],
         });
         await dataContainer.save();
         inputContainers.push(dataContainer);
       } else {
-        const dataContainer = this.store.createRecord('data-container', {});
+        dataContainer = this.store.createRecord('data-container', {});
         await dataContainer.save();
         inputContainers.push(dataContainer);
       }
 
-      if (this.isJobWithMunicipality) {
-        const dataContainerWithMunicipality = this.store.createRecord(
+      if (this.isJobWithMunicipality && this.selectedMunicipality?.uri) {
+        dataContainerWithMunicipality = this.store.createRecord(
           'data-container',
           {
             hasResource: [this.selectedMunicipality.uri],
           },
         );
+
         await dataContainerWithMunicipality.save();
         inputContainers.push(dataContainerWithMunicipality);
       }

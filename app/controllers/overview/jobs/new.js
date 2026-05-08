@@ -303,7 +303,7 @@ export default class OverviewJobsNewController extends Controller {
       }
       inputContainers.push(dataContainer);
 
-      if (this.isJobWithMunicipality) {
+      if (this.isJobWithMunicipality && this.selectedMunicipality?.uri) {
         dataContainerWithMunicipality = this.store.createRecord(
           'data-container',
           {
