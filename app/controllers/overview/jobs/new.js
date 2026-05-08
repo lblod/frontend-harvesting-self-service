@@ -143,9 +143,9 @@ export default class OverviewJobsNewController extends Controller {
     this[`${property}Valid`] = !!this[property];
 
     if (property === 'decisionUris' || property === 'graphForTargetsUri') {
-      const hasScope = !!(this.decisionUris || this.graphForTargetsUri);
-      this.decisionUrisValid = hasScope;
-      this.graphForTargetsUriValid = hasScope;
+      const hasTarget = !!(this.decisionUris || this.graphForTargetsUri);
+      this.decisionUrisValid = hasTarget;
+      this.graphForTargetsUriValid = hasTarget;
     }
   }
 
@@ -170,9 +170,9 @@ export default class OverviewJobsNewController extends Controller {
     else this.vendorValid = false;
     this.codelistUriValid = !!this.codelistUri;
     this.targetClassUriValid = !!this.targetClassUri;
-    const hasDecisionScope = !!(this.decisionUris || this.graphForTargetsUri);
-    this.decisionUrisValid = hasDecisionScope;
-    this.graphForTargetsUriValid = hasDecisionScope;
+    const hasDecisionTarget = !!(this.decisionUris || this.graphForTargetsUri);
+    this.decisionUrisValid = hasDecisionTarget;
+    this.graphForTargetsUriValid = hasDecisionTarget;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
