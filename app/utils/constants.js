@@ -26,8 +26,6 @@ export const JOB_OP_TYPE_HARVESTING_OPARL =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
 export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
-export const JOB_OP_TYPE_PDF_SCRAPING =
-  'http://lblod.data.gift/id/jobs/concept/TaskOperation/pdf-scraping';
 export const JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oslo-to-eli';
 export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
@@ -73,10 +71,6 @@ JOB_OP_TYPES.set(
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OPARL, 'Harvest OParl API & Publish');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
-  'Harvest direct PDF link & Publish as ELI',
-);
-JOB_OP_TYPES.set(
-  JOB_OP_TYPE_PDF_SCRAPING,
   'Harvest PDFs from Website URL & Publish as ELI',
 );
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI, 'Harvest OSLO to ELI');
@@ -120,10 +114,6 @@ if (['true', 'True', 'TRUE', true].includes(config.harvester.oparlHarvesting)) {
 if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
-    'Harvest direct PDF link & Publish as ELI',
-  );
-  JOB_OP_TYPE_CREATE.set(
-    JOB_OP_TYPE_PDF_SCRAPING,
     'Harvest PDFs from Website URL & Publish as ELI',
   );
 }
@@ -192,12 +182,11 @@ export function isJobWithSingleUrl(jobOperationUri) {
     JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
     JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI,
     JOB_OP_TYPE_HARVESTING_OPARL,
-    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
   ].includes(jobOperationUri);
 }
 
 export function isJobWithMultipleEndpoints(jobOperationUri) {
-  return [JOB_OP_TYPE_PDF_SCRAPING].includes(jobOperationUri);
+  return [JOB_OP_TYPE_HARVESTING_PDF_TO_ELI].includes(jobOperationUri);
 }
 
 export function isJobWithCodelist(jobOperationUri) {
@@ -223,9 +212,7 @@ export function isJobWithDecisionSelector(jobOperationUri) {
 }
 
 export function isJobWithMunicipality(jobOperationUri) {
-  return [JOB_OP_TYPE_HARVESTING_PDF_TO_ELI, JOB_OP_TYPE_PDF_SCRAPING].includes(
-    jobOperationUri,
-  );
+  return [JOB_OP_TYPE_HARVESTING_PDF_TO_ELI].includes(jobOperationUri);
 }
 
 export function isJobWithAuthentication(jobOperationUri) {
@@ -256,10 +243,6 @@ REQUEST_HEADERS.set(
 );
 REQUEST_HEADERS.set(
   JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
-  'http://data.lblod.info/request-headers/accept/application/pdf',
-);
-REQUEST_HEADERS.set(
-  JOB_OP_TYPE_PDF_SCRAPING,
   'http://data.lblod.info/request-headers/accept/text/html',
 );
 REQUEST_HEADERS.set(

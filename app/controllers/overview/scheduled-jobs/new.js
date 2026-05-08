@@ -18,18 +18,12 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobCodelistMappingTraining = cts.JOB_OP_TYPE_CODELIST_MAPPING_TRAINING;
   jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
-  jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
-  jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
   jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
 
-  jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE)
-    .filter(([key]) => {
-      return key !== this.jobHarvestPdfToELI; // Exclude the PDF to ELI job operation as this is supposed to be a one-time job
-    })
-    .map(([key, value]) => {
-      return { label: value, uri: key };
-    });
+  jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
+    return { label: value, uri: key };
+  });
 
   creator = cts.JOB_CREATOR_SELF_SERVICE;
 

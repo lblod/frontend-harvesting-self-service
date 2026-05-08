@@ -18,7 +18,6 @@ export default class OverviewJobsNewController extends Controller {
   jobCodelistMappingEvaluation = cts.JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION;
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobHarvestPdfToELI = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
-  jobPdfScraping = cts.JOB_OP_TYPE_PDF_SCRAPING;
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
   jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
 

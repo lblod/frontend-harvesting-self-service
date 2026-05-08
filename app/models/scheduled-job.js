@@ -28,6 +28,6 @@ export default class ScheduledJobModel extends Model {
   }
 
   get isJobWithMultipleEndpoints() {
-    return this.operation === cts.JOB_OP_TYPE_PDF_SCRAPING;
+    return this.operation === cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
   }
 }
