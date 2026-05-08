@@ -128,7 +128,9 @@
           {{#if this.isJobWithDecisionSelector}}
             <DecisionSelectorConfiguration
               @decisionUris={{this.decisionUris}}
+              @decisionUrisValid={{this.decisionUrisValid}}
               @graphForTargetsUri={{this.graphForTargetsUri}}
+              @graphForTargetsUriValid={{this.graphForTargetsUriValid}}
               @targetClassUri={{this.targetClassUri}}
               @propertyPathForTextUri={{this.propertyPathForTextUri}}
               @setProperty={{this.setProperty}}
