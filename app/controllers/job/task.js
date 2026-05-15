@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class JobTaskController extends Controller {
   get canRestartTask() {
-    return ['failed', 'success', 'cancelled'].includes(
+    return ['failed', 'success', 'cancelled', 'busy'].includes(
       this.model.task.shortStatus,
     );
   }
