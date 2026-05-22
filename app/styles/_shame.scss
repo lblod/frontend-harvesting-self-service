@@ -44,19 +44,27 @@ table.dataTable tbody th {
   width: 100px;
 }
 
-
 .table-loading {
-    background: rgba(255, 255, 255, 0.7);
-    animation: fadeInOut 1.5s infinite;
-    transition: opacity 0.3s ease;
+  background: rgba(255, 255, 255, 0.7);
+  animation: fadeInOut 1.5s infinite;
+  transition: opacity 0.3s ease;
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
 }
 
 .filter-workaround {
   min-width: 15rem;
+}
+.filter-large {
+  min-width: 35rem;
 }
