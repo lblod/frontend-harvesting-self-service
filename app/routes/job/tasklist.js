@@ -47,7 +47,7 @@ export default class JobTasklistRoute extends Route.extend(
         return statusCounts[status];
       })
       .filter((s) => !!s);
-    
+
     return {
       tasks: taskList,
       statusCounts: statusCountList,
