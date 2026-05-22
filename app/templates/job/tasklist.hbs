@@ -64,6 +64,22 @@
               </div>
             {{/if}}
           </dl>
+
+          <div>
+            <AuLabel class="au-u-bold au-u-margin-top">Tasks</AuLabel>
+            <div>
+              {{#each this.model.statusCounts as |statusCount|}}
+                <div
+                  class="au-u-margin-top-tiny au-u-flex au-u-flex--between au-u-width-1-1"
+                >
+                  <StatusPill @status={{statusCount.statusName}} />
+                  <span>{{statusCount.count}}</span>
+                </div>
+              {{/each}}
+
+            </div>
+          </div>
+
           {{!End job info}}
         </div>
       </div>
@@ -88,7 +104,7 @@
   </m.sidebar>
   <m.content @scroll={{true}} {{auto-refresh this.reload interval=60000}}>
     <AuDataTable
-      @content={{this.model}}
+      @content={{this.model.tasks}}
       @noDataMessage="No files found"
       @sort={{this.sort}}
       @size={{this.size}}
@@ -101,7 +117,29 @@
             <Group>
               <AuHeading @level="1" @skin="1">Task List</AuHeading>
             </Group>
-            <Group>
+            <Group class="au-u-flex--vertical-center">
+              <AuLabel @inline={{true}} for="operations">
+                Operation
+              </AuLabel>
+              <div {{auto-refresh this.reload}}>
+                <AuInput
+                  id="operations"
+                  @width="block"
+                  value={{this.operation}}
+                  {{on "change" this.handleOperationChange}}
+                />
+              </div>
+              <AuLabel @inline={{true}} for="statuses">
+                Status
+              </AuLabel>
+              <div {{auto-refresh this.reload}}>
+                <StatusFilter
+                  @status={{this.status}}
+                  @onChange={{fn (mut this.status)}}
+                  @allowClear={{true}}
+                  id="statuses"
+                />
+              </div>
               <AuButton
                 @skin="secondary"
                 @icon="renew"
