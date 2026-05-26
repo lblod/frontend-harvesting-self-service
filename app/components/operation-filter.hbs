@@ -1,11 +1,12 @@
 <PowerSelect
   @allowClear={{@allowClear}}
   @searchEnabled={{false}}
-  @options={{this.jobOperations}}
+  @options={{if @options @options this.jobOperations}}
   @selected={{@operation}}
   @onChange={{@onChange}}
-  class="filter-workaround"
+  class="filter-large"
   ...attributes
-  as |operation|>
+  as |operation|
+>
   {{operation-name operation}}
 </PowerSelect>

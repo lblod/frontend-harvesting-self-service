@@ -10,14 +10,16 @@
             @skin="button"
             @icon="nav-left"
             @iconAlignment="left"
-            @width="inline">
+            @width="inline"
+          >
             Back to overview
           </AuLink>
-          {{!--Job info--}}
+          {{!Job info}}
           <AuHeading
             @level="3"
             @skin="3"
-            class="au-u-margin-top au-u-margin-bottom">
+            class="au-u-margin-top au-u-margin-bottom"
+          >
             Job details
           </AuHeading>
           <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
@@ -42,7 +44,7 @@
             <div>
               <dt class="au-u-bold">Status</dt>
               <dd>
-                <StatusPill @status={{this.job.shortStatus}}></StatusPill>
+                <StatusPill @status={{this.job.shortStatus}} />
               </dd>
             </div>
             {{#if this.job.comment}}
@@ -54,10 +56,7 @@
             {{#if this.job.error.message}}
               <div>
                 <dt class="au-u-hidden-visually">Errors</dt>
-                <AuAlert
-                  @icon="cross"
-                  @title="Error"
-                  @skin="error">
+                <AuAlert @icon="cross" @title="Error" @skin="error">
                   <p>
                     <dd>{{this.job.error.message}}</dd>
                   </p>
@@ -65,49 +64,88 @@
               </div>
             {{/if}}
           </dl>
-          {{!--End job info--}}
+
+          <div>
+            <AuLabel class="au-u-bold au-u-margin-top">Tasks</AuLabel>
+            <div>
+              {{#each this.model.statusCounts as |statusCount|}}
+                <div
+                  class="au-u-margin-top-tiny au-u-flex au-u-flex--between au-u-width-1-1"
+                >
+                  <StatusPill @status={{statusCount.statusName}} />
+                  <span>{{statusCount.count}}</span>
+                </div>
+              {{/each}}
+
+            </div>
+          </div>
+
+          {{!End job info}}
         </div>
       </div>
       <div class="au-c-sidebar__footer">
-      {{#unless this.hideDeleteJobButton}}
-        <AuButton
-          @skin="primary"
-          @icon="trash"
-          @iconAlignment="left"
-          @width="inline"
-          @wrap={{this.wrap}}
-          @alert={{true}}
-          @loading={{this.deleteJob.isRunning}}
-          @loadingMessage="Deleting"
-          {{on "click" (perform this.deleteJob this.job)}}>
-          Delete
-        </AuButton>
-      {{/unless}}
+        {{#unless this.hideDeleteJobButton}}
+          <AuButton
+            @skin="primary"
+            @icon="trash"
+            @iconAlignment="left"
+            @width="inline"
+            @wrap={{this.wrap}}
+            @alert={{true}}
+            @loading={{this.deleteJob.isRunning}}
+            @loadingMessage="Deleting"
+            {{on "click" (perform this.deleteJob this.job)}}
+          >
+            Delete
+          </AuButton>
+        {{/unless}}
       </div>
     </div>
   </m.sidebar>
   <m.content @scroll={{true}} {{auto-refresh this.reload interval=60000}}>
     <AuDataTable
-      @content={{this.model}}
+      @content={{this.model.tasks}}
       @noDataMessage="No files found"
       @sort={{this.sort}}
       @size={{this.size}}
-      @page={{this.page}} as |t|>
+      @page={{this.page}}
+      as |t|
+    >
       <t.menu as |menu|>
         <menu.general>
-          <AuToolbar
-            @border="none"
-            @size="large"
-            as |Group|>
+          <AuToolbar @border="none" @size="large" as |Group|>
             <Group>
               <AuHeading @level="1" @skin="1">Task List</AuHeading>
             </Group>
-            <Group>
+            <Group class="au-u-flex--vertical-center">
+              <AuLabel @inline={{true}} for="operations">
+                Operation
+              </AuLabel>
+              <div {{auto-refresh this.reload}}>
+                <AuInput
+                  id="operations"
+                  @width="block"
+                  value={{this.operation}}
+                  {{on "change" this.handleOperationChange}}
+                />
+              </div>
+              <AuLabel @inline={{true}} for="statuses">
+                Status
+              </AuLabel>
+              <div {{auto-refresh this.reload}}>
+                <StatusFilter
+                  @status={{this.status}}
+                  @onChange={{fn (mut this.status)}}
+                  @allowClear={{true}}
+                  id="statuses"
+                />
+              </div>
               <AuButton
                 @skin="secondary"
                 @icon="renew"
                 @iconAlignment="left"
-                {{on "click" this.reload}}>
+                {{on "click" this.reload}}
+              >
                 Reload
               </AuButton>
             </Group>
@@ -120,19 +158,23 @@
           <AuDataTableThSortable
             @field="created"
             @currentSorting={{this.sort}}
-            @label="Created"/>
+            @label="Created"
+          />
           <AuDataTableThSortable
             @field="operation"
             @currentSorting={{this.sort}}
-            @label="Operation"/>
+            @label="Operation"
+          />
           <AuDataTableThSortable
             @field="index"
             @currentSorting={{this.sort}}
-            @label="Index"/>
+            @label="Index"
+          />
           <AuDataTableThSortable
             @field="status"
             @currentSorting={{this.sort}}
-            @label="Status"/>
+            @label="Status"
+          />
           <th>Actions</th>
         </c.header>
         <c.body as |row|>
@@ -149,7 +191,7 @@
             {{row.index}}
           </td>
           <td>
-            <StatusPill @status={{row.shortStatus}}/>
+            <StatusPill @status={{row.shortStatus}} />
           </td>
           <td>
             <AuLink
@@ -157,7 +199,8 @@
               @skin="button"
               @icon="nav-right"
               @iconAlignment="right"
-              @model={{row.id}}>
+              @model={{row.id}}
+            >
               View
             </AuLink>
           </td>
