@@ -30,13 +30,18 @@
     />
 </AuFormRow>
 <AuFormRow @alignment="default">
-    <AuLabel for="target-class-uri">
+    <AuLabel
+    for="target-class-uri"
+    @required={{true}}
+    @requiredLabel="Required if no decisions"
+    @error={{eq @targetClassUriValid false}}>
     Target class for decision content
     </AuLabel>
     <AuInput
     id="target-class-uri"
     @width="block"
     value={{@targetClassUri}}
+    @error={{eq @targetClassUriValid false}}
     {{on "change" (fn @setProperty "targetClassUri")}}
     />
 </AuFormRow>
