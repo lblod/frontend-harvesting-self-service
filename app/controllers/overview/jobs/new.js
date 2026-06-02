@@ -139,6 +139,12 @@ export default class OverviewJobsNewController extends Controller {
   setProperty(property, event) {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
+
+    if (property === 'decisionUris' || property === 'targetClassUri') {
+      const hasDecisionOrClass = !!(this.decisionUris || this.targetClassUri);
+      this.decisionUrisValid = hasDecisionOrClass;
+      this.targetClassUriValid = hasDecisionOrClass;
+    }
   }
 
   @action
@@ -161,7 +167,9 @@ export default class OverviewJobsNewController extends Controller {
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
     this.codelistUriValid = !!this.codelistUri;
-    this.targetClassUriValid = this.decisionUris ? true : !!this.targetClassUri;
+    const hasDecisionOrClass = !!(this.decisionUris || this.targetClassUri);
+    this.decisionUrisValid = hasDecisionOrClass;
+    this.targetClassUriValid = hasDecisionOrClass;
     this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
     this.confidenceThresholdValid = !isNaN(
