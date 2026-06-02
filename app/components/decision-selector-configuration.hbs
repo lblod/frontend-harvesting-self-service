@@ -1,6 +1,8 @@
 <AuFormRow @alignment="default">
     <AuLabel
     for="task-decisions-uri"
+    @required={{true}}
+    @requiredLabel="Required if no target class"
     @error={{eq @decisionUrisValid false}}>
     Decisions to map
     </AuLabel>
