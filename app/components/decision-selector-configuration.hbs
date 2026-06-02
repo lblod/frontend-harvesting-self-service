@@ -1,8 +1,6 @@
 <AuFormRow @alignment="default">
     <AuLabel
     for="task-decisions-uri"
-    @required={{true}}
-    @requiredLabel="Required if no decisions graph"
     @error={{eq @decisionUrisValid false}}>
     Decisions to map
     </AuLabel>
@@ -19,7 +17,7 @@
     <AuLabel
     for="graph-for-targets-uri"
     @required={{true}}
-    @requiredLabel="Required if no decisions to map"
+    @requiredLabel="Required"
     @error={{eq @graphForTargetsUriValid false}}>
     Decisions graph
     </AuLabel>
