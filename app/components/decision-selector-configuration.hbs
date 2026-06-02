@@ -1,22 +1,5 @@
 <AuFormRow @alignment="default">
     <AuLabel
-    for="task-decisions-uri"
-    @required={{true}}
-    @requiredLabel="Required if no target class"
-    @error={{eq @decisionUrisValid false}}>
-    Decisions to map
-    </AuLabel>
-    <AuTextarea
-    id="task-decisions-uri"
-    @width="block"
-    value={{@decisionUris}}
-    @error={{eq @decisionUrisValid false}}
-    placeholder="Every line is a decision URI; leave blank to apply to all decisions"
-    {{on "change" (fn @setProperty "decisionUris")}}
-    />
-</AuFormRow>
-<AuFormRow @alignment="default">
-    <AuLabel
     for="graph-for-targets-uri"
     @required={{true}}
     @requiredLabel="Required"
@@ -33,9 +16,26 @@
 </AuFormRow>
 <AuFormRow @alignment="default">
     <AuLabel
+    for="task-decisions-uri"
+    @required={{true}}
+    @requiredLabel="Required if no target class"
+    @error={{eq @decisionUrisValid false}}>
+    Decision(s) to map
+    </AuLabel>
+    <AuTextarea
+    id="task-decisions-uri"
+    @width="block"
+    value={{@decisionUris}}
+    @error={{eq @decisionUrisValid false}}
+    placeholder="Every line is a decision URI; leave blank to apply to all decisions"
+    {{on "change" (fn @setProperty "decisionUris")}}
+    />
+</AuFormRow>
+<AuFormRow @alignment="default">
+    <AuLabel
     for="target-class-uri"
     @required={{true}}
-    @requiredLabel="Required if no decisions"
+    @requiredLabel="Required if no decision(s)"
     @error={{eq @targetClassUriValid false}}>
     Target class for decision content
     </AuLabel>
