@@ -139,7 +139,6 @@ export default class OverviewJobsNewController extends Controller {
   setProperty(property, event) {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
-
   }
 
   @action
