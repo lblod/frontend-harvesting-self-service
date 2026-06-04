@@ -155,12 +155,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
   setProperty(property, event) {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
-
-    if (property === 'decisionUris' || property === 'targetClassUri') {
-      const hasDecisionOrClass = !!(this.decisionUris || this.targetClassUri);
-      this.decisionUrisValid = hasDecisionOrClass;
-      this.targetClassUriValid = hasDecisionOrClass;
-    }
   }
 
   @action
@@ -179,9 +173,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
     this.codelistUriValid = !!this.codelistUri;
-    const hasDecisionOrClass = !!(this.decisionUris || this.targetClassUri);
-    this.decisionUrisValid = hasDecisionOrClass;
-    this.targetClassUriValid = hasDecisionOrClass;
+    this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = true;
     this.confidenceThresholdValid = !isNaN(
