@@ -6,8 +6,9 @@ import { tracked } from '@glimmer/tracking';
 import { differenceInDays, format } from 'date-fns';
 import cronstrue from 'cronstrue';
 import { CronExpressionParser } from 'cron-parser';
+import { JOB_OP_STATUS_SUCCESS } from '../../utils/constants';
 
-const SUCCESS = 'http://redpencil.data.gift/id/concept/JobStatus/success';
+const SUCCESS = JOB_OP_STATUS_SUCCESS;
 const OP_DELTA =
   'http://lblod.data.gift/id/jobs/concept/TaskOperation/generatingDelta';
 
