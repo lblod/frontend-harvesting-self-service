@@ -17,6 +17,7 @@ Router.map(function () {
     this.route('acmidm-callback', { path: '/authorization/callback' });
   }
   this.route('overview', function () {
+    this.route('dashboard');
     this.route('jobs', function () {
       this.route('new');
     });

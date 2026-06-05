@@ -4,4 +4,9 @@ export default class OverviewScheduledJobsDetailsIndexRoute extends Route {
   async model() {
     return await this.modelFor('overview.scheduled-jobs.details');
   }
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.loadDeltaStats.perform();
+  }
 }

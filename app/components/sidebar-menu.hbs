@@ -3,15 +3,21 @@
     <nav>
       <ul class="au-c-list-navigation">
         <li class="au-c-list-navigation__item">
-          <AuNavigationLink @route="overview.jobs" @query={{hash status=undefined page=0}}>
-            <AuIcon @icon="documents" @alignment="left"/>
-            Harvesting jobs
+          <AuNavigationLink @route="overview.dashboard">
+            <AuIcon @icon="report" @alignment="left"/>
+            Dashboard
           </AuNavigationLink>
         </li>
         <li class="au-c-list-navigation__item">
           <AuNavigationLink @route="overview.scheduled-jobs">
             <AuIcon @icon="calendar" @alignment="left"/>
             Scheduled jobs
+          </AuNavigationLink>
+        </li>
+        <li class="au-c-list-navigation__item">
+          <AuNavigationLink @route="overview.jobs" @query={{hash status=undefined page=0}}>
+            <AuIcon @icon="documents" @alignment="left"/>
+            Executions
           </AuNavigationLink>
         </li>
         <li class="au-c-list-navigation__item">

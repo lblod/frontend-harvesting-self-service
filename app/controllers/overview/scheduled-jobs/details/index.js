@@ -1,10 +1,19 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { tracked } from '@glimmer/tracking';
 import cronstrue from 'cronstrue';
+
+const OP_DELTA =
+  'http://lblod.data.gift/id/jobs/concept/TaskOperation/generatingDelta';
+const SUCCESS = 'http://redpencil.data.gift/id/concept/JobStatus/success';
 
 export default class OverviewScheduledJobsDetailsIndexController extends Controller {
   @service router;
+  @service sparql;
+
+  @tracked deltaStats = null;
+  @tracked lastSuccessDate = null;
 
   get job() {
     return this.model;
@@ -23,6 +32,49 @@ export default class OverviewScheduledJobsDetailsIndexController extends Control
       return '';
     }
   }
+
+  loadDeltaStats = task(async () => {
+    const uri = this.job.uri;
+    if (!uri) return;
+
+    const [deltaRows, successRows] = await Promise.all([
+      this.sparql.query(`
+        SELECT (COUNT(?deltaFile) as ?deltaCount) (MIN(?created) as ?earliest) (MAX(?created) as ?latest) WHERE {
+          ?job a <http://vocab.deri.ie/cogs#Job> ;
+            <http://purl.org/dc/terms/creator> <${uri}> .
+          ?deltaTask <http://purl.org/dc/terms/isPartOf> ?job ;
+            <http://redpencil.data.gift/vocabularies/tasks/operation> <${OP_DELTA}> ;
+            <http://redpencil.data.gift/vocabularies/tasks/resultsContainer> ?container .
+          ?container <http://redpencil.data.gift/vocabularies/tasks/hasFile> ?deltaFile .
+          ?deltaFile <http://purl.org/dc/terms/created> ?created .
+        }
+      `),
+      this.sparql.query(`
+        SELECT (MAX(?modified) as ?lastSuccess) WHERE {
+          ?job a <http://vocab.deri.ie/cogs#Job> ;
+            <http://purl.org/dc/terms/creator> <${uri}> ;
+            <http://www.w3.org/ns/adms#status> <${SUCCESS}> ;
+            <http://purl.org/dc/terms/modified> ?modified .
+        }
+      `),
+    ]);
+
+    const dr = deltaRows[0];
+    const count = parseInt(dr?.deltaCount?.value ?? '0', 10);
+    this.deltaStats =
+      count > 0
+        ? {
+            count: count.toLocaleString(),
+            earliest: dr.earliest?.value ? new Date(dr.earliest.value) : null,
+            latest: dr.latest?.value ? new Date(dr.latest.value) : null,
+          }
+        : { count: '0', earliest: null, latest: null };
+
+    const sr = successRows[0];
+    this.lastSuccessDate = sr?.lastSuccess?.value
+      ? new Date(sr.lastSuccess.value)
+      : null;
+  });
 
   deleteJob = task(async () => {
     const scheduledTasks = await this.job.scheduledTasks;
