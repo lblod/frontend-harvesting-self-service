@@ -32,8 +32,6 @@ export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/ner-and-nel-annotations';
 export const JOB_OP_TYPE_NEL_ANNOTATIONS =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/nel-annotations';
-export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
-  'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
 export const JOB_OP_TYPE_CODELIST_MAPPING_TRAINING =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/training';
 export const JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION =
@@ -84,7 +82,6 @@ JOB_OP_TYPES.set(
   JOB_OP_TYPE_NEL_ANNOTATIONS,
   'Generate NEL Annotations on ELI decisions',
 );
-JOB_OP_TYPES.set(JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST, 'Entity Linking test');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
   'Codelist mapping (training)',
@@ -139,14 +136,6 @@ if (
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_NEL_ANNOTATIONS,
     'Perform Named Entity Linking on ELI decisions & Publish',
-  );
-}
-if (
-  ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenLinking)
-) {
-  JOB_OP_TYPE_CREATE.set(
-    JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST,
-    'Entity Linking test',
   );
 }
 if (['true', 'True', 'TRUE', true].includes(config.harvester.codelistMapping)) {
