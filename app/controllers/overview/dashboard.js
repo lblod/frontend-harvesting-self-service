@@ -72,6 +72,7 @@ export default class OverviewDashboardController extends Controller {
   @tracked oldestDelta = null;
   @tracked newestDelta = null;
   @tracked latestFullDataset = null;
+  @tracked lastRefreshed = null;
 
   get sortedJobs() {
     const { sortColumn, sortDir } = this;
@@ -97,6 +98,11 @@ export default class OverviewDashboardController extends Controller {
           return 0;
       }
     });
+  }
+
+  @action
+  refresh() {
+    this.loadData.perform();
   }
 
   @action
@@ -198,5 +204,7 @@ export default class OverviewDashboardController extends Controller {
     this.latestFullDataset = fullDatasetValue
       ? new Date(fullDatasetValue)
       : null;
+
+    this.lastRefreshed = new Date();
   });
 }

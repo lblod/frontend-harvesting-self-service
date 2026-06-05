@@ -1,0 +1,16 @@
+<div class="au-u-flex au-u-flex--spaced-small au-u-flex--vertical-center">
+  {{#if @lastRefreshed}}
+    <span class="au-u-muted">
+      Updated at {{format-date @lastRefreshed "HH:mm"}}
+    </span>
+  {{/if}}
+  <AuButton
+    @skin="naked"
+    @icon="renew"
+    @iconAlignment="left"
+    @loading={{@isRefreshing}}
+    @loadingMessage="Refreshing…"
+    {{on "click" @onRefresh}}>
+    Refresh
+  </AuButton>
+</div>

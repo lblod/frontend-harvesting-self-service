@@ -32,11 +32,46 @@
     </c.header>
     <c.content>
       <div class="au-o-grid au-o-grid--small">
+        {{! Status row: last run + next run side by side }}
         <div class="au-o-grid__item au-u-1-2@medium">
           <dl class="au-c-list-description">
-            <dt class="au-u-bold">Title</dt>
-            <dd>{{this.job.title}}</dd>
+            <dt class="au-u-bold">Last run</dt>
+            <dd>
+              {{#if this.loadDeltaStats.isRunning}}
+                <span class="au-u-muted">Loading…</span>
+              {{else if this.lastJobDate}}
+                {{format-date this.lastJobDate}}
+                <StatusPill @status={{this.lastJobStatus}} />
+              {{else}}
+                <span class="au-u-muted">No runs recorded</span>
+              {{/if}}
+            </dd>
+            {{#if (not-eq this.lastJobStatus "success")}}
+              {{#if (or this.lastSuccessDate this.loadDeltaStats.isRunning)}}
+                <dt class="au-u-bold">Last successful run</dt>
+                <dd>
+                  {{#if this.loadDeltaStats.isRunning}}
+                    <span class="au-u-muted">Loading…</span>
+                  {{else}}
+                    {{format-date this.lastSuccessDate}}
+                  {{/if}}
+                </dd>
+              {{/if}}
+            {{/if}}
+          </dl>
+        </div>
+        <div class="au-o-grid__item au-u-1-2@medium">
+          <dl class="au-c-list-description">
+            {{#if this.nextRun}}
+              <dt class="au-u-bold">Next scheduled run</dt>
+              <dd>{{format-date this.nextRun}}</dd>
+            {{/if}}
+          </dl>
+        </div>
 
+        {{! Config row: definition + metadata }}
+        <div class="au-o-grid__item au-u-1-2@medium">
+          <dl class="au-c-list-description">
             <dt class="au-u-bold">Schedule</dt>
             <dd>{{this.cronDescription}}</dd>
 
@@ -46,7 +81,6 @@
             </dd>
           </dl>
         </div>
-
         <div class="au-o-grid__item au-u-1-2@medium">
           <dl class="au-c-list-description">
             <dt class="au-u-bold">Created</dt>
@@ -71,56 +105,6 @@
             @skin="error">
             <p>{{this.job.error.message}}</p>
           </AuAlert>
-        </div>
-      {{/if}}
-    </c.content>
-  </AuCard>
-
-  <AuCard class="au-u-margin-top" as |c|>
-    <c.header>
-      <AuHeading @level="2" @skin="2">Harvest statistics</AuHeading>
-    </c.header>
-    <c.content>
-      {{#if this.loadDeltaStats.isRunning}}
-        <p class="au-u-muted">Loading statistics…</p>
-      {{else if this.loadDeltaStats.last.error}}
-        <AuAlert @icon="cross" @title="Could not load statistics" @skin="error">
-          <p>{{this.loadDeltaStats.last.error.message}}</p>
-        </AuAlert>
-      {{else}}
-        <div class="au-o-grid au-o-grid--small">
-          <div class="au-o-grid__item au-u-1-2@medium">
-            <dl class="au-c-list-description">
-              <dt class="au-u-bold">Last successful run</dt>
-              <dd>
-                {{#if this.lastSuccessDate}}
-                  {{format-date this.lastSuccessDate}}
-                {{else}}
-                  <span class="au-u-muted">No successful runs recorded</span>
-                {{/if}}
-              </dd>
-              {{#if this.lastSuccessDuration}}
-                <dt class="au-u-bold">Duration</dt>
-                <dd>{{this.lastSuccessDuration}}</dd>
-              {{/if}}
-              {{#if this.nextRun}}
-                <dt class="au-u-bold">Next scheduled run</dt>
-                <dd>{{format-date this.nextRun}}</dd>
-              {{/if}}
-            </dl>
-          </div>
-          <div class="au-o-grid__item au-u-1-2@medium">
-            <dl class="au-c-list-description">
-              <dt class="au-u-bold">Deltas available</dt>
-              <dd>{{this.deltaStats.count}}</dd>
-              {{#if this.deltaStats.earliest}}
-                <dt class="au-u-bold">First delta</dt>
-                <dd>{{format-date this.deltaStats.earliest}}</dd>
-                <dt class="au-u-bold">Most recent delta</dt>
-                <dd>{{format-date this.deltaStats.latest}}</dd>
-              {{/if}}
-            </dl>
-          </div>
         </div>
       {{/if}}
     </c.content>

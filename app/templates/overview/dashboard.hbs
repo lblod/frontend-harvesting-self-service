@@ -1,8 +1,18 @@
 {{page-title "Dashboard"}}
 
-<div class="au-u-padding">
+<div class="au-u-padding" {{auto-refresh this.refresh interval=300000}}>
   <div class="au-u-margin-bottom">
-    <AuHeading @level="1" @skin="1">Harvest Dashboard</AuHeading>
+    <AuToolbar as |Group|>
+      <Group>
+        <AuHeading @level="1" @skin="1">Dashboard</AuHeading>
+      </Group>
+      <Group>
+        <RefreshIndicator
+          @lastRefreshed={{this.lastRefreshed}}
+          @isRefreshing={{this.loadData.isRunning}}
+          @onRefresh={{this.refresh}} />
+      </Group>
+    </AuToolbar>
   </div>
 
   {{#if this.loadData.isRunning}}
@@ -14,37 +24,20 @@
       <p>{{this.loadData.last.error.message}}</p>
     </AuAlert>
   {{else}}
-    <div class="au-u-margin-bottom">
-      <AuCard as |c|>
-        <c.header>
-          <AuHeading @level="2" @skin="4">Delta file summary</AuHeading>
-        </c.header>
-        <c.content>
-          <dl class="au-c-list-description">
-            <dt class="au-u-bold">Deltas available</dt>
-            <dd>{{this.totalDeltaFiles}}</dd>
-            <dt class="au-u-bold">Delta range</dt>
-            <dd>
-              {{#if this.oldestDelta}}
-                {{format-date this.oldestDelta "dd/MM/yyyy"}}
-                –
-                {{format-date this.newestDelta "dd/MM/yyyy"}}
-              {{else}}
-                —
-              {{/if}}
-            </dd>
-            <dt class="au-u-bold">Latest full dataset</dt>
-            <dd>
-              {{#if this.latestFullDataset}}
-                {{format-date this.latestFullDataset}}
-              {{else}}
-                —
-              {{/if}}
-            </dd>
-          </dl>
-        </c.content>
-      </AuCard>
-    </div>
+    {{#if this.oldestDelta}}
+      <div class="au-u-flex au-u-flex--spaced-small au-u-flex--vertical-center au-u-margin-bottom">
+        <span class="au-u-muted">Deltas:</span>
+        <span>{{this.totalDeltaFiles}}</span>
+        <span class="au-u-muted">·</span>
+        <span class="au-u-muted">Range:</span>
+        <span>{{format-date this.oldestDelta "dd/MM/yyyy"}} – {{format-date this.newestDelta "dd/MM/yyyy"}}</span>
+        {{#if this.latestFullDataset}}
+          <span class="au-u-muted">·</span>
+          <span class="au-u-muted">Full dataset:</span>
+          <span>{{format-date this.latestFullDataset}}</span>
+        {{/if}}
+      </div>
+    {{/if}}
 
     <AuCard as |c|>
       <c.header>
@@ -82,8 +75,10 @@
                 </span>
               </th>
               <th>Schedule</th>
-              <th>Deltas available</th>
-              <th>Most recent delta</th>
+              {{#if this.oldestDelta}}
+                <th>Deltas available</th>
+                <th>Most recent delta</th>
+              {{/if}}
             </tr>
           </thead>
           <tbody>
@@ -117,16 +112,18 @@
                     —
                   {{/if}}
                 </td>
-                <td>
-                  {{job.deltaCountFormatted}}
-                </td>
-                <td>
-                  {{#if job.latestDelta}}
-                    {{format-date job.latestDelta "dd/MM/yyyy"}}
-                  {{else}}
-                    —
-                  {{/if}}
-                </td>
+                {{#if this.oldestDelta}}
+                  <td>
+                    {{job.deltaCountFormatted}}
+                  </td>
+                  <td>
+                    {{#if job.latestDelta}}
+                      {{format-date job.latestDelta "dd/MM/yyyy"}}
+                    {{else}}
+                      —
+                    {{/if}}
+                  </td>
+                {{/if}}
               </tr>
             {{/each}}
           </tbody>
