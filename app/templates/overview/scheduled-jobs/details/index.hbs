@@ -75,4 +75,46 @@
       {{/if}}
     </c.content>
   </AuCard>
+
+  <AuCard class="au-u-margin-top" as |c|>
+    <c.header>
+      <AuHeading @level="2" @skin="2">Harvest statistics</AuHeading>
+    </c.header>
+    <c.content>
+      {{#if this.loadDeltaStats.isRunning}}
+        <p class="au-u-muted">Loading statistics…</p>
+      {{else if this.loadDeltaStats.last.error}}
+        <AuAlert @icon="cross" @title="Could not load statistics" @skin="error">
+          <p>{{this.loadDeltaStats.last.error.message}}</p>
+        </AuAlert>
+      {{else}}
+        <div class="au-o-grid au-o-grid--small">
+          <div class="au-o-grid__item au-u-1-2@medium">
+            <dl class="au-c-list-description">
+              <dt class="au-u-bold">Last successful run</dt>
+              <dd>
+                {{#if this.lastSuccessDate}}
+                  {{format-date this.lastSuccessDate}}
+                {{else}}
+                  <span class="au-u-muted">No successful runs recorded</span>
+                {{/if}}
+              </dd>
+            </dl>
+          </div>
+          <div class="au-o-grid__item au-u-1-2@medium">
+            <dl class="au-c-list-description">
+              <dt class="au-u-bold">Deltas available</dt>
+              <dd>{{this.deltaStats.count}}</dd>
+              {{#if this.deltaStats.earliest}}
+                <dt class="au-u-bold">First delta</dt>
+                <dd>{{format-date this.deltaStats.earliest}}</dd>
+                <dt class="au-u-bold">Most recent delta</dt>
+                <dd>{{format-date this.deltaStats.latest}}</dd>
+              {{/if}}
+            </dl>
+          </div>
+        </div>
+      {{/if}}
+    </c.content>
+  </AuCard>
 </div>

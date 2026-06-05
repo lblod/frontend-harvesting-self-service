@@ -1,0 +1,116 @@
+{{page-title "Dashboard"}}
+
+<div class="au-u-padding">
+  <div class="au-u-margin-bottom">
+    <AuHeading @level="1" @skin="1">Harvest Dashboard</AuHeading>
+  </div>
+
+  {{#if this.loadData.isRunning}}
+    <AuAlert @title="Loading data…" @skin="info" @icon="info-circle">
+      <p>Querying harvest statistics, this may take a moment.</p>
+    </AuAlert>
+  {{else if this.loadData.last.error}}
+    <AuAlert @title="Failed to load data" @skin="error" @icon="cross">
+      <p>{{this.loadData.last.error.message}}</p>
+    </AuAlert>
+  {{else}}
+    <div class="au-u-margin-bottom">
+      <AuCard as |c|>
+        <c.header>
+          <AuHeading @level="2" @skin="4">Delta file summary</AuHeading>
+        </c.header>
+        <c.content>
+          <dl class="au-c-list-description">
+            <dt class="au-u-bold">Deltas available</dt>
+            <dd>{{this.totalDeltaFiles}}</dd>
+            <dt class="au-u-bold">Delta range</dt>
+            <dd>
+              {{#if this.oldestDelta}}
+                {{format-date this.oldestDelta "dd/MM/yyyy"}}
+                –
+                {{format-date this.newestDelta "dd/MM/yyyy"}}
+              {{else}}
+                —
+              {{/if}}
+            </dd>
+            <dt class="au-u-bold">Latest full dataset</dt>
+            <dd>
+              {{#if this.latestFullDataset}}
+                {{format-date this.latestFullDataset}}
+              {{else}}
+                —
+              {{/if}}
+            </dd>
+          </dl>
+        </c.content>
+      </AuCard>
+    </div>
+
+    <AuCard as |c|>
+      <c.header>
+        <AuHeading @level="2" @skin="4">
+          Scheduled jobs
+          <AuHelpText @skin="tertiary">Sorted by time since last successful run</AuHelpText>
+        </AuHeading>
+      </c.header>
+      <c.content class="au-u-padding-none">
+        <table class="au-c-data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Schedule</th>
+              <th>Last successful run</th>
+              <th>Since last success</th>
+              <th>Delta files</th>
+              <th>Most recent delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this.jobs as |job|}}
+              <tr>
+                <td>
+                  <AuLink
+                    @route="overview.scheduled-jobs.details"
+                    @model={{job.id}}>
+                    {{job.title}}
+                  </AuLink>
+                </td>
+                <td title={{job.schedule}}>
+                  {{#if job.scheduleDescription}}
+                    <span class="au-u-muted">{{job.scheduleDescription}}</span>
+                  {{else}}
+                    —
+                  {{/if}}
+                </td>
+                <td>
+                  {{#if job.lastSuccess}}
+                    <span title={{job.lastSuccessRelative}}>
+                      {{format-date job.lastSuccess "dd/MM/yyyy"}}
+                    </span>
+                  {{else}}
+                    —
+                  {{/if}}
+                </td>
+                <td>
+                  <AuPill @skin={{job.stalenessStatus}}>
+                    {{job.stalenessLabel}}
+                  </AuPill>
+                </td>
+                <td>
+                  {{job.deltaCountFormatted}}
+                </td>
+                <td>
+                  {{#if job.latestDelta}}
+                    {{format-date job.latestDelta "dd/MM/yyyy"}}
+                  {{else}}
+                    —
+                  {{/if}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </c.content>
+    </AuCard>
+  {{/if}}
+</div>
