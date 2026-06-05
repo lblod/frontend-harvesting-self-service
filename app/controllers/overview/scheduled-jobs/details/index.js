@@ -5,17 +5,23 @@ import { tracked } from '@glimmer/tracking';
 import cronstrue from 'cronstrue';
 import { CronExpressionParser } from 'cron-parser';
 
-const OP_DELTA =
-  'http://lblod.data.gift/id/jobs/concept/TaskOperation/generatingDelta';
 const SUCCESS = 'http://redpencil.data.gift/id/concept/JobStatus/success';
+
+const STATUS_MAP = {
+  'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
+  'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
+  'http://redpencil.data.gift/id/concept/JobStatus/busy': 'busy',
+  'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
+  'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled',
+};
 
 export default class OverviewScheduledJobsDetailsIndexController extends Controller {
   @service router;
   @service sparql;
 
-  @tracked deltaStats = null;
   @tracked lastSuccessDate = null;
-  @tracked lastSuccessDuration = null;
+  @tracked lastJobStatus = null;
+  @tracked lastJobDate = null;
 
   get job() {
     return this.model;
@@ -48,61 +54,34 @@ export default class OverviewScheduledJobsDetailsIndexController extends Control
     const uri = this.job.uri;
     if (!uri) return;
 
-    const [deltaRows, successRows] = await Promise.all([
+    const [successRows, statusRows] = await Promise.all([
       this.sparql.query(`
-        SELECT (COUNT(?deltaFile) as ?deltaCount) (MIN(?created) as ?earliest) (MAX(?created) as ?latest) WHERE {
-          ?job a <http://vocab.deri.ie/cogs#Job> ;
-            <http://purl.org/dc/terms/creator> <${uri}> .
-          ?deltaTask <http://purl.org/dc/terms/isPartOf> ?job ;
-            <http://redpencil.data.gift/vocabularies/tasks/operation> <${OP_DELTA}> ;
-            <http://redpencil.data.gift/vocabularies/tasks/resultsContainer> ?container .
-          ?container <http://redpencil.data.gift/vocabularies/tasks/hasFile> ?deltaFile .
-          ?deltaFile <http://purl.org/dc/terms/created> ?created .
-        }
-      `),
-      this.sparql.query(`
-        SELECT ?created ?modified WHERE {
+        SELECT (MAX(?modified) as ?lastSuccess) WHERE {
           ?job a <http://vocab.deri.ie/cogs#Job> ;
             <http://purl.org/dc/terms/creator> <${uri}> ;
             <http://www.w3.org/ns/adms#status> <${SUCCESS}> ;
-            <http://purl.org/dc/terms/created> ?created ;
             <http://purl.org/dc/terms/modified> ?modified .
-          FILTER NOT EXISTS {
-            ?laterJob a <http://vocab.deri.ie/cogs#Job> ;
-              <http://purl.org/dc/terms/creator> <${uri}> ;
-              <http://www.w3.org/ns/adms#status> <${SUCCESS}> ;
-              <http://purl.org/dc/terms/modified> ?laterModified .
-            FILTER(?laterModified > ?modified)
-          }
         }
+      `),
+      this.sparql.query(`
+        SELECT ?status ?modified WHERE {
+          ?job a <http://vocab.deri.ie/cogs#Job> ;
+            <http://purl.org/dc/terms/creator> <${uri}> ;
+            <http://www.w3.org/ns/adms#status> ?status ;
+            <http://purl.org/dc/terms/modified> ?modified .
+        } ORDER BY DESC(?modified) LIMIT 1
       `),
     ]);
 
-    const dr = deltaRows[0];
-    const count = parseInt(dr?.deltaCount?.value ?? '0', 10);
-    this.deltaStats =
-      count > 0
-        ? {
-            count: count.toLocaleString(),
-            earliest: dr.earliest?.value ? new Date(dr.earliest.value) : null,
-            latest: dr.latest?.value ? new Date(dr.latest.value) : null,
-          }
-        : { count: '0', earliest: null, latest: null };
+    this.lastSuccessDate = successRows[0]?.lastSuccess?.value
+      ? new Date(successRows[0].lastSuccess.value)
+      : null;
 
-    const sr = successRows[0];
-    const created = sr?.created?.value ? new Date(sr.created.value) : null;
-    const modified = sr?.modified?.value ? new Date(sr.modified.value) : null;
-    this.lastSuccessDate = modified;
-    if (created && modified) {
-      const ms = modified - created;
-      const totalMinutes = Math.round(ms / 60000);
-      const hours = Math.floor(totalMinutes / 60);
-      const minutes = totalMinutes % 60;
-      this.lastSuccessDuration =
-        hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
-    } else {
-      this.lastSuccessDuration = null;
-    }
+    const statusUri = statusRows[0]?.status?.value;
+    this.lastJobStatus = statusUri ? (STATUS_MAP[statusUri] ?? null) : null;
+    this.lastJobDate = statusRows[0]?.modified?.value
+      ? new Date(statusRows[0].modified.value)
+      : null;
   });
 
   deleteJob = task(async () => {
