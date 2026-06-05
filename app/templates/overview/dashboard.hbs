@@ -57,16 +57,37 @@
         <table class="au-c-data-table">
           <thead>
             <tr>
-              <th>Title</th>
+              <th class="sortable {{if (eq this.sortColumn 'title') 'sorted'}}">
+                <span class="au-c-data-table__header-title au-c-data-table__header-title--sortable {{if (eq this.sortColumn 'title') 'is-active'}}">
+                  Title
+                  <button class="au-c-data-table__sort" type="button" {{on "click" (fn this.sortBy "title")}}>
+                    <AuIcon @icon={{if (eq this.sortColumn "title") (if (eq this.sortDir "asc") "nav-up" "nav-down") "nav-up-down"}} />
+                  </button>
+                </span>
+              </th>
+              <th class="sortable {{if (eq this.sortColumn 'lastRun') 'sorted'}}">
+                <span class="au-c-data-table__header-title au-c-data-table__header-title--sortable {{if (eq this.sortColumn 'lastRun') 'is-active'}}">
+                  Last run
+                  <button class="au-c-data-table__sort" type="button" {{on "click" (fn this.sortBy "lastRun")}}>
+                    <AuIcon @icon={{if (eq this.sortColumn "lastRun") (if (eq this.sortDir "asc") "nav-up" "nav-down") "nav-up-down"}} />
+                  </button>
+                </span>
+              </th>
+              <th class="sortable {{if (eq this.sortColumn 'nextRun') 'sorted'}}">
+                <span class="au-c-data-table__header-title au-c-data-table__header-title--sortable {{if (eq this.sortColumn 'nextRun') 'is-active'}}">
+                  Next run
+                  <button class="au-c-data-table__sort" type="button" {{on "click" (fn this.sortBy "nextRun")}}>
+                    <AuIcon @icon={{if (eq this.sortColumn "nextRun") (if (eq this.sortDir "asc") "nav-up" "nav-down") "nav-up-down"}} />
+                  </button>
+                </span>
+              </th>
               <th>Schedule</th>
-              <th>Last successful run</th>
-              <th>Since last success</th>
-              <th>Delta files</th>
+              <th>Deltas available</th>
               <th>Most recent delta</th>
             </tr>
           </thead>
           <tbody>
-            {{#each this.jobs as |job|}}
+            {{#each this.sortedJobs as |job|}}
               <tr>
                 <td>
                   <AuLink
@@ -75,26 +96,26 @@
                     {{job.title}}
                   </AuLink>
                 </td>
+                <td>
+                  <AuPill
+                    @skin={{job.stalenessStatus}}
+                    title={{job.lastSuccessFormatted}}>
+                    {{job.stalenessLabel}}
+                  </AuPill>
+                </td>
+                <td>
+                  {{#if job.nextRun}}
+                    {{format-date job.nextRun "dd/MM/yyyy HH:mm"}}
+                  {{else}}
+                    —
+                  {{/if}}
+                </td>
                 <td title={{job.schedule}}>
                   {{#if job.scheduleDescription}}
                     <span class="au-u-muted">{{job.scheduleDescription}}</span>
                   {{else}}
                     —
                   {{/if}}
-                </td>
-                <td>
-                  {{#if job.lastSuccess}}
-                    <span title={{job.lastSuccessRelative}}>
-                      {{format-date job.lastSuccess "dd/MM/yyyy"}}
-                    </span>
-                  {{else}}
-                    —
-                  {{/if}}
-                </td>
-                <td>
-                  <AuPill @skin={{job.stalenessStatus}}>
-                    {{job.stalenessLabel}}
-                  </AuPill>
                 </td>
                 <td>
                   {{job.deltaCountFormatted}}

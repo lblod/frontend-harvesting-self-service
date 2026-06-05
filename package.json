@@ -97,5 +97,8 @@
   },
   "volta": {
     "node": "22.20.0"
+  },
+  "dependencies": {
+    "cron-parser": "^5.5.0"
   }
 }
