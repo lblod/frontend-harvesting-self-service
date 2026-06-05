@@ -1,9 +1,11 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
-import { differenceInDays, formatDistanceToNow } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 import cronstrue from 'cronstrue';
+import { CronExpressionParser } from 'cron-parser';
 
 const SUCCESS = 'http://redpencil.data.gift/id/concept/JobStatus/success';
 const OP_DELTA =
@@ -49,7 +51,7 @@ SELECT (MAX(?modified) as ?latestFullDataset) WHERE {
 `;
 
 function stalenessLabel(days) {
-  if (days === null) return 'Never run';
+  if (days === null) return 'N/A';
   if (days === 0) return 'Today';
   return `${days}d ago`;
 }
@@ -64,10 +66,48 @@ export default class OverviewDashboardController extends Controller {
   @service sparql;
 
   @tracked jobs = [];
+  @tracked sortColumn = 'lastRun';
+  @tracked sortDir = 'desc';
   @tracked totalDeltaFiles = 0;
   @tracked oldestDelta = null;
   @tracked newestDelta = null;
   @tracked latestFullDataset = null;
+
+  get sortedJobs() {
+    const { sortColumn, sortDir } = this;
+    const dir = sortDir === 'asc' ? 1 : -1;
+    return [...this.jobs].sort((a, b) => {
+      switch (sortColumn) {
+        case 'title':
+          return dir * a.title.localeCompare(b.title);
+        case 'lastRun': {
+          if (a.daysSinceSuccess === null && b.daysSinceSuccess === null)
+            return 0;
+          // nulls sort to whichever end represents "most stale"
+          if (a.daysSinceSuccess === null) return dir;
+          if (b.daysSinceSuccess === null) return -dir;
+          return dir * (a.daysSinceSuccess - b.daysSinceSuccess);
+        }
+        case 'nextRun':
+          if (!a.nextRun && !b.nextRun) return 0;
+          if (!a.nextRun) return 1;
+          if (!b.nextRun) return -1;
+          return dir * (a.nextRun - b.nextRun);
+        default:
+          return 0;
+      }
+    });
+  }
+
+  @action
+  sortBy(column) {
+    if (this.sortColumn === column) {
+      this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDir = column === 'nextRun' ? 'asc' : 'desc';
+    }
+  }
 
   loadData = task(async () => {
     const [schedJobRows, lastSuccessRows, deltaRows, fullDatasetRows] =
@@ -97,50 +137,47 @@ export default class OverviewDashboardController extends Controller {
     );
 
     const now = new Date();
-    this.jobs = schedJobRows
-      .map((r) => {
-        const uri = r.schedJob.value;
-        const id = uri.split('/').pop();
-        const lastSuccess = lastSuccessMap.get(uri) ?? null;
-        const delta = deltaMap.get(uri) ?? null;
-        const days = lastSuccess ? differenceInDays(now, lastSuccess) : null;
+    this.jobs = schedJobRows.map((r) => {
+      const uri = r.schedJob.value;
+      const id = uri.split('/').pop();
+      const lastSuccess = lastSuccessMap.get(uri) ?? null;
+      const delta = deltaMap.get(uri) ?? null;
+      const days = lastSuccess ? differenceInDays(now, lastSuccess) : null;
 
-        let scheduleDescription = null;
-        if (r.schedule?.value) {
-          try {
-            scheduleDescription = cronstrue.toString(r.schedule.value, {
-              use24HourTimeFormat: true,
-            });
-          } catch {
-            scheduleDescription = r.schedule.value;
-          }
+      let scheduleDescription = null;
+      let nextRun = null;
+      if (r.schedule?.value) {
+        try {
+          scheduleDescription = cronstrue.toString(r.schedule.value, {
+            use24HourTimeFormat: true,
+          });
+          nextRun = CronExpressionParser.parse(r.schedule.value)
+            .next()
+            .toDate();
+        } catch {
+          scheduleDescription = r.schedule.value;
         }
+      }
 
-        return {
-          uri,
-          id,
-          title: r.schedTitle.value,
-          schedule: r.schedule?.value ?? null,
-          scheduleDescription,
-          lastSuccess,
-          lastSuccessRelative: lastSuccess
-            ? formatDistanceToNow(lastSuccess, { addSuffix: true })
-            : null,
-          deltaCount: delta?.count ?? 0,
-          deltaCountFormatted: (delta?.count ?? 0).toLocaleString(),
-          latestDelta: delta?.latest ?? null,
-          daysSinceSuccess: days,
-          stalenessLabel: stalenessLabel(days),
-          stalenessStatus: stalenessStatus(days),
-        };
-      })
-      .sort((a, b) => {
-        if (a.daysSinceSuccess === null && b.daysSinceSuccess === null)
-          return 0;
-        if (a.daysSinceSuccess === null) return -1;
-        if (b.daysSinceSuccess === null) return 1;
-        return b.daysSinceSuccess - a.daysSinceSuccess;
-      });
+      return {
+        uri,
+        id,
+        title: r.schedTitle.value,
+        schedule: r.schedule?.value ?? null,
+        scheduleDescription,
+        lastSuccess,
+        deltaCount: delta?.count ?? 0,
+        deltaCountFormatted: (delta?.count ?? 0).toLocaleString(),
+        latestDelta: delta?.latest ?? null,
+        daysSinceSuccess: days,
+        stalenessLabel: stalenessLabel(days),
+        lastSuccessFormatted: lastSuccess
+          ? format(lastSuccess, 'dd/MM/yyyy HH:mm')
+          : null,
+        stalenessStatus: stalenessStatus(days),
+        nextRun,
+      };
+    });
 
     const allDeltas = [...deltaMap.values()];
     this.totalDeltaFiles = allDeltas

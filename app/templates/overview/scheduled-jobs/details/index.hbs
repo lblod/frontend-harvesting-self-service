@@ -99,6 +99,14 @@
                   <span class="au-u-muted">No successful runs recorded</span>
                 {{/if}}
               </dd>
+              {{#if this.lastSuccessDuration}}
+                <dt class="au-u-bold">Duration</dt>
+                <dd>{{this.lastSuccessDuration}}</dd>
+              {{/if}}
+              {{#if this.nextRun}}
+                <dt class="au-u-bold">Next scheduled run</dt>
+                <dd>{{format-date this.nextRun}}</dd>
+              {{/if}}
             </dl>
           </div>
           <div class="au-o-grid__item au-u-1-2@medium">
