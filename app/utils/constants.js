@@ -30,8 +30,8 @@ export const JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oslo-to-eli';
 export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/ner-and-nel-annotations';
-export const JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST =
-  'http://lblod.data.gift/id/jobs/concept/JobOperation/eli-entity-linking-test';
+export const JOB_OP_TYPE_NEL_ANNOTATIONS =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/nel-annotations';
 export const JOB_OP_TYPE_CODELIST_MAPPING_TRAINING =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/training';
 export const JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION =
@@ -78,7 +78,10 @@ JOB_OP_TYPES.set(
   JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
   'Generate NER and NEL Annotations on ELI decisions',
 );
-JOB_OP_TYPES.set(JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST, 'Entity Linking test');
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_NEL_ANNOTATIONS,
+  'Generate NEL Annotations on ELI decisions',
+);
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
   'Codelist mapping (training)',
@@ -130,13 +133,9 @@ if (
     JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
     'Perform Named Entity Recognition & Entity Linking on ELI decisions & Publish',
   );
-}
-if (
-  ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenLinking)
-) {
   JOB_OP_TYPE_CREATE.set(
-    JOB_OP_TYPE_ELI_ENTITY_LINKING_TEST,
-    'Entity Linking test',
+    JOB_OP_TYPE_NEL_ANNOTATIONS,
+    'Perform Named Entity Linking on ELI decisions & Publish',
   );
 }
 if (['true', 'True', 'TRUE', true].includes(config.harvester.codelistMapping)) {
@@ -209,6 +208,7 @@ export function isJobWithDecisionUris(jobOperationUri) {
 export function isJobWithDecisionSelector(jobOperationUri) {
   return [
     JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    JOB_OP_TYPE_NEL_ANNOTATIONS,
     JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
     JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
   ].includes(jobOperationUri);
@@ -218,6 +218,7 @@ export function isJobWithMunicipality(jobOperationUri) {
   return [
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
     JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    JOB_OP_TYPE_NEL_ANNOTATIONS,
   ].includes(jobOperationUri);
 }
 
