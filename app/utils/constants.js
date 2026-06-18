@@ -1,5 +1,7 @@
 import config from 'frontend-harvesting-self-service/config/environment';
 
+export const JOB_OP_TYPE_CLEANUP_SINGLE_JOB =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/cleanup-single-job';
 export const JOB_OP_TYPE_HARVEST =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/lblodHarvesting';
 export const JOB_OP_TYPE_PUBLISH =
@@ -54,6 +56,7 @@ if (
   ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenHarvesting)
 ) {
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST, 'Harvest URL');
+  JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_CLEANUP_SINGLE_JOB, 'Cleanup single job');
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_IMPORT, 'Import');
   JOB_OP_TYPE_CREATE.set(JOB_OP_TYPE_HARVEST_AND_IMPORT, 'Harvest & Publish');
 }
