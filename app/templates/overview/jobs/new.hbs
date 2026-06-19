@@ -50,7 +50,12 @@
             />
           </AuFormRow>
         {{/if}}
-
+        {{#if this.isHarvestPdfJob}}
+          <AuToggleSwitch
+            @checked={{this.splitPdf}}
+            @onChange={{this.toggleSplitPdf}}
+          >Split PDF into multiple expressions</AuToggleSwitch>
+        {{/if}}
         {{#if this.isJobWithCodelist}}
           <AuFormRow @alignment="default">
             <AuLabel
