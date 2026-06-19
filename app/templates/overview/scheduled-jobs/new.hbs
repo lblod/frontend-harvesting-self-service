@@ -4,18 +4,18 @@
   @modalOpen={{true}}
   @closeModal={{this.cancelCreateScheduledJob}}
   @overflow={{if this.selectedJobOperation.uri false true}}
-  @size="default">
+  @size="default"
+>
   <:title>Create new scheduled job</:title>
   <:body>
     <form class="au-c-form">
-      <AuFormRow
-        class="au-u-margin-bottom"
-        @alignment="default">
+      <AuFormRow class="au-u-margin-bottom" @alignment="default">
         <AuLabel
           for="job-type-select"
           @required={{true}}
           @requiredLabel="Required"
-          @error={{not this.selectedJobOperationValid}}>
+          @error={{not this.selectedJobOperationValid}}
+        >
           Choose operation
         </AuLabel>
         <PowerSelect
@@ -25,7 +25,8 @@
           @options={{this.jobOperations}}
           @selected={{this.selectedJobOperation}}
           @onChange={{this.setJobOperation}}
-          as |option|>
+          as |option|
+        >
           {{option.label}}
         </PowerSelect>
       </AuFormRow>
@@ -54,7 +55,7 @@
               @required={{true}}
               @requiredLabel="Required"
               @error={{not this.codelistUriValid}}
-              >
+            >
               Codelist
             </AuLabel>
             <AuInput
@@ -80,63 +81,69 @@
         {{/if}}
 
         {{#if (eq this.selectedJobOperation.uri this.jobHarvestOsloEli)}}
-            <AuFormRow @alignment="default">
-              <AuLabel for="decisions-published-by">
-                Published by
-              </AuLabel>
-              <PowerSelect
-                id="decisions-published-by"
-                @options={{this.consumeLokaalBeslistPublishedByOptions}}
-                @selected={{this.consumeLokaalBeslistPublishedBy}}
-                @onChange={{this.noop}}
-                @disabled={{true}}
-                @renderInPlace={{true}}
-                as |option|>
-                {{option.label}}
-              </PowerSelect>
-              <AuHelpText @warning={{true}}>
-                For now, Lokaal Beslist harvesting is limited to decisions published by Ghent only.
-              </AuHelpText>
-            </AuFormRow>
-            <AuFormRow @alignment="default">
-              <AuLabel
-                for="consumer-sync-mode"
-                @required={{true}}
-                @requiredLabel="Required"
-                @error={{not this.urlValid}}>
-                Sync mode
-              </AuLabel>
-              <AuRadioGroup
-                id="consumer-sync-mode"
-                @name="consumer-sync-mode"
-                @selected={{this.url}}
-                {{on "change" (fn this.setProperty "url")}}
-                as |Group|>
-                <Group.Radio @disabled={{true}}>
-                  Initial sync
-                </Group.Radio>
-                <Group.Radio @value={{this.deltaConsumerSyncModeUri}}>
-                  Delta sync
-                </Group.Radio>
-              </AuRadioGroup>
-              <AuHelpText @warning={{true}}>
-                Initial sync is a one-time run and should be started as a single harvesting job. A scheduled job for delta sync is ideal to keep data up to date.
-              </AuHelpText>
-            </AuFormRow>
+          <AuFormRow @alignment="default">
+            <AuLabel for="decisions-published-by">
+              Published by
+            </AuLabel>
+            <PowerSelect
+              id="decisions-published-by"
+              @options={{this.consumeLokaalBeslistPublishedByOptions}}
+              @selected={{this.consumeLokaalBeslistPublishedBy}}
+              @onChange={{this.noop}}
+              @disabled={{true}}
+              @renderInPlace={{true}}
+              as |option|
+            >
+              {{option.label}}
+            </PowerSelect>
+            <AuHelpText @warning={{true}}>
+              For now, Lokaal Beslist harvesting is limited to decisions
+              published by Ghent only.
+            </AuHelpText>
+          </AuFormRow>
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="consumer-sync-mode"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{not this.urlValid}}
+            >
+              Sync mode
+            </AuLabel>
+            <AuRadioGroup
+              id="consumer-sync-mode"
+              @name="consumer-sync-mode"
+              @selected={{this.url}}
+              {{on "change" (fn this.setProperty "url")}}
+              as |Group|
+            >
+              <Group.Radio @disabled={{true}}>
+                Initial sync
+              </Group.Radio>
+              <Group.Radio @value={{this.deltaConsumerSyncModeUri}}>
+                Delta sync
+              </Group.Radio>
+            </AuRadioGroup>
+            <AuHelpText @warning={{true}}>
+              Initial sync is a one-time run and should be started as a single
+              harvesting job. A scheduled job for delta sync is ideal to keep
+              data up to date.
+            </AuHelpText>
+          </AuFormRow>
         {{/if}}
 
-          {{#if this.isJobWithDecisionSelector}}
-            <DecisionSelectorConfiguration
-              @decisionUris={{this.decisionUris}}
-              @decisionUrisValid={{this.decisionUrisValid}}
-              @graphForTargetsUri={{this.graphForTargetsUri}}
-              @graphForTargetsUriValid={{this.graphForTargetsUriValid}}
-              @targetClassUri={{this.targetClassUri}}
-              @targetClassUriValid={{this.targetClassUriValid}}
-              @propertyPathForTextUri={{this.propertyPathForTextUri}}
-              @setProperty={{this.setProperty}}
-            />
-          {{/if}}
+        {{#if this.isJobWithDecisionSelector}}
+          <DecisionSelectorConfiguration
+            @decisionUris={{this.decisionUris}}
+            @decisionUrisValid={{this.decisionUrisValid}}
+            @graphForTargetsUri={{this.graphForTargetsUri}}
+            @graphForTargetsUriValid={{this.graphForTargetsUriValid}}
+            @targetClassUri={{this.targetClassUri}}
+            @targetClassUriValid={{this.targetClassUriValid}}
+            @propertyPathForTextUri={{this.propertyPathForTextUri}}
+            @setProperty={{this.setProperty}}
+          />
+        {{/if}}
 
         {{#if this.isJobWithMultipleEndpoints}}
           <AuFormRow @alignment="default">
@@ -144,7 +151,8 @@
               for="task-url"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.urlValid}}>
+              @error={{not this.urlValid}}
+            >
               URL's
             </AuLabel>
             <AuTextarea
@@ -166,7 +174,8 @@
               for="task-url"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.urlValid}}>
+              @error={{not this.urlValid}}
+            >
               URL
             </AuLabel>
             <AuInput
@@ -192,8 +201,12 @@
               @selected={{this.selectedMunicipality}}
               @onChange={{this.changeSelectedMunicipality}}
               @renderInPlace={{true}}
-              @disabled={{or this.loadingMunicipalities (not this.municipalities.length)}}
-              as |option|>
+              @disabled={{or
+                this.loadingMunicipalities
+                (not this.municipalities.length)
+              }}
+              as |option|
+            >
               {{option.label}}
             </PowerSelect>
           </AuFormRow>
@@ -204,7 +217,8 @@
             for="cron-pattern"
             @required={{true}}
             @requiredLabel="Required"
-            @error={{not this.cronPatternValid}}>
+            @error={{not this.cronPatternValid}}
+          >
             Cron pattern
           </AuLabel>
           <AuInput
@@ -215,26 +229,33 @@
             {{on "change" (fn this.setProperty "cronPattern")}}
           />
           <AuHelpText @error={{not this.isValidCronPattern}}>
-            The job will be started: {{this.cronDescription}}
+            The job will be started:
+            {{this.cronDescription}}
           </AuHelpText>
           <AuHelpText>
-            <strong>Some examples</strong> <br />
-            Every monday, at 04:05: "5 4 * * 1" <br />
-            At 14:13, only on Monday, only in April: "13 14 * 4 1" <br />
+            <strong>Some examples</strong>
+            <br />
+            Every monday, at 04:05: "5 4 * * 1"
+            <br />
+            At 14:13, only on Monday, only in April: "13 14 * 4 1"
+            <br />
             At 10:38, on day 5 of the month: "38 10 5 * *"
           </AuHelpText>
           <AuHelpText @warning={{true}}>
-            <strong>Warning</strong> <br />
-            With great power there must also come great responsibility. <br>
-            Try to think about spreading the load on the server by spreading
-            the jobs in time.
+            <strong>Warning</strong>
+            <br />
+            With great power there must also come great responsibility.
+            <br />
+            Try to think about spreading the load on the server by spreading the
+            jobs in time.
           </AuHelpText>
         </AuFormRow>
         <AuFormRow @alignment="default">
           <AuLabel
             for="task-creator"
             @required={{true}}
-            @requiredLabel="Required">
+            @requiredLabel="Required"
+          >
             Creator
           </AuLabel>
           <AuInput
@@ -245,14 +266,19 @@
             {{on "change" (fn this.setProperty "creator")}}
           />
         </AuFormRow>
-        {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorship)
-                  (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport))}}
+        {{#if
+          (or
+            (eq this.selectedJobOperation.uri this.jobHarvestWorship)
+            (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport)
+          )
+        }}
           <AuFormRow @alignment="default">
             <AuLabel
               for="task-vendor"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.vendorValid}}>
+              @error={{not this.vendorValid}}
+            >
               Vendor
             </AuLabel>
             <AuInput
@@ -264,8 +290,7 @@
             />
           </AuFormRow>
         {{/if}}
-        {{#if (and this.authenticationEnabled
-                   this.isJobWithAuthentication)}}
+        {{#if (and this.authenticationEnabled this.isJobWithAuthentication)}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}
@@ -282,20 +307,22 @@
   <:footer>
     <AuButtonGroup>
       <AuButton
-        {{on 'click' (perform this.createScheduledJob)}}
+        {{on "click" (perform this.createScheduledJob)}}
         @skin="primary"
         @icon="check"
         @iconAlignment="left"
         @loading={{this.createScheduledJob.isRunning}}
-        @loadingMessage="Creating">
+        @loadingMessage="Creating"
+      >
         Create Scheduled Job
       </AuButton>
       <AuButton
-        {{on 'click' this.cancelCreateScheduledJob}}
+        {{on "click" this.cancelCreateScheduledJob}}
         @skin="secondary"
         @icon="cross"
         @iconAlignment="left"
-        @alert={{true}}>
+        @alert={{true}}
+      >
         Cancel
       </AuButton>
     </AuButtonGroup>
