@@ -20,6 +20,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobHarvestOsloEli = cts.JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI;
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
   jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
+  jobHarvestPdfToEli = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
@@ -70,6 +71,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
   @tracked selectedMunicipality;
+
+  @tracked splitPdf = true;
 
   consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
   consumeLokaalBeslistPublishedBy =
@@ -125,6 +128,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
   }
 
+  get isHarvestPdfJob() {
+    return this.selectedJobOperation?.uri === this.jobHarvestPdfToEli;
+  }
+
   @action
   updateCredentials(attributeName, credentials) {
     this.credentials[attributeName] = credentials;
@@ -163,6 +170,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   changeSelectedMunicipality(org) {
     this.selectedMunicipality = org;
+  }
+
+  @action
+  toggleSplitPdf() {
+    this.splitPdf = !this.splitPdf;
   }
 
   @action
@@ -232,6 +244,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
       if (this.isJobWithCodelist) {
         jobAttributes.codelist = this.codelistUri;
       }
+
+      if (this.isHarvestPdfJob && this.splitPdf) {
+        jobAttributes.splitDecisions = this.splitPdf;
+      }
+
       if (this.isJobWithDecisionSelector) {
         let shapeForTargets;
         if (this.decisionUris) {

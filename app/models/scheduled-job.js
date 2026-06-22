@@ -10,6 +10,7 @@ export default class ScheduledJobModel extends Model {
   @attr creator;
   @attr operation;
   @attr vendor;
+  @attr('boolean') splitDecisions;
 
   @hasMany('scheduled-task', {
     async: true,
