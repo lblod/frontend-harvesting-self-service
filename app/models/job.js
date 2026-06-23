@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { JOB_STATUS_SHORT } from '../utils/constants';
 
 export default class JobModel extends Model {
   @attr uri;
@@ -13,17 +14,7 @@ export default class JobModel extends Model {
   @belongsTo('job-error', { async: true, inverse: null }) error;
   @hasMany('task', { async: true, inverse: 'job' }) tasks;
 
-  //TODO: move this later to a propery modeled skos:Conceptscheme from backend
-  statusesMap = {
-    'http://redpencil.data.gift/id/concept/JobStatus/busy': 'busy',
-    'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
-    'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
-    'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
-    'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled',
-    'http://redpencil.data.gift/id/concept/JobStatus/archived': 'archived',
-  };
-
   get shortStatus() {
-    return this.statusesMap[this.status];
+    return JOB_STATUS_SHORT[this.status];
   }
 }

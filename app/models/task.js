@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { JOB_STATUS_SHORT } from '../utils/constants';
 
 export default class TaskModel extends Model {
   @attr uri;
@@ -17,17 +18,7 @@ export default class TaskModel extends Model {
   @hasMany('data-container', { async: true, inverse: null }) resultsContainers;
   @hasMany('data-container', { async: true, inverse: null }) inputContainers;
 
-  //TODO: move this later to a propery modeled skos:Conceptscheme from backend
-  statusesMap = {
-    'http://redpencil.data.gift/id/concept/JobStatus/busy': 'busy',
-    'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
-    'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
-    'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
-    'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled',
-    'http://redpencil.data.gift/id/concept/JobStatus/preparing': 'preparing',
-  };
-
   get shortStatus() {
-    return this.statusesMap[this.status];
+    return JOB_STATUS_SHORT[this.status];
   }
 }

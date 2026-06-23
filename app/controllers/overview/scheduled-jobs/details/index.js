@@ -4,16 +4,10 @@ import { task } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 import cronstrue from 'cronstrue';
 import { CronExpressionParser } from 'cron-parser';
-
-const SUCCESS = 'http://redpencil.data.gift/id/concept/JobStatus/success';
-
-const STATUS_MAP = {
-  'http://redpencil.data.gift/id/concept/JobStatus/success': 'success',
-  'http://redpencil.data.gift/id/concept/JobStatus/failed': 'failed',
-  'http://redpencil.data.gift/id/concept/JobStatus/busy': 'busy',
-  'http://redpencil.data.gift/id/concept/JobStatus/scheduled': 'scheduled',
-  'http://redpencil.data.gift/id/concept/JobStatus/canceled': 'canceled',
-};
+import {
+  JOB_OP_STATUS_SUCCESS,
+  JOB_STATUS_SHORT,
+} from '../../../../utils/constants';
 
 export default class OverviewScheduledJobsDetailsIndexController extends Controller {
   @service router;
@@ -59,7 +53,7 @@ export default class OverviewScheduledJobsDetailsIndexController extends Control
         SELECT (MAX(?modified) as ?lastSuccess) WHERE {
           ?job a <http://vocab.deri.ie/cogs#Job> ;
             <http://purl.org/dc/terms/creator> <${uri}> ;
-            <http://www.w3.org/ns/adms#status> <${SUCCESS}> ;
+            <http://www.w3.org/ns/adms#status> <${JOB_OP_STATUS_SUCCESS}> ;
             <http://purl.org/dc/terms/modified> ?modified .
         }
       `),
@@ -78,7 +72,9 @@ export default class OverviewScheduledJobsDetailsIndexController extends Control
       : null;
 
     const statusUri = statusRows[0]?.status?.value;
-    this.lastJobStatus = statusUri ? (STATUS_MAP[statusUri] ?? null) : null;
+    this.lastJobStatus = statusUri
+      ? (JOB_STATUS_SHORT[statusUri] ?? null)
+      : null;
     this.lastJobDate = statusRows[0]?.modified?.value
       ? new Date(statusRows[0].modified.value)
       : null;
