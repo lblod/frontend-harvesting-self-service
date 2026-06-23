@@ -260,6 +260,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
             targetClass: [this.targetClassUri.trim()],
           });
         }
+        await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           shapeForTargets: [shapeForTargets],
           graphForTargets: this.graphForTargetsUri || undefined,
