@@ -12,6 +12,7 @@ export default class JobTaskController extends Controller {
     this.model.task.status =
       'http://redpencil.data.gift/id/concept/JobStatus/scheduled';
     this.model.task.modified = new Date();
+    this.model.task.checkedForScheduling = null;
     this.model.task.save();
   }
 }

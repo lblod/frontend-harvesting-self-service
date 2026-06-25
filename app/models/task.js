@@ -5,6 +5,7 @@ export default class TaskModel extends Model {
   @attr status;
   @attr('date') created;
   @attr('date') modified;
+  @attr('date') checkedForScheduling;
   @attr operation;
   @attr index;
 
