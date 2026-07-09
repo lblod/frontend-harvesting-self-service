@@ -1,0 +1,15 @@
+{{#if this.isLoading}}
+  <span>Loading resource types…</span>
+{{else if this.errored}}
+  <span>Could not load resource types</span>
+{{else if this.types.length}}
+  <ul>
+    {{#each this.types as |resourceType|}}
+      <li title={{resourceType.type}}>
+        {{resourceType.label}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <span>No typed resources</span>
+{{/if}}

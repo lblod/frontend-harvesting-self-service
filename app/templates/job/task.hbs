@@ -58,6 +58,9 @@
             {{/if}}
           </dl>
           {{!End Task info}}
+          {{#if (resource-types-enabled)}}
+            <TaskResourceTypeSummary @taskId={{this.model.task.id}} />
+          {{/if}}
         </div>
         {{#if this.canRestartTask}}
           <div class="au-u-padding">
