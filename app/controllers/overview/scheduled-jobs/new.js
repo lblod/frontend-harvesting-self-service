@@ -21,6 +21,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
   jobEliToNERAndNEL = cts.JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS;
   jobOparlToELI = cts.JOB_OP_TYPE_HARVESTING_OPARL;
   jobHarvestPdfToEli = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ELI;
+  jobHarvestJsonToEli = cts.JOB_OP_TYPE_HARVESTING_JSON_TO_ELI;
+  jobHarvestPdfToEnriched = cts.JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED;
+  jobHarvestJsonToEnriched = cts.JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED;
 
   jobOperations = Array.from(cts.JOB_OP_TYPE_CREATE).map(([key, value]) => {
     return { label: value, uri: key };
