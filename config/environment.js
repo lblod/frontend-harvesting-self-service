@@ -23,6 +23,7 @@ module.exports = function (environment) {
       besluitenLinking: '{{BESLUITEN_LINKING_ENABLED}}',
       codelistMapping: '{{CODELIST_MAPPING_ENABLED}}',
       hideDeleteJobButton: '{{HIDE_DELETE_JOB_BUTTON_ENABLED}}',
+      resourceTypes: '{{RESOURCE_TYPES_ENABLED}}',
     },
     acmidm: {
       clientId: '{{ACMIDM_CLIENT_ID}}',
@@ -58,6 +59,7 @@ module.exports = function (environment) {
     ENV.harvester.besluitenLinking = true;
     ENV.harvester.authEnabled = true;
     ENV.harvester.codelistMapping = true;
+    ENV.harvester.resourceTypes = false;
   }
 
   if (environment === 'test') {

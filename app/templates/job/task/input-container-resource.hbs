@@ -10,6 +10,9 @@
     <c.header>
       <th>URI</th>
       <th>Resource URI(s)</th>
+      {{#if (resource-types-enabled)}}
+        <th>Resource types</th>
+      {{/if}}
     </c.header>
     <c.body as |row|>
       <td>
@@ -18,6 +21,11 @@
       <td>
         {{row.hasResource}}
       </td>
+      {{#if (resource-types-enabled)}}
+        <td>
+          <ResourceTypes @dataContainerId={{row.id}} />
+        </td>
+      {{/if}}
     </c.body>
   </t.content>
 </AuDataTable>

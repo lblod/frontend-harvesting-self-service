@@ -1,0 +1,15 @@
+{{#if this.types.length}}
+  <AuHeading @level="4" @skin="5" class="au-u-margin-top au-u-margin-bottom">
+    Resource types ({{this.totalResources}})
+  </AuHeading>
+  <dl class="au-u-flex--inline au-u-flex--wrap au-u-flex--spaced">
+    {{#each this.types as |resourceType|}}
+      <div>
+        <dt class="au-u-bold" title={{resourceType.type}}>
+          {{resourceType.label}}
+        </dt>
+        <dd>{{resourceType.count}}</dd>
+      </div>
+    {{/each}}
+  </dl>
+{{/if}}
