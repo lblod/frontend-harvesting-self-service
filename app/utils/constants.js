@@ -26,6 +26,12 @@ export const JOB_OP_TYPE_HARVESTING_OPARL =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oparl';
 export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
+export const JOB_OP_TYPE_HARVESTING_JSON_TO_ELI =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/json-to-eli';
+export const JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-enriched';
+export const JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/json-to-enriched';
 export const JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI =
   'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/oslo-to-eli';
 export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
@@ -73,6 +79,18 @@ JOB_OP_TYPES.set(
   JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
   'Harvest PDFs from Website URL & Publish as ELI',
 );
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+  'Harvest PDFs from Website URL, Publish as ELI and Enrich',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+  'Harvest JSON from Website URL & Publish as ELI',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+  'Harvest JSON from Website URL, Publish as ELI and Enrich',
+);
 JOB_OP_TYPES.set(JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI, 'Harvest OSLO to ELI');
 JOB_OP_TYPES.set(
   JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
@@ -118,6 +136,18 @@ if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
     'Harvest PDFs from Website URL & Publish as ELI',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+    'Harvest JSON from Website URL & Publish as ELI',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+    'Harvest PDFs from Website URL, Publish as ELI and Enrich',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+    'Harvest JSON from Website URL, Publish as ELI and Enrich',
   );
 }
 if (['true', 'True', 'TRUE', true].includes(config.harvester.osloHarvesting)) {
@@ -183,12 +213,17 @@ export function isJobWithSingleUrl(jobOperationUri) {
     JOB_OP_TYPE_HARVEST_WORSHIP,
     JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
     JOB_OP_TYPE_HARVESTING_OSLO_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
     JOB_OP_TYPE_HARVESTING_OPARL,
   ].includes(jobOperationUri);
 }
 
 export function isJobWithMultipleEndpoints(jobOperationUri) {
-  return [JOB_OP_TYPE_HARVESTING_PDF_TO_ELI].includes(jobOperationUri);
+  return [
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+  ].includes(jobOperationUri);
 }
 
 export function isJobWithCodelist(jobOperationUri) {
@@ -217,6 +252,9 @@ export function isJobWithDecisionSelector(jobOperationUri) {
 export function isJobWithMunicipality(jobOperationUri) {
   return [
     JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
     JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
     JOB_OP_TYPE_NEL_ANNOTATIONS,
   ].includes(jobOperationUri);
@@ -251,6 +289,18 @@ REQUEST_HEADERS.set(
 REQUEST_HEADERS.set(
   JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
   'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+  'http://data.lblod.info/request-headers/accept/application/json',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+  'http://data.lblod.info/request-headers/accept/application/json',
 );
 REQUEST_HEADERS.set(
   JOB_OP_TYPE_HARVESTING_OPARL,
