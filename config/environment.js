@@ -59,7 +59,7 @@ module.exports = function (environment) {
     ENV.harvester.besluitenLinking = true;
     ENV.harvester.authEnabled = true;
     ENV.harvester.codelistMapping = true;
-    ENV.harvester.resourceTypes = true;
+    ENV.harvester.resourceTypes = false;
   }
 
   if (environment === 'test') {
