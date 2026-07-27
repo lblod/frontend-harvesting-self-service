@@ -117,10 +117,6 @@ export default class OverviewJobsNewController extends Controller {
     return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
   }
 
-  get isHarvestPdfJob() {
-    return this.selectedJobOperation?.uri === this.jobHarvestPdfToEli;
-  }
-
   @action
   updateCredentials(attributeName, credentials) {
     this.credentials[attributeName] = credentials;
@@ -231,7 +227,7 @@ export default class OverviewJobsNewController extends Controller {
         jobAttributes.codelist = this.codelistUri;
       }
 
-      if (this.isHarvestPdfJob && this.splitPdf) {
+      if (this.isJobWithMultipleEndpoints && this.splitPdf) {
         jobAttributes.splitDecisions = this.splitPdf;
       }
 

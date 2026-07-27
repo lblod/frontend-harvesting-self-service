@@ -50,7 +50,7 @@
             />
           </AuFormRow>
         {{/if}}
-        {{#if this.isHarvestPdfJob}}
+        {{#if this.isJobWithMultipleEndpoints}}
           <AuToggleSwitch
             @checked={{this.splitPdf}}
             @onChange={{this.toggleSplitPdf}}

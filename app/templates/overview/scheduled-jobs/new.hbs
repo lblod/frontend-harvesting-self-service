@@ -48,7 +48,7 @@
             {{on "change" (fn this.setProperty "title")}}
           />
         </AuFormRow>
-        {{#if this.isHarvestPdfJob}}
+        {{#if this.isJobWithMultipleEndpoints}}
           <AuToggleSwitch
             @checked={{this.splitPdf}}
             @onChange={{this.toggleSplitPdf}}
