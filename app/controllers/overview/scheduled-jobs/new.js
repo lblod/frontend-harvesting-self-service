@@ -205,9 +205,13 @@ export default class OverviewScheduledJobsNewController extends Controller {
         this.propertyPathForTextUriValid &&
         this.targetClassUriValid;
     }
-    if (this.isJobWithSingleUrl && isValid) {
+    if (
+      (this.isJobWithSingleUrl || this.isJobWithMultipleEndpoints) &&
+      isValid
+    ) {
       isValid = this.urlValid;
     }
+
     return isValid;
   }
 
@@ -226,7 +230,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       await cronSchedule.save();
 
       let jobName = 'scheduled-job';
-      if (this.isJobWithDecisionSelector) {
+      if (this.isJobWithDecisionSelector || this.isJobWithMultipleEndpoints) {
         jobName = 'scheduled-annotation-job';
       }
 
@@ -248,8 +252,17 @@ export default class OverviewScheduledJobsNewController extends Controller {
         jobAttributes.splitDecisions = this.splitPdf;
       }
 
+      let shapeForTargets;
+      if (this.isJobWithMultipleEndpoints && this.url) {
+        // NOTE (29/07/2026): These are harvesting jobs and user is required to
+        // provide URLs to harvest from.  Therefore, these jobs do not support
+        // specifying a target graph.
+        shapeForTargets = this.store.createRecord('node-shape', {
+          targetNode: this.url.split(/\n/).filter((x) => x),
+        });
+      }
+
       if (this.isJobWithDecisionSelector) {
-        let shapeForTargets;
         if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
             targetNode: this.decisionUris.split(/\n/).filter((x) => x),
@@ -259,6 +272,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
             targetClass: [this.targetClassUri.trim()],
           });
         }
+      }
+
+      if (shapeForTargets) {
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           shapeForTargets: [shapeForTargets],
