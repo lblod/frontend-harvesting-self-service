@@ -18,5 +18,6 @@ export default class OverviewScheduledJobsNewRoute extends Route {
     controller.set('selectedSecurityScheme', null);
     controller.set('securityScheme', {});
     controller.set('credentials', {});
+    controller.set('municipalityValid', true);
   }
 }
