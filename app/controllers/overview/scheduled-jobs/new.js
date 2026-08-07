@@ -74,6 +74,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
   @tracked selectedMunicipality;
+  @tracked municipalityValid = true;
 
   @tracked splitPdf = true;
 
@@ -169,6 +170,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   changeSelectedMunicipality(org) {
     this.selectedMunicipality = org;
+    this.municipalityValid = !!org;
   }
 
   @action
@@ -190,6 +192,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
     );
+    this.municipalityValid = !!this.selectedMunicipality;
 
     // Once isValid is false, it stays false until the end
     let isValid =
@@ -208,6 +211,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
     if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
     }
+
+    if (this.isJobWithMunicipality && isValid) {
+      isValid = this.municipalityValid;
+    }
+
     return isValid;
   }
 
