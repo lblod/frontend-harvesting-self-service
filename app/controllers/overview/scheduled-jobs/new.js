@@ -64,9 +64,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri =
-    '<http://data.europa.eu/eli/ontology#is_realized_by> / <https://data.europarl.europa.eu/def/epvoc#expressionContent>';
+    '<https://data.europarl.europa.eu/def/epvoc#expressionContent>';
   @tracked propertyPathForTextUriValid;
-  @tracked targetClassUri = 'http://data.europa.eu/eli/ontology#Work';
+  @tracked targetClassUri = 'http://data.europa.eu/eli/ontology#Expression';
   @tracked targetClassUriValid;
   @tracked confidenceThreshold = 0;
   @tracked confidenceThresholdValid;
