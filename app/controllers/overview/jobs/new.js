@@ -62,8 +62,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked credentials = {};
   @tracked decisionUris;
   @tracked decisionUrisValid = true;
-  @tracked codelistUri;
-  @tracked codelistUriValid = true;
+  @tracked codelist;
+  @tracked codelistValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri =
@@ -143,7 +143,7 @@ export default class OverviewJobsNewController extends Controller {
 
   @action
   setProperty(property, event) {
-    this[property] = event.target.value;
+    this[property] = event?.target ? event.target.value : event;
     this[`${property}Valid`] = !!this[property];
   }
 
@@ -171,7 +171,7 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.codelistUriValid = !!this.codelistUri;
+    this.codelistValid = !!this.codelist;
     this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
@@ -184,7 +184,7 @@ export default class OverviewJobsNewController extends Controller {
     if (this.selectedJobOperation.uri === this.jobImport && isValid)
       isValid = this.graphNameValid;
     if (this.isJobWithCodelist && isValid) {
-      isValid = this.codelistUriValid;
+      isValid = this.codelistValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
       isValid =
@@ -224,7 +224,7 @@ export default class OverviewJobsNewController extends Controller {
       };
 
       if (this.isJobWithCodelist) {
-        jobAttributes.codelist = this.codelistUri;
+        jobAttributes.codelist = this.codelist?.uri;
       }
 
       if (this.isJobWithMultipleEndpoints && this.splitPdf) {

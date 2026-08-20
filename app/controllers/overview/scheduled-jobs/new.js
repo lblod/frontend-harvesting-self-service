@@ -59,8 +59,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked credentials;
   @tracked decisionUris;
   @tracked decisionUrisValid = true;
-  @tracked codelistUri;
-  @tracked codelistUriValid = true;
+  @tracked codelist;
+  @tracked codelistValid = true;
   @tracked graphForTargetsUri;
   @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri =
@@ -159,7 +159,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   @action
   setProperty(property, event) {
-    this[property] = event.target.value;
+    this[property] = event?.target ? event.target.value : event;
     this[`${property}Valid`] = !!this[property];
   }
 
@@ -183,7 +183,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
-    this.codelistUriValid = !!this.codelistUri;
+    this.codelistValid = !!this.codelist;
     this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = true;
@@ -197,7 +197,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       this.titleValid &&
       this.cronPatternValid;
     if (this.isJobWithCodelist && isValid) {
-      isValid = this.codelistUriValid;
+      isValid = this.codelistValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
       isValid =
@@ -241,7 +241,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       };
 
       if (this.isJobWithCodelist) {
-        jobAttributes.codelist = this.codelistUri;
+        jobAttributes.codelist = this.codelist?.uri;
       }
 
       if (this.isJobWithMultipleEndpoints && this.splitPdf) {

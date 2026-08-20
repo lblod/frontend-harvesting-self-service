@@ -1,0 +1,16 @@
+<PowerSelect
+  id={{@id}}
+  @allowClear={{true}}
+  @searchEnabled={{true}}
+  @searchField="prefLabel"
+  @options={{this.conceptSchemes}}
+  @selected={{@selected}}
+  @onChange={{this.onSelect}}
+  @renderInPlace={{false}}
+  class="au-u-1-1"
+  as |option|
+>
+  {{option.prefLabel}}
+</PowerSelect>
+
+{{yield}}

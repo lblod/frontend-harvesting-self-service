@@ -7,7 +7,7 @@ export default class OverviewJobsNewRoute extends Route {
       controller.set('selectedJobOperation', null);
       controller.set('selectedJobOperationValid', true);
       controller.set('selectedMunicipality', null);
-      controller.set('codelistUri', null);
+      controller.set('codelist', null);
       controller.set('url', null);
       controller.set('urlValid', true);
       controller.set('comment', null);
