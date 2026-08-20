@@ -77,6 +77,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
   @tracked selectedMunicipality;
+  @tracked municipalityValid = true;
 
   @tracked splitPdf = true;
 
@@ -172,6 +173,7 @@ export default class OverviewJobsNewController extends Controller {
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
     this.codelistValid = !!this.codelist;
+    this.municipalityValid = !!this.selectedMunicipality;
     this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
@@ -185,6 +187,9 @@ export default class OverviewJobsNewController extends Controller {
       isValid = this.graphNameValid;
     if (this.isJobWithCodelist && isValid) {
       isValid = this.codelistValid;
+    }
+    if (this.isJobWithMunicipality && isValid) {
+      isValid = this.municipalityValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
       isValid =

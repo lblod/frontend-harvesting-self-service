@@ -74,6 +74,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
   @tracked selectedMunicipality;
+  @tracked municipalityValid = true;
 
   @tracked splitPdf = true;
 
@@ -184,6 +185,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
     this.codelistValid = !!this.codelist;
+    this.municipalityValid = !!this.selectedMunicipality;
     this.targetClassUriValid = !!this.targetClassUri;
     this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = true;
@@ -198,6 +200,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
       this.cronPatternValid;
     if (this.isJobWithCodelist && isValid) {
       isValid = this.codelistValid;
+    }
+    if (this.isJobWithMunicipality && isValid) {
+      isValid = this.municipalityValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
       isValid =
