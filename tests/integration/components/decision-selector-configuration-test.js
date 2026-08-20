@@ -12,7 +12,6 @@ module(
     test('it renders all fields with passed values', async function (assert) {
       this.setProperties({
         decisionUris: 'uri-1\nuri-2',
-        graphForTargetsUri: 'graph-uri',
         targetClassUri: 'class-uri',
         propertyPathForTextUri: 'path-uri',
         setProperty: () => {},
@@ -20,14 +19,12 @@ module(
 
       await render(hbs`<DecisionSelectorConfiguration
       @decisionUris={{this.decisionUris}}
-      @graphForTargetsUri={{this.graphForTargetsUri}}
       @targetClassUri={{this.targetClassUri}}
       @propertyPathForTextUri={{this.propertyPathForTextUri}}
       @setProperty={{this.setProperty}}
     />`);
 
       assert.dom('#task-decisions-uri').hasValue('uri-1\nuri-2');
-      assert.dom('#graph-for-targets-uri').hasValue('graph-uri');
       assert.dom('#target-class-uri').hasValue('class-uri');
       assert.dom('#property-path-for-text-uri').hasValue('path-uri');
     });
@@ -46,22 +43,6 @@ module(
     />`);
 
       await fillIn('#task-decisions-uri', 'new value');
-    });
-
-    test('it calls setProperty when graphForTargetsUri input changes', async function (assert) {
-      assert.expect(2);
-
-      this.set('setProperty', (key, event) => {
-        assert.strictEqual(key, 'graphForTargetsUri');
-        assert.strictEqual(event.target.value, 'new graph');
-      });
-
-      await render(hbs`<DecisionSelectorConfiguration
-      @graphForTargetsUri=""
-      @setProperty={{this.setProperty}}
-    />`);
-
-      await fillIn('#graph-for-targets-uri', 'new graph');
     });
 
     test('it calls setProperty when targetClassUri input changes', async function (assert) {

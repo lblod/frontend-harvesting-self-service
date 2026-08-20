@@ -4,6 +4,7 @@ export default class OrganizationModel extends Model {
   @attr uri;
   @attr('string') identifier;
   @attr('string') 'pref-label';
+  @attr('string') targetGraph;
   @attr('string') classification;
 
   @hasMany('has-sub-organization', { async: true, inverse: null })

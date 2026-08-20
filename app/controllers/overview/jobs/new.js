@@ -64,8 +64,6 @@ export default class OverviewJobsNewController extends Controller {
   @tracked decisionUrisValid = true;
   @tracked codelist;
   @tracked codelistValid = true;
-  @tracked graphForTargetsUri;
-  @tracked graphForTargetsUriValid;
   @tracked propertyPathForTextUri =
     '<https://data.europarl.europa.eu/def/epvoc#expressionContent>';
   @tracked propertyPathForTextUriValid;
@@ -112,7 +110,10 @@ export default class OverviewJobsNewController extends Controller {
     return cts.isJobWithCodelist(this.selectedJobOperation?.uri);
   }
   get isJobWithMunicipality() {
-    return cts.isJobWithMunicipality(this.selectedJobOperation?.uri);
+    return (
+      cts.isJobWithMunicipality(this.selectedJobOperation?.uri) ||
+      cts.isJobWithDecisionSelector(this.selectedJobOperation?.uri)
+    );
   }
   get isJobWithAuthentication() {
     return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
@@ -175,7 +176,6 @@ export default class OverviewJobsNewController extends Controller {
     this.codelistValid = !!this.codelist;
     this.municipalityValid = !!this.selectedMunicipality;
     this.targetClassUriValid = !!this.targetClassUri;
-    this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
@@ -192,10 +192,7 @@ export default class OverviewJobsNewController extends Controller {
       isValid = this.municipalityValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
-      isValid =
-        this.graphForTargetsUriValid &&
-        this.propertyPathForTextUriValid &&
-        this.targetClassUriValid;
+      isValid = this.propertyPathForTextUriValid && this.targetClassUriValid;
     }
     if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
@@ -250,7 +247,7 @@ export default class OverviewJobsNewController extends Controller {
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           shapeForTargets: [shapeForTargets],
-          graphForTargets: this.graphForTargetsUri || undefined,
+          graphForTargets: this.selectedMunicipality?.targetGraph || undefined,
           propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });
