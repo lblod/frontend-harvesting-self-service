@@ -8,6 +8,6 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM semtech/static-file-service:0.2.0
+FROM semtech/static-file-service:0.3.0
 
 COPY --from=builder /app/dist /data
