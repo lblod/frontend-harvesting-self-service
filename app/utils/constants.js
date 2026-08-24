@@ -103,5 +103,14 @@ export const JOB_STATUS_SHORT = {
   [JOB_OP_STATUS_ARCHIVED]: 'archived',
 };
 
+export const JOB_STATUS_SHORT = {
+  [JOB_OP_STATUS_SUCCESS]: 'success',
+  [JOB_OP_STATUS_SCHEDULED]: 'scheduled',
+  [JOB_OP_STATUS_BUSY]: 'busy',
+  [JOB_OP_STATUS_FAILED]: 'failed',
+  [JOB_OP_STATUS_CANCELED]: 'canceled',
+  [JOB_OP_STATUS_PREPARING]: 'preparing',
+};
+
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';
