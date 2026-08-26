@@ -59,10 +59,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked credentials;
   @tracked decisionUris;
   @tracked decisionUrisValid = true;
-  @tracked codelistUri;
-  @tracked codelistUriValid = true;
-  @tracked graphForTargetsUri;
-  @tracked graphForTargetsUriValid;
+  @tracked codelist;
+  @tracked codelistValid = true;
   @tracked propertyPathForTextUri =
     '<https://data.europarl.europa.eu/def/epvoc#expressionContent>';
   @tracked propertyPathForTextUriValid;
@@ -74,6 +72,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
   @tracked selectedMunicipality;
+  @tracked municipalityValid = true;
 
   @tracked splitPdf = true;
 
@@ -125,7 +124,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return cts.isJobWithCodelist(this.selectedJobOperation?.uri);
   }
   get isJobWithMunicipality() {
-    return cts.isJobWithMunicipality(this.selectedJobOperation?.uri);
+    return (
+      cts.isJobWithMunicipality(this.selectedJobOperation?.uri) ||
+      cts.isJobWithDecisionSelector(this.selectedJobOperation?.uri)
+    );
   }
   get isJobWithAuthentication() {
     return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
@@ -159,7 +161,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   @action
   setProperty(property, event) {
-    this[property] = event.target.value;
+    this[property] = event?.target ? event.target.value : event;
     this[`${property}Valid`] = !!this[property];
   }
 
@@ -183,9 +185,9 @@ export default class OverviewScheduledJobsNewController extends Controller {
     this.titleValid = !!this.title;
     this.cronPatternValid = this.isValidCronPattern;
     this.vendorValid = !!this.vendor;
-    this.codelistUriValid = !!this.codelistUri;
+    this.codelistValid = !!this.codelist;
+    this.municipalityValid = !!this.selectedMunicipality;
     this.targetClassUriValid = !!this.targetClassUri;
-    this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = true;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
@@ -197,13 +199,13 @@ export default class OverviewScheduledJobsNewController extends Controller {
       this.titleValid &&
       this.cronPatternValid;
     if (this.isJobWithCodelist && isValid) {
-      isValid = this.codelistUriValid;
+      isValid = this.codelistValid;
+    }
+    if (this.isJobWithMunicipality && isValid) {
+      isValid = this.municipalityValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
-      isValid =
-        this.graphForTargetsUriValid &&
-        this.propertyPathForTextUriValid &&
-        this.targetClassUriValid;
+      isValid = this.propertyPathForTextUriValid && this.targetClassUriValid;
     }
     if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
@@ -241,7 +243,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       };
 
       if (this.isJobWithCodelist) {
-        jobAttributes.codelist = this.codelistUri;
+        jobAttributes.codelist = this.codelist?.uri;
       }
 
       if (this.isJobWithMultipleEndpoints && this.splitPdf) {
@@ -262,7 +264,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           shapeForTargets: [shapeForTargets],
-          graphForTargets: this.graphForTargetsUri || undefined,
+          graphForTargets: this.selectedMunicipality?.targetGraph || undefined,
           propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });

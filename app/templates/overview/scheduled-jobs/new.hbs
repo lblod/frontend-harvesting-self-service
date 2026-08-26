@@ -60,16 +60,15 @@
               for="task-codelist-uri"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.codelistUriValid}}
+              @error={{not this.codelistValid}}
             >
               Codelist
             </AuLabel>
-            <AuInput
-              id="task-codelist-uri"
-              @width="block"
-              value={{this.codelistUri}}
-              @error={{not this.codelistUriValid}}
-              {{on "change" (fn this.setProperty "codelistUri")}}
+            <ConceptSchemeSelect
+              @id="task-codelist-uri"
+              @selected={{this.codelist}}
+              @error={{not this.codelistValid}}
+              @onChange={{fn this.setProperty "codelist"}}
             />
           </AuFormRow>
           <AuFormRow @alignment="default">
@@ -142,8 +141,6 @@
           <DecisionSelectorConfiguration
             @decisionUris={{this.decisionUris}}
             @decisionUrisValid={{this.decisionUrisValid}}
-            @graphForTargetsUri={{this.graphForTargetsUri}}
-            @graphForTargetsUriValid={{this.graphForTargetsUriValid}}
             @targetClassUri={{this.targetClassUri}}
             @targetClassUriValid={{this.targetClassUriValid}}
             @propertyPathForTextUri={{this.propertyPathForTextUri}}
@@ -196,7 +193,12 @@
 
         {{#if this.isJobWithMunicipality}}
           <AuFormRow @alignment="default">
-            <AuLabel for="decision-passed-by">
+            <AuLabel
+              for="decision-passed-by"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{not this.municipalityIsValid}}
+            >
               Municipality
             </AuLabel>
             <PowerSelect

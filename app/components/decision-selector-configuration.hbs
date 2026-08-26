@@ -1,21 +1,4 @@
 <AuFormRow @alignment="default">
-  <AuLabel
-    for="graph-for-targets-uri"
-    @required={{true}}
-    @requiredLabel="Required"
-    @error={{eq @graphForTargetsUriValid false}}
-  >
-    Decisions graph
-  </AuLabel>
-  <AuInput
-    id="graph-for-targets-uri"
-    @width="block"
-    value={{@graphForTargetsUri}}
-    @error={{eq @graphForTargetsUriValid false}}
-    {{on "change" (fn @setProperty "graphForTargetsUri")}}
-  />
-</AuFormRow>
-<AuFormRow @alignment="default">
   <AuLabel for="task-decisions-uri" @error={{eq @decisionUrisValid false}}>
     Decision(s) to map
   </AuLabel>

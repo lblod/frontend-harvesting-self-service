@@ -62,10 +62,8 @@ export default class OverviewJobsNewController extends Controller {
   @tracked credentials = {};
   @tracked decisionUris;
   @tracked decisionUrisValid = true;
-  @tracked codelistUri;
-  @tracked codelistUriValid = true;
-  @tracked graphForTargetsUri;
-  @tracked graphForTargetsUriValid;
+  @tracked codelist;
+  @tracked codelistValid = true;
   @tracked propertyPathForTextUri =
     '<https://data.europarl.europa.eu/def/epvoc#expressionContent>';
   @tracked propertyPathForTextUriValid;
@@ -77,6 +75,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked loadingMunicipalities = false;
   @tracked municipalities = [];
   @tracked selectedMunicipality;
+  @tracked municipalityValid = true;
 
   @tracked splitPdf = true;
 
@@ -111,7 +110,10 @@ export default class OverviewJobsNewController extends Controller {
     return cts.isJobWithCodelist(this.selectedJobOperation?.uri);
   }
   get isJobWithMunicipality() {
-    return cts.isJobWithMunicipality(this.selectedJobOperation?.uri);
+    return (
+      cts.isJobWithMunicipality(this.selectedJobOperation?.uri) ||
+      cts.isJobWithDecisionSelector(this.selectedJobOperation?.uri)
+    );
   }
   get isJobWithAuthentication() {
     return cts.isJobWithAuthentication(this.selectedJobOperation?.uri);
@@ -143,7 +145,7 @@ export default class OverviewJobsNewController extends Controller {
 
   @action
   setProperty(property, event) {
-    this[property] = event.target.value;
+    this[property] = event?.target ? event.target.value : event;
     this[`${property}Valid`] = !!this[property];
   }
 
@@ -171,9 +173,9 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
-    this.codelistUriValid = !!this.codelistUri;
+    this.codelistValid = !!this.codelist;
+    this.municipalityValid = !!this.selectedMunicipality;
     this.targetClassUriValid = !!this.targetClassUri;
-    this.graphForTargetsUriValid = !!this.graphForTargetsUri;
     this.propertyPathForTextUriValid = !!this.propertyPathForTextUri;
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
@@ -184,13 +186,13 @@ export default class OverviewJobsNewController extends Controller {
     if (this.selectedJobOperation.uri === this.jobImport && isValid)
       isValid = this.graphNameValid;
     if (this.isJobWithCodelist && isValid) {
-      isValid = this.codelistUriValid;
+      isValid = this.codelistValid;
+    }
+    if (this.isJobWithMunicipality && isValid) {
+      isValid = this.municipalityValid;
     }
     if (this.isJobWithDecisionSelector && isValid) {
-      isValid =
-        this.graphForTargetsUriValid &&
-        this.propertyPathForTextUriValid &&
-        this.targetClassUriValid;
+      isValid = this.propertyPathForTextUriValid && this.targetClassUriValid;
     }
     if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
@@ -224,7 +226,7 @@ export default class OverviewJobsNewController extends Controller {
       };
 
       if (this.isJobWithCodelist) {
-        jobAttributes.codelist = this.codelistUri;
+        jobAttributes.codelist = this.codelist?.uri;
       }
 
       if (this.isJobWithMultipleEndpoints && this.splitPdf) {
@@ -245,7 +247,7 @@ export default class OverviewJobsNewController extends Controller {
         await shapeForTargets.save();
         jobAttributes = Object.assign(jobAttributes, {
           shapeForTargets: [shapeForTargets],
-          graphForTargets: this.graphForTargetsUri || undefined,
+          graphForTargets: this.selectedMunicipality?.targetGraph || undefined,
           propertyPathForText: this.propertyPathForTextUri,
           confidenceThreshold: this.confidenceThreshold || '0',
         });
