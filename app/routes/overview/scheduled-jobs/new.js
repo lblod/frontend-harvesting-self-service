@@ -2,8 +2,8 @@ import Route from '@ember/routing/route';
 
 export default class OverviewScheduledJobsNewRoute extends Route {
   setupController(controller, _model, transition) {
+    super.setupController(...arguments);
     if (transition?.from?.name != transition?.to?.name) {
-      super.setupController(...arguments);
       controller.set('title', null);
       controller.set('titleValid', true);
       controller.set('url', null);

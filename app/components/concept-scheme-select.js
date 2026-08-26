@@ -9,7 +9,6 @@ export default class ConceptSchemeSelect extends Component {
   get conceptSchemes() {
     return this.store.query('concept-scheme', {
       filter: {
-        ///['pref-label']: '',
         ['show-in-hvt']: true,
       },
       page: {
