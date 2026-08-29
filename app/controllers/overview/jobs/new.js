@@ -10,6 +10,7 @@ import * as cts from '../../../utils/constants';
 export default class OverviewJobsNewController extends Controller {
   jobHarvest = cts.JOB_OP_TYPE_HARVEST;
   jobCleanupSingleJob = cts.JOB_OP_TYPE_CLEANUP_SINGLE_JOB;
+  jobCleanupSensitiveData = cts.JOB_OP_TYPE_CLEANUP_SENSITIVE_DATA;
   jobImport = cts.JOB_OP_TYPE_IMPORT;
   jobHarvestAndImport = cts.JOB_OP_TYPE_HARVEST_AND_IMPORT;
   jobHarvestWorship = cts.JOB_OP_TYPE_HARVEST_WORSHIP;
