@@ -331,6 +331,18 @@ export default class OverviewJobsNewController extends Controller {
         inputContainers.push(dataContainerWithMunicipality);
       }
 
+      if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
+        const dataContainerWithGhent = this.store.createRecord(
+          'data-container',
+          {
+            hasResource: [cts.LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI],
+          },
+        );
+
+        await dataContainerWithGhent.save();
+        inputContainers.push(dataContainerWithGhent);
+      }
+
       const task = this.store.createRecord('task', {
         status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
         created: this.currentTime,

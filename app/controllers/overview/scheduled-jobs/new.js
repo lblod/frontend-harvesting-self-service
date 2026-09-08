@@ -344,6 +344,18 @@ export default class OverviewScheduledJobsNewController extends Controller {
         inputContainers.push(dataContainerWithMunicipality);
       }
 
+      if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
+        const dataContainerWithGhent = this.store.createRecord(
+          'data-container',
+          {
+            hasResource: [cts.LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI],
+          },
+        );
+
+        await dataContainerWithGhent.save();
+        inputContainers.push(dataContainerWithGhent);
+      }
+
       const scheduledTask = this.store.createRecord('scheduled-task', {
         created: this.currentTime,
         modified: this.currentTime,

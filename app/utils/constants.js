@@ -48,6 +48,9 @@ export const CONSUMER_SYNC_MODES = {
   delta: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/delta',
 };
 
+export const LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI =
+  'http://data.lblod.info/id/bestuurseenheden/353234a365664e581db5c2f7cc07add2534b47b8e1ab87c821fc6e6365e6bef5';
+
 // Auth Type
 export const BASIC_AUTH = {
   label: 'Basic',
