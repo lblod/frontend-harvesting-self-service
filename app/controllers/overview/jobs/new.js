@@ -79,7 +79,7 @@ export default class OverviewJobsNewController extends Controller {
 
   @tracked splitPdf = true;
 
-  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
+  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent, Wingene' }];
   consumeLokaalBeslistPublishedBy =
     this.consumeLokaalBeslistPublishedByOptions[0];
 
