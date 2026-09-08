@@ -264,7 +264,10 @@ export default class OverviewJobsNewController extends Controller {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else if (this.isJobWithSingleUrl) {
+      } else if (
+        this.isJobWithSingleUrl &&
+        this.selectedJobOperation.uri !== this.jobHarvestOsloEli
+      ) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
         const newLinePattern = /\r?\n/;
@@ -313,11 +316,13 @@ export default class OverviewJobsNewController extends Controller {
           harvestingCollections: [collection],
         });
         await dataContainer.save();
-      } else {
+      } else if (this.selectedJobOperation.uri !== this.jobHarvestOsloEli) {
         dataContainer = this.store.createRecord('data-container', {});
         await dataContainer.save();
       }
-      inputContainers.push(dataContainer);
+      if (dataContainer) {
+        inputContainers.push(dataContainer);
+      }
 
       if (this.isJobWithMunicipality && this.selectedMunicipality?.uri) {
         dataContainerWithMunicipality = this.store.createRecord(
@@ -333,9 +338,43 @@ export default class OverviewJobsNewController extends Controller {
 
       if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
         for (const uri of cts.LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS) {
+          const remoteDataObject = this.store.createRecord(
+            'remote-data-object',
+            {
+              source: this.url.trim(),
+              // This is deliberate, the collector service will set the status and
+              // therefore start the job later:
+              status: undefined,
+              requestHeader: this.request_headers.has(
+                this.selectedJobOperation.uri,
+              )
+                ? this.request_headers.get(this.selectedJobOperation.uri)
+                : undefined,
+              created: this.currentTime,
+              modified: this.currentTime,
+              creator: this.creator,
+            },
+          );
+          await remoteDataObject.save();
+
+          const collection = this.store.createRecord('harvesting-collection', {
+            creator: this.creator,
+            authenticationConfiguration: this.selectedSecurityScheme
+              ? await createAuthenticationConfiguration(
+                  this.selectedSecurityScheme,
+                  this.securityScheme,
+                  this.credentials,
+                  this.store,
+                )
+              : null, // authenticationConfiguration is optional
+            remoteDataObjects: [remoteDataObject],
+          });
+          await collection.save();
+
           const dataContainerWithBestuurseenheid = this.store.createRecord(
             'data-container',
             {
+              harvestingCollections: [collection],
               hasResource: [uri],
             },
           );

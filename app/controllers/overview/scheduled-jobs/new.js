@@ -276,7 +276,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
       const inputContainers = [];
       const sources = [];
       let dataContainer, dataContainerWithMunicipality;
-      if (this.isJobWithSingleUrl) {
+      if (
+        this.isJobWithSingleUrl &&
+        this.selectedJobOperation.uri !== this.jobHarvestOsloEli
+      ) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
         const newLinePattern = /\r?\n/;
@@ -326,7 +329,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         });
         await dataContainer.save();
         inputContainers.push(dataContainer);
-      } else {
+      } else if (this.selectedJobOperation.uri !== this.jobHarvestOsloEli) {
         dataContainer = this.store.createRecord('data-container', {});
         await dataContainer.save();
         inputContainers.push(dataContainer);
@@ -346,9 +349,38 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
       if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
         for (const uri of cts.LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS) {
+          const remoteDataObject = this.store.createRecord(
+            'remote-data-object',
+            {
+              source: this.url.trim(),
+              status: undefined,
+              requestHeader:
+                'http://data.lblod.info/request-headers/accept/text/html',
+              created: this.currentTime,
+              modified: this.currentTime,
+              creator: this.creator,
+            },
+          );
+          await remoteDataObject.save();
+
+          const collection = this.store.createRecord('harvesting-collection', {
+            creator: this.creator,
+            authenticationConfiguration: this.selectedSecurityScheme
+              ? await createAuthenticationConfiguration(
+                  this.selectedSecurityScheme,
+                  this.securityScheme,
+                  this.credentials,
+                  this.store,
+                )
+              : null,
+            remoteDataObjects: [remoteDataObject],
+          });
+          await collection.save();
+
           const dataContainerWithBestuurseenheid = this.store.createRecord(
             'data-container',
             {
+              harvestingCollections: [collection],
               hasResource: [uri],
             },
           );
