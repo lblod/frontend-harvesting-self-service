@@ -332,15 +332,17 @@ export default class OverviewJobsNewController extends Controller {
       }
 
       if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
-        const dataContainerWithGhent = this.store.createRecord(
-          'data-container',
-          {
-            hasResource: [cts.LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI],
-          },
-        );
+        for (const uri of cts.LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS) {
+          const dataContainerWithBestuurseenheid = this.store.createRecord(
+            'data-container',
+            {
+              hasResource: [uri],
+            },
+          );
 
-        await dataContainerWithGhent.save();
-        inputContainers.push(dataContainerWithGhent);
+          await dataContainerWithBestuurseenheid.save();
+          inputContainers.push(dataContainerWithBestuurseenheid);
+        }
       }
 
       const task = this.store.createRecord('task', {
