@@ -83,6 +83,11 @@ export default class OverviewJobsNewController extends Controller {
   consumeLokaalBeslistPublishedBy =
     this.consumeLokaalBeslistPublishedByOptions[0];
 
+  lokaalBeslistBestuurseenhedenOptions =
+    cts.LOKAAL_BESLIST_BESTUURSEENHEDEN_OPTIONS;
+  @tracked selectedLokaalBeslistBestuurseenheid;
+  @tracked selectedLokaalBeslistBestuurseenheidValid = true;
+
   @service toaster;
   @service router;
   @service store;
@@ -158,6 +163,11 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   @action
+  changeSelectedBestuurseenheid(option) {
+    this.selectedLokaalBeslistBestuurseenheid = option;
+  }
+
+  @action
   toggleSplitPdf() {
     this.splitPdf = !this.splitPdf;
   }
@@ -180,6 +190,13 @@ export default class OverviewJobsNewController extends Controller {
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
     );
+    if (
+      this.selectedJobOperation?.uri === this.jobHarvestOsloEli &&
+      this.url === this.intialConsumerSyncModeUri
+    ) {
+      this.selectedLokaalBeslistBestuurseenheidValid =
+        !!this.selectedLokaalBeslistBestuurseenheid;
+    }
 
     let isValid = this.selectedJobOperationValid;
     // Once isValid is false, it stays false until the end
@@ -196,6 +213,13 @@ export default class OverviewJobsNewController extends Controller {
     }
     if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
+    }
+    if (
+      this.selectedJobOperation.uri === this.jobHarvestOsloEli &&
+      this.url === this.intialConsumerSyncModeUri &&
+      isValid
+    ) {
+      isValid = this.selectedLokaalBeslistBestuurseenheidValid;
     }
     return isValid;
   }
@@ -337,7 +361,12 @@ export default class OverviewJobsNewController extends Controller {
       }
 
       if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
-        for (const uri of cts.LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS) {
+        const isInitialSync = this.url === this.intialConsumerSyncModeUri;
+        const bestuurseenheidUris = isInitialSync
+          ? [this.selectedLokaalBeslistBestuurseenheid.uri]
+          : cts.LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS;
+
+        for (const uri of bestuurseenheidUris) {
           const remoteDataObject = this.store.createRecord(
             'remote-data-object',
             {
