@@ -79,9 +79,14 @@ export default class OverviewJobsNewController extends Controller {
 
   @tracked splitPdf = true;
 
-  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent' }];
+  consumeLokaalBeslistPublishedByOptions = [{ label: 'Ghent, Wingene' }];
   consumeLokaalBeslistPublishedBy =
     this.consumeLokaalBeslistPublishedByOptions[0];
+
+  lokaalBeslistBestuurseenhedenOptions =
+    cts.LOKAAL_BESLIST_BESTUURSEENHEDEN_OPTIONS;
+  @tracked selectedLokaalBeslistBestuurseenheid;
+  @tracked selectedLokaalBeslistBestuurseenheidValid = true;
 
   @service toaster;
   @service router;
@@ -158,6 +163,11 @@ export default class OverviewJobsNewController extends Controller {
   }
 
   @action
+  changeSelectedBestuurseenheid(option) {
+    this.selectedLokaalBeslistBestuurseenheid = option;
+  }
+
+  @action
   toggleSplitPdf() {
     this.splitPdf = !this.splitPdf;
   }
@@ -180,6 +190,13 @@ export default class OverviewJobsNewController extends Controller {
     this.confidenceThresholdValid = !isNaN(
       parseFloat(this.confidenceThreshold),
     );
+    if (
+      this.selectedJobOperation?.uri === this.jobHarvestOsloEli &&
+      this.url === this.intialConsumerSyncModeUri
+    ) {
+      this.selectedLokaalBeslistBestuurseenheidValid =
+        !!this.selectedLokaalBeslistBestuurseenheid;
+    }
 
     let isValid = this.selectedJobOperationValid;
     // Once isValid is false, it stays false until the end
@@ -196,6 +213,13 @@ export default class OverviewJobsNewController extends Controller {
     }
     if (this.isJobWithSingleUrl && isValid) {
       isValid = this.urlValid;
+    }
+    if (
+      this.selectedJobOperation.uri === this.jobHarvestOsloEli &&
+      this.url === this.intialConsumerSyncModeUri &&
+      isValid
+    ) {
+      isValid = this.selectedLokaalBeslistBestuurseenheidValid;
     }
     return isValid;
   }
@@ -264,7 +288,10 @@ export default class OverviewJobsNewController extends Controller {
           hasGraph: this.graphName,
         });
         await dataContainer.save();
-      } else if (this.isJobWithSingleUrl) {
+      } else if (
+        this.isJobWithSingleUrl &&
+        this.selectedJobOperation.uri !== this.jobHarvestOsloEli
+      ) {
         sources.push(this.url.trim());
       } else if (this.isJobWithMultipleEndpoints) {
         const newLinePattern = /\r?\n/;
@@ -313,11 +340,13 @@ export default class OverviewJobsNewController extends Controller {
           harvestingCollections: [collection],
         });
         await dataContainer.save();
-      } else {
+      } else if (this.selectedJobOperation.uri !== this.jobHarvestOsloEli) {
         dataContainer = this.store.createRecord('data-container', {});
         await dataContainer.save();
       }
-      inputContainers.push(dataContainer);
+      if (dataContainer) {
+        inputContainers.push(dataContainer);
+      }
 
       if (this.isJobWithMunicipality && this.selectedMunicipality?.uri) {
         dataContainerWithMunicipality = this.store.createRecord(
@@ -329,6 +358,59 @@ export default class OverviewJobsNewController extends Controller {
 
         await dataContainerWithMunicipality.save();
         inputContainers.push(dataContainerWithMunicipality);
+      }
+
+      if (this.selectedJobOperation.uri === this.jobHarvestOsloEli) {
+        const isInitialSync = this.url === this.intialConsumerSyncModeUri;
+        const bestuurseenheidUris = isInitialSync
+          ? [this.selectedLokaalBeslistBestuurseenheid.uri]
+          : cts.LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS;
+
+        for (const uri of bestuurseenheidUris) {
+          const remoteDataObject = this.store.createRecord(
+            'remote-data-object',
+            {
+              source: this.url.trim(),
+              // This is deliberate, the collector service will set the status and
+              // therefore start the job later:
+              status: undefined,
+              requestHeader: this.request_headers.has(
+                this.selectedJobOperation.uri,
+              )
+                ? this.request_headers.get(this.selectedJobOperation.uri)
+                : undefined,
+              created: this.currentTime,
+              modified: this.currentTime,
+              creator: this.creator,
+            },
+          );
+          await remoteDataObject.save();
+
+          const collection = this.store.createRecord('harvesting-collection', {
+            creator: this.creator,
+            authenticationConfiguration: this.selectedSecurityScheme
+              ? await createAuthenticationConfiguration(
+                  this.selectedSecurityScheme,
+                  this.securityScheme,
+                  this.credentials,
+                  this.store,
+                )
+              : null, // authenticationConfiguration is optional
+            remoteDataObjects: [remoteDataObject],
+          });
+          await collection.save();
+
+          const dataContainerWithBestuurseenheid = this.store.createRecord(
+            'data-container',
+            {
+              harvestingCollections: [collection],
+              hasResource: [uri],
+            },
+          );
+
+          await dataContainerWithBestuurseenheid.save();
+          inputContainers.push(dataContainerWithBestuurseenheid);
+        }
       }
 
       const task = this.store.createRecord('task', {

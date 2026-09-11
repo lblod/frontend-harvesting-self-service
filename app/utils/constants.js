@@ -48,6 +48,21 @@ export const CONSUMER_SYNC_MODES = {
   delta: 'http://mu.semte.ch/vocabularies/ext/decide-consumer/delta',
 };
 
+export const LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI =
+  'http://data.lblod.info/id/bestuurseenheden/353234a365664e581db5c2f7cc07add2534b47b8e1ab87c821fc6e6365e6bef5';
+export const LOKAAL_BESLIST_WINGENE_BESTUURSEENHEID_URI =
+  'http://data.lblod.info/id/bestuurseenheden/99ed6eee81a7aca47517cbffb46eaba38f3987eeb4ad32c020898644769eb615';
+
+export const LOKAAL_BESLIST_HARDCODED_BESTUURSEENHEDEN_URIS = [
+  LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI,
+  LOKAAL_BESLIST_WINGENE_BESTUURSEENHEID_URI,
+];
+
+export const LOKAAL_BESLIST_BESTUURSEENHEDEN_OPTIONS = [
+  { label: 'Ghent', uri: LOKAAL_BESLIST_GHENT_BESTUURSEENHEID_URI },
+  { label: 'Wingene', uri: LOKAAL_BESLIST_WINGENE_BESTUURSEENHEID_URI },
+];
+
 // Auth Type
 export const BASIC_AUTH = {
   label: 'Basic',
