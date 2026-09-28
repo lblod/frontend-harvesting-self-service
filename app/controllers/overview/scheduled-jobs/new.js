@@ -251,6 +251,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
       }
 
       if (this.isJobWithDecisionSelector) {
+        jobAttributes = Object.assign(jobAttributes, {
+          propertyPathForText: this.propertyPathForTextUri,
+          confidenceThreshold: this.confidenceThreshold || '0',
+        });
+
         let shapeForTargets;
         if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
@@ -262,12 +267,13 @@ export default class OverviewScheduledJobsNewController extends Controller {
           });
         }
         await shapeForTargets.save();
-        jobAttributes = Object.assign(jobAttributes, {
-          shapeForTargets: [shapeForTargets],
-          graphForTargets: this.selectedMunicipality?.targetGraph || undefined,
-          propertyPathForText: this.propertyPathForTextUri,
-          confidenceThreshold: this.confidenceThreshold || '0',
+
+        dataContainer = this.store.createRecord('data-container', {
+          hasGraph: this.selectedMunicipality?.targetGraph || undefined,
+          hasResource: [shapeForTargets.uri],
         });
+        await dataContainer.save();
+        inputContainers.push(dataContainer);
       }
 
       const scheduledJob = this.store.createRecord(jobName, jobAttributes);
@@ -306,8 +312,8 @@ export default class OverviewScheduledJobsNewController extends Controller {
         );
         const collection = this.store.createRecord('harvesting-collection', {
           creator: this.creator,
-          //TODO: authentication configuration doesn't work currently for scheduled jobs. Because
-          // - Shallow copy of authtentication configuration (see DL-4896)
+          // TODO: authentication configuration doesn't work currently for scheduled jobs. Because
+          // - Shallow copy of authentication configuration (see DL-4896)
           // - See timing issue comments, in controllers/jobs/new.js
           authenticationConfiguration: this.selectedSecurityScheme
             ? await createAuthenticationConfiguration(
