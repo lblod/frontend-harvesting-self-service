@@ -233,7 +233,19 @@ export default class OverviewJobsNewController extends Controller {
         jobAttributes.splitDecisions = this.splitPdf;
       }
 
+      scheduledJob = this.store.createRecord(jobName, jobAttributes);
+      await scheduledJob.save();
+
+      const inputContainers = [];
+      const sources = [];
+      let dataContainer, dataContainerWithMunicipality;
+
       if (this.isJobWithDecisionSelector) {
+        jobAttributes = Object.assign(jobAttributes, {
+          propertyPathForText: this.propertyPathForTextUri,
+          confidenceThreshold: this.confidenceThreshold || '0',
+        });
+
         let shapeForTargets;
         if (this.decisionUris) {
           shapeForTargets = this.store.createRecord('node-shape', {
@@ -245,20 +257,15 @@ export default class OverviewJobsNewController extends Controller {
           });
         }
         await shapeForTargets.save();
-        jobAttributes = Object.assign(jobAttributes, {
-          shapeForTargets: [shapeForTargets],
-          graphForTargets: this.selectedMunicipality?.targetGraph || undefined,
-          propertyPathForText: this.propertyPathForTextUri,
-          confidenceThreshold: this.confidenceThreshold || '0',
+
+        dataContainer = this.store.createRecord('data-container', {
+          hasGraph: this.selectedMunicipality?.targetGraph || undefined,
+          hasResource: [shapeForTargets.uri],
         });
+        await dataContainer.save();
+        inputContainers.push(dataContainer);
       }
 
-      scheduledJob = this.store.createRecord(jobName, jobAttributes);
-      await scheduledJob.save();
-
-      const inputContainers = [];
-      const sources = [];
-      let dataContainer, dataContainerWithMunicipality;
       if (this.selectedJobOperation.uri === this.jobImport) {
         dataContainer = this.store.createRecord('data-container', {
           hasGraph: this.graphName,
