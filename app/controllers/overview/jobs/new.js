@@ -284,40 +284,15 @@ export default class OverviewJobsNewController extends Controller {
         });
       }
       if (sources.length > 0) {
-        const remoteDataObjects = sources.map((source) => {
-          return this.store.createRecord('remote-data-object', {
-            source,
-            // This is deliberate, the collector service will set the status and
-            // therefore start the job later:
-            status: undefined,
-            requestHeader: this.request_headers.has(
-              this.selectedJobOperation.uri,
-            )
-              ? this.request_headers.get(this.selectedJobOperation.uri)
-              : undefined,
-            created: this.currentTime,
-            modified: this.currentTime,
-            creator: this.creator,
-          });
+        let shapeForTargets;
+        shapeForTargets = this.store.createRecord('node-shape', {
+          targetNode: sources,
         });
-        await Promise.all(
-          remoteDataObjects.map(async (rdo) => await rdo.save()),
-        );
-        const collection = this.store.createRecord('harvesting-collection', {
-          creator: this.creator,
-          authenticationConfiguration: this.selectedSecurityScheme
-            ? await createAuthenticationConfiguration(
-                this.selectedSecurityScheme,
-                this.securityScheme,
-                this.credentials,
-                this.store,
-              )
-            : null, // authenticationConfiguration is optional
-          remoteDataObjects: remoteDataObjects,
-        });
-        await collection.save();
+        await shapeForTargets.save();
+
         dataContainer = this.store.createRecord('data-container', {
-          harvestingCollections: [collection],
+          hasGraph: this.selectedMunicipality?.targetGraph || undefined,
+          hasResource: [shapeForTargets.uri],
         });
         await dataContainer.save();
       } else {
