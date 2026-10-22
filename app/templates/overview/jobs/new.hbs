@@ -63,7 +63,8 @@
             />
           {{/if}}
         </AuFormRow>
-         {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
+         {{#if (or (eq this.selectedJobOperation.uri this.jobHarvest)
+                  (eq this.selectedJobOperation.uri this.jobHarvestAndImport))}}
           <AuFormRow @alignment="default">
             <AuLabel for="job-subject">Subject</AuLabel>
             <AuInput
