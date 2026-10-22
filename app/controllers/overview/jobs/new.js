@@ -41,6 +41,7 @@ export default class OverviewJobsNewController extends Controller {
   @tracked vendor;
   @tracked vendorValid;
   @tracked comment;
+  @tracked subject;
   @tracked selectedJobOperation;
   @tracked selectedJobOperationValid;
   @tracked selectedSecurityScheme;
@@ -113,6 +114,7 @@ export default class OverviewJobsNewController extends Controller {
         modified: this.currentTime,
         creator: this.creator,
         comment: this.comment,
+        subject: this.subject,
         operation: this.selectedJobOperation.uri,
         vendor: this.vendor,
       });
