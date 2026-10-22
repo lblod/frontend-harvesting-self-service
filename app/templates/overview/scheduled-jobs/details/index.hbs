@@ -72,6 +72,9 @@
         {{! Config row: definition + metadata }}
         <div class="au-o-grid__item au-u-1-2@medium">
           <dl class="au-c-list-description">
+            <dt class="au-u-bold">Subject</dt>
+            <dd>{{if this.job.subject this.job.subject "N/A"}}</dd>
+
             <dt class="au-u-bold">Schedule</dt>
             <dd>{{this.cronDescription}}</dd>
 

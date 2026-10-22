@@ -24,6 +24,18 @@
            @error={{not this.newTitleValid}} />
       </AuFormRow>
       
+      <AuFormRow @alignment="default">
+        <AuLabel for="task-subject">
+          Subject
+        </AuLabel>
+        <AuInput
+          id="task-subject"
+          @width="block"
+          value={{this.newSubject}}
+          {{on "change" this.setSubject}}
+        />
+      </AuFormRow>
+
       {{#if this.hasEndpoint}}
         <AuFormRow @alignment="default">
           <AuLabel
