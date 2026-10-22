@@ -103,6 +103,5 @@ export const JOB_STATUS_SHORT = {
   [JOB_OP_STATUS_ARCHIVED]: 'archived',
 };
 
-
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';
