@@ -48,6 +48,17 @@
           />
         </AuFormRow>
         <AuFormRow @alignment="default">
+          <AuLabel for="task-subject">
+            Subject
+          </AuLabel>
+          <AuInput
+            id="task-subject"
+            @width="block"
+            value={{this.subject}}
+            {{on "change" (fn this.setProperty "subject")}}
+          />
+        </AuFormRow>
+        <AuFormRow @alignment="default">
           <AuLabel
             for="task-url"
             @required={{true}}

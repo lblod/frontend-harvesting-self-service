@@ -7,6 +7,7 @@ export default class JobModel extends Model {
   @attr('date') created;
   @attr('date') modified;
   @attr comment;
+  @attr subject;
   @attr creator;
   @attr operation;
   @attr vendor;

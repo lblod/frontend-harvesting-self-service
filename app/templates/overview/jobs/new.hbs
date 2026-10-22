@@ -63,6 +63,18 @@
             />
           {{/if}}
         </AuFormRow>
+         {{#if (or (eq this.selectedJobOperation.uri this.jobHarvest)
+                  (eq this.selectedJobOperation.uri this.jobHarvestAndImport))}}
+          <AuFormRow @alignment="default">
+            <AuLabel for="job-subject">Subject</AuLabel>
+            <AuInput
+              id="job-subject"
+              @width="block"
+              value={{this.subject}}
+              {{on "change" (fn this.setProperty "subject")}}
+            />
+          </AuFormRow>
+        {{/if}}
         <AuFormRow @alignment="default">
           <AuLabel for="task-comment">
             Comments

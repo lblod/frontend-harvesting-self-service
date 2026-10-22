@@ -9,6 +9,7 @@ import cronstrue from 'cronstrue';
 export default class OverviewScheduledJobsDetailsEditController extends Controller {
   // Edit Popup fields
   @tracked newTitle;
+  @tracked newSubject;
   @tracked newTitleValid;
   @tracked newCronPattern;
   @tracked newCronPatternValid;
@@ -94,10 +95,18 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
   get updatedTitle() {
     return this.job.title !== this.newTitle;
   }
+  get updatedSubject() {
+    return this.job.subject !== this.newSubject;
+  }
 
   @action
   setTitle(event) {
     this.newTitle = event.target.value;
+  }
+
+  @action
+  setSubject(event) {
+    this.newSubject = event.target.value;
   }
 
   @action
@@ -138,6 +147,9 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
       const schedule = await this.job.schedule;
       await this.job.set('modified', new Date());
       if (this.updatedTitle) await this.job.set('title', this.newTitle);
+      if (this.updatedSubject) {
+        await this.job.set('subject', this.newSubject);
+      }
       await this.job.save();
 
       if (this.updatedFrequency) {

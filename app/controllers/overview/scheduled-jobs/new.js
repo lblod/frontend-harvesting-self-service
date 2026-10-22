@@ -33,6 +33,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   );
 
   @tracked title;
+  @tracked subject;
   @tracked titleValid;
   @tracked url;
   @tracked urlValid;
@@ -130,6 +131,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
         modified: this.currentTime,
         operation: this.selectedJobOperation.uri,
         title: this.title,
+        subject: this.subject,
         schedule: cronSchedule,
         vendor: this.vendor,
       });

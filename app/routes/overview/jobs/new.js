@@ -8,6 +8,7 @@ export default class OverviewJobsNewRoute extends Route {
     controller.set('url', null);
     controller.set('urlValid', true);
     controller.set('comment', null);
+    controller.set('subject', null);
     controller.set('graphName', null);
     controller.set('graphNameValid', true);
     controller.set('vendor', null);

@@ -45,6 +45,12 @@
                 <StatusPill @status={{this.job.shortStatus}}></StatusPill>
               </dd>
             </div>
+            {{#if this.job.subject}}
+              <div>
+                <dt class="au-u-bold">Subject</dt>
+                <dd>{{this.job.subject}}</dd>
+              </div>
+            {{/if}}
             {{#if this.job.comment}}
               <div>
                 <dt class="au-u-bold">Comments</dt>
