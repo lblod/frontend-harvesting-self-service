@@ -1,22 +1,27 @@
 import Route from '@ember/routing/route';
-import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 
-export default class JobTaskInputContainerFilesRoute extends Route.extend(
-  DataTableRouteMixin,
-) {
+export default class JobTaskInputContainerFilesRoute extends Route {
   @service store;
 
-  modelName = 'file';
+  queryParams = {
+    page: { refreshModel: true },
+    size: { refreshModel: true },
+    sort: { refreshModel: true },
+  };
 
   async beforeModel() {
     this.task = await this.modelFor('job.task');
   }
 
-  mergeQueryOptions(param) {
-    return {
+  model(params) {
+    return this.store.query('file', {
+      sort: params.sort,
+      page: {
+        number: params.page,
+        size: params.size,
+      },
       'filter[data-container][input-from-tasks][:id:]': this.task.id,
-      sort: param.sort,
-    };
+    });
   }
 }

@@ -1,13 +1,8 @@
 import Route from '@ember/routing/route';
-import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import { service } from '@ember/service';
 
-export default class OverviewJobsRoute extends Route.extend(
-  DataTableRouteMixin,
-) {
+export default class OverviewJobsRoute extends Route {
   @service store;
-
-  modelName = 'job';
 
   queryParams = {
     page: { refreshModel: true, replace: true },
@@ -16,17 +11,20 @@ export default class OverviewJobsRoute extends Route.extend(
     status: { refreshModel: true },
   };
 
-  mergeQueryOptions(param) {
+  model(params) {
     const options = {
-      sort: param.sort,
-      page: { number: param.number, size: param.size },
+      sort: params.sort,
+      page: {
+        number: params.page,
+        size: params.size,
+      },
       include: 'tasks',
     };
 
-    if (param.status) {
-      options['filter[:exact:status]'] = param.status;
+    if (params.status) {
+      options['filter[:exact:status]'] = params.status;
     }
 
-    return options;
+    return this.store.query('job', options);
   }
 }
