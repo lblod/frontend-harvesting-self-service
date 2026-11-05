@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v2.9.0 (2026-11-05)
+
 #### :rocket: Enhancement
 
 - Require the subject of a job or scheduled job to be a URI or empty, and trim the input
@@ -18,7 +20,7 @@
 - Drop route mixins
 - Simplify error handling
 - Bump browserslist
-
+g
 ## v2.8.0 (2026-10-22)
 
 #### :rocket: Enhancement
