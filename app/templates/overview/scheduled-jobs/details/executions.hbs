@@ -65,7 +65,7 @@
     </c.header>
     <c.body as |row|>
       <td class="au-u-word-break">
-        <JobTargetUrl @job={{row}} />
+        <JobEndpoint @job={{row}} />
       </td>
       <td>
         {{format-date row.created}}

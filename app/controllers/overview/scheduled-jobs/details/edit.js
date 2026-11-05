@@ -21,6 +21,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
 
   @service toaster;
   @service router;
+  @service jobEndpoint;
 
   get job() {
     return this.model;
@@ -206,6 +207,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
             const firstRemoteDataObject = remoteDataObjects[0];
             await firstRemoteDataObject.set('source', this.newEndpoint);
             await firstRemoteDataObject.save();
+            this.jobEndpoint.invalidate(this.job.uri);
           } else {
             throw new Error('No remote data object found to update endpoint');
           }

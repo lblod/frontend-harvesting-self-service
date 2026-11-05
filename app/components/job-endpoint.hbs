@@ -1,0 +1,9 @@
+{{#if this.loadEndpoint.isRunning}}
+  <AuLoader @hideMessage={{true}}>Loading endpoint...</AuLoader>
+{{else if this.failed}}
+  <span class="au-u-text-muted">Failed to load</span>
+{{else if this.endpoint}}
+  {{this.endpoint}}
+{{else}}
+  N/A
+{{/if}}
