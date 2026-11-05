@@ -18,7 +18,6 @@ export default class OverviewJobsRoute extends Route {
         number: params.page,
         size: params.size,
       },
-      include: 'tasks',
     };
 
     if (params.status) {
