@@ -1,3 +1,24 @@
+## Unreleased
+
+#### :rocket: Enhancement
+
+- Require the subject of a job or scheduled job to be a URI or empty, and trim the input
+- Show the endpoint of the scheduled job on jobs it created, falling back to the job's own tasks
+- Scheduled jobs overview: link titles to the details page and show schedules in readable form
+- Scheduled job details: show the URI, which moved from the overview
+- Stop loading tasks on the jobs overview
+
+#### :bug: Bug Fix
+
+- Reset the subject when opening the new scheduled job form
+- Clear the subject when switching to a job type without a subject field
+
+#### :house: Internal
+
+- Drop route mixins
+- Simplify error handling
+- Bump browserslist
+
 ## v2.8.0 (2026-10-22)
 
 #### :rocket: Enhancement
