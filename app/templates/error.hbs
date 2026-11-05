@@ -1,0 +1,6 @@
+<AuAlert @title="An error occured" @skin="error" @icon="cross">
+  <p>Something went wrong while processing your request</p>
+  {{#if this.model.message}}
+      <p><code>{{this.model.message}}</code></p>
+  {{/if}}
+</AuAlert>
