@@ -25,15 +25,21 @@
       </AuFormRow>
       
       <AuFormRow @alignment="default">
-        <AuLabel for="task-subject">
+        <AuLabel for="task-subject" @error={{not this.newSubjectValid}}>
           Subject
         </AuLabel>
         <AuInput
           id="task-subject"
           @width="block"
           value={{this.newSubject}}
+          @error={{not this.newSubjectValid}}
           {{on "change" this.setSubject}}
         />
+        {{#unless this.newSubjectValid}}
+          <AuHelpText @error={{true}}>
+            Subject must be a valid URI, or left empty.
+          </AuHelpText>
+        {{/unless}}
       </AuFormRow>
 
       {{#if this.hasEndpoint}}

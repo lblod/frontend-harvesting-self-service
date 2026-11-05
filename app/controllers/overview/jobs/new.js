@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
 import { service } from '@ember/service';
 import createAuthenticationConfiguration from '../../../utils/create-authentication-configuration';
+import isUriOrEmpty from '../../../utils/is-uri-or-empty';
 import config from 'frontend-harvesting-self-service/config/environment';
 import * as cts from '../../../utils/constants';
 
@@ -56,6 +57,16 @@ export default class OverviewJobsNewController extends Controller {
     return new Date();
   }
 
+  get subjectValid() {
+    return isUriOrEmpty(this.subject);
+  }
+
+  get hasSubject() {
+    return [this.jobHarvest, this.jobHarvestAndImport].includes(
+      this.selectedJobOperation?.uri,
+    );
+  }
+
   @action
   updateCredentials(attributeName, credentials) {
     this.credentials[attributeName] = credentials;
@@ -73,12 +84,20 @@ export default class OverviewJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
+    // The subject field is hidden for these operations, so a value entered
+    // earlier can't be corrected and shouldn't be saved.
+    if (!this.hasSubject) this.subject = null;
   }
 
   @action
   setProperty(property, event) {
     this[property] = event.target.value;
     this[`${property}Valid`] = !!this[property];
+  }
+
+  @action
+  setSubject(event) {
+    this.subject = event.target.value.trim();
   }
 
   @action
@@ -92,6 +111,8 @@ export default class OverviewJobsNewController extends Controller {
     else this.graphNameValid = false;
     if (this.vendor) this.vendorValid = true;
     else this.vendorValid = false;
+
+    if (!this.subjectValid) return false;
 
     if (this.selectedJobOperation === this.jobImport)
       return this.selectedJobOperationValid && this.graphNameValid;

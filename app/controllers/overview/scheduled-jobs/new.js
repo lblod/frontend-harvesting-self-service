@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import { isValidCron } from 'cron-validator';
 import cronstrue from 'cronstrue';
 import createAuthenticationConfiguration from '../../../utils/create-authentication-configuration';
+import isUriOrEmpty from '../../../utils/is-uri-or-empty';
 import config from 'frontend-harvesting-self-service/config/environment';
 import * as cts from '../../../utils/constants';
 
@@ -72,6 +73,10 @@ export default class OverviewScheduledJobsNewController extends Controller {
     return timestamp;
   }
 
+  get subjectValid() {
+    return isUriOrEmpty(this.subject);
+  }
+
   @action
   updateCredentials(attributeName, credentials) {
     this.credentials[attributeName] = credentials;
@@ -98,6 +103,11 @@ export default class OverviewScheduledJobsNewController extends Controller {
   }
 
   @action
+  setSubject(event) {
+    this.subject = event.target.value.trim();
+  }
+
+  @action
   validateForm() {
     this.selectedJobOperationValid = !!this.selectedJobOperation;
     this.urlValid = !!this.url;
@@ -108,6 +118,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       this.selectedJobOperationValid &&
       this.urlValid &&
       this.titleValid &&
+      this.subjectValid &&
       this.cronPatternValid
     );
   }

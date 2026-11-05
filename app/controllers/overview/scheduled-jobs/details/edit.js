@@ -5,6 +5,7 @@ import { isValidCron } from 'cron-validator';
 import { task } from 'ember-concurrency';
 import { service } from '@ember/service';
 import cronstrue from 'cronstrue';
+import isUriOrEmpty from '../../../../utils/is-uri-or-empty';
 
 export default class OverviewScheduledJobsDetailsEditController extends Controller {
   // Edit Popup fields
@@ -100,6 +101,10 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     return this.job.subject !== this.newSubject;
   }
 
+  get newSubjectValid() {
+    return isUriOrEmpty(this.newSubject);
+  }
+
   @action
   setTitle(event) {
     this.newTitle = event.target.value;
@@ -107,7 +112,7 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
 
   @action
   setSubject(event) {
-    this.newSubject = event.target.value;
+    this.newSubject = event.target.value.trim();
   }
 
   @action
@@ -138,7 +143,10 @@ export default class OverviewScheduledJobsDetailsEditController extends Controll
     this.newEndpointValid = this.hasEndpoint ? !!this.newEndpoint : true;
 
     return (
-      this.newTitleValid && this.newCronPatternValid && this.newEndpointValid
+      this.newTitleValid &&
+      this.newSubjectValid &&
+      this.newCronPatternValid &&
+      this.newEndpointValid
     );
   }
 

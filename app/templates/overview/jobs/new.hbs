@@ -63,16 +63,21 @@
             />
           {{/if}}
         </AuFormRow>
-         {{#if (or (eq this.selectedJobOperation.uri this.jobHarvest)
-                  (eq this.selectedJobOperation.uri this.jobHarvestAndImport))}}
+        {{#if this.hasSubject}}
           <AuFormRow @alignment="default">
-            <AuLabel for="job-subject">Subject</AuLabel>
+            <AuLabel for="job-subject" @error={{not this.subjectValid}}>Subject</AuLabel>
             <AuInput
               id="job-subject"
               @width="block"
               value={{this.subject}}
-              {{on "change" (fn this.setProperty "subject")}}
+              @error={{not this.subjectValid}}
+              {{on "change" this.setSubject}}
             />
+            {{#unless this.subjectValid}}
+              <AuHelpText @error={{true}}>
+                Subject must be a valid URI, or left empty.
+              </AuHelpText>
+            {{/unless}}
           </AuFormRow>
         {{/if}}
         <AuFormRow @alignment="default">
