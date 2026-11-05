@@ -1,0 +1,23 @@
+{{page-title "Jobs"}}
+
+<AuToolbar @border="none" @size="large" as |Group|>
+  <Group>
+    <AuHeading @level="1" @skin="1">Executions</AuHeading>
+  </Group>
+</AuToolbar>
+
+<AuAlert @title="Failed to load jobs" @skin="error" @icon="cross">
+  <p>Something went wrong while fetching the jobs.</p>
+  {{#if this.model.message}}
+    <p><code>{{this.model.message}}</code></p>
+  {{/if}}
+</AuAlert>
+
+<AuButton
+  @skin="secondary"
+  @icon="renew"
+  @iconAlignment="left"
+  class="au-u-margin-top"
+  {{on "click" this.retry}}>
+  Try again
+</AuButton>
