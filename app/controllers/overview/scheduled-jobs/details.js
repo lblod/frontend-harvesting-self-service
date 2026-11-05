@@ -1,27 +1,12 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
-import cronstrue from 'cronstrue';
 
 export default class OverviewScheduledJobsDetailsController extends Controller {
   @service router;
 
   get job() {
     return this.model;
-  }
-
-  get frequency() {
-    return this.job.schedule?.get('repeatFrequency');
-  }
-
-  get cronDescription() {
-    if (this.frequency) {
-      return cronstrue.toString(this.frequency, {
-        use24HourTimeFormat: true,
-      });
-    } else {
-      return '';
-    }
   }
 
   deleteJob = task(async () => {

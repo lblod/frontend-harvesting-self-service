@@ -26,7 +26,7 @@
               @iconAlignment='right'
               @width='block'
               id='search'
-              placeholder='Search titel'
+              placeholder='Search title'
               oninput={{perform this.updateSearchQuery value='target.value'}}
             />
           </div>
@@ -43,47 +43,50 @@
   </t.menu>
   <t.content class="{{if this.currentlyLoading "table-loading"}}" as |c|>
     <c.header>
-      <th>URI</th>
       <AuDataTableThSortable
-        @field="created"
+        @field="title"
         @currentSorting={{this.sort}}
-        @label="Created"/>
-      <AuDataTableThSortable
-        @field="modified"
-        @currentSorting={{this.sort}}
-        @label="Modified"/>
+        @label="Title"/>
+      <th>Schedule</th>
       <AuDataTableThSortable
         @field="operation"
         @currentSorting={{this.sort}}
         @label="Operation"/>
       <AuDataTableThSortable
-        @field="schedule"
+        @field="modified"
         @currentSorting={{this.sort}}
-        @label="Schedule"/>
+        @label="Modified"/>
       <AuDataTableThSortable
-        @field="title"
+        @field="created"
         @currentSorting={{this.sort}}
-        @label="Title"/>
+        @label="Created"/>
       <th>Actions</th>
     </c.header>
     <c.body as |row|>
       <td>
-        {{row.uri}}
+        <AuLink
+          @route="overview.scheduled-jobs.details"
+          @model={{row.id}}>
+          {{row.title}}
+        </AuLink>
       </td>
-      <td>
-        {{format-date row.created}}
-      </td>
-      <td>
-        {{format-date row.modified}}
+      <td title={{row.schedule.repeatFrequency}}>
+        {{#let (cron-description row.schedule.repeatFrequency) as |description|}}
+          {{#if description}}
+            {{description}}
+          {{else}}
+            —
+          {{/if}}
+        {{/let}}
       </td>
       <td class="au-u-word-break">
         {{operation-name row.operation}}
       </td>
       <td>
-        {{row.schedule.repeatFrequency}}
+        {{format-date row.modified}}
       </td>
       <td>
-        {{row.title}}
+        {{format-date row.created}}
       </td>
       <td>
         <AuLink

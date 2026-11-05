@@ -73,7 +73,7 @@
         <div class="au-o-grid__item au-u-1-2@medium">
           <dl class="au-c-list-description">
             <dt class="au-u-bold">Schedule</dt>
-            <dd>{{this.cronDescription}}</dd>
+            <dd>{{cron-description this.frequency}}</dd>
 
             <dt class="au-u-bold">Subject</dt>
             <dd>{{if this.job.subject this.job.subject "N/A"}}</dd>
@@ -91,6 +91,9 @@
 
             <dt class="au-u-bold">Modified</dt>
             <dd>{{format-date this.job.modified}}</dd>
+
+            <dt class="au-u-bold">URI</dt>
+            <dd class="au-u-word-break">{{this.job.uri}}</dd>
 
             {{#if this.job.comment}}
               <dt class="au-u-bold">Comments</dt>

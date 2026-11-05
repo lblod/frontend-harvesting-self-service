@@ -60,7 +60,7 @@
               </th>
               <th class="sortable {{if (eq this.sortColumn 'lastRun') 'sorted'}}">
                 <span class="au-c-data-table__header-title au-c-data-table__header-title--sortable {{if (eq this.sortColumn 'lastRun') 'is-active'}}">
-                  Last run
+                  Last Success
                   <button class="au-c-data-table__sort" type="button" {{on "click" (fn this.sortBy "lastRun")}}>
                     <AuIcon @icon={{if (eq this.sortColumn "lastRun") (if (eq this.sortDir "asc") "nav-up" "nav-down") "nav-up-down"}} />
                   </button>

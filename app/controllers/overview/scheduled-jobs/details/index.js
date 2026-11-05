@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
-import cronstrue from 'cronstrue';
 import { CronExpressionParser } from 'cron-parser';
 import {
   JOB_OP_STATUS_SUCCESS,
@@ -23,16 +22,6 @@ export default class OverviewScheduledJobsDetailsIndexController extends Control
 
   get frequency() {
     return this.job.schedule?.get('repeatFrequency');
-  }
-
-  get cronDescription() {
-    if (this.frequency) {
-      return cronstrue.toString(this.frequency, {
-        use24HourTimeFormat: true,
-      });
-    } else {
-      return '';
-    }
   }
 
   get nextRun() {
