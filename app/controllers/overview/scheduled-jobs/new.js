@@ -371,7 +371,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
 
   async loadMunicipalities() {
     console.log('Loading municipalities...');
-    this.loadingOrganizations = true;
+    this.loadingMunicipalities = true;
     this.municipalities = await this.store.query('organization', {
       page: { size: 600 },
       filter: {
@@ -380,6 +380,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
       },
       sort: ':no-case:pref-label',
     });
-    this.loadingOrganizations = false;
+    this.loadingMunicipalities = false;
   }
 }

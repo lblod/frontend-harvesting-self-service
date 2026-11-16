@@ -30,7 +30,7 @@
         </PowerSelect>
       </AuFormRow>
       {{#if this.selectedJobOperation.uri}}
-        {{#if (this.isJobWithGraphName this.selectedJobOperation.uri)}}
+        {{#if this.isJobWithGraphName}}
           <AuFormRow @alignment="default">
             <AuLabel
               for="graph-name"
