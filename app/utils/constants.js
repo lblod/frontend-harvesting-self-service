@@ -24,6 +24,22 @@ export const JOB_OP_TYPE_HEALING_WORSHIP =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/healingOperation/worship';
 export const JOB_OP_TYPE_DUMPED_WORSHIP =
   'http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/deltaDumpFileCreation/worship';
+export const JOB_OP_TYPE_HARVESTING_PDF_TO_ELI =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-eli';
+export const JOB_OP_TYPE_HARVESTING_JSON_TO_ELI =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/json-to-eli';
+export const JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/pdf-to-enriched';
+export const JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/harvesting/json-to-enriched';
+export const JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/ner-and-nel-annotations';
+export const JOB_OP_TYPE_NEL_ANNOTATIONS =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/nel-annotations';
+export const JOB_OP_TYPE_CODELIST_MAPPING_TRAINING =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/training';
+export const JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION =
+  'http://lblod.data.gift/id/jobs/concept/JobOperation/codelist-matching/evaluation';
 
 // Auth Type
 export const BASIC_AUTH = {
@@ -51,7 +67,40 @@ JOB_OP_TYPES.set(
   JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
   'Harvest Worship & Publish',
 );
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+  'Harvest PDFs from Website URL & Publish as ELI',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+  'Harvest PDFs from Website URL, Publish as ELI and Enrich',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+  'Harvest JSON from Website URL & Publish as ELI',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+  'Harvest JSON from Website URL, Publish as ELI and Enrich',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+  'Generate NER and NEL Annotations on ELI decisions',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_NEL_ANNOTATIONS,
+  'Generate NEL Annotations on ELI decisions',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+  'Codelist mapping (training)',
+);
+JOB_OP_TYPES.set(
+  JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+  'Codelist mapping (evaluation)',
+);
 export const JOB_OP_TYPE_CREATE = new Map();
+
 if (
   ['true', 'True', 'TRUE', true].includes(config.harvester.besluitenHarvesting)
 ) {
@@ -67,6 +116,46 @@ if (
   JOB_OP_TYPE_CREATE.set(
     JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
     'Harvest Worship & Publish',
+  );
+}
+if (['true', 'True', 'TRUE', true].includes(config.harvester.pdfHarvesting)) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    'Harvest PDFs from Website URL & Publish as ELI',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+    'Harvest JSON from Website URL & Publish as ELI',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+    'Harvest PDFs from Website URL, Publish as ELI and Enrich',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+    'Harvest JSON from Website URL, Publish as ELI and Enrich',
+  );
+}
+if (
+  ['true', 'True', 'TRUE', true].includes(config.harvester.NERAndNELAnnotations)
+) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    'Perform Named Entity Recognition & Entity Linking on ELI decisions & Publish',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_NEL_ANNOTATIONS,
+    'Perform Named Entity Linking on ELI decisions & Publish',
+  );
+}
+if (['true', 'True', 'TRUE', true].includes(config.harvester.codelistMapping)) {
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+    'Codelist mapping (training)',
+  );
+  JOB_OP_TYPE_CREATE.set(
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+    'Codelist mapping (evaluation)',
   );
 }
 
@@ -105,3 +194,103 @@ export const JOB_STATUS_SHORT = {
 
 export const JOB_CREATOR_SELF_SERVICE =
   'http://lblod.data.gift/services/job-self-service';
+
+export function isJobWithGraphName(jobOperationUri) {
+  return [JOB_OP_TYPE_IMPORT].includes(jobOperationUri);
+}
+
+export function isJobWithSingleUrl(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_HARVEST,
+    JOB_OP_TYPE_CLEANUP_SINGLE_JOB,
+    JOB_OP_TYPE_HARVEST_AND_IMPORT,
+    JOB_OP_TYPE_HARVEST_WORSHIP,
+    JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithMultipleEndpoints(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithCodelist(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithDecisionUris(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithDecisionSelector(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    JOB_OP_TYPE_NEL_ANNOTATIONS,
+    JOB_OP_TYPE_CODELIST_MAPPING_TRAINING,
+    JOB_OP_TYPE_CODELIST_MAPPING_EVALUATION,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithMunicipality(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+    JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+    JOB_OP_TYPE_NER_AND_NEL_ANNOTATIONS,
+    JOB_OP_TYPE_NEL_ANNOTATIONS,
+  ].includes(jobOperationUri);
+}
+
+export function isJobWithAuthentication(jobOperationUri) {
+  return [
+    JOB_OP_TYPE_HARVEST,
+    JOB_OP_TYPE_HARVEST_AND_IMPORT,
+    JOB_OP_TYPE_HARVEST_WORSHIP,
+    JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+  ].includes(jobOperationUri);
+}
+
+export const REQUEST_HEADERS = new Map();
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST_WORSHIP,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST_WORSHIP_AND_IMPORT,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVEST_AND_IMPORT,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ELI,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_PDF_TO_ENRICHED,
+  'http://data.lblod.info/request-headers/accept/text/html',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ELI,
+  'http://data.lblod.info/request-headers/accept/application/json',
+);
+REQUEST_HEADERS.set(
+  JOB_OP_TYPE_HARVESTING_JSON_TO_ENRICHED,
+  'http://data.lblod.info/request-headers/accept/application/json',
+);

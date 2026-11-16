@@ -6,6 +6,8 @@ export default class OverviewJobsNewRoute extends Route {
     if (transition?.from?.name != transition?.to?.name) {
       controller.set('selectedJobOperation', null);
       controller.set('selectedJobOperationValid', true);
+      controller.set('selectedMunicipality', null);
+      controller.set('codelist', null);
       controller.set('url', null);
       controller.set('urlValid', true);
       controller.set('comment', null);

@@ -4,13 +4,12 @@
   @modalOpen={{true}}
   @closeModal={{this.cancelCreateAndStartJob}}
   @overflow={{if this.selectedJobOperation.uri false true}}
-  @size="default">
+  @size="default"
+>
   <:title>Create new job</:title>
   <:body>
     <form class="au-c-form">
-      <AuFormRow
-        class="au-u-margin-bottom"
-        @alignment="default">
+      <AuFormRow class="au-u-margin-bottom" @alignment="default">
         <AuLabel
           for="job-type-select"
           @required={{true}}
@@ -25,18 +24,20 @@
           @options={{this.jobOperations}}
           @selected={{this.selectedJobOperation}}
           @onChange={{this.setJobOperation}}
-          as |option|>
+          as |option|
+        >
           {{option.label}}
         </PowerSelect>
       </AuFormRow>
       {{#if this.selectedJobOperation.uri}}
-        <AuFormRow @alignment="default">
-          {{#if (eq this.selectedJobOperation.uri this.jobImport)}}
+        {{#if (this.isJobWithGraphName this.selectedJobOperation.uri)}}
+          <AuFormRow @alignment="default">
             <AuLabel
               for="graph-name"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.graphNameValid}}>
+              @error={{not this.graphNameValid}}
+            >
               Graph URI
             </AuLabel>
             <AuInput
@@ -46,12 +47,87 @@
               @error={{not this.graphNameValid}}
               {{on "change" (fn this.setProperty "graphName")}}
             />
-          {{else}}
+          </AuFormRow>
+        {{/if}}
+        {{#if this.isJobWithMultipleEndpoints}}
+          <AuToggleSwitch
+            @checked={{this.splitPdf}}
+            @onChange={{this.toggleSplitPdf}}
+          >Split PDF into multiple expressions</AuToggleSwitch>
+        {{/if}}
+        {{#if this.isJobWithCodelist}}
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="task-codelist-uri"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{not this.codelistValid}}
+            >
+              Codelist
+            </AuLabel>
+            <ConceptSchemeSelect
+              @id="task-codelist-uri"
+              @selected={{this.codelist}}
+              @error={{not this.codelistValid}}
+              @onChange={{fn this.setProperty "codelist"}}
+            />
+          </AuFormRow>
+
+          <AuFormRow @alignment="default">
+            <AuLabel for="confidence-threshold">
+              Confidence threshold
+            </AuLabel>
+            <AuInput
+              id="confidence-threshold"
+              @width="block"
+              value={{this.confidenceThreshold}}
+              placeholder="An integer number between 0 and 100"
+              {{on "change" (fn this.setProperty "confidenceThreshold")}}
+            />
+          </AuFormRow>
+        {{/if}}
+
+        {{#if this.isJobWithDecisionSelector}}
+          <DecisionSelectorConfiguration
+            @decisionUris={{this.decisionUris}}
+            @decisionUrisValid={{this.decisionUrisValid}}
+            @targetClassUri={{this.targetClassUri}}
+            @targetClassUriValid={{this.targetClassUriValid}}
+            @propertyPathForTextUri={{this.propertyPathForTextUri}}
+            @setProperty={{this.setProperty}}
+          />
+        {{/if}}
+
+        {{#if this.isJobWithMultipleEndpoints}}
+          <AuFormRow @alignment="default">
             <AuLabel
               for="task-url"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.urlValid}}>
+              @error={{not this.urlValid}}
+            >
+              URL's
+            </AuLabel>
+            <AuTextarea
+              id="task-url"
+              @width="block"
+              value={{this.url}}
+              @error={{not this.urlValid}}
+              {{on "change" (fn this.setProperty "url")}}
+            />
+            <AuHelpText>
+              All url values in this input should be separated by a new-line
+            </AuHelpText>
+          </AuFormRow>
+        {{/if}}
+        {{#if this.isJobWithSingleUrl}}
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="task-url"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{not this.urlValid}}
+            >
               URL
             </AuLabel>
             <AuInput
@@ -61,8 +137,8 @@
               @error={{not this.urlValid}}
               {{on "change" (fn this.setProperty "url")}}
             />
-          {{/if}}
-        </AuFormRow>
+          </AuFormRow>
+        {{/if}}
         {{#if this.hasSubject}}
           <AuFormRow @alignment="default">
             <AuLabel for="job-subject" @error={{not this.subjectValid}}>Subject</AuLabel>
@@ -80,6 +156,36 @@
             {{/unless}}
           </AuFormRow>
         {{/if}}
+
+        {{#if this.isJobWithMunicipality}}
+          <AuFormRow @alignment="default">
+            <AuLabel
+              for="decision-passed-by"
+              @required={{true}}
+              @requiredLabel="Required"
+              @error={{not this.municipalityValid}}
+            >
+              Municipality
+            </AuLabel>
+            <PowerSelect
+              id="decision-passed-by"
+              @searchEnabled={{true}}
+              @searchField="label"
+              @options={{this.municipalities}}
+              @selected={{this.selectedMunicipality}}
+              @onChange={{this.changeSelectedMunicipality}}
+              @renderInPlace={{true}}
+              @disabled={{or
+                this.loadingMunicipalities
+                (not this.municipalities.length)
+              }}
+              as |option|
+            >
+              {{option.label}}
+            </PowerSelect>
+          </AuFormRow>
+        {{/if}}
+
         <AuFormRow @alignment="default">
           <AuLabel for="task-comment">
             Comments
@@ -96,7 +202,8 @@
           <AuLabel
             for="task-creator"
             @required={{true}}
-            @requiredLabel="Required">
+            @requiredLabel="Required"
+          >
             Creator
           </AuLabel>
           <AuInput
@@ -107,14 +214,19 @@
             {{on "change" (fn this.setProperty "creator")}}
           />
         </AuFormRow>
-        {{#if (or (eq this.selectedJobOperation.uri this.jobHarvestWorship)
-                  (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport))}}
+        {{#if
+          (or
+            (eq this.selectedJobOperation.uri this.jobHarvestWorship)
+            (eq this.selectedJobOperation.uri this.jobHarvestWorshipAndImport)
+          )
+        }}
           <AuFormRow @alignment="default">
             <AuLabel
               for="task-vendor"
               @required={{true}}
               @requiredLabel="Required"
-              @error={{not this.vendorValid}}>
+              @error={{not this.vendorValid}}
+            >
               Vendor
             </AuLabel>
             <AuInput
@@ -126,8 +238,7 @@
             />
           </AuFormRow>
         {{/if}}
-        {{#if (and this.authenticationEnabled
-                   (not (eq this.selectedJobOperation.uri this.jobImport)))}}
+        {{#if (and this.authenticationEnabled this.isJobWithAuthentication)}}
           <AuthenticationConfiguration
             @options={{this.securitySchemesOptions}}
             @selected={{this.selectedSecurityScheme}}
@@ -144,20 +255,22 @@
   <:footer>
     <AuButtonGroup>
       <AuButton
-        {{on 'click' (perform this.createAndStartJob)}}
+        {{on "click" (perform this.createAndStartJob)}}
         @skin="primary"
         @icon="check"
         @iconAlignment="left"
         @loading={{this.createAndStartJob.isRunning}}
-        @loadingMessage="Creating">
+        @loadingMessage="Creating"
+      >
         Create and start Job
       </AuButton>
       <AuButton
-        {{on 'click' this.cancelCreateAndStartJob}}
+        {{on "click" this.cancelCreateAndStartJob}}
         @skin="secondary"
         @icon="cross"
         @iconAlignment="left"
-        @alert={{true}}>
+        @alert={{true}}
+      >
         Cancel
       </AuButton>
     </AuButtonGroup>
