@@ -22,11 +22,12 @@
     "lint:js:fix": "eslint . --fix",
     "release": "release-it",
     "start": "ember serve",
+    "dev:proxy": "ember serve --environment=development --proxy=http://dashboard.localhost:80",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
   },
   "devDependencies": {
-    "@appuniversum/ember-appuniversum": "^3.8.0",
+    "@appuniversum/ember-appuniversum": "^3.11.0",
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",
     "@babel/plugin-proposal-decorators": "^7.24.7",
@@ -70,7 +71,7 @@
     "ember-simple-auth": "^8.0.0",
     "ember-source": "~5.12.0",
     "ember-template-lint": "^6.0.0",
-    "ember-truth-helpers": "^3.1.1",
+    "ember-truth-helpers": "^4.0.3",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-ember": "^12.2.1",

@@ -1,0 +1,31 @@
+<AuDataTable
+  @content={{this.model}}
+  @noDataMessage="No remote-data-objects found"
+  @sort={{this.sort}}
+  @size={{this.size}}
+  @page={{this.page}}
+  as |t|
+>
+  <t.content as |c|>
+    <c.header>
+      <th>URI</th>
+      <th>Resource URI(s)</th>
+      {{#if (resource-types-enabled)}}
+        <th>Resource types</th>
+      {{/if}}
+    </c.header>
+    <c.body as |row|>
+      <td>
+        {{row.uri}}
+      </td>
+      <td>
+        {{row.hasResource}}
+      </td>
+      {{#if (resource-types-enabled)}}
+        <td>
+          <ResourceTypes @dataContainerId={{row.id}} />
+        </td>
+      {{/if}}
+    </c.body>
+  </t.content>
+</AuDataTable>

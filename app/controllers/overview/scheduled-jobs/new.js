@@ -94,6 +94,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
+    this.url = undefined;
   }
 
   @action
@@ -194,7 +195,7 @@ export default class OverviewScheduledJobsNewController extends Controller {
       await scheduledTask.save();
 
       this.toaster.success(
-        'New job succesfully scheduled.',
+        'New job successfully scheduled.',
         'Scheduling success',
         { icon: 'check', timeOut: 10000, closable: true },
       );

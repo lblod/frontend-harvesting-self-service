@@ -84,6 +84,7 @@ export default class OverviewJobsNewController extends Controller {
   @action
   setJobOperation(selected) {
     this.selectedJobOperation = selected;
+    this.url = undefined;
     // The subject field is hidden for these operations, so a value entered
     // earlier can't be corrected and shouldn't be saved.
     if (!this.hasSubject) this.subject = null;

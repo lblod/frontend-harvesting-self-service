@@ -3,13 +3,14 @@ import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
 export default class OverviewScheduledJobsIndexController extends Controller {
-  queryParams = ['page', 'sort', 'size', 'search'];
+  queryParams = ['page', 'sort', 'size', 'search', 'operation'];
 
   size = 15;
   @tracked page = 0;
   @tracked sort = '-created';
   @tracked search = '';
   @tracked currentlyLoading = false;
+  @tracked operation;
 
   updateSearchQuery = task({ restartable: true }, async (value) => {
     await timeout(500);

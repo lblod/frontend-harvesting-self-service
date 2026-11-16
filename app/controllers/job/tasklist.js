@@ -12,6 +12,10 @@ export default class JobTasklistController extends Controller {
   size = 15;
 
   @tracked job;
+  @tracked status;
+  @tracked operation;
+
+  queryParams = ['page', 'size', 'status', 'sort', 'operation'];
 
   get hideDeleteJobButton() {
     return ['true', 'True', 'TRUE', true].includes(
@@ -22,6 +26,11 @@ export default class JobTasklistController extends Controller {
   @action
   reload() {
     this.router.refresh('job.tasklist');
+  }
+
+  @action
+  handleOperationChange(e) {
+    this.operation = e.target.value.trim();
   }
 
   deleteJob = task(async (job) => {
