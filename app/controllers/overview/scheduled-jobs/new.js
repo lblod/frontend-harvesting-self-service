@@ -370,7 +370,6 @@ export default class OverviewScheduledJobsNewController extends Controller {
   });
 
   async loadMunicipalities() {
-    console.log('Loading municipalities...');
     this.loadingMunicipalities = true;
     this.municipalities = await this.store.query('organization', {
       page: { size: 600 },
