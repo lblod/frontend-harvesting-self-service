@@ -9,6 +9,7 @@ export default class OverviewJobsRoute extends Route {
     size: { refreshModel: true },
     sort: { refreshModel: true },
     status: { refreshModel: true },
+    operation: { refreshModel: true, replace: true },
   };
 
   model(params) {
@@ -22,6 +23,9 @@ export default class OverviewJobsRoute extends Route {
 
     if (params.status) {
       options['filter[:exact:status]'] = params.status;
+    }
+    if (params.operation) {
+      options['filter[:exact:operation]'] = params.operation;
     }
 
     return this.store.query('job', options);

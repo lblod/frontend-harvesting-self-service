@@ -11,7 +11,7 @@ export default class JobTaskResultsContainerFilesRoute extends Route {
   };
 
   async beforeModel() {
-    this.task = await this.modelFor('job.task');
+    this.task = (await this.modelFor('job.task')).task;
   }
 
   model(params) {
