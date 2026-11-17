@@ -7,7 +7,11 @@ export default class ScheduledTaskModel extends Model {
   @attr operation;
   @attr index;
 
-  @belongsTo('scheduled-job', { async: true, inverse: 'scheduledTasks' })
+  @belongsTo('scheduled-job', {
+    async: true,
+    inverse: 'scheduledTasks',
+    polymorphic: true,
+  })
   scheduledJob;
 
   @hasMany('task', { async: true, inverse: null }) parentTasks;

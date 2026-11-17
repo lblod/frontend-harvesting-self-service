@@ -1,0 +1,41 @@
+<AuFormRow @alignment="default">
+  <AuLabel for="task-decisions-uri" @error={{eq @decisionUrisValid false}}>
+    Decision(s) to map
+  </AuLabel>
+  <AuTextarea
+    id="task-decisions-uri"
+    @width="block"
+    value={{@decisionUris}}
+    @error={{eq @decisionUrisValid false}}
+    placeholder="Every line is a decision URI; leave blank to apply to all decisions"
+    {{on "change" (fn @setProperty "decisionUris")}}
+  />
+</AuFormRow>
+<AuFormRow @alignment="default">
+  <AuLabel
+    for="target-class-uri"
+    @required={{true}}
+    @requiredLabel="Required"
+    @error={{eq @targetClassUriValid false}}
+  >
+    Target class for decision content
+  </AuLabel>
+  <AuInput
+    id="target-class-uri"
+    @width="block"
+    value={{@targetClassUri}}
+    @error={{eq @targetClassUriValid false}}
+    {{on "change" (fn @setProperty "targetClassUri")}}
+  />
+</AuFormRow>
+<AuFormRow @alignment="default">
+  <AuLabel for="property-path-for-text-uri">
+    Property path for decision content
+  </AuLabel>
+  <AuTextarea
+    id="property-path-for-text-uri"
+    @width="block"
+    value={{@propertyPathForTextUri}}
+    {{on "change" (fn @setProperty "propertyPathForTextUri")}}
+  />
+</AuFormRow>

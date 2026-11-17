@@ -23,7 +23,7 @@
           {{on "change" this.setTitle}}
            @error={{not this.newTitleValid}} />
       </AuFormRow>
-      
+
       <AuFormRow @alignment="default">
         <AuLabel for="task-subject" @error={{not this.newSubjectValid}}>
           Subject
@@ -42,7 +42,7 @@
         {{/unless}}
       </AuFormRow>
 
-      {{#if this.hasEndpoint}}
+      {{#if this.isEndpointInputShown}}
         <AuFormRow @alignment="default">
           <AuLabel
             for="task-endpoint"
@@ -59,7 +59,16 @@
              @error={{not this.newEndpointValid}} />
         </AuFormRow>
       {{/if}}
-      
+
+      {{#if this.job.isJobWithMultipleEndpoints}}
+        <AuLabel>
+          Endpoints
+        </AuLabel>
+        <AuAlert @icon="info-circle" @skin="warning" @size="small">
+          Editing the endpoints of this job is currently not supported
+        </AuAlert>
+      {{/if}}
+
       <AuFormRow @alignment="default">
         <AuLabel
           for="cron-pattern"

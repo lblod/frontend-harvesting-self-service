@@ -16,7 +16,19 @@
           <AuHeading @level="1" @skin="1">Scheduled Jobs</AuHeading>
         </Group>
         <Group class="au-u-flex--vertical-center">
-          <div class='au-u-max-width-xsmall au-u-flex au-u-flex--spaced-small'>
+
+          <AuLink
+            @route="overview.scheduled-jobs.new"
+            @skin="button"
+            @icon="plus"
+            @iconAlignment="left">
+            Create new scheduled job
+          </AuLink>
+        </Group>
+      </AuToolbar>
+      <AuToolbar class="au-u-padding-top-none" @size="large" as |Group|>
+        <Group class="au-u-flex-grow">
+          <div class='au-u-flex au-u-flex--spaced-small au-u-flex-grow'>
             <AuLabel
               @inline={{true}}
               for="operations">
@@ -29,6 +41,11 @@
                 @allowClear={{true}}
                 id="operations"/>
             </div>
+            <AuLabel
+              @inline={{true}}
+              for="search">
+              Search
+            </AuLabel>
             <AuInput
               value={{this.search}}
               @queryParam='search'
@@ -42,13 +59,6 @@
               oninput={{perform this.updateSearchQuery value='target.value'}}
             />
           </div>
-          <AuLink
-            @route="overview.scheduled-jobs.new"
-            @skin="button"
-            @icon="plus"
-            @iconAlignment="left">
-            Create new scheduled job
-          </AuLink>
         </Group>
       </AuToolbar>
     </menu.general>
